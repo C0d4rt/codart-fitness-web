@@ -13,6 +13,14 @@ export default defineNuxtConfig({
     'nuxt-schema-org',
   ],
   typescript: { strict: true },
+  css: ['~/assets/css/main.css', '~/assets/css/split.css'],
+  fonts: {
+    defaults: { weights: [400, 500], styles: ['normal'], subsets: ['latin', 'latin-ext'] },
+    families: [
+      { name: 'Bodoni Moda', provider: 'google', weights: [500] },
+      { name: 'Jost', provider: 'google', weights: [400, 500] },
+    ],
+  },
   site: {
     url: brand.siteUrl,
     name: brand.name,
@@ -37,10 +45,19 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/sitemap.xml', '/robots.txt'],
+      routes: ['/', '/planos', '/termos', '/privacidade', '/404', '/sitemap.xml', '/robots.txt'],
       failOnError: true,
     },
+    hooks: {
+      // CloudFront answers a missing key with /404.html, so the real page is written there.
+      'prerender:generate'(route) {
+        if (route.route === '/404') {
+          route.fileName = '404.html'
+        }
+      },
+    },
   },
+  sitemap: { exclude: ['/404'] },
   eslint: {
     config: { stylistic: false },
   },

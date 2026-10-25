@@ -1,0 +1,49 @@
+.split {
+  position: relative;
+  display: grid;
+  grid-template-columns: 47fr 53fr;
+}
+
+.split > .stage-col {
+  grid-column: 1;
+}
+
+.split > .column {
+  grid-column: 2;
+  display: grid;
+  align-content: start;
+  gap: var(--gap-section);
+  padding: 0 var(--margin) var(--gap-section) clamp(3rem, 1rem + 4vw, 4.5rem);
+}
+
+.column > section,
+.column > header {
+  max-width: var(--measure);
+}
+
+.inline-stage {
+  display: none;
+}
+
+@media (max-width: 63.99rem) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+  .split > .stage-col {
+    display: none;
+  }
+  .split > .column {
+    grid-column: 1;
+    padding: 0 1.25rem var(--gap-section);
+  }
+  .column > section,
+  .column > header {
+    max-width: none;
+  }
+  .inline-stage {
+    display: grid;
+    justify-items: center;
+    padding: 1.25rem 0.75rem;
+    background: var(--surface);
+  }
+}

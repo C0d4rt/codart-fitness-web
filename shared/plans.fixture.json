@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "currency": "BRL",
+  "trialDays": 7,
+  "trialPlan": "premium",
+  "plans": [
+    { "id": "premium", "name": "Premium", "monthlyCents": 2990, "yearlyCents": 15900 },
+    { "id": "basic", "name": "Básico", "monthlyCents": 1990, "yearlyCents": 11900 }
+  ],
+  "groups": [
+    { "id": "log", "name": "Registrar" },
+    { "id": "library", "name": "Sua biblioteca" },
+    { "id": "workout", "name": "Treino" },
+    { "id": "goals", "name": "Metas" },
+    { "id": "reports", "name": "Relatórios" }
+  ],
+  "features": [
+    { "id": "diary", "plan": "basic", "group": "log", "name": "Diário por texto e áudio" },
+    { "id": "namedMeals", "plan": "basic", "group": "log", "name": "Refeições do dia com nome" },
+    { "id": "barcode", "plan": "basic", "group": "log", "name": "Código de barras digitado" },
+    { "id": "quickAdd", "plan": "basic", "group": "log", "name": "Registro rápido de calorias" },
+    { "id": "reminders", "plan": "basic", "group": "log", "name": "Lembrete para anotar" },
+    { "id": "photos", "plan": "premium", "group": "log", "name": "Foto do prato e do rótulo" },
+    {
+      "id": "quickAddMacros",
+      "plan": "premium",
+      "group": "log",
+      "name": "Registro rápido com macros"
+    },
+    { "id": "backfill", "plan": "premium", "group": "log", "name": "Registrar até 7 dias atrás" },
+    { "id": "myFoods", "plan": "basic", "group": "library", "name": "Meus alimentos" },
+    {
+      "id": "savedMeals",
+      "plan": "basic",
+      "group": "library",
+      "name": "Refeições salvas e o de sempre"
+    },
+    { "id": "recipes", "plan": "basic", "group": "library", "name": "Receitas, também por link" },
+    { "id": "pantry", "plan": "basic", "group": "library", "name": "Despensa" },
+    { "id": "workouts", "plan": "basic", "group": "workout", "name": "Treino com gasto calórico" },
+    { "id": "savedWorkouts", "plan": "basic", "group": "workout", "name": "Treinos salvos" },
+    { "id": "dayGoal", "plan": "basic", "group": "goals", "name": "Meta do dia e quanto falta" },
+    {
+      "id": "goalPercent",
+      "plan": "basic",
+      "group": "goals",
+      "name": "Macros da meta em percentual"
+    },
+    { "id": "mealGoals", "plan": "premium", "group": "goals", "name": "Meta por refeição" },
+    { "id": "goalGrams", "plan": "premium", "group": "goals", "name": "Macros da meta em gramas" },
+    { "id": "weekdayGoals", "plan": "premium", "group": "goals", "name": "Meta por dia da semana" },
+    {
+      "id": "mealSuggestion",
+      "plan": "premium",
+      "group": "goals",
+      "name": "Sugestão do que comer"
+    },
+    {
+      "id": "weekSummary",
+      "plan": "basic",
+      "group": "reports",
+      "name": "Resumo da semana com gráfico"
+    },
+    { "id": "weight", "plan": "basic", "group": "reports", "name": "Peso e evolução" },
+    {
+      "id": "nutrients",
+      "plan": "basic",
+      "group": "reports",
+      "name": "Nutrientes além dos macros"
+    },
+    {
+      "id": "foodRanking",
+      "plan": "premium",
+      "group": "reports",
+      "name": "Alimentos que mais pesaram"
+    },
+    { "id": "csvExport", "plan": "premium", "group": "reports", "name": "Diário em planilha (CSV)" }
+  ]
+}
