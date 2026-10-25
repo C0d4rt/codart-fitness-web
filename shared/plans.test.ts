@@ -19,11 +19,11 @@ describe('buildCatalog', () => {
       ...fixture,
       features: [
         ...fixture.features,
-        { id: 'fasting', plan: 'premium', group: 'goals', name: 'Jejum' },
+        { id: 'sleepLog', plan: 'premium', group: 'reports', name: 'Sono' },
       ],
     }
     expect(() => buildCatalog(plans)).toThrow(CatalogMismatch)
-    expect(() => buildCatalog(plans)).toThrow(/no copy for the feature "fasting"/)
+    expect(() => buildCatalog(plans)).toThrow(/no copy for the feature "sleepLog"/)
   })
 
   it('refuses copy for a feature the plans no longer have', () => {

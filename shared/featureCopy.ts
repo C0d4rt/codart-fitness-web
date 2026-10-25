@@ -245,6 +245,19 @@ export const FEATURE_COPY: Record<string, FeatureCopy> = {
       ),
     ],
   },
+  fasting: {
+    headline: 'O jejum acompanhado sozinho',
+    howTo:
+      'Diga o seu protocolo uma vez, como "faço jejum 16:8". O jejum começa na sua última refeição, ou quando você disser "comecei o jejum", e o diário avisa quando a janela terminar.',
+    exchange: [
+      you('faço jejum 16:8', '19:50'),
+      bot(
+        'Anotado: jejum 16:8. Ele começa na sua última refeição, ou quando você disser "comecei o jejum", e eu aviso quando a janela terminar. O jejum não é indicado para todos: com alguma condição de saúde, na gestação ou com histórico de transtorno alimentar, fale antes com um profissional.',
+        '19:50',
+      ),
+      bot('⏱️ Seu jejum de 16 h terminou (começou às 20:00). Pode comer!', '12:00'),
+    ],
+  },
   weekSummary: {
     headline: 'A semana num resumo e num gráfico',
     howTo:
