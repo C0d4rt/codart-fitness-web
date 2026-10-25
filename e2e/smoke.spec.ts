@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test'
 
+import fixture from '../shared/plans.fixture.json' with { type: 'json' }
+
 test.use({ colorScheme: 'light' })
 
 test('the home page says what this is and opens the conversation', async ({ page }) => {
@@ -15,7 +17,7 @@ test('the plans page has an anchor for each plan and for each feature', async ({
   await expect(page.locator('#premium')).toHaveCount(1)
   await expect(page.locator('#basic')).toHaveCount(1)
   await expect(page.locator('#photos')).toBeInViewport()
-  await expect(page.locator('article[id]')).toHaveCount(25)
+  await expect(page.locator('article[id]')).toHaveCount(fixture.features.length)
 })
 
 test('no third party script loads before consent', async ({ page }) => {
