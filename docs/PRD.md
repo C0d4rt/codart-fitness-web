@@ -64,11 +64,11 @@ redirecionador de atribuição e a Conversions API.
 
 ## 6. Roadmap
 
-| Fase | O que entra | PRP |
-| ---- | ----------- | --- |
-| Site 1 | Landing page, `/planos`, páginas legais provisórias, consentimento e pixels, deploy em S3 e CloudFront | `PRP-001` |
-| Depois | Redirecionador de atribuição e Conversions API, para anúncio | a escrever |
-| Depois | Domínio e nome definitivos | troca no `brand.ts` |
+| Fase   | O que entra                                                                                            | PRP                 |
+| ------ | ------------------------------------------------------------------------------------------------------ | ------------------- |
+| Site 1 | Landing page, `/planos`, páginas legais provisórias, consentimento e pixels, deploy em S3 e CloudFront | `PRP-001`           |
+| Depois | Redirecionador de atribuição e Conversions API, para anúncio                                           | a escrever          |
+| Depois | Domínio e nome definitivos                                                                             | troca no `brand.ts` |
 
 ## 7. Revisões
 
