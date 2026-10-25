@@ -1,0 +1,8 @@
+.nuxt
+.output
+.data
+node_modules
+pnpm-lock.yaml
+.taste-skill
+playwright-report
+test-results

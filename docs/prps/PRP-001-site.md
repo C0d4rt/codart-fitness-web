@@ -25,13 +25,13 @@ As decisões saíram de uma entrevista com o dono do produto em 24 e 25/10/2026.
 
 ## Fatos levantados
 
-| Fato | Onde | Consequência |
-| ---- | ---- | ------------ |
-| O beconfident.app é feito no Framer, com o botão de teste passando por um redirecionador de leads | cabeçalhos `server: Framer`, `generator: Framer` | Serve de referência de estrutura, não de código. |
-| O `beconfident-freetrial-web` é Nuxt 3 estático com sitemap, robots e schema.org | `package.json` dele | É o modelo de stack mais próximo; aqui na versão atual do Nuxt. |
-| O `codart.dev` é HTML puro no Cloudflare Pages; a zona `codart.dev` está no Cloudflare, só DNS | `~/Projects/codart`, `codart-infrastructure/stacks/dns` | O subdomínio aponta para o CloudFront por CNAME sem proxy. |
-| A produção do diário usa o número de teste da Meta | `PRD-fitness.md` §9 | O botão funciona para o público só com o número próprio. |
-| O produto ainda não tem nome comercial | `PRD-fitness.md` | Nome provisório num arquivo só. |
+| Fato                                                                                              | Onde                                                    | Consequência                                                    |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | --------------------------------------------------------------- |
+| O beconfident.app é feito no Framer, com o botão de teste passando por um redirecionador de leads | cabeçalhos `server: Framer`, `generator: Framer`        | Serve de referência de estrutura, não de código.                |
+| O `beconfident-freetrial-web` é Nuxt 3 estático com sitemap, robots e schema.org                  | `package.json` dele                                     | É o modelo de stack mais próximo; aqui na versão atual do Nuxt. |
+| O `codart.dev` é HTML puro no Cloudflare Pages; a zona `codart.dev` está no Cloudflare, só DNS    | `~/Projects/codart`, `codart-infrastructure/stacks/dns` | O subdomínio aponta para o CloudFront por CNAME sem proxy.      |
+| A produção do diário usa o número de teste da Meta                                                | `PRD-fitness.md` §9                                     | O botão funciona para o público só com o número próprio.        |
+| O produto ainda não tem nome comercial                                                            | `PRD-fitness.md`                                        | Nome provisório num arquivo só.                                 |
 
 ---
 
