@@ -17,7 +17,7 @@ idiomas.
 
 ---
 
-## Status: em implementação (25/10/2026)
+## Status: implementado, à espera da infraestrutura e do escopo `workflow` (25/10/2026)
 
 As decisões saíram de uma entrevista com o dono do produto em 24 e 25/10/2026.
 
@@ -82,7 +82,7 @@ As decisões saíram de uma entrevista com o dono do produto em 24 e 25/10/2026.
   teste, funções e o plano de cada uma) e os publica em `GET /fitness/plans`; o
   site é dono da apresentação (título, como usar, exemplo) por id da função. O
   build lê o JSON de `PLANS_API_URL` e, sem ela, a cópia em
-  `app/data/plans.fixture.json`.
+  `shared/plans.fixture.json`.
 - **A trava:** o teste e o build falham quando uma função do JSON não tem texto
   aqui, ou quando há texto de uma função que o JSON não tem.
 - **Quando o preço muda:** o site é refeito todo dia e pode ser refeito à mão
@@ -136,11 +136,34 @@ As decisões saíram de uma entrevista com o dono do produto em 24 e 25/10/2026.
 
 ## Fatias
 
-1. **Documentos:** este PRP e o `PRD.md`.
+1. **Documentos:** este PRP e o `PRD.md`. **Entregue** (#1).
 2. **Esqueleto:** Nuxt 4, ferramentas, CI e o workflow de deploy (que pula
    quando o papel da AWS ainda não está nas variáveis do repositório).
+   **Entregue em parte** (#2): o esqueleto e as ferramentas. Os workflows de CI e
+   de deploy estão escritos na branch local `ci/workflows`, sem push: o token do
+   GitHub em uso não tem o escopo `workflow`, e o GitHub recusa qualquer arquivo
+   em `.github/workflows` sem ele. `@nuxt/fonts` ficou em 1.1.x porque o 1.2.0
+   saiu horas antes e a trava de idade mínima do pnpm o recusou.
 3. **Páginas:** o catálogo com a trava, a landing page, `/planos`, as páginas
-   legais, o consentimento e os pixels, os testes e as capturas.
+   legais, o consentimento e os pixels, os testes e as capturas. **Entregue**,
+   com o que o código fechou:
+   - A trava mora em `shared/plans.ts` (`buildCatalog`); a rota
+     `server/api/plans.get.ts` só roda no `generate`, e a resposta fica dentro
+     de cada página. A cópia do contrato é `shared/plans.fixture.json`.
+   - Os exemplos usam os textos reais do diário (`diaryMessages.ts` do
+     messaging), com números da TACO que fecham. As respostas de "refeições com
+     nome" e "treino salvo" são as únicas escritas no tom dele sem um texto igual
+     no código.
+   - A conversa é HTML (`ChatWindow`, marcado `data-ui`), com as cores da marca e
+     não as do WhatsApp; a foto do prato é um desenho em SVG.
+   - O que se toca na página: o que o diário devolve (o dia, a semana, o peso,
+     os nutrientes, a planilha), o modo de registrar, a meta num controle
+     deslizante, os lembretes e, na chamada final, a primeira mensagem, editável.
+   - O inspetor da skill passa sem FAIL nas três larguras com `--allow emoji`:
+     o diário manda emoji de verdade, e tirá-los dos exemplos falsearia a
+     resposta. Ficam como aviso: nenhuma foto nem vídeo reais (o baixador de
+     fotos da skill ficou de fora por decisão), e o descanso antes do rodapé.
+   - Sem imagem de compartilhamento (`og:image`) por enquanto.
 
 ## Validação
 
