@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import { money } from '#shared/plans'
-
 import { brand } from '~/brand'
 
 const catalog = await usePlans()
-const from = money(catalog.basic.monthlyCents)
 
 useSeoMeta({
-  title: `${brand.name}: seu assistente de saúde no WhatsApp`,
-  description: `Conte o que comeu por texto, áudio ou foto no WhatsApp e saiba quanto falta da sua meta. Treinos, peso e jejum na mesma conversa. ${catalog.trialDays} dias grátis, sem cartão; depois, a partir de ${from} por mês.`,
-  ogTitle: `${brand.name}: seu assistente de saúde no WhatsApp`,
+  title: `${brand.name}: seu assistente fitness no WhatsApp`,
+  description: `Refeições, treinos, metas e peso numa conversa no WhatsApp, com respostas na hora. ${catalog.trialDays} dias grátis, sem cartão.`,
+  ogTitle: `${brand.name}: seu assistente fitness no WhatsApp`,
   ogDescription: `Dieta e treino numa conversa. ${catalog.trialDays} dias grátis.`,
   ogType: 'website',
   ogLocale: 'pt_BR',
@@ -22,19 +19,16 @@ useSeoMeta({
 
     <header id="hero" class="hero">
       <div class="copy" data-reveal>
-        <h1 class="headline">Seu assistente de saúde.</h1>
+        <h1 class="headline">Seu assistente fitness.</h1>
         <p class="lead">
-          No WhatsApp. Hoje ele cuida da sua alimentação e dos seus treinos: conte o que comeu por
-          texto, áudio ou foto e saiba na hora quanto falta da meta.
+          No WhatsApp. Ele anota suas refeições e treinos, acompanha suas metas e seu peso, e te
+          responde na hora.
         </p>
         <div class="actions">
           <WhatsAppButton location="hero" />
           <NuxtLink to="/#como-funciona" class="secondary">Ver como funciona</NuxtLink>
         </div>
-        <p class="terms">
-          {{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão. Depois, a partir de
-          {{ from }} por mês.
-        </p>
+        <p class="terms">{{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão.</p>
       </div>
       <HeroDemo />
     </header>
@@ -43,7 +37,6 @@ useSeoMeta({
     <HomeBento />
     <HomeMoment />
     <HomeShowcase />
-    <HomeAssistant />
     <PlanCards :catalog="catalog" />
     <HomeFaq :trial-days="catalog.trialDays" />
     <HomeStart />

@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     'nuxt-schema-org',
   ],
   typescript: { strict: true },
-  css: ['~/assets/css/main.css', '~/assets/css/split.css'],
+  css: ['~/assets/css/main.css'],
   fonts: {
     defaults: { weights: [400, 500, 700], styles: ['normal'], subsets: ['latin', 'latin-ext'] },
     families: [{ name: 'Satoshi', provider: 'fontshare', weights: [400, 500, 700] }],
@@ -45,6 +45,7 @@ export default defineNuxtConfig({
       routes: [
         '/',
         '/planos',
+        '/recursos',
         '/termos',
         '/privacidade',
         '/creditos',

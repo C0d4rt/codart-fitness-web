@@ -6,16 +6,21 @@ test.use({ colorScheme: 'light' })
 
 test('the home page says what this is and opens the conversation', async ({ page }) => {
   await page.goto('/')
-  await expect(page.locator('h1')).toContainText('assistente de saúde')
+  await expect(page.locator('h1')).toContainText('assistente fitness')
   const cta = page.getByRole('link', { name: 'Testar 7 dias grátis' }).first()
   await expect(cta).toHaveAttribute('href', /^https:\/\/wa\.me\/.*\?text=Oi!/)
   await expect(page.getByText('R$ 29,90').first()).toBeVisible()
 })
 
-test('the plans page has an anchor for each plan and for each feature', async ({ page }) => {
-  await page.goto('/planos#photos')
+test('the plans page has an anchor for each plan', async ({ page }) => {
+  await page.goto('/planos')
   await expect(page.locator('#premium')).toHaveCount(1)
   await expect(page.locator('#basic')).toHaveCount(1)
+  await expect(page.getByText('R$ 29,90').first()).toBeVisible()
+})
+
+test('the features page has an anchor for each feature', async ({ page }) => {
+  await page.goto('/recursos#photos')
   await expect(page.locator('#photos')).toBeInViewport()
   await expect(page.locator('article[id]')).toHaveCount(fixture.features.length)
 })
@@ -39,7 +44,7 @@ test('the showcase swaps the answer the visitor picks', async ({ page }) => {
   ).toBeVisible()
 })
 
-for (const path of ['/', '/planos']) {
+for (const path of ['/', '/planos', '/recursos']) {
   test(`screenshot of ${path}`, async ({ page }, info) => {
     await page.goto(path)
     await page.waitForLoadState('networkidle')

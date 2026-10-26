@@ -22,7 +22,7 @@ export const FEATURE_COPY: Record<string, FeatureCopy> = {
   diary: {
     headline: 'Conte o que comeu, como contaria a alguém',
     howTo:
-      'Escreva ou mande um áudio com o que comeu, do jeito que falaria. O diário acha cada alimento na tabela TACO, soma e responde com o total do dia.',
+      'Escreva ou mande um áudio com o que comeu, do jeito que falaria. O diário entende cada alimento, soma e responde com o total do dia.',
     exchange: [
       you('almocei 150 g de arroz, uma concha de feijão e um filé de frango'),
       bot(
@@ -42,7 +42,7 @@ export const FEATURE_COPY: Record<string, FeatureCopy> = {
   barcode: {
     headline: 'Produto de mercado pelo código',
     howTo:
-      'Digite os números do código de barras e quanto comeu. Os valores vêm do rótulo, pela base aberta Open Food Facts.',
+      'Digite os números do código de barras e quanto comeu. Os valores vêm do rótulo do produto.',
     exchange: [
       you('7891000100103 comi 2 colheres', '16:20'),
       bot(
@@ -155,7 +155,7 @@ export const FEATURE_COPY: Record<string, FeatureCopy> = {
   workouts: {
     headline: 'O treino anotado, com o gasto estimado',
     howTo:
-      'Diga os exercícios, as séries e as cargas, ou o tempo do cardio. O gasto é estimado pelo Compendium of Physical Activities e entra na conta do dia.',
+      'Diga os exercícios, as séries e as cargas, ou o tempo do cardio. O gasto é estimado e entra na conta do dia.',
     exchange: [
       you('supino reto, 3 séries de 8 com 60 kg, e corri 30 min', '18:40'),
       bot(
@@ -284,7 +284,7 @@ export const FEATURE_COPY: Record<string, FeatureCopy> = {
   nutrients: {
     headline: 'Sódio, fibra e açúcar, além das calorias',
     howTo:
-      'Pergunte por um nutriente, ou por todos. A comparação é com os valores de referência da rotulagem da ANVISA.',
+      'Pergunte por um nutriente, ou por todos. A comparação é com os valores de referência da rotulagem.',
     exchange: [
       you('quanto de sódio comi hoje?', '20:15'),
       bot(

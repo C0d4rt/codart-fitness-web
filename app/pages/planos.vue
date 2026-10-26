@@ -1,86 +1,55 @@
 <script setup lang="ts">
-import type { ChatScreen } from '#shared/chat'
-import { money } from '#shared/plans'
-import { PLANS_SCREEN } from '#shared/screens'
-
 import { brand } from '~/brand'
 
 const catalog = await usePlans()
 
 useSeoMeta({
-  title: 'Planos e o que cada um faz',
-  description: `O Premium e o Básico do ${brand.name}, função por função, com exemplos de conversa. ${catalog.trialDays} dias grátis com tudo do Premium.`,
+  title: 'Planos',
+  description: `O Premium e o Básico do ${brand.name}, com preços e o que cada um inclui. ${catalog.trialDays} dias grátis com tudo do Premium.`,
 })
-
-const plansScreen = PLANS_SCREEN({
-  premium: money(catalog.premium.monthlyCents),
-  basic: money(catalog.basic.monthlyCents),
-  trialDays: catalog.trialDays,
-})
-
-const screenOf = (id: string): ChatScreen | undefined => {
-  if (id === 'intro') return plansScreen
-  const feature = catalog.premium.features.find((each) => each.id === id)
-  return feature === undefined
-    ? undefined
-    : { id: `feature-${feature.id}`, label: feature.headline, messages: feature.exchange }
-}
-
-useStageObserver(screenOf)
-
-const planLine = (plan: 'basic' | 'premium') =>
-  plan === 'basic' ? 'No Básico e no Premium.' : 'Só no Premium, e no teste.'
 </script>
 
 <template>
   <div class="page">
     <SiteNav />
-    <div class="split">
-      <div class="stage-col">
-        <StagePanel :fallback="plansScreen" />
-      </div>
-      <div class="column">
-        <header class="intro" data-stage="intro">
-          <h1 class="title">Planos e o que cada um faz</h1>
-          <p class="lead">
-            Cada função com um exemplo da conversa, nas palavras e nos números que o diário usa. Os
-            {{ catalog.trialDays }} dias grátis têm tudo do Premium.
-          </p>
-          <ul class="jump">
-            <li>
-              <a href="#premium">Premium, {{ money(catalog.premium.monthlyCents) }} por mês</a>
-            </li>
-            <li>
-              <a href="#basic">Básico, {{ money(catalog.basic.monthlyCents) }} por mês</a>
-            </li>
-          </ul>
-        </header>
+    <header class="intro">
+      <h1 class="title">Planos</h1>
+      <p class="lead">
+        Comece com {{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão. Depois,
+        escolha o plano na própria conversa.
+      </p>
+    </header>
 
-        <section v-for="group in catalog.groups" :key="group.id" class="group">
-          <h2 class="group-name display">{{ group.name }}</h2>
-          <article
-            v-for="feature in group.features"
-            :id="feature.id"
-            :key="feature.id"
-            class="feature"
-            :data-stage="feature.id"
-          >
-            <h3 class="headline">{{ feature.headline }}</h3>
-            <p class="plan" :class="feature.plan">
-              {{ feature.name }}. {{ planLine(feature.plan) }}
-            </p>
-            <p>{{ feature.howTo }}</p>
-            <div class="inline-stage">
-              <ChatWindow
-                :screen="{ id: feature.id, label: feature.headline, messages: feature.exchange }"
-              />
-            </div>
-          </article>
-        </section>
-      </div>
-    </div>
+    <PlanCards :catalog="catalog" bare />
 
-    <PlanMenu :catalog="catalog" />
+    <section class="compare" aria-labelledby="compare-title">
+      <div class="compare-head">
+        <h2 id="compare-title" class="compare-title">O que cada plano inclui</h2>
+        <NuxtLink to="/recursos" class="link">Ver cada recurso com um exemplo</NuxtLink>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col"><span class="visually-hidden">Recurso</span></th>
+            <th scope="col">{{ catalog.basic.name }}</th>
+            <th scope="col">{{ catalog.premium.name }}</th>
+          </tr>
+        </thead>
+        <tbody v-for="group in catalog.groups" :key="group.id">
+          <tr class="group-row">
+            <th scope="colgroup" colspan="3">{{ group.name }}</th>
+          </tr>
+          <tr v-for="feature in group.features" :key="feature.id">
+            <th scope="row">
+              <NuxtLink :to="`/recursos#${feature.id}`">{{ feature.name }}</NuxtLink>
+            </th>
+            <td>{{ feature.plan === 'basic' ? 'Incluso' : '—' }}</td>
+            <td>Incluso</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
     <HomeStart />
     <SiteFooter />
   </div>
@@ -89,69 +58,94 @@ const planLine = (plan: 'basic' | 'premium') =>
 <style scoped>
 .intro {
   display: grid;
-  gap: 1.5rem;
-  min-height: 80svh;
-  align-content: start;
+  gap: 1.25rem;
+  padding: 4rem var(--margin) 0;
 }
 
 .title {
-  margin-top: 18svh;
-  font-size: var(--step-head);
+  font-size: var(--step-display);
 }
 
 .lead {
-  font-size: var(--step-lead);
-  line-height: 1.35;
-}
-
-.jump {
-  display: grid;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.group {
-  display: grid;
-  gap: 4rem;
-}
-
-.group-name {
-  font-size: var(--step-head);
-}
-
-.feature {
-  display: grid;
-  gap: 0.875rem;
-  min-height: 40vh;
-  align-content: start;
-  scroll-margin-top: 2rem;
-}
-
-.headline {
-  font-size: var(--step-lead);
-  line-height: 1.15;
-}
-
-.plan {
+  max-width: 44ch;
   color: var(--muted);
+  font-size: var(--step-lead);
+  line-height: 1.4;
+}
+
+.compare {
+  display: grid;
+  gap: 1.5rem;
+  margin: 5rem var(--margin) 0;
+  padding: 2rem;
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.compare-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.compare-title {
+  font-size: var(--step-lead);
+}
+
+.link {
+  color: var(--green);
   font-weight: 500;
 }
 
-.plan.premium {
-  color: var(--ink);
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step-small);
 }
 
-@media (max-width: 63.99rem) {
-  .intro {
-    min-height: auto;
+.table th,
+.table td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--tone);
+  text-align: left;
+}
+
+.table td {
+  width: 7.5rem;
+}
+
+.table thead th {
+  font-weight: 700;
+}
+
+.table tbody th {
+  font-weight: 500;
+}
+
+.table tbody th a {
+  text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .table tbody th a:hover {
+    text-decoration: underline;
   }
-  .title {
-    margin-top: 3rem;
+}
+
+.group-row th {
+  padding-top: 1.5rem;
+  color: var(--green);
+  font-weight: 700;
+}
+
+@media (max-width: 47.99rem) {
+  .compare {
+    padding: 1.25rem;
   }
-  .feature {
-    min-height: auto;
+  .table td {
+    width: 5rem;
   }
 }
 </style>

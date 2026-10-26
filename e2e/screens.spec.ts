@@ -4,7 +4,8 @@ test.use({ colorScheme: 'light' })
 
 const SCREENS = {
   '/': ['hero', 'como-funciona', 'o-que-volta', 'do-seu-jeito', 'premium', 'perguntas'],
-  '/planos': ['premium', 'photos'],
+  '/planos': ['premium'],
+  '/recursos': ['photos'],
 }
 
 for (const [path, anchors] of Object.entries(SCREENS)) {
