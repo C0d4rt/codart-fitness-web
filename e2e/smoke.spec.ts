@@ -6,7 +6,7 @@ test.use({ colorScheme: 'light' })
 
 test('the home page says what this is and opens the conversation', async ({ page }) => {
   await page.goto('/')
-  await expect(page.locator('h1')).toContainText('kcalma')
+  await expect(page.locator('h1')).toContainText('fitness')
   const cta = page.getByRole('link', { name: 'Testar 7 dias grátis' }).first()
   await expect(cta).toHaveAttribute('href', /^https:\/\/wa\.me\/.*\?text=Oi!/)
   await expect(page.getByText('R$ 29,90').first()).toBeVisible()

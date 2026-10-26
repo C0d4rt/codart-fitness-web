@@ -48,11 +48,11 @@ As decisões saíram de uma entrevista com o dono do produto em 24 e 25/10/2026.
 
 ### 2. Marca e domínio
 
-- **Resposta:** marca própria, provisoriamente **Kcalma**, em
-  `fitness.codart.dev` até o domínio próprio. Livres em 25/10/2026: `kcalma.com.br`
-  e `kcalma.app` (falta consultar a marca no INPI).
-- **Avaliado:** Comidário (também livre), AnotaFit (lembra o Anota AI), TacoFit
-  (lê como o taco mexicano).
+- **Resposta:** nome genérico, **Fitness**, em `fitness.codart.dev` até a escolha
+  da marca própria e do domínio. O produto deve virar um assistente, não só um
+  diário de dieta e treino, e o nome tem que caber nisso.
+- **Avaliado:** Kcalma (preso à dieta), Comidário, AnotaFit (lembra o Anota AI),
+  TacoFit (lê como o taco mexicano).
 
 ### 3. Stack
 
