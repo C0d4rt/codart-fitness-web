@@ -1,100 +1,79 @@
 <script setup lang="ts">
-import { brand } from '~/brand'
-
 const props = defineProps<{ trialDays: number }>()
 
-const QUESTIONS = computed(() => [
+const CARDS = computed(() => [
   {
+    topic: 'Começar',
     question: 'Preciso baixar algum app?',
     answer: 'Não. Tudo acontece numa conversa do WhatsApp, no celular ou no computador.',
   },
   {
+    topic: 'Teste',
     question: 'Como funciona o teste grátis?',
-    answer: `São ${props.trialDays} dias com tudo do Premium, contados da primeira mensagem. Não pedimos cartão.`,
+    answer: `São ${props.trialDays} dias com tudo do Premium, contados da primeira mensagem. Não pedimos cartão. Quando acaba, o diário para de anotar até você escolher um plano, e tudo o que você registrou fica guardado.`,
   },
   {
-    question: 'E quando o teste acaba?',
+    topic: 'Pagamento',
+    question: 'Como eu pago e cancelo?',
     answer:
-      'O diário para de anotar até você escolher um plano. Tudo o que você registrou fica guardado e volta inteiro ao assinar.',
+      'Na própria conversa: responda "assinar", escolha o plano e pague no Pix ou no cartão. Cancele quando quiser, pela conversa; o acesso continua até o fim do período pago. Nos 7 dias depois do pagamento, o reembolso sai sozinho, como prevê o Código de Defesa do Consumidor.',
   },
   {
-    question: 'Como eu pago?',
-    answer: 'Na própria conversa: responda "assinar", escolha o plano e pague no Pix ou no cartão.',
-  },
-  {
-    question: 'Posso cancelar?',
-    answer: 'Quando quiser, pela conversa. O acesso continua até o fim do período pago.',
-  },
-  {
-    question: 'E se eu me arrepender?',
-    answer:
-      'Nos 7 dias depois do pagamento, peça o reembolso na conversa e ele sai sozinho, como prevê o Código de Defesa do Consumidor.',
-  },
-  {
+    topic: 'Números',
     question: 'De onde vêm as calorias?',
     answer:
       'Da tabela TACO, da Unicamp; dos rótulos, pelo Open Food Facts; e do que você mesmo cadastrar. O que é estimado vem marcado como estimativa.',
   },
   {
+    topic: 'Saúde',
     question: 'Ele substitui um nutricionista?',
     answer:
       'Não. O diário registra, soma e informa; não prescreve dieta nem treino. As sugestões são gerais, a partir da sua meta.',
   },
   {
+    topic: 'Dados',
     question: 'E os meus dados?',
     answer:
       'Servem só para o seu diário. Diga "quero apagar minha conta" e tudo é apagado, como prevê a LGPD.',
   },
-  {
-    question: 'Ele entende áudio e foto?',
-    answer:
-      'Áudio, em todos os planos. Foto do prato, do rótulo e do código de barras, no Premium e no teste.',
-  },
 ])
+
+const open = ref(0)
 </script>
 
 <template>
   <section id="perguntas" class="faq" aria-labelledby="faq-title">
-    <div class="column">
-      <h2 id="faq-title" class="title">Perguntas</h2>
-      <ul class="facts">
-        <li>Sem app novo: tudo no WhatsApp.</li>
-        <li>{{ trialDays }} dias grátis, sem cartão.</li>
-        <li>Pix ou cartão, na própria conversa.</li>
-      </ul>
-      <div class="questions">
-        <details v-for="each in QUESTIONS" :key="each.question">
-          <summary>
-            <span>{{ each.question }}</span>
-            <span class="chevron" aria-hidden="true" />
-          </summary>
-          <p>{{ each.answer }}</p>
-        </details>
+    <h2 id="faq-title" class="title display">Perguntas</h2>
+    <div class="drawer">
+      <div
+        v-for="(card, index) in CARDS"
+        :key="card.topic"
+        class="card"
+        :class="[`tone-${index % 3}`, { open: open === index }]"
+        :style="{ '--n': index }"
+      >
+        <span class="tab">{{ card.topic }}</span>
+        <h3 class="question">
+          <button
+            :id="`faq-${index}`"
+            type="button"
+            :aria-expanded="open === index"
+            :aria-controls="`faq-answer-${index}`"
+            @click="open = index"
+          >
+            {{ card.question }}
+          </button>
+        </h3>
+        <p
+          :id="`faq-answer-${index}`"
+          class="answer"
+          role="region"
+          :aria-labelledby="`faq-${index}`"
+          :hidden="open !== index"
+        >
+          {{ card.answer }}
+        </p>
       </div>
-      <div class="actions">
-        <WhatsAppButton location="faq" />
-        <a :href="`mailto:${brand.company.email}`" class="link">Escrever para nós</a>
-      </div>
-    </div>
-    <div class="pictures">
-      <figure class="tall">
-        <img
-          src="/images/refeicao.jpg"
-          alt="Uma pessoa comendo uma salada de beterraba numa mesa de madeira"
-          width="1400"
-          height="934"
-          loading="lazy"
-        />
-      </figure>
-      <figure class="square">
-        <img
-          src="/images/iogurte.jpg"
-          alt="Uma tigela de iogurte com frutas"
-          width="1100"
-          height="1650"
-          loading="lazy"
-        />
-      </figure>
     </div>
   </section>
 </template>
@@ -104,94 +83,85 @@ const QUESTIONS = computed(() => [
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   column-gap: var(--gutter);
-  padding: 0 var(--margin) 5rem;
-  background: var(--surface);
-}
-
-.column {
-  grid-column: 1 / 6;
-  display: grid;
-  align-content: start;
-  gap: 2rem;
-  padding-top: 6rem;
+  row-gap: 3rem;
+  padding: var(--gap-section) var(--margin) 0;
 }
 
 .title {
+  grid-column: 3 / 11;
   font-size: var(--step-head);
 }
 
-.facts {
+.drawer {
+  grid-column: 3 / 11;
   display: grid;
-  gap: 0.375rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: var(--step-body);
 }
 
-.questions {
-  display: grid;
-  gap: 1.75rem;
+.card {
+  position: relative;
+  margin-top: -1.5rem;
+  padding: 3.5rem 2rem 2.25rem;
+  clip-path: polygon(
+    0 2.5rem,
+    calc(var(--n) * 9.375rem) 2.5rem,
+    calc(var(--n) * 9.375rem + 0.75rem) 0,
+    calc(var(--n) * 9.375rem + 11.75rem) 0,
+    calc(var(--n) * 9.375rem + 12.5rem) 2.5rem,
+    100% 2.5rem,
+    100% 100%,
+    0 100%
+  );
 }
 
-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+.card:first-child {
+  margin-top: 0;
+}
+
+.tone-0 {
+  background: var(--tint-1);
+}
+
+.tone-1 {
+  background: var(--tint-2);
+}
+
+.tone-2 {
+  background: var(--raised);
+}
+
+.tab {
+  position: absolute;
+  top: 0.5rem;
+  left: calc(var(--n) * 9.375rem + 1.25rem);
+  color: var(--muted);
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+.question button {
+  width: 100%;
   min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
   font-size: var(--step-body);
   font-weight: 500;
-  letter-spacing: -0.02em;
-  list-style: none;
+  letter-spacing: -0.015em;
+  text-align: left;
   cursor: pointer;
 }
 
-summary::-webkit-details-marker {
-  display: none;
+@media (hover: hover) and (pointer: fine) {
+  .card:not(.open) .question button:hover {
+    text-decoration: underline;
+  }
 }
 
-.chevron {
-  position: relative;
-  flex: none;
-  width: 0.875rem;
-  height: 0.875rem;
-  transition: transform 260ms var(--ease-out);
-}
-
-.chevron::before,
-.chevron::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 0.5rem;
-  height: 2px;
-  background: currentColor;
-}
-
-.chevron::before {
-  left: 0;
-  transform: rotate(40deg);
-}
-
-.chevron::after {
-  right: 0;
-  transform: rotate(-40deg);
-}
-
-details[open] .chevron {
-  transform: rotate(180deg);
-}
-
-details p {
-  max-width: 44ch;
-  padding-top: 0.5rem;
-  color: var(--muted);
-  font-size: var(--step-body);
-}
-
-details[open] p {
-  animation: open 320ms var(--ease-out);
+.answer {
+  max-width: 54ch;
+  padding-top: 0.75rem;
+  color: var(--ink);
+  animation: open 360ms var(--ease-out);
 }
 
 @keyframes open {
@@ -201,85 +171,35 @@ details[open] p {
   }
 }
 
-@media (hover: hover) and (pointer: fine) {
-  summary:hover span:first-child {
-    text-decoration: underline;
-  }
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1.5rem;
-  margin-top: 1rem;
-}
-
-.link {
-  font-weight: 500;
-}
-
-.pictures {
-  grid-column: 7 / 13;
-  position: relative;
-  align-self: start;
-  margin-top: -4rem;
-}
-
-.tall {
-  overflow: hidden;
-}
-
-.tall img {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-}
-
-.square {
-  position: absolute;
-  bottom: 2.5rem;
-  left: -2.5rem;
-  width: 33%;
-  overflow: hidden;
-}
-
-.square img {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  details[open] p {
+  .answer {
     animation: none;
   }
 }
 
-@media (max-width: 47.99rem) {
-  .faq {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 2rem;
+@media (max-width: 63.99rem) {
+  .title,
+  .drawer {
+    grid-column: 1 / -1;
   }
-  .pictures {
-    margin-top: 0;
-    padding-top: 3rem;
+}
+
+@media (max-width: 63.99rem) {
+  .card {
+    padding: 3.25rem 1.25rem 1.75rem;
+    clip-path: polygon(
+      0 2.5rem,
+      calc(var(--n) * 3rem) 2.5rem,
+      calc(var(--n) * 3rem + 0.5rem) 0,
+      calc(var(--n) * 3rem + 7rem) 0,
+      calc(var(--n) * 3rem + 7.5rem) 2.5rem,
+      100% 2.5rem,
+      100% 100%,
+      0 100%
+    );
   }
-  .tall img {
-    aspect-ratio: 4 / 5;
-  }
-  .square {
-    left: auto;
-    right: -0.5rem;
-    bottom: -1.5rem;
-    width: 38%;
-  }
-  .column {
-    padding-top: 2rem;
-  }
-  .actions :deep(.button) {
-    width: 100%;
+  .tab {
+    left: calc(var(--n) * 3rem + 0.875rem);
   }
 }
 </style>

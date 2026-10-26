@@ -1,196 +1,239 @@
 <script setup lang="ts">
-const ROWS = [
+const CARDS = [
   {
-    title: 'Do jeito que você falaria',
-    text: 'Texto, áudio ou foto do prato, do rótulo ou do código de barras. O diário entende "uma concha de feijão" e "duas colheres de arroz".',
+    name: 'Áudio',
+    text: 'Grave no caminho. Em segundos volta anotado, com as calorias e o que falta.',
     photo: {
       src: '/images/brunch.jpg',
       width: 1600,
       height: 1100,
       alt: 'Uma tigela de frutas vista de cima',
     },
-    shape: 'portrait',
+    tone: 'one',
+    turn: -4,
   },
   {
-    title: 'A meta é sua',
-    text: 'Ela sai do seu peso, da altura, da idade e da atividade, e muda pela conversa. Divida por refeição, defina macros em gramas ou outra meta para o fim de semana.',
+    name: 'Foto do prato',
+    text: 'Fotografe, confira o que foi visto e corrija as gramas. No Premium e no teste.',
     photo: {
       src: '/images/refeicao.jpg',
       width: 1400,
       height: 934,
-      alt: 'Uma pessoa comendo uma salada de beterraba numa mesa de madeira',
+      alt: 'Uma pessoa comendo uma salada de beterraba',
     },
-    shape: 'wide',
+    tone: 'two',
+    turn: 2,
   },
   {
-    title: 'O que jantar, dentro do que falta',
-    text: 'Pergunte e receba três ideias que cabem no que falta da meta, preferindo o que já está na sua despensa.',
-    photo: {
-      src: '/images/frutas.jpg',
-      width: 1400,
-      height: 941,
-      alt: 'Framboesas e mirtilos num prato branco',
-    },
-    shape: 'square',
-  },
-  {
-    title: 'Jejum sem olhar o relógio',
-    text: 'Diga "faço jejum 16:8" uma vez. O jejum começa na última refeição, e o aviso chega quando a janela terminar.',
+    name: 'Treino',
+    text: '"Supino 3 × 8 com 60 kg." O gasto é estimado pelo Compendium of Physical Activities.',
     photo: {
       src: '/images/halter.jpg',
       width: 1400,
       height: 931,
       alt: 'Uma mão com luva de treino segurando um halter vermelho',
     },
-    shape: 'portrait',
+    tone: 'three',
+    turn: -2,
   },
   {
-    title: 'Um lembrete, e só um',
-    text: 'Se você some por um dia, chega uma mensagem curta para retomar. Responda "parar" e ela não volta.',
+    name: 'Jejum',
+    text: 'Diga "faço jejum 16:8" uma vez, e o aviso chega quando a janela terminar.',
     photo: {
       src: '/images/treino.jpg',
       width: 1400,
       height: 931,
       alt: 'Uma pessoa treinando com halter em casa',
     },
-    shape: 'wide',
+    tone: 'four',
+    turn: 4,
   },
 ] as const
+
+const table = ref<HTMLElement>()
+const dealt = ref(false)
+let observer: IntersectionObserver | undefined
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry?.isIntersecting) {
+        dealt.value = true
+        observer?.disconnect()
+      }
+    },
+    { threshold: 0.35 },
+  )
+  if (table.value) observer.observe(table.value)
+})
+onBeforeUnmount(() => observer?.disconnect())
 </script>
 
 <template>
   <section id="do-seu-jeito" class="features" aria-labelledby="features-title">
-    <div class="opening">
-      <h2 id="features-title" class="statement">Feito para caber no seu dia.</h2>
+    <div class="intro" data-reveal>
+      <h2 id="features-title" class="title display">Do seu jeito</h2>
+      <p>Quatro jeitos de registrar e acompanhar, todos dentro da mesma conversa.</p>
     </div>
-    <div v-for="row in ROWS" :key="row.title" class="row" data-reveal>
-      <div class="words">
-        <h3 class="row-title">{{ row.title }}</h3>
-        <p>{{ row.text }}</p>
-      </div>
-      <figure class="photo" :class="row.shape">
-        <img
-          :src="row.photo.src"
-          :alt="row.photo.alt"
-          :width="row.photo.width"
-          :height="row.photo.height"
-          loading="lazy"
-        />
-      </figure>
-    </div>
+    <ul ref="table" class="table" :class="{ dealt }">
+      <li
+        v-for="(card, index) in CARDS"
+        :key="card.name"
+        class="card"
+        :class="card.tone"
+        :style="{ '--n': index, '--turn': `${card.turn}deg` }"
+      >
+        <h3 class="name display">{{ card.name }}</h3>
+        <figure class="photo">
+          <img
+            :src="card.photo.src"
+            :alt="card.photo.alt"
+            :width="card.photo.width"
+            :height="card.photo.height"
+            loading="lazy"
+          />
+        </figure>
+        <p>{{ card.text }}</p>
+      </li>
+    </ul>
   </section>
 </template>
 
 <style scoped>
 .features {
   display: grid;
-  gap: 7rem;
+  gap: 4rem;
   padding: var(--gap-section) var(--margin) 0;
 }
 
-.opening {
-  display: grid;
-  align-items: center;
-  min-height: 44svh;
-  padding-left: calc((100% + var(--gutter)) / 12 * 4);
-}
-
-.statement {
-  max-width: 13ch;
-  font-size: var(--step-head);
-}
-
-.row {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  column-gap: var(--gutter);
-  align-items: start;
-}
-
-.words {
-  grid-column: 5 / 10;
+.intro {
   display: grid;
   gap: 1rem;
 }
 
-.row-title {
-  font-size: var(--step-lead);
+.title {
+  font-size: var(--step-head);
 }
 
-.words p {
-  max-width: 34ch;
-  color: var(--muted);
+.intro p {
+  max-width: 40ch;
+}
+
+.table {
+  position: relative;
+  height: 30rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  --x: calc((var(--n) - 1.5) * 15.625rem);
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 1.25rem;
+  width: 21.25rem;
+  height: 25rem;
+  margin-left: -10.625rem;
+  padding: 1.75rem;
+  padding-right: 7.375rem;
+  transform: translateX(var(--x)) rotate(var(--turn));
+  transition: transform 900ms var(--ease-out);
+  transition-delay: calc(var(--n) * 120ms);
+}
+
+.js .table:not(.dealt) .card {
+  transform: translateX(var(--x)) translateY(70%) rotate(0deg);
+  opacity: 0;
+}
+
+.js .card {
+  transition:
+    transform 900ms var(--ease-out),
+    opacity 400ms ease;
+  transition-delay: calc(var(--n) * 120ms);
+}
+
+.one {
+  background: var(--tint-2);
+}
+
+.two {
+  background: var(--tint-4);
+  color: var(--ground);
+}
+
+.three {
+  background: var(--bone);
+  color: var(--ground);
+}
+
+.four {
+  background: var(--tint-3);
+}
+
+.name {
+  font-size: var(--step-lead);
+  line-height: 1.05;
 }
 
 .photo {
-  grid-column: 10 / 13;
-  justify-self: end;
+  align-self: center;
   overflow: hidden;
 }
 
 .photo img {
   width: 100%;
+  aspect-ratio: 1;
   object-fit: cover;
 }
 
-.portrait {
-  width: 15rem;
+.card p {
+  font-size: var(--step-small);
+  line-height: 1.45;
 }
 
-.portrait img {
-  aspect-ratio: 4 / 5;
-}
-
-.wide {
-  width: 20rem;
-}
-
-.wide img {
-  aspect-ratio: 3 / 2;
-}
-
-.square {
-  width: 11.25rem;
-}
-
-.square img {
-  aspect-ratio: 1;
-}
-
-@media (max-width: 63.99rem) {
-  .portrait {
-    width: 12rem;
-  }
-  .wide {
-    width: 15rem;
+@media (min-width: 72rem) and (hover: hover) and (pointer: fine) {
+  .dealt .card:hover {
+    transform: translateX(var(--x)) translateY(-10px) rotate(var(--turn));
+    transition-delay: 0ms;
+    transition-duration: 300ms;
   }
 }
 
-@media (max-width: 47.99rem) {
-  .features {
-    gap: 4rem;
+@media (prefers-reduced-motion: reduce) {
+  .js .table:not(.dealt) .card {
+    transform: translateX(var(--x)) rotate(var(--turn));
   }
-  .opening {
-    min-height: 30svh;
-    padding-left: 0;
+  .card,
+  .js .card {
+    transition: opacity 200ms ease;
   }
-  .row {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+}
+
+@media (max-width: 71.99rem) {
+  .table {
+    display: grid;
+    justify-items: center;
+    height: auto;
   }
-  .photo {
-    justify-self: auto;
+  .card,
+  .js .table:not(.dealt) .card {
+    position: static;
+    width: min(100%, 24rem);
+    height: auto;
+    margin: -1.25rem 0 0;
+    padding-right: 1.75rem;
+    transform: rotate(calc(var(--turn) / 2));
   }
-  .portrait {
-    width: 100%;
+  .card:first-child {
+    margin-top: 0;
   }
-  .wide {
-    width: 70%;
-    align-self: flex-end;
-  }
-  .square {
-    width: 55%;
+  .photo img {
+    aspect-ratio: 16 / 10;
   }
 }
 </style>

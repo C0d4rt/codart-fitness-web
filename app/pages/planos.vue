@@ -57,7 +57,7 @@ const planLine = (plan: 'basic' | 'premium') =>
         </header>
 
         <section v-for="group in catalog.groups" :key="group.id" class="group">
-          <h2 class="group-name">{{ group.name }}</h2>
+          <h2 class="group-name display">{{ group.name }}</h2>
           <article
             v-for="feature in group.features"
             :id="feature.id"
