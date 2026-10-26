@@ -26,11 +26,6 @@ const QUESTIONS = computed(() => [
       'Nos 7 dias depois do pagamento, peça o reembolso na conversa e ele sai sozinho, como prevê o Código de Defesa do Consumidor.',
   },
   {
-    question: 'De onde vêm as calorias?',
-    answer:
-      'Da tabela TACO, da Unicamp; dos rótulos, pelo Open Food Facts; e do que você mesmo cadastrar. O que é estimado vem marcado como estimativa.',
-  },
-  {
     question: 'Ele substitui um nutricionista?',
     answer:
       'Não. O diário registra, soma e informa; não prescreve dieta nem treino. As sugestões são gerais, a partir da sua meta.',
