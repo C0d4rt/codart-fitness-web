@@ -8,10 +8,10 @@ const photoScreen = logModeScreen('photo')
   <section class="moment" aria-labelledby="moment-title">
     <figure class="photo">
       <img
-        src="/images/prato.jpg"
-        alt="Uma mão segurando um prato com bife, ovo e tomate"
+        src="/images/salada.jpg"
+        alt="Uma salada com rúcula, ovos, cenoura e tomate numa travessa, ao lado de uvas"
         width="1800"
-        height="1172"
+        height="1200"
         loading="lazy"
       />
     </figure>
