@@ -1,79 +1,67 @@
 <script setup lang="ts">
 const props = defineProps<{ trialDays: number }>()
 
-const CARDS = computed(() => [
+const QUESTIONS = computed(() => [
   {
-    topic: 'Começar',
     question: 'Preciso baixar algum app?',
     answer: 'Não. Tudo acontece numa conversa do WhatsApp, no celular ou no computador.',
   },
   {
-    topic: 'Teste',
     question: 'Como funciona o teste grátis?',
-    answer: `São ${props.trialDays} dias com tudo do Premium, contados da primeira mensagem. Não pedimos cartão. Quando acaba, o diário para de anotar até você escolher um plano, e tudo o que você registrou fica guardado.`,
+    answer: `São ${props.trialDays} dias com tudo do Premium, contados da primeira mensagem. Não pedimos cartão.`,
   },
   {
-    topic: 'Pagamento',
+    question: 'E quando o teste acaba?',
+    answer:
+      'O diário para de anotar até você escolher um plano. Tudo o que você registrou fica guardado e volta inteiro ao assinar.',
+  },
+  {
     question: 'Como eu pago e cancelo?',
     answer:
-      'Na própria conversa: responda "assinar", escolha o plano e pague no Pix ou no cartão. Cancele quando quiser, pela conversa; o acesso continua até o fim do período pago. Nos 7 dias depois do pagamento, o reembolso sai sozinho, como prevê o Código de Defesa do Consumidor.',
+      'Na própria conversa: responda "assinar", escolha o plano e pague no Pix ou no cartão. Cancele quando quiser; o acesso continua até o fim do período pago.',
   },
   {
-    topic: 'Números',
+    question: 'E se eu me arrepender?',
+    answer:
+      'Nos 7 dias depois do pagamento, peça o reembolso na conversa e ele sai sozinho, como prevê o Código de Defesa do Consumidor.',
+  },
+  {
     question: 'De onde vêm as calorias?',
     answer:
       'Da tabela TACO, da Unicamp; dos rótulos, pelo Open Food Facts; e do que você mesmo cadastrar. O que é estimado vem marcado como estimativa.',
   },
   {
-    topic: 'Saúde',
     question: 'Ele substitui um nutricionista?',
     answer:
       'Não. O diário registra, soma e informa; não prescreve dieta nem treino. As sugestões são gerais, a partir da sua meta.',
   },
   {
-    topic: 'Dados',
     question: 'E os meus dados?',
     answer:
       'Servem só para o seu diário. Diga "quero apagar minha conta" e tudo é apagado, como prevê a LGPD.',
   },
 ])
-
-const open = ref(0)
 </script>
 
 <template>
   <section id="perguntas" class="faq" aria-labelledby="faq-title">
-    <h2 id="faq-title" class="title display">Perguntas</h2>
-    <div class="drawer">
-      <div
-        v-for="(card, index) in CARDS"
-        :key="card.topic"
-        class="card"
-        :class="[`tone-${index % 3}`, { open: open === index }]"
-        :style="{ '--n': index }"
+    <div class="head">
+      <h2 id="faq-title" class="title">Perguntas frequentes</h2>
+      <p>Não achou a sua? Pergunte na própria conversa.</p>
+    </div>
+    <div class="list">
+      <details
+        v-for="(each, index) in QUESTIONS"
+        :key="each.question"
+        name="faq"
+        :open="index === 0"
       >
-        <span class="tab">{{ card.topic }}</span>
-        <h3 class="question">
-          <button
-            :id="`faq-${index}`"
-            type="button"
-            :aria-expanded="open === index"
-            :aria-controls="`faq-answer-${index}`"
-            @click="open = index"
-          >
-            {{ card.question }}
-          </button>
-        </h3>
-        <p
-          :id="`faq-answer-${index}`"
-          class="answer"
-          role="region"
-          :aria-labelledby="`faq-${index}`"
-          :hidden="open !== index"
-        >
-          {{ card.answer }}
-        </p>
-      </div>
+        <summary>
+          <span>{{ each.question }}</span>
+          <span class="plus" aria-hidden="true" />
+        </summary>
+        <p>{{ each.answer }}</p>
+      </details>
     </div>
   </section>
 </template>
@@ -81,87 +69,98 @@ const open = ref(0)
 <style scoped>
 .faq {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  column-gap: var(--gutter);
-  row-gap: 3rem;
+  grid-template-columns: 4fr 8fr;
+  gap: 3rem;
+  align-items: start;
   padding: var(--gap-section) var(--margin) 0;
 }
 
+.head {
+  position: sticky;
+  top: 6rem;
+  display: grid;
+  gap: 1rem;
+}
+
 .title {
-  grid-column: 3 / 11;
+  max-width: 10ch;
   font-size: var(--step-head);
 }
 
-.drawer {
-  grid-column: 3 / 11;
-  display: grid;
-}
-
-.card {
-  position: relative;
-  margin-top: -1.5rem;
-  padding: 3.5rem 2rem 2.25rem;
-  clip-path: polygon(
-    0 2.5rem,
-    calc(var(--n) * 9.375rem) 2.5rem,
-    calc(var(--n) * 9.375rem + 0.75rem) 0,
-    calc(var(--n) * 9.375rem + 11.75rem) 0,
-    calc(var(--n) * 9.375rem + 12.5rem) 2.5rem,
-    100% 2.5rem,
-    100% 100%,
-    0 100%
-  );
-}
-
-.card:first-child {
-  margin-top: 0;
-}
-
-.tone-0 {
-  background: var(--tint-1);
-}
-
-.tone-1 {
-  background: var(--tint-2);
-}
-
-.tone-2 {
-  background: var(--raised);
-}
-
-.tab {
-  position: absolute;
-  top: 0.5rem;
-  left: calc(var(--n) * 9.375rem + 1.25rem);
+.head p {
   color: var(--muted);
-  font-size: var(--step-small);
-  font-weight: 500;
 }
 
-.question button {
-  width: 100%;
-  min-height: 2.75rem;
-  padding: 0;
-  border: 0;
-  background: none;
+.list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+details {
+  border-radius: 1.125rem;
+  background: var(--card);
+  transition: background-color 220ms ease;
+}
+
+details[open] {
+  background: var(--mint);
+}
+
+summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 4.5rem;
+  padding: 0 1.5rem;
   font-size: var(--step-body);
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: -0.015em;
-  text-align: left;
+  list-style: none;
   cursor: pointer;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .card:not(.open) .question button:hover {
-    text-decoration: underline;
-  }
+summary::-webkit-details-marker {
+  display: none;
 }
 
-.answer {
-  max-width: 54ch;
-  padding-top: 0.75rem;
+.plus {
+  position: relative;
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+}
+
+.plus::before,
+.plus::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 220ms var(--ease-out);
+}
+
+.plus::after {
+  transform: rotate(90deg);
+}
+
+details[open] .plus::after {
+  transform: rotate(0deg);
+}
+
+details p {
+  max-width: 56ch;
+  padding: 0 1.5rem 1.5rem;
   color: var(--ink);
-  animation: open 360ms var(--ease-out);
+}
+
+details[open] p {
+  animation: open 320ms var(--ease-out);
 }
 
 @keyframes open {
@@ -171,35 +170,27 @@ const open = ref(0)
   }
 }
 
+@media (hover: hover) and (pointer: fine) {
+  details:not([open]):hover {
+    background: color-mix(in oklab, var(--card) 70%, var(--mint));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .answer {
+  details[open] p {
     animation: none;
   }
 }
 
 @media (max-width: 63.99rem) {
-  .title,
-  .drawer {
-    grid-column: 1 / -1;
+  .faq {
+    grid-template-columns: 1fr;
   }
-}
-
-@media (max-width: 63.99rem) {
-  .card {
-    padding: 3.25rem 1.25rem 1.75rem;
-    clip-path: polygon(
-      0 2.5rem,
-      calc(var(--n) * 3rem) 2.5rem,
-      calc(var(--n) * 3rem + 0.5rem) 0,
-      calc(var(--n) * 3rem + 7rem) 0,
-      calc(var(--n) * 3rem + 7.5rem) 2.5rem,
-      100% 2.5rem,
-      100% 100%,
-      0 100%
-    );
+  .head {
+    position: static;
   }
-  .tab {
-    left: calc(var(--n) * 3rem + 0.875rem);
+  .title {
+    max-width: none;
   }
 }
 </style>
