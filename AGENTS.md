@@ -13,6 +13,12 @@ aqui fica só o que muda o jeito de trabalhar.
   direção sorteada está no PRP-001, decisão 9) e as do Emil Kowalski
   (`emil-design-eng`, `mobile-native`, `animate`). Passe o `inspect.mjs` dela
   nas três larguras antes do PR.
+- Texto, conversão e SEO usam as skills de marketing em `.claude/skills/`
+  (`product-marketing`, `cro`, `copywriting`, `copy-editing`, `seo-audit`,
+  `ai-seo`, `schema`), vindas do `coreyhaines31/marketingskills` e travadas no
+  `skills-lock.json`. Atualize com `npx skills update` e revise o diff. Quando
+  uma sugestão delas bate de frente com as regras abaixo, valem as regras
+  abaixo.
 
 ## Comandos
 

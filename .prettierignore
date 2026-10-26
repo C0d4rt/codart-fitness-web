@@ -6,3 +6,5 @@ pnpm-lock.yaml
 .taste-skill
 playwright-report
 test-results
+.claude/skills
+skills-lock.json
