@@ -13,7 +13,7 @@ produto em si vive no [`codart-messaging`](https://github.com/C0d4rt/codart-mess
   mensagem dos planos.
 - **A única ação:** abrir o WhatsApp com a mensagem pronta para começar os 7
   dias grátis.
-- **Marca provisória:** Kcalma (kcal + calma). Nome, domínio e número ficam num
+- **Marca provisória:** Fitness, genérica até a escolha do nome. Nome, domínio e número ficam num
   só arquivo (`app/brand.ts`); a troca para o domínio próprio é mudar esse
   arquivo e redirecionar o subdomínio com 301.
 
