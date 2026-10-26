@@ -53,6 +53,7 @@ export default defineNuxtConfig({
         '/404',
         '/sitemap.xml',
         '/robots.txt',
+        '/llms.txt',
       ],
       failOnError: true,
     },

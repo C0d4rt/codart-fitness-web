@@ -75,7 +75,7 @@ const plans = computed(() => [
         </ul>
         <WhatsAppButton
           :location="`plans-${each.id}`"
-          :label="each.featured ? 'Testar 7 dias grátis' : 'Começar pelo teste'"
+          :label="each.featured ? `Testar ${catalog.trialDays} dias grátis` : 'Começar pelo teste'"
           :inverse="each.featured"
         />
       </article>
