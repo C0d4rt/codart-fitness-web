@@ -10,7 +10,7 @@ import { brand } from '~/brand'
       </NuxtLink>
       <ul class="links">
         <li><NuxtLink to="/#como-funciona">Como funciona</NuxtLink></li>
-        <li><NuxtLink to="/#do-seu-jeito">Recursos</NuxtLink></li>
+        <li><NuxtLink to="/recursos">Recursos</NuxtLink></li>
         <li><NuxtLink to="/planos">Planos</NuxtLink></li>
         <li><NuxtLink to="/#perguntas">Perguntas</NuxtLink></li>
       </ul>

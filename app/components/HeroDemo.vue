@@ -1,14 +1,37 @@
 <script setup lang="ts">
+import type { ChatScreen } from '#shared/chat'
+import { FEATURE_COPY } from '#shared/featureCopy'
 import { goalScreen, HERO_SCREEN, logModeScreen, WORKOUT_SCREEN } from '#shared/screens'
 
 const FIRST = { caption: 'O almoço contado por texto', screen: HERO_SCREEN }
+
+const fromFeature = (id: string): { caption: string; screen: ChatScreen }[] => {
+  const copy = FEATURE_COPY[id]
+  return copy === undefined
+    ? []
+    : [
+        {
+          caption: copy.headline,
+          screen: { id: `hero-${id}`, label: copy.headline, messages: copy.exchange },
+        },
+      ]
+}
 
 const EXAMPLES = [
   FIRST,
   { caption: 'O café da manhã por áudio', screen: logModeScreen('audio') },
   { caption: 'A foto do prato', screen: logModeScreen('photo') },
+  ...fromFeature('barcode'),
   { caption: 'Quanto falta da meta', screen: goalScreen(1800) },
+  ...fromFeature('mealSuggestion'),
+  ...fromFeature('mealGoals'),
   { caption: 'O treino do dia', screen: WORKOUT_SCREEN },
+  ...fromFeature('fasting'),
+  ...fromFeature('weekSummary'),
+  ...fromFeature('weight'),
+  ...fromFeature('nutrients'),
+  ...fromFeature('recipes'),
+  ...fromFeature('csvExport'),
 ]
 
 const index = ref(0)
@@ -29,9 +52,9 @@ onBeforeUnmount(() => clearInterval(timer))
 <template>
   <div class="demo" @mouseenter="paused = true" @mouseleave="paused = false">
     <div class="stage">
-      <div class="phone">
-        <PhoneFrame :screen="current.screen" />
-      </div>
+      <Transition name="swap" mode="out-in">
+        <ChatWindow :key="current.screen.id" :screen="current.screen" class="chat" />
+      </Transition>
     </div>
     <p class="caption" aria-live="polite">{{ current.caption }}</p>
   </div>
@@ -46,28 +69,41 @@ onBeforeUnmount(() => clearInterval(timer))
 .stage {
   display: grid;
   grid-template-columns: 100%;
-  place-items: start center;
-  height: min(70svh, 40rem);
+  place-items: center;
+  height: min(70svh, 38rem);
   overflow: hidden;
-  padding-top: 3rem;
+  padding: 2rem;
   border-radius: 2rem;
   background: var(--mint);
 }
 
-.phone {
-  width: min(22rem, 70%);
+.chat {
+  width: min(26rem, 100%);
+  max-height: 100%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .phone {
-    animation: rise 1s var(--ease-out) 150ms both;
-  }
+.swap-enter-active {
+  transition:
+    opacity 260ms var(--ease-out),
+    transform 320ms var(--ease-out);
 }
 
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
+.swap-leave-active {
+  transition: opacity 160ms ease;
+}
+
+.swap-enter-from {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.swap-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swap-enter-from {
+    transform: none;
   }
 }
 
@@ -81,10 +117,7 @@ onBeforeUnmount(() => clearInterval(timer))
 @media (max-width: 47.99rem) {
   .stage {
     height: 30rem;
-    padding-top: 2rem;
-  }
-  .phone {
-    width: 80%;
+    padding: 1rem;
   }
 }
 </style>

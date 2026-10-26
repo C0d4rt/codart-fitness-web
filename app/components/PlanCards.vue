@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type Catalog, money, yearlyPerMonth } from '#shared/plans'
 
-const props = defineProps<{ catalog: Catalog }>()
+const props = defineProps<{ catalog: Catalog; bare?: boolean }>()
 
 const period = ref<'month' | 'year'>('month')
 
@@ -30,10 +30,10 @@ const plans = computed(() => [
 </script>
 
 <template>
-  <section class="pricing" aria-labelledby="pricing-title">
+  <section class="pricing" :class="{ bare }" aria-labelledby="pricing-title">
     <div class="head" data-reveal>
-      <h2 id="pricing-title" class="title">Planos simples</h2>
-      <p>
+      <h2 id="pricing-title" :class="bare ? 'visually-hidden' : 'title'">Planos simples</h2>
+      <p v-if="!bare">
         {{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão. Depois, escolha na
         própria conversa e pague no Pix ou no cartão.
       </p>
@@ -89,6 +89,12 @@ const plans = computed(() => [
   grid-template-columns: 4fr 8fr;
   gap: 3rem;
   padding: var(--gap-section) var(--margin) 0;
+}
+
+.pricing.bare {
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  padding-top: 2.5rem;
 }
 
 .head {

@@ -24,6 +24,7 @@ const height = (value: number) =>
     <div class="intro" data-reveal>
       <h2 id="bento-title" class="title">Tudo o que importa, numa conversa</h2>
       <p>Você pergunta, ele responde com os seus números.</p>
+      <NuxtLink to="/recursos" class="link">Ver todos os recursos, com exemplos</NuxtLink>
     </div>
 
     <div class="grid">
@@ -84,6 +85,12 @@ const height = (value: number) =>
 .intro p {
   color: var(--muted);
   font-size: var(--step-lead);
+}
+
+.link {
+  justify-self: start;
+  color: var(--green);
+  font-weight: 500;
 }
 
 .grid {

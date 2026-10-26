@@ -1,54 +1,53 @@
 <template>
   <section class="moment" aria-labelledby="moment-title">
-    <img
-      class="photo"
-      src="/images/marmitas.jpg"
-      alt="Três marmitas de vidro com arroz, milho, tomate, pepino e azeitonas, vistas de cima"
-      width="1920"
-      height="1440"
-      loading="lazy"
-    />
-    <div class="scrim" />
-    <div class="copy">
+    <figure class="photo">
+      <img
+        src="/images/marmitas.jpg"
+        alt="Três marmitas de vidro com arroz, milho, tomate, pepino e azeitonas, vistas de cima"
+        width="1920"
+        height="1440"
+        loading="lazy"
+      />
+    </figure>
+    <div class="copy" data-reveal>
       <h2 id="moment-title" class="title">Do preparo ao prato</h2>
       <p>
-        Comeu, mandou uma mensagem. Sem abrir app e sem procurar alimento em lista: ele está na
-        conversa que você já abre o dia todo.
+        Comeu, mandou uma mensagem. É fácil porque é no WhatsApp, que você já usa o dia todo: ele
+        anota, soma e diz quanto falta.
       </p>
-    </div>
-    <div class="note" data-ui>
-      <p class="note-head">Fitness · agora</p>
-      <p>Almoço registrado: arroz, feijão e frango, 416 kcal.</p>
-      <p class="note-figure">Faltam 1.384 kcal</p>
+      <div class="note" data-ui>
+        <p class="note-head">Fitness · agora</p>
+        <p>Almoço registrado: arroz, feijão e frango, 416 kcal.</p>
+        <p class="note-figure">Faltam 1.384 kcal</p>
+      </div>
     </div>
   </section>
 </template>
 
 <style scoped>
 .moment {
-  position: relative;
-  isolation: isolate;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  align-items: end;
-  min-height: 86svh;
-  margin-top: var(--gap-section);
+  grid-template-columns: 7fr 5fr;
+  margin: var(--gap-section) var(--margin) 0;
   overflow: hidden;
-  padding: 4rem var(--margin);
+  border-radius: 2rem;
+  background: var(--ink);
   color: #ffffff;
 }
 
 .photo {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
+  overflow: hidden;
+}
+
+.photo img {
   width: 100%;
   height: 100%;
+  min-height: 26rem;
   object-fit: cover;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .photo {
+  .photo img {
     animation: drift linear both;
     animation-timeline: view();
     animation-range: entry 0% exit 100%;
@@ -57,42 +56,35 @@
 
 @keyframes drift {
   from {
-    transform: scale(1.1) translateY(-3%);
+    transform: scale(1.12);
   }
   to {
-    transform: scale(1.02) translateY(3%);
+    transform: scale(1);
   }
-}
-
-.scrim {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: rgb(8 24 16 / 0.5);
 }
 
 .copy {
-  grid-column: 1 / 7;
   display: grid;
-  gap: 1.25rem;
+  align-content: center;
+  gap: 1.5rem;
+  padding: clamp(2rem, 1rem + 3vw, 4rem);
 }
 
 .title {
-  max-width: 14ch;
+  max-width: 12ch;
   font-size: var(--step-head);
 }
 
-.copy p {
-  max-width: 38ch;
-  font-size: var(--step-lead);
-  line-height: 1.4;
+.copy > p {
+  max-width: 34ch;
+  color: #dbe7e0;
+  font-size: var(--step-body);
 }
 
 .note {
-  grid-column: 9 / 13;
   display: grid;
-  gap: 0.5rem;
-  padding: 1.25rem 1.375rem;
+  gap: 0.375rem;
+  padding: 1.125rem 1.25rem;
   border-radius: 1.25rem 1.25rem 1.25rem 0.25rem;
   background: var(--card);
   color: var(--ink);
@@ -114,15 +106,10 @@
 @media (max-width: 63.99rem) {
   .moment {
     grid-template-columns: 1fr;
-    row-gap: 2rem;
-    min-height: 72svh;
   }
-  .copy,
-  .note {
-    grid-column: 1;
-  }
-  .note {
-    max-width: 22rem;
+  .photo img {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
   }
 }
 </style>

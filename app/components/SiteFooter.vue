@@ -11,8 +11,6 @@ const consent = useConsent()
         <span class="mark" aria-hidden="true" />{{ brand.name.toLowerCase() }}
       </NuxtLink>
       <ul class="links">
-        <li><NuxtLink to="/planos">Planos</NuxtLink></li>
-        <li><NuxtLink to="/#perguntas">Perguntas</NuxtLink></li>
         <li><NuxtLink to="/termos">Termos</NuxtLink></li>
         <li><NuxtLink to="/privacidade">Privacidade</NuxtLink></li>
         <li><NuxtLink to="/creditos">Créditos</NuxtLink></li>

@@ -3,8 +3,9 @@ const props = defineProps<{ trialDays: number }>()
 
 const QUESTIONS = computed(() => [
   {
-    question: 'Preciso baixar algum app?',
-    answer: 'Não. Tudo acontece numa conversa do WhatsApp, no celular ou no computador.',
+    question: 'Como eu começo?',
+    answer:
+      'Toque em "Testar 7 dias grátis" e mande o oi no WhatsApp. Funciona no celular ou no computador.',
   },
   {
     question: 'Como funciona o teste grátis?',

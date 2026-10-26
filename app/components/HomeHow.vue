@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import type { ChatScreen } from '#shared/chat'
-import { goalScreen, logModeScreen, reminderScreen } from '#shared/screens'
-
-const diary = logModeScreen('text').messages
-const goal = goalScreen(1800).messages
 
 const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
   {
@@ -12,7 +8,7 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
     screen: {
       id: 'how-tell',
       label: 'A pessoa conta o almoço numa mensagem.',
-      messages: diary.slice(0, 1),
+      messages: [{ from: 'you', text: 'almocei arroz, feijão e frango', time: '12:41' }],
     },
   },
   {
@@ -20,8 +16,8 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
     clause: 'Ele anota e soma na hora.',
     screen: {
       id: 'how-log',
-      label: 'O registro do almoço com as calorias.',
-      messages: diary.slice(1),
+      label: 'O almoço registrado com as calorias.',
+      messages: [{ from: 'bot', text: '✅ *Almoço* registrado: 416 kcal.', time: '12:41' }],
     },
   },
   {
@@ -30,7 +26,10 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
     screen: {
       id: 'how-left',
       label: 'A pergunta de quanto falta e a resposta.',
-      messages: goal.slice(2),
+      messages: [
+        { from: 'you', text: 'quanto falta?', time: '12:42' },
+        { from: 'bot', text: 'Faltam 1.384 kcal para a meta de 1.800.', time: '12:42' },
+      ],
     },
   },
   {
@@ -39,7 +38,13 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
     screen: {
       id: 'how-remind',
       label: 'O lembrete curto do dia seguinte.',
-      messages: reminderScreen(true).messages,
+      messages: [
+        {
+          from: 'bot',
+          text: 'Oi! O que você já comeu hoje? Me conta que eu anoto.',
+          time: '11:30',
+        },
+      ],
     },
   },
 ]
@@ -79,8 +84,8 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
 
 .field {
   display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 1.5rem;
+  align-content: start;
+  gap: 1.25rem;
   padding: 1.75rem 1.5rem;
   border-radius: var(--radius);
 }
@@ -108,8 +113,12 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
   line-height: 1.15;
 }
 
-.chat {
-  align-self: end;
+.steps .field .chat {
+  background: transparent;
+}
+
+.steps .field .chat :deep(.thread) {
+  padding: 0;
 }
 
 @media (max-width: 63.99rem) {
