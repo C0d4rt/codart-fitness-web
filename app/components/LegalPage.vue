@@ -26,12 +26,9 @@ useSeoMeta({ title: props.title, robots: 'noindex' })
 </template>
 
 <style scoped>
-.legal {
-  padding: 0 var(--margin);
-}
-
 main {
   display: grid;
+  padding-inline: var(--margin);
   gap: 1.5rem;
   max-width: 62ch;
   min-height: 60svh;
@@ -40,9 +37,5 @@ main {
 
 h1 {
   font-size: var(--step-head);
-}
-
-.legal :deep(.footer) {
-  padding-inline: 0;
 }
 </style>

@@ -1,19 +1,7 @@
 <script setup lang="ts">
 import { money } from '#shared/plans'
-import {
-  goalScreen,
-  HERO_SCREEN,
-  HOW_SCREEN,
-  logModeScreen,
-  type LogMode,
-  reminderScreen,
-  type ShowcaseOutput,
-  showcaseScreen,
-} from '#shared/screens'
 
 import { brand } from '~/brand'
-
-const DIARY_SCREEN = logModeScreen('text')
 
 const catalog = await usePlans()
 const from = money(catalog.basic.monthlyCents)
@@ -26,92 +14,45 @@ useSeoMeta({
   ogType: 'website',
   ogLocale: 'pt_BR',
 })
-
-const showcase = useState<ShowcaseOutput>('showcase', () => 'day')
-const mode = useState<LogMode>('mode', () => 'text')
-const goal = useState('goal', () => 1800)
-const reminders = useState('reminders', () => true)
-
-useStageObserver((id) => {
-  switch (id) {
-    case 'hero':
-    case 'how':
-      return HERO_SCREEN
-    case 'showcase':
-      return showcaseScreen(showcase.value)
-    case 'mode':
-      return logModeScreen(mode.value)
-    case 'goal':
-      return goalScreen(goal.value)
-    case 'reminder':
-      return reminderScreen(reminders.value)
-    default:
-      return undefined
-  }
-})
 </script>
 
 <template>
   <div class="page">
-    <div class="split">
-      <div class="stage-col">
-        <StagePanel :fallback="HERO_SCREEN" />
-      </div>
-      <div class="column">
-        <header class="hero" data-stage="hero">
-          <SiteNav home />
-          <h1 class="wordmark">
-            {{ brand.name.toLowerCase()
-            }}<span class="visually-hidden"> : diário de dieta e treino no WhatsApp</span>
-          </h1>
-          <div class="hero-copy" data-reveal>
-            <p class="claim">
-              Seu diário de dieta e treino, no WhatsApp. Conte o que comeu e saiba quanto falta.
-            </p>
-            <p>
-              {{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão. Depois, a partir
-              de {{ from }} por mês.
-            </p>
-            <WhatsAppButton location="hero" class="hero-action" />
-          </div>
-          <div class="inline-stage hero-stage"><ChatWindow :screen="HERO_SCREEN" /></div>
-        </header>
+    <SiteNav />
 
-        <section id="como-funciona" class="how" data-stage="how">
-          <h2 class="heading">Três mensagens e pronto</h2>
-          <div class="steps">
-            <div class="step" data-reveal>
-              <p>
-                <strong>Para começar,</strong> toque no botão. O WhatsApp abre com a primeira
-                mensagem escrita; mande, e o teste de {{ catalog.trialDays }} dias começa ali, sem
-                cadastro e sem cartão.
-              </p>
-              <ComposeBar />
-            </div>
-            <div class="step" data-reveal>
-              <p>
-                <strong>Depois, conte o que comeu.</strong> Por texto, áudio ou foto, do jeito que
-                falaria. O diário acha os alimentos na tabela TACO, soma e responde em segundos.
-              </p>
-              <ChatWindow :screen="DIARY_SCREEN" bare />
-            </div>
-            <div class="step" data-reveal>
-              <p>
-                <strong>A partir daí,</strong> cada resposta diz quanto falta da meta. Se você some
-                por um dia, chega um lembrete curto, e "parar" desliga.
-              </p>
-              <ChatWindow :screen="HOW_SCREEN" bare />
-            </div>
-          </div>
-        </section>
-
-        <HomeShowcase />
-        <HomeFeatures />
+    <header id="hero" class="hero">
+      <div class="upper" data-chapter="paper" />
+      <div class="lower" data-chapter="green" />
+      <h1 class="headline">
+        Conte o que<br />
+        <span class="slot"
+          ><img
+            src="/images/prato-feito.jpg"
+            alt="Um prato feito com arroz, feijão, salada e frango"
+            width="1600"
+            height="1073" /></span
+        >comeu.
+      </h1>
+      <div class="hero-copy" data-reveal>
+        <p class="claim">
+          Seu diário de dieta e treino no WhatsApp: mande texto, áudio ou foto e saiba quanto falta
+          da meta.
+        </p>
+        <WhatsAppButton location="hero" />
+        <p class="terms">
+          {{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão. Depois, a partir de
+          {{ from }} por mês.
+        </p>
       </div>
-    </div>
+    </header>
+
+    <HomeHow />
+    <HomeShowcase />
+    <HomeFeatures />
+    <HomeTraining />
 
     <PlanFields :catalog="catalog" />
-    <p class="more">
+    <p class="more" data-chapter="paper">
       <NuxtLink to="/planos">Ver tudo o que cada plano faz, com exemplos</NuxtLink>
     </p>
     <HomeSources />
@@ -123,126 +64,120 @@ useStageObserver((id) => {
 
 <style scoped>
 .hero {
+  --seam: 52svh;
+  position: relative;
   display: grid;
-  grid-template-rows: auto 1fr;
-  min-height: 100svh;
+  min-height: calc(100svh + 12svh);
+  overflow: hidden;
 }
 
-.hero > :deep(.nav) {
-  order: 0;
+.upper,
+.lower {
+  position: absolute;
+  inset-inline: 0;
+}
+
+.upper {
+  top: 0;
+  height: var(--seam);
+  background: var(--paper);
+}
+
+.lower {
+  top: var(--seam);
+  bottom: 0;
+  background: var(--green);
+}
+
+.headline {
+  position: absolute;
+  top: calc(var(--seam) - 1.22em);
+  left: 50%;
+  width: max-content;
+  color: var(--ink);
+  font-size: var(--step-display);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.slot {
+  display: inline-block;
+  width: 2.1em;
+  height: 0.74em;
+  margin-right: 0.18em;
+  overflow: hidden;
+  border-radius: 0.14em;
+  vertical-align: -0.02em;
+}
+
+.slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 30%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .slot img {
+    animation: drift 14s var(--ease-in-out) infinite alternate;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1.22) translateX(-6%);
+  }
 }
 
 .hero-copy {
+  position: relative;
+  align-self: end;
+  justify-self: center;
   display: grid;
+  justify-items: center;
   gap: 1.5rem;
-  align-content: start;
-  padding-top: 26svh;
-  padding-bottom: calc(var(--step-display) + 4rem);
+  max-width: 48rem;
+  padding: 0 var(--margin) 4.5rem;
+  color: var(--ink);
+  text-align: center;
 }
 
 .claim {
-  max-width: 26ch;
   font-size: var(--step-lead);
-  line-height: 1.3;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
 }
 
-.hero-copy > p:not(.claim) {
-  max-width: 40ch;
-  color: var(--muted);
-}
-
-.hero-action {
-  justify-self: start;
-}
-
-.wordmark {
-  position: absolute;
-  top: calc(100svh - var(--step-display) * 0.9 - 2.5rem);
-  right: var(--margin);
-  z-index: 2;
-  margin: 0;
-  font-size: var(--step-display);
-  line-height: 0.9;
-  letter-spacing: -0.04em;
-  white-space: nowrap;
-  pointer-events: none;
-  transform-origin: right bottom;
-}
-
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .wordmark {
-      animation: settle linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 100svh;
-    }
-  }
-}
-
-@keyframes settle {
-  to {
-    transform: scale(0.94);
-  }
-}
-
-.how {
-  display: grid;
-  gap: 3rem;
-}
-
-.heading {
-  font-size: var(--step-head);
-}
-
-.steps {
-  display: grid;
-  gap: 4.5rem;
-}
-
-.step {
-  display: grid;
-  gap: 1.25rem;
-}
-
-.steps p {
-  color: var(--muted);
-}
-
-.steps strong {
-  color: var(--ink);
+.terms {
+  font-size: var(--step-small);
   font-weight: 500;
 }
 
 .more {
   padding: 2rem var(--margin) 0;
+  font-weight: 500;
 }
 
-@media (max-width: 63.99rem) {
+@media (max-width: 47.99rem) {
   .hero {
-    min-height: auto;
-    grid-template-rows: auto;
+    --seam: 42svh;
+    min-height: 100svh;
   }
-  .hero-stage {
-    order: 1;
-    margin: 0 -0.5rem;
-  }
-  .hero-stage :deep(.chat) {
-    max-height: 44svh;
+  .headline {
+    font-size: 16vw;
   }
   .hero-copy {
-    order: 3;
-    padding: 1.5rem 0 0;
+    padding-bottom: 2.5rem;
   }
-  .wordmark {
-    position: static;
-    order: 2;
-    margin-top: -3vw;
-    font-size: 21vw;
-    transform: none;
-    animation: none;
-  }
-  .steps {
-    gap: 2rem;
+  .claim {
+    max-width: 28ch;
+    font-size: 1.125rem;
   }
 }
 </style>

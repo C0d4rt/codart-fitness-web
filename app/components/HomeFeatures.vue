@@ -1,65 +1,67 @@
 <script setup lang="ts">
-import { goalScreen, LOG_MODES, type LogMode, logModeScreen, reminderScreen } from '#shared/screens'
+const BANDS = [
+  {
+    id: 'audio',
+    sentence: 'Mande um áudio no caminho.',
+    consequence: 'Sete segundos de áudio e o café da manhã está anotado: 234 kcal.',
+    tone: 'lime',
+  },
+  {
+    id: 'photo',
+    sentence: 'Fotografe o prato inteiro.',
+    consequence:
+      'Você confere o que foi visto e corrige as gramas antes de registrar. No Premium e no teste.',
+    tone: 'mango',
+  },
+  {
+    id: 'suggestion',
+    sentence: 'Pergunte o que jantar.',
+    consequence: 'Faltam 620 kcal? Vêm três ideias que cabem nisso, do que tem na sua despensa.',
+    tone: 'mint',
+  },
+  {
+    id: 'meals',
+    sentence: 'Divida a meta por refeição.',
+    consequence: 'Café 20%, almoço 30%, lanche 10% e jantar 40%, e cada registro diz quanto cabe.',
+    tone: 'green',
+  },
+  {
+    id: 'fasting',
+    sentence: 'Faça jejum sem olhar o relógio.',
+    consequence: 'Diga "faço jejum 16:8" uma vez, e o aviso chega quando as 16 horas terminarem.',
+    tone: 'surface',
+  },
+] as const
 
-const mode = useState<LogMode>('mode', () => 'text')
-const goal = useState('goal', () => 1800)
-const reminders = useState('reminders', () => true)
-const stage = useStage()
-
-watch(mode, (value) => (stage.value = logModeScreen(value)))
-watch(goal, (value) => (stage.value = goalScreen(value)))
-watch(reminders, (value) => (stage.value = reminderScreen(value)))
-
-const thousands = (value: number) => value.toLocaleString('pt-BR')
+const on = ref<Record<string, boolean>>({ audio: true, photo: true })
+const toggle = (id: string) => (on.value[id] = !on.value[id])
 </script>
 
 <template>
-  <section id="do-seu-jeito" class="features">
-    <h2 class="heading">Do jeito mais fácil</h2>
-
-    <div class="block" data-stage="mode">
-      <p class="sentence">Texto, áudio ou foto.</p>
-      <p>
-        Escreva como falaria, grave um áudio no caminho ou fotografe o prato. A foto do prato é do
-        Premium, e o teste tem tudo.
-      </p>
-      <div class="segmented" role="group" aria-label="Como registrar">
-        <button
-          v-for="each in LOG_MODES"
-          :key="each.id"
-          type="button"
-          :aria-pressed="mode === each.id"
-          @click="mode = each.id"
-        >
-          {{ each.name }}
-        </button>
+  <section id="do-seu-jeito" class="features" data-chapter="paper">
+    <h2 class="title">Do seu jeito, no seu ritmo.</h2>
+    <div
+      v-for="band in BANDS"
+      :key="band.id"
+      class="band"
+      :class="[band.tone, { on: on[band.id] }]"
+      :data-chapter="on[band.id] ? band.tone : 'paper'"
+    >
+      <div class="words">
+        <h3 :id="`band-${band.id}`" class="sentence">{{ band.sentence }}</h3>
+        <p class="consequence" :hidden="!on[band.id]">{{ band.consequence }}</p>
       </div>
-      <div class="inline-stage"><ChatWindow :screen="logModeScreen(mode)" /></div>
-    </div>
-
-    <div class="block" data-stage="goal">
-      <p class="sentence">A meta é sua.</p>
-      <p>
-        Ela sai de uma conta com o seu peso, a altura, a idade e a atividade, e muda pela conversa
-        quando você quiser. Arraste e veja a resposta.
-      </p>
-      <label class="slider">
-        <span>Meta do dia: {{ thousands(goal) }} kcal</span>
-        <input v-model.number="goal" type="range" min="1200" max="3000" step="50" />
-      </label>
-      <div class="inline-stage"><ChatWindow :screen="goalScreen(goal)" /></div>
-    </div>
-
-    <div class="block" data-stage="reminder">
-      <p class="sentence">Um lembrete, e só um.</p>
-      <p>
-        Se você some por um dia, chega uma mensagem curta para retomar. Não quer? Responda "parar".
-      </p>
-      <label class="toggle">
-        <input v-model="reminders" type="checkbox" role="switch" />
-        <span>Lembretes {{ reminders ? 'ligados' : 'desligados' }}</span>
-      </label>
-      <div class="inline-stage"><ChatWindow :screen="reminderScreen(reminders)" /></div>
+      <button
+        type="button"
+        role="switch"
+        class="switch"
+        data-ui
+        :aria-checked="on[band.id] ? 'true' : 'false'"
+        :aria-labelledby="`band-${band.id}`"
+        @click="toggle(band.id)"
+      >
+        <span class="knob" />
+      </button>
     </div>
   </section>
 </template>
@@ -67,81 +69,134 @@ const thousands = (value: number) => value.toLocaleString('pt-BR')
 <style scoped>
 .features {
   display: grid;
-  gap: 4.5rem;
 }
 
-.heading {
+.title {
+  padding: calc(var(--header) + 3rem) var(--margin) 2.5rem;
   font-size: var(--step-head);
 }
 
-.block {
+.band {
   display: grid;
-  gap: 1.25rem;
-  min-height: 50vh;
-  align-content: start;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 2rem;
+  min-height: 20vh;
+  padding: 1.75rem var(--margin);
+  color: var(--muted);
+  transition:
+    background-color 300ms ease,
+    color 300ms ease;
 }
 
-.sentence {
-  font-family: var(--font-display);
-  font-size: var(--step-lead);
-  line-height: 1.15;
+.band.on {
+  color: var(--ink);
 }
 
-.segmented {
-  display: inline-grid;
-  grid-auto-flow: column;
-  justify-self: start;
+.band.on.lime {
+  background: var(--lime);
+}
+
+.band.on.mango {
+  background: var(--mango);
+}
+
+.band.on.mint {
+  background: var(--mint);
+}
+
+.band.on.green {
+  background: var(--green);
+}
+
+.band.on.surface {
   background: var(--surface);
 }
 
-.segmented button {
-  min-width: 6.5rem;
-  min-height: 2.75rem;
-  padding: 0 1rem;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  user-select: none;
-  -webkit-user-select: none;
-  transition:
-    background-color 180ms ease,
-    color 180ms ease,
-    transform 140ms var(--ease-out);
-}
-
-.segmented button[aria-pressed='true'] {
-  background: var(--accent);
-  color: var(--accent-ink);
-}
-
-.segmented button:active {
-  transform: scale(0.97);
-}
-
-.slider {
+.words {
   display: grid;
   gap: 0.5rem;
-  max-width: 26rem;
 }
 
-.slider input {
-  width: 100%;
-  accent-color: var(--accent);
-  min-height: 2.75rem;
+.sentence {
+  font-size: var(--step-head);
+  letter-spacing: -0.035em;
+  line-height: 1.02;
 }
 
-.toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  justify-self: start;
-  min-height: 2.75rem;
+.consequence {
+  max-width: 52ch;
+  font-size: var(--step-body);
+  font-weight: 500;
+}
+
+.consequence:not([hidden]) {
+  animation: open 320ms var(--ease-out);
+}
+
+@keyframes open {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.switch {
+  position: relative;
+  width: 4.75rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--ink) 18%, transparent);
   cursor: pointer;
+  transition: background-color 220ms ease;
 }
 
-.toggle input {
-  width: 1.375rem;
-  height: 1.375rem;
-  accent-color: var(--accent);
+.knob {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--paper);
+  transition: transform 260ms var(--ease-out);
+}
+
+.switch[aria-checked='true'] {
+  background: var(--ink);
+}
+
+.switch[aria-checked='true'] .knob {
+  background: var(--lime);
+  transform: translateX(2.25rem);
+}
+
+.switch:active .knob {
+  width: 2.375rem;
+}
+
+.switch[aria-checked='true']:active .knob {
+  transform: translateX(1.875rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .consequence:not([hidden]) {
+    animation: none;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .band {
+    min-height: 8.25rem;
+    gap: 1rem;
+  }
+  .sentence {
+    font-size: 1.625rem;
+  }
+  .consequence {
+    font-size: 0.9375rem;
+  }
 }
 </style>

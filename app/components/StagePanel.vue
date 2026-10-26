@@ -15,10 +15,10 @@ const screen = computed(() => stage.value ?? props.fallback)
 <style scoped>
 .stage {
   position: sticky;
-  top: 0;
+  top: var(--header);
   display: grid;
   place-items: center;
-  height: 100svh;
+  height: calc(100svh - var(--header));
   padding: 1.25rem 0 1.25rem 1.25rem;
 }
 
