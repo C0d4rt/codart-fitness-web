@@ -50,7 +50,6 @@ useSeoMeta({
       </table>
     </section>
 
-    <HomeStart />
     <SiteFooter />
   </div>
 </template>

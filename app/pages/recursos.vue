@@ -44,16 +44,21 @@ const planLine = (plan: 'basic' | 'premium') =>
       </article>
     </section>
 
-    <HomeStart />
     <SiteFooter />
   </div>
 </template>
 
 <style scoped>
+.intro,
+.group {
+  width: min(100% - 2 * var(--margin), 59rem);
+  margin-inline: auto;
+}
+
 .intro {
   display: grid;
   gap: 1.25rem;
-  padding: 4rem var(--margin) 2rem;
+  padding: 4rem 0 2rem;
 }
 
 .title {
@@ -70,7 +75,7 @@ const planLine = (plan: 'basic' | 'premium') =>
 .group {
   display: grid;
   gap: 4rem;
-  padding: 6rem var(--margin) 0;
+  padding: 6rem 0 0;
 }
 
 .group-name {
@@ -80,7 +85,8 @@ const planLine = (plan: 'basic' | 'premium') =>
 
 .feature {
   display: grid;
-  grid-template-columns: 5fr 7fr;
+  grid-template-columns: minmax(0, 30rem) minmax(0, 26rem);
+  justify-content: space-between;
   gap: 3rem;
   align-items: center;
   scroll-margin-top: 1.5rem;
@@ -112,7 +118,7 @@ const planLine = (plan: 'basic' | 'premium') =>
 
 .example {
   display: grid;
-  place-items: center end;
+  place-items: center start;
 }
 
 .chat {
@@ -123,6 +129,12 @@ const planLine = (plan: 'basic' | 'premium') =>
   .feature {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+  .example {
+    place-items: stretch;
+  }
+  .chat {
+    width: 100%;
   }
 }
 </style>

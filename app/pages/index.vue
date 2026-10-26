@@ -39,7 +39,6 @@ useSeoMeta({
     <HomeShowcase />
     <PlanCards :catalog="catalog" />
     <HomeFaq :trial-days="catalog.trialDays" />
-    <HomeStart />
     <SiteFooter />
   </div>
 </template>
