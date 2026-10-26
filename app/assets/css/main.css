@@ -1,43 +1,40 @@
 :root {
-  --paper: #f4f6ee;
-  --surface: #e6ecdf;
-  --ink: #0c1f14;
-  --muted: #3d5446;
-  --green: #1fa855;
-  --green-ink: #13793d;
-  --lime: #d7f35b;
-  --mango: #ffb547;
-  --mint: #bfe8c9;
+  --paper: #f6f7f4;
+  --surface: #e9ece6;
+  --ink: #1d2a24;
+  --muted: #56645d;
+  --sage: #2e6a4f;
 
   --bg: var(--paper);
-  --accent: var(--lime);
-  --accent-ink: var(--ink);
+  --accent: var(--sage);
+  --accent-ink: #ffffff;
   --field: var(--ink);
   --field-ink: var(--paper);
 
-  --chat-bg: #dde6de;
+  --chat-bg: #e3e8e2;
   --chat-bot: #ffffff;
-  --chat-you: #d9fdd3;
-  --chat-ink: #111b21;
-  --chat-meta: #5f6f78;
+  --chat-you: #dff3dc;
+  --chat-ink: #17201c;
+  --chat-meta: #5f6b66;
   --chat-bar: var(--ink);
   --chat-bar-ink: var(--paper);
 
-  --font: 'General Sans', system-ui, sans-serif;
+  --font: 'Switzer', system-ui, sans-serif;
   --font-display: var(--font);
   --font-text: var(--font);
 
   --step-small: 0.875rem;
-  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
-  --step-lead: clamp(1.375rem, 1.15rem + 0.9vw, 2rem);
-  --step-head: clamp(2.25rem, 1.2rem + 4.2vw, 4.75rem);
-  --step-display: clamp(4rem, 1rem + 10.5vw, 10rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.2vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.75rem);
+  --step-head: clamp(2.25rem, 1.4rem + 3vw, 4rem);
+  --step-display: clamp(3.5rem, 1rem + 7.6vw, 8rem);
 
-  --margin: clamp(1.25rem, 0.8rem + 2vw, 2.5rem);
-  --gap-section: clamp(7rem, 4rem + 9vw, 12rem);
-  --header: 4rem;
-  --measure: 46ch;
-  --radius: 999px;
+  --margin: clamp(1.25rem, 0.5rem + 4vw, 6rem);
+  --gutter: 1.5rem;
+  --gap-section: clamp(7rem, 4rem + 9vw, 14rem);
+  --header: 0rem;
+  --measure: 40ch;
+  --radius: 0;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -55,7 +52,7 @@ html {
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--header) + 1rem);
+  scroll-padding-top: 1.5rem;
 }
 
 body {
@@ -65,6 +62,7 @@ body {
   font-family: var(--font);
   font-size: var(--step-body);
   line-height: 1.5;
+  letter-spacing: -0.01em;
   overflow-x: clip;
 }
 
@@ -84,9 +82,9 @@ dd {
 h1,
 h2,
 h3 {
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 0.95;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
   text-wrap: balance;
 }
 
@@ -96,8 +94,8 @@ p {
 
 a {
   color: inherit;
-  text-underline-offset: 0.2em;
-  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
 }
 
 button,
@@ -122,13 +120,13 @@ img {
 }
 
 :focus-visible {
-  outline: 3px solid var(--ink);
+  outline: 2px solid var(--sage);
   outline-offset: 3px;
 }
 
 ::selection {
-  background: var(--lime);
-  color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
 }
 
 .visually-hidden {
@@ -144,23 +142,23 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 3.5rem;
-  padding: 0 1.875rem;
+  min-height: 3.25rem;
+  padding: 0 1.75rem;
   border: 0;
   border-radius: var(--radius);
-  background: var(--ink);
-  color: var(--lime);
+  background: var(--sage);
+  color: #ffffff;
   font-family: var(--font);
   font-size: var(--step-body);
   font-weight: 500;
+  letter-spacing: -0.01em;
   text-decoration: none;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
   transition:
     transform 160ms var(--ease-out),
-    background-color 200ms ease,
-    color 200ms ease;
+    background-color 200ms ease;
 }
 
 .button:active {
@@ -168,27 +166,27 @@ img {
 }
 
 .button--inverse {
-  background: var(--lime);
+  background: var(--paper);
   color: var(--ink);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
-    background: color-mix(in oklab, var(--ink) 82%, var(--green));
+    background: color-mix(in oklab, var(--sage) 86%, var(--ink));
   }
   .button--inverse:hover {
-    background: color-mix(in oklab, var(--lime) 82%, var(--paper));
+    background: var(--surface);
   }
 }
 
 /* Content stays visible without script: only a page that runs the observer hides it first. */
 .js [data-reveal] > * {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(20px);
   transition:
-    opacity 520ms var(--ease-out),
-    transform 620ms var(--ease-out);
-  transition-delay: calc(var(--i, 0) * 75ms);
+    opacity 600ms var(--ease-out),
+    transform 700ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 80ms);
 }
 
 .js [data-reveal].is-in > * {

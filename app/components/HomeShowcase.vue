@@ -4,234 +4,246 @@ import { SHOWCASE_OUTPUTS, type ShowcaseOutput, showcaseScreen } from '#shared/s
 const selected = useState<ShowcaseOutput>('showcase', () => 'day')
 const screen = computed(() => showcaseScreen(selected.value))
 
-const CAPTIONS: Record<ShowcaseOutput, string> = {
-  day: 'O total do dia e quanto falta, a cada registro ou quando você perguntar.',
-  week: 'Toda segunda, o resumo da semana anterior, com um gráfico das calorias e dos macros.',
-  weight: 'A evolução desde o primeiro registro, ou dos últimos 30 ou 90 dias.',
-  nutrients: 'Sódio, fibra, açúcar e mais, contra os valores de referência da ANVISA.',
-  file: 'Tudo numa planilha, para abrir no Excel ou levar à consulta. No Premium.',
-}
-
-const PHOTOS: Record<ShowcaseOutput, { src: string; width: number; height: number }> = {
-  day: { src: '/images/salada.jpg', width: 1400, height: 933 },
-  week: { src: '/images/corrida.jpg', width: 1600, height: 1200 },
-  weight: { src: '/images/treino.jpg', width: 1400, height: 931 },
-  nutrients: { src: '/images/frutas.jpg', width: 1400, height: 941 },
-  file: { src: '/images/halter.jpg', width: 1400, height: 931 },
+const FRAMES: Record<
+  ShowcaseOutput,
+  { src: string; width: number; height: number; fact: string; note: string }
+> = {
+  day: {
+    src: '/images/salada.jpg',
+    width: 1400,
+    height: 933,
+    fact: 'a cada registro',
+    note: 'O total do dia e quanto falta, a cada registro ou quando você perguntar.',
+  },
+  week: {
+    src: '/images/corrida.jpg',
+    width: 1600,
+    height: 1200,
+    fact: 'toda segunda',
+    note: 'Toda segunda, o resumo da semana anterior, com um gráfico das calorias e dos macros.',
+  },
+  weight: {
+    src: '/images/treino.jpg',
+    width: 1400,
+    height: 931,
+    fact: '30 ou 90 dias',
+    note: 'A evolução desde o primeiro registro, ou dos últimos 30 ou 90 dias.',
+  },
+  nutrients: {
+    src: '/images/frutas.jpg',
+    width: 1400,
+    height: 941,
+    fact: 'ANVISA',
+    note: 'Sódio, fibra, açúcar e mais, contra os valores de referência da ANVISA.',
+  },
+  file: {
+    src: '/images/refeicao.jpg',
+    width: 1400,
+    height: 934,
+    fact: 'no Premium',
+    note: 'Tudo numa planilha, para abrir no Excel ou levar à consulta. No Premium.',
+  },
 }
 </script>
 
 <template>
-  <section id="o-que-volta" class="showcase" data-chapter="paper" aria-labelledby="showcase-title">
-    <h2 id="showcase-title" class="title">O que ele te devolve</h2>
-    <div class="index" data-reveal>
-      <div class="names" role="group" aria-label="Escolha uma resposta para ver">
+  <section id="o-que-volta" class="showcase" aria-labelledby="showcase-title">
+    <div class="side">
+      <h2 id="showcase-title" class="title">O que ele te devolve</h2>
+      <NuxtLink to="/planos" class="link">Ver cada função com exemplos</NuxtLink>
+      <p class="note" aria-live="polite">{{ FRAMES[selected].note }}</p>
+    </div>
+
+    <div class="run">
+      <div
+        v-for="output in SHOWCASE_OUTPUTS"
+        :key="output.id"
+        class="frame"
+        :class="{ lifted: selected === output.id }"
+      >
+        <ChatWindow v-if="selected === output.id" :screen="screen" class="answer" />
         <button
-          v-for="output in SHOWCASE_OUTPUTS"
-          :key="output.id"
+          v-else
           type="button"
-          class="name"
-          :aria-pressed="selected === output.id"
+          class="picture"
+          tabindex="-1"
+          aria-hidden="true"
           @click="selected = output.id"
         >
-          {{ output.name }}
-        </button>
-      </div>
-    </div>
-
-    <div class="stage">
-      <div class="disc">
-        <Transition name="fade">
           <img
-            :key="selected"
-            :src="PHOTOS[selected].src"
+            :src="FRAMES[output.id].src"
             alt=""
-            :width="PHOTOS[selected].width"
-            :height="PHOTOS[selected].height"
+            :width="FRAMES[output.id].width"
+            :height="FRAMES[output.id].height"
             loading="lazy"
           />
-        </Transition>
+        </button>
+        <div class="meta">
+          <button
+            type="button"
+            class="name"
+            :aria-pressed="selected === output.id"
+            @click="selected = output.id"
+          >
+            {{ output.name }}
+          </button>
+          <span class="fact">{{ FRAMES[output.id].fact }}</span>
+        </div>
       </div>
-      <ChatWindow :screen="screen" class="answer" />
     </div>
-
-    <p class="caption" aria-live="polite">{{ CAPTIONS[selected] }}</p>
   </section>
 </template>
 
 <style scoped>
 .showcase {
-  --disc: min(64vh, 40vw);
+  --row: 30vh;
   display: grid;
-  grid-template-columns: 1fr var(--disc) minmax(12rem, 1fr);
-  grid-template-rows: 1fr auto;
-  align-items: end;
-  column-gap: 2.5rem;
-  min-height: 100svh;
-  padding: calc(var(--header) + 4rem) var(--margin) 4rem;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  padding: var(--gap-section) var(--margin) 0;
+}
+
+.side {
+  grid-column: 1 / 4;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 1rem;
+  padding-right: var(--gutter);
 }
 
 .title {
-  grid-column: 1;
-  grid-row: 1;
-  align-self: start;
-}
-
-.index {
-  grid-column: 1;
-  grid-row: 2;
-  display: grid;
-  gap: 0.25rem;
-}
-
-.stage {
-  grid-column: 2;
-  grid-row: 1 / 3;
-}
-
-.caption {
-  grid-column: 3;
-  grid-row: 1 / 3;
-}
-
-.title,
-.name {
   font-size: var(--step-lead);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.12;
+  line-height: 1.15;
 }
 
-.title {
-  max-width: 9ch;
-  margin-bottom: 0.5rem;
-  color: var(--green-ink);
+.link {
+  font-weight: 500;
 }
 
-.names {
+.note {
+  align-self: end;
+  max-width: 26ch;
+  margin-bottom: 2.25rem;
+  color: var(--muted);
+  font-size: var(--step-small);
+}
+
+.run {
+  grid-column: 4 / 13;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.frame {
+  flex: 1 1 0;
+  min-width: 0;
   display: grid;
-  justify-items: start;
+  gap: 0.5rem;
+}
+
+.lifted {
+  flex: none;
+}
+
+.picture {
+  display: block;
+  width: 100%;
+  height: var(--row);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .picture:hover img {
+    transform: scale(1.04);
+  }
+}
+
+.answer {
+  width: min(21rem, 80vw);
+  min-height: calc(var(--row) * 2.2);
+  max-height: none;
+  animation: lift 500ms var(--ease-out);
+}
+
+.answer :deep(.thread) {
+  flex: 1;
+}
+
+@keyframes lift {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 0.75rem;
+  font-size: var(--step-small);
 }
 
 .name {
   padding: 0;
   border: 0;
   background: none;
-  color: var(--muted);
-  font-weight: 500;
+  color: var(--ink);
+  font-weight: 400;
   text-align: left;
   cursor: pointer;
-  transition:
-    color 180ms ease,
-    transform 160ms var(--ease-out);
 }
 
 .name[aria-pressed='true'] {
-  color: var(--ink);
-  font-weight: 700;
-}
-
-.name:active {
-  transform: scale(0.98);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .name:hover {
-    color: var(--ink);
-  }
-}
-
-.stage {
-  display: grid;
-  place-items: center;
-  align-self: center;
-}
-
-.disc,
-.answer {
-  grid-area: 1 / 1;
-}
-
-.disc {
-  position: relative;
-  width: var(--disc);
-  aspect-ratio: 1;
-  overflow: hidden;
-  border-radius: 50%;
-  background: var(--lime);
-}
-
-.disc img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.answer {
-  position: relative;
-  width: min(100%, 22rem);
-  max-height: calc(var(--disc) * 0.92);
-  transform: translateY(-14%);
-}
-
-.caption {
-  max-width: 24ch;
-  align-self: center;
-  font-size: var(--step-body);
   font-weight: 500;
+  text-decoration: underline;
 }
 
-.fade-enter-active {
-  transition: opacity 300ms ease;
+.fact {
+  color: var(--muted);
 }
 
-.fade-leave-active {
-  transition: opacity 300ms ease 100ms;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+@media (prefers-reduced-motion: reduce) {
+  .answer {
+    animation: none;
+  }
 }
 
 @media (max-width: 63.99rem) {
   .showcase {
-    --disc: 86vw;
-    grid-template-columns: 1fr;
-    row-gap: 1.5rem;
-    min-height: auto;
-    padding-top: calc(var(--header) + 2rem);
+    --row: 22vw;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
-  .title,
-  .index,
-  .stage,
-  .caption {
-    grid-column: 1;
-    grid-row: auto;
+  .note {
+    margin: 0;
+  }
+  .run {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem 6px;
+  }
+  .lifted {
+    grid-column: 1 / -1;
+    order: -1;
   }
   .answer {
-    width: 78vw;
-    max-height: calc(var(--disc) * 0.86);
-    transform: none;
-  }
-  .names {
-    display: flex;
-    gap: 1.5rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-  }
-  .name {
-    flex: none;
-    font-size: 1.625rem;
-    scroll-snap-align: start;
-  }
-  .caption {
-    max-width: none;
-    font-size: 1rem;
+    width: 100%;
+    height: auto;
+    max-height: 70svh;
   }
 }
 </style>

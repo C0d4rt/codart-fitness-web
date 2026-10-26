@@ -34,7 +34,9 @@ test('no third party script loads before consent', async ({ page }) => {
 test('the showcase swaps the answer the visitor picks', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'A semana' }).click()
-  await expect(page.locator('#o-que-volta').getByText('Resumo da semana')).toBeVisible()
+  await expect(
+    page.locator('#o-que-volta').getByText('Resumo da semana', { exact: true }),
+  ).toBeVisible()
 })
 
 for (const path of ['/', '/planos']) {

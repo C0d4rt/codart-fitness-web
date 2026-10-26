@@ -1,67 +1,82 @@
 <script setup lang="ts">
-const BANDS = [
+const ROWS = [
   {
-    id: 'audio',
-    sentence: 'Mande um áudio no caminho.',
-    consequence: 'Sete segundos de áudio e o café da manhã está anotado: 234 kcal.',
-    tone: 'lime',
+    title: 'Do jeito que você falaria',
+    text: 'Texto, áudio ou foto do prato, do rótulo ou do código de barras. O diário entende "uma concha de feijão" e "duas colheres de arroz".',
+    photo: {
+      src: '/images/brunch.jpg',
+      width: 1600,
+      height: 1100,
+      alt: 'Uma tigela de frutas vista de cima',
+    },
+    shape: 'portrait',
   },
   {
-    id: 'photo',
-    sentence: 'Fotografe o prato inteiro.',
-    consequence:
-      'Você confere o que foi visto e corrige as gramas antes de registrar. No Premium e no teste.',
-    tone: 'mango',
+    title: 'A meta é sua',
+    text: 'Ela sai do seu peso, da altura, da idade e da atividade, e muda pela conversa. Divida por refeição, defina macros em gramas ou outra meta para o fim de semana.',
+    photo: {
+      src: '/images/refeicao.jpg',
+      width: 1400,
+      height: 934,
+      alt: 'Uma pessoa comendo uma salada de beterraba numa mesa de madeira',
+    },
+    shape: 'wide',
   },
   {
-    id: 'suggestion',
-    sentence: 'Pergunte o que jantar.',
-    consequence: 'Faltam 620 kcal? Vêm três ideias que cabem nisso, do que tem na sua despensa.',
-    tone: 'mint',
+    title: 'O que jantar, dentro do que falta',
+    text: 'Pergunte e receba três ideias que cabem no que falta da meta, preferindo o que já está na sua despensa.',
+    photo: {
+      src: '/images/frutas.jpg',
+      width: 1400,
+      height: 941,
+      alt: 'Framboesas e mirtilos num prato branco',
+    },
+    shape: 'square',
   },
   {
-    id: 'meals',
-    sentence: 'Divida a meta por refeição.',
-    consequence: 'Café 20%, almoço 30%, lanche 10% e jantar 40%, e cada registro diz quanto cabe.',
-    tone: 'green',
+    title: 'Jejum sem olhar o relógio',
+    text: 'Diga "faço jejum 16:8" uma vez. O jejum começa na última refeição, e o aviso chega quando a janela terminar.',
+    photo: {
+      src: '/images/halter.jpg',
+      width: 1400,
+      height: 931,
+      alt: 'Uma mão com luva de treino segurando um halter vermelho',
+    },
+    shape: 'portrait',
   },
   {
-    id: 'fasting',
-    sentence: 'Faça jejum sem olhar o relógio.',
-    consequence: 'Diga "faço jejum 16:8" uma vez, e o aviso chega quando as 16 horas terminarem.',
-    tone: 'surface',
+    title: 'Um lembrete, e só um',
+    text: 'Se você some por um dia, chega uma mensagem curta para retomar. Responda "parar" e ela não volta.',
+    photo: {
+      src: '/images/treino.jpg',
+      width: 1400,
+      height: 931,
+      alt: 'Uma pessoa treinando com halter em casa',
+    },
+    shape: 'wide',
   },
 ] as const
-
-const on = ref<Record<string, boolean>>({ audio: true, photo: true })
-const toggle = (id: string) => (on.value[id] = !on.value[id])
 </script>
 
 <template>
-  <section id="do-seu-jeito" class="features" data-chapter="paper">
-    <h2 class="title">Do seu jeito, no seu ritmo.</h2>
-    <div
-      v-for="band in BANDS"
-      :key="band.id"
-      class="band"
-      :class="[band.tone, { on: on[band.id] }]"
-      :data-chapter="on[band.id] ? band.tone : 'paper'"
-    >
+  <section id="do-seu-jeito" class="features" aria-labelledby="features-title">
+    <div class="opening">
+      <h2 id="features-title" class="statement">Feito para caber no seu dia.</h2>
+    </div>
+    <div v-for="row in ROWS" :key="row.title" class="row" data-reveal>
       <div class="words">
-        <h3 :id="`band-${band.id}`" class="sentence">{{ band.sentence }}</h3>
-        <p class="consequence" :hidden="!on[band.id]">{{ band.consequence }}</p>
+        <h3 class="row-title">{{ row.title }}</h3>
+        <p>{{ row.text }}</p>
       </div>
-      <button
-        type="button"
-        role="switch"
-        class="switch"
-        data-ui
-        :aria-checked="on[band.id] ? 'true' : 'false'"
-        :aria-labelledby="`band-${band.id}`"
-        @click="toggle(band.id)"
-      >
-        <span class="knob" />
-      </button>
+      <figure class="photo" :class="row.shape">
+        <img
+          :src="row.photo.src"
+          :alt="row.photo.alt"
+          :width="row.photo.width"
+          :height="row.photo.height"
+          loading="lazy"
+        />
+      </figure>
     </div>
   </section>
 </template>
@@ -69,134 +84,113 @@ const toggle = (id: string) => (on.value[id] = !on.value[id])
 <style scoped>
 .features {
   display: grid;
+  gap: 7rem;
+  padding: var(--gap-section) var(--margin) 0;
 }
 
-.title {
-  padding: calc(var(--header) + 3rem) var(--margin) 2.5rem;
+.opening {
+  display: grid;
+  align-items: center;
+  min-height: 44svh;
+  padding-left: calc((100% + var(--gutter)) / 12 * 4);
+}
+
+.statement {
+  max-width: 13ch;
   font-size: var(--step-head);
 }
 
-.band {
+.row {
   display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 2rem;
-  min-height: 20vh;
-  padding: 1.75rem var(--margin);
-  color: var(--muted);
-  transition:
-    background-color 300ms ease,
-    color 300ms ease;
-}
-
-.band.on {
-  color: var(--ink);
-}
-
-.band.on.lime {
-  background: var(--lime);
-}
-
-.band.on.mango {
-  background: var(--mango);
-}
-
-.band.on.mint {
-  background: var(--mint);
-}
-
-.band.on.green {
-  background: var(--green);
-}
-
-.band.on.surface {
-  background: var(--surface);
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  align-items: start;
 }
 
 .words {
+  grid-column: 5 / 10;
   display: grid;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
-.sentence {
-  font-size: var(--step-head);
-  letter-spacing: -0.035em;
-  line-height: 1.02;
+.row-title {
+  font-size: var(--step-lead);
 }
 
-.consequence {
-  max-width: 52ch;
-  font-size: var(--step-body);
-  font-weight: 500;
+.words p {
+  max-width: 34ch;
+  color: var(--muted);
 }
 
-.consequence:not([hidden]) {
-  animation: open 320ms var(--ease-out);
+.photo {
+  grid-column: 10 / 13;
+  justify-self: end;
+  overflow: hidden;
 }
 
-@keyframes open {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
+.photo img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.portrait {
+  width: 15rem;
+}
+
+.portrait img {
+  aspect-ratio: 4 / 5;
+}
+
+.wide {
+  width: 20rem;
+}
+
+.wide img {
+  aspect-ratio: 3 / 2;
+}
+
+.square {
+  width: 11.25rem;
+}
+
+.square img {
+  aspect-ratio: 1;
+}
+
+@media (max-width: 63.99rem) {
+  .portrait {
+    width: 12rem;
   }
-}
-
-.switch {
-  position: relative;
-  width: 4.75rem;
-  height: 2.5rem;
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius);
-  background: color-mix(in oklab, var(--ink) 18%, transparent);
-  cursor: pointer;
-  transition: background-color 220ms ease;
-}
-
-.knob {
-  position: absolute;
-  top: 0.25rem;
-  left: 0.25rem;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: var(--paper);
-  transition: transform 260ms var(--ease-out);
-}
-
-.switch[aria-checked='true'] {
-  background: var(--ink);
-}
-
-.switch[aria-checked='true'] .knob {
-  background: var(--lime);
-  transform: translateX(2.25rem);
-}
-
-.switch:active .knob {
-  width: 2.375rem;
-}
-
-.switch[aria-checked='true']:active .knob {
-  transform: translateX(1.875rem);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .consequence:not([hidden]) {
-    animation: none;
+  .wide {
+    width: 15rem;
   }
 }
 
 @media (max-width: 47.99rem) {
-  .band {
-    min-height: 8.25rem;
-    gap: 1rem;
+  .features {
+    gap: 4rem;
   }
-  .sentence {
-    font-size: 1.625rem;
+  .opening {
+    min-height: 30svh;
+    padding-left: 0;
   }
-  .consequence {
-    font-size: 0.9375rem;
+  .row {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .photo {
+    justify-self: auto;
+  }
+  .portrait {
+    width: 100%;
+  }
+  .wide {
+    width: 70%;
+    align-self: flex-end;
+  }
+  .square {
+    width: 55%;
   }
 }
 </style>

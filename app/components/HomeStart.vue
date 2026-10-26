@@ -1,57 +1,100 @@
+<script setup lang="ts">
+import { brand } from '~/brand'
+
+const href = useWhatsAppLink(() => brand.whatsappGreeting)
+const { $analytics } = useNuxtApp()
+</script>
+
 <template>
-  <section class="start" data-chapter="ink" aria-labelledby="comece">
-    <h2 id="comece" class="line" data-reveal><span>Comece pelo almoço.</span></h2>
-    <div class="foot">
-      <p>
-        O WhatsApp abre com a mensagem escrita. Mande, e os 7 dias grátis começam ali, sem cadastro
-        e sem cartão.
+  <section class="start" aria-labelledby="comece">
+    <div class="strip" aria-hidden="true">
+      <img src="/images/brunch.jpg" alt="" width="1600" height="1100" loading="lazy" />
+      <img src="/images/halter.jpg" alt="" width="1400" height="931" loading="lazy" />
+      <img src="/images/frutas.jpg" alt="" width="1400" height="941" loading="lazy" />
+    </div>
+    <div class="band" data-reveal>
+      <h2 id="comece" class="title">Comece pelo almoço de hoje.</h2>
+      <p class="statement">
+        <a :href="href" target="_blank" rel="noopener" @click="$analytics?.lead('start')"
+          >Mande um oi no WhatsApp</a
+        >
+        e teste por 7 dias, com tudo do Premium.
       </p>
-      <WhatsAppButton location="start" inverse />
+      <p class="small">
+        O WhatsApp abre com a mensagem escrita. Sem cadastro, sem cartão e sem app novo.
+      </p>
     </div>
   </section>
 </template>
 
 <style scoped>
 .start {
+  margin-top: 0;
+}
+
+.strip {
   display: grid;
-  grid-template-rows: 1fr auto;
-  min-height: 90svh;
-  margin-top: clamp(5rem, 3rem + 5vw, 8rem);
-  padding: calc(var(--header) + 4rem) var(--margin) 2.5rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.strip img {
+  width: 100%;
+  height: 40svh;
+  object-fit: cover;
+}
+
+.band {
+  display: grid;
+  align-content: center;
+  gap: 1.5rem;
+  min-height: 44svh;
+  padding: 4rem var(--margin);
   background: var(--ink);
   color: var(--paper);
 }
 
-.line {
-  max-width: 11ch;
-  color: var(--lime);
-  font-size: var(--step-display);
-  line-height: 0.9;
-  letter-spacing: -0.05em;
+.title {
+  max-width: 14ch;
+  font-size: var(--step-head);
 }
 
-.foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1.5rem 3rem;
+.statement {
+  max-width: 30ch;
+  font-size: var(--step-lead);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
 }
 
-.foot p {
-  max-width: 38ch;
-  font-size: var(--step-body);
+.statement a {
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+  transition: color 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .statement a:hover {
+    color: #b9d8c6;
+  }
+}
+
+.small {
+  max-width: 40ch;
+  color: #c4ccc7;
+  font-size: var(--step-small);
 }
 
 @media (max-width: 47.99rem) {
-  .start {
-    min-height: 80svh;
+  .strip {
+    grid-template-columns: 1fr 1fr;
   }
-  .line {
-    font-size: 16vw;
+  .strip img:first-child {
+    grid-column: 1 / -1;
+    height: auto;
+    aspect-ratio: 4 / 3;
   }
-  .foot :deep(.button) {
-    width: 100%;
+  .strip img:not(:first-child) {
+    height: auto;
+    aspect-ratio: 1;
   }
 }
 </style>

@@ -34,13 +34,13 @@ const planLine = (plan: 'basic' | 'premium') =>
 
 <template>
   <div class="page">
+    <SiteNav />
     <div class="split">
       <div class="stage-col">
         <StagePanel :fallback="plansScreen" />
       </div>
       <div class="column">
         <header class="intro" data-stage="intro">
-          <SiteNav />
           <h1 class="title">Planos e o que cada um faz</h1>
           <p class="lead">
             Cada função com um exemplo da conversa, nas palavras e nos números que o diário usa. Os
@@ -80,7 +80,7 @@ const planLine = (plan: 'basic' | 'premium') =>
       </div>
     </div>
 
-    <PlanFields :catalog="catalog" />
+    <PlanMenu :catalog="catalog" />
     <HomeStart />
     <SiteFooter />
   </div>
