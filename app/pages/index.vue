@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { money } from '#shared/plans'
+import { HERO_SCREEN } from '#shared/screens'
 
 import { brand } from '~/brand'
 
@@ -18,119 +19,145 @@ useSeoMeta({
 
 <template>
   <div class="page">
-    <SiteNav />
+    <div class="stack">
+      <SiteNav />
 
-    <header id="hero" class="hero">
-      <figure class="small">
-        <img
-          src="/images/frutas.jpg"
-          alt="Framboesas e mirtilos num prato branco"
-          width="1400"
-          height="941"
-        />
-      </figure>
-      <h1 class="headline">
-        <span class="line one"><span>Conte o</span></span
-        >{{ ' ' }}
-        <span class="line two"><span>que comeu.</span></span>
-      </h1>
-      <figure class="tall">
-        <img
-          src="/images/brunch.jpg"
-          alt="Uma tigela de frutas com kiwi, banana e amoras, vista de cima"
-          width="1600"
-          height="1100"
-        />
-      </figure>
-      <div class="lead">
-        <p>
-          Um diário de dieta e treino dentro do WhatsApp. Mande texto, áudio ou foto e saiba quanto
-          falta da meta.
+      <header id="hero" class="hero">
+        <h1 class="headline display">
+          <span class="line"><span>Conte o que</span></span>
+          {{ ' ' }}
+          <span class="line"><span>você comeu</span></span>
+        </h1>
+        <div class="device">
+          <PhoneFrame :screen="HERO_SCREEN" />
+        </div>
+        <div class="left">
+          <p>
+            Seu diário de dieta e treino dentro do WhatsApp. Mande texto, áudio ou foto e saiba na
+            hora quanto falta da meta.
+          </p>
+          <WhatsAppButton location="hero" />
+        </div>
+        <p class="right">
+          {{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão.<br />
+          Depois, a partir de {{ from }} por mês.
         </p>
-        <WhatsAppButton location="hero" />
-        <p class="terms">
-          {{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão. Depois, a partir de
-          {{ from }} por mês.
-        </p>
-      </div>
-    </header>
+      </header>
 
-    <HomeDay />
-    <HomeShowcase />
-    <HomeFeatures />
-    <PlanMenu :catalog="catalog" />
-    <HomeSources />
-    <HomeFaq :trial-days="catalog.trialDays" />
-    <HomeStart />
+      <HomeHow />
+      <HomeShowcase />
+      <HomeFeatures />
+      <PlanReceipt :catalog="catalog" />
+      <HomeSources />
+      <HomeFaq :trial-days="catalog.trialDays" />
+      <HomeStart />
+    </div>
     <SiteFooter />
   </div>
 </template>
 
 <style scoped>
+.stack {
+  position: relative;
+  z-index: 1;
+  background: var(--ground);
+}
+
 .hero {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 30svh auto auto auto;
-  column-gap: var(--gutter);
-  min-height: calc(100svh - 5.5rem);
+  grid-template-columns: 1fr minmax(16rem, 22rem) 1fr;
+  grid-template-rows: auto 1fr;
+  column-gap: 3rem;
+  height: calc(100svh - 5rem);
+  min-height: 40rem;
+  overflow: hidden;
   padding: 0 var(--margin);
-}
-
-.small {
-  grid-column: 10 / 13;
-  grid-row: 1;
-  align-self: end;
-  margin-bottom: 1.25rem;
-}
-
-.small img {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
 }
 
 .headline {
   grid-column: 1 / -1;
-  grid-row: 2;
-  display: block;
+  justify-self: center;
+  margin-top: 6svh;
   font-size: var(--step-display);
-  line-height: 1;
-  letter-spacing: -0.045em;
+  line-height: 0.95;
+  text-align: center;
 }
 
 .line {
   display: block;
   overflow: hidden;
-  padding-bottom: 0.08em;
 }
 
 .line > span {
   display: block;
 }
 
-.one {
-  padding-left: calc((100% + var(--gutter)) / 12);
+.device {
+  grid-column: 2;
+  grid-row: 2;
+  position: relative;
+  z-index: 1;
+  margin-top: -1.2vw;
 }
 
-.two {
-  padding-left: calc((100% + var(--gutter)) / 12 * 5);
+.left,
+.right {
+  grid-row: 2;
+  align-self: end;
+  margin-bottom: 2.5rem;
+}
+
+.left {
+  grid-column: 1;
+  display: grid;
+  justify-items: start;
+  gap: 1.5rem;
+  max-width: 21rem;
+}
+
+.left p {
+  color: var(--ink);
+}
+
+.right {
+  grid-column: 3;
+  justify-self: end;
+  max-width: 19rem;
+  color: var(--muted);
+  font-size: var(--step-small);
+  text-align: right;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .line > span {
-    animation: rise 900ms var(--ease-out) both;
+    animation: rise 1s var(--ease-out) both;
   }
-  .two > span {
-    animation-delay: 110ms;
+  .line + .line > span {
+    animation-delay: 90ms;
   }
-  .lead {
-    animation: appear 700ms var(--ease-out) 420ms both;
+  .device {
+    animation: shutter 1.1s var(--ease-out) 250ms both;
+  }
+  .left,
+  .right {
+    animation: appear 700ms var(--ease-out) 650ms both;
   }
 }
 
 @keyframes rise {
   from {
     transform: translateY(105%);
+  }
+}
+
+@keyframes shutter {
+  from {
+    clip-path: inset(100% 0 0 0);
+    transform: translateY(8%) scale(1.04);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
   }
 }
 
@@ -141,73 +168,39 @@ useSeoMeta({
   }
 }
 
-.tall {
-  grid-column: 2 / 5;
-  grid-row: 3 / 5;
-  margin-top: 1.5rem;
-  overflow: hidden;
-}
-
-.tall img {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  object-position: 50% 50%;
-}
-
-.lead {
-  grid-column: 6 / 12;
-  grid-row: 3;
-  display: grid;
-  justify-items: start;
-  gap: 1.5rem;
-  margin-top: 2.5rem;
-}
-
-.lead > p:first-child {
-  max-width: 36ch;
-  color: var(--muted);
-  font-size: var(--step-lead);
-  line-height: 1.35;
-}
-
-.terms {
-  color: var(--muted);
-  font-size: var(--step-small);
-}
-
-@media (max-width: 47.99rem) {
+@media (max-width: 63.99rem) {
   .hero {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
-    min-height: auto;
-  }
-  .small {
-    grid-column: 1;
-    grid-row: 1;
-    justify-self: end;
-    width: 46%;
-    margin: 1rem 0 1.5rem;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
   }
   .headline {
+    font-size: 8.6vw;
+  }
+  .device {
+    grid-column: 1;
     grid-row: 2;
-    font-size: 14vw;
-  }
-  .one {
-    padding-left: 0;
-  }
-  .two {
-    padding-left: 18vw;
-  }
-  .tall {
-    grid-column: 1;
-    grid-row: 3;
-    width: 72%;
-  }
-  .lead {
-    grid-column: 1;
-    grid-row: 4;
+    justify-self: center;
+    width: min(64vw, 20rem);
+    height: 62svh;
+    overflow: hidden;
     margin-top: 1.5rem;
+  }
+  .left,
+  .right {
+    grid-column: 1;
+    margin: 2rem 0 0;
+  }
+  .left {
+    grid-row: 3;
+    max-width: none;
+  }
+  .right {
+    grid-row: 4;
+    justify-self: start;
+    text-align: left;
   }
 }
 </style>

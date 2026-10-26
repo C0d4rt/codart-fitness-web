@@ -159,7 +159,7 @@ defineProps<{ screen: ChatScreen; bare?: boolean }>()
   margin: 0.625rem -0.75rem -1.25rem;
   padding: 0.625rem;
   border-top: 1px solid color-mix(in oklab, var(--chat-ink) 14%, transparent); /* taste-skill-ignore: WhatsApp draws this divider above a reply button (data-ui fragment) */
-  color: var(--ink);
+  color: #0b7a5a;
   font-weight: 500;
   text-align: center;
 }

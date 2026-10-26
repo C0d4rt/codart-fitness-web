@@ -16,7 +16,10 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css', '~/assets/css/split.css'],
   fonts: {
     defaults: { weights: [400, 500], styles: ['normal'], subsets: ['latin', 'latin-ext'] },
-    families: [{ name: 'Switzer', provider: 'fontshare', weights: [400, 500] }],
+    families: [
+      { name: 'Panchang', provider: 'fontshare', weights: [700] },
+      { name: 'Switzer', provider: 'fontshare', weights: [400, 500] },
+    ],
   },
   site: {
     url: brand.siteUrl,

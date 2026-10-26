@@ -5,12 +5,12 @@ import { brand } from '~/brand'
 <template>
   <header class="site-header">
     <nav class="nav" aria-label="Principal">
-      <ul class="left">
+      <NuxtLink to="/" class="wordmark display">{{ brand.name }}</NuxtLink>
+      <ul class="links">
+        <li><NuxtLink to="/#como-funciona">Como funciona</NuxtLink></li>
         <li><NuxtLink to="/planos">Planos</NuxtLink></li>
-        <li class="extra"><NuxtLink to="/#como-funciona">Como funciona</NuxtLink></li>
-        <li class="extra"><NuxtLink to="/#perguntas">Perguntas</NuxtLink></li>
+        <li><NuxtLink to="/#perguntas">Perguntas</NuxtLink></li>
       </ul>
-      <NuxtLink to="/" class="wordmark">{{ brand.name.toLowerCase() }}</NuxtLink>
       <WhatsAppButton location="nav" label="Testar grátis" class="nav-action" />
     </nav>
   </header>
@@ -21,34 +21,35 @@ import { brand } from '~/brand'
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  min-height: 5.5rem;
+  min-height: 5rem;
   padding: 0 var(--margin);
   font-size: var(--step-small);
 }
 
-.left {
+.wordmark {
+  justify-self: start;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.links {
   display: flex;
-  gap: 1.75rem;
+  gap: 2rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.left a {
+.links a {
+  color: var(--muted);
   text-decoration: none;
+  transition: color 160ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .left a:hover {
-    text-decoration: underline;
+  .links a:hover {
+    color: var(--ink);
   }
-}
-
-.wordmark {
-  font-size: var(--step-lead);
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  text-decoration: none;
 }
 
 .nav-action {
@@ -59,7 +60,10 @@ import { brand } from '~/brand'
 }
 
 @media (max-width: 47.99rem) {
-  .extra {
+  .nav {
+    grid-template-columns: 1fr auto;
+  }
+  .links {
     display: none;
   }
 }

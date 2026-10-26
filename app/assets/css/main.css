@@ -1,45 +1,55 @@
 :root {
-  --paper: #f6f7f4;
-  --surface: #e9ece6;
-  --ink: #1d2a24;
-  --muted: #56645d;
-  --sage: #2e6a4f;
+  --ground: #161c1a;
+  --surface: #1f2725;
+  --raised: #28322f;
+  --ink: #e3e2da;
+  --muted: #9ca39c;
+  --jade: #9fc7b8;
+  --bone: #e3e2da;
+  --bone-ink: #161c1a;
 
-  --bg: var(--paper);
-  --accent: var(--sage);
-  --accent-ink: #ffffff;
-  --field: var(--ink);
-  --field-ink: var(--paper);
+  --tint-1: #1f3a31;
+  --tint-2: #2a4d41;
+  --tint-3: #3c6857;
+  --tint-4: #9fc7b8;
 
-  --chat-bg: #e3e8e2;
+  --paper: var(--bone);
+  --bg: var(--ground);
+  --accent: var(--jade);
+  --accent-ink: var(--ground);
+  --field: var(--bone);
+  --field-ink: var(--bone-ink);
+
+  --chat-bg: #e4e7e1;
   --chat-bot: #ffffff;
-  --chat-you: #dff3dc;
+  --chat-you: #dcf2dd;
   --chat-ink: #17201c;
   --chat-meta: #5f6b66;
-  --chat-bar: var(--ink);
-  --chat-bar-ink: var(--paper);
+  --chat-bar: #10201a;
+  --chat-bar-ink: #e3e2da;
 
-  --font: 'Switzer', system-ui, sans-serif;
-  --font-display: var(--font);
-  --font-text: var(--font);
+  --font-display: 'Panchang', 'Switzer', system-ui, sans-serif;
+  --font-text: 'Switzer', system-ui, sans-serif;
+  --font: var(--font-text);
 
-  --step-small: 0.875rem;
+  --step-small: 0.9375rem;
   --step-body: clamp(1.0625rem, 1rem + 0.2vw, 1.1875rem);
-  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.75rem);
-  --step-head: clamp(2.25rem, 1.4rem + 3vw, 4rem);
-  --step-display: clamp(3.5rem, 1rem + 7.6vw, 8rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  --step-head: clamp(1.75rem, 1rem + 2.6vw, 3.25rem);
+  --step-display: clamp(2.5rem, 0.6rem + 6vw, 6.75rem);
 
-  --margin: clamp(1.25rem, 0.5rem + 4vw, 6rem);
+  --margin: clamp(1.25rem, 0.6rem + 3vw, 4rem);
   --gutter: 1.5rem;
-  --gap-section: clamp(7rem, 4rem + 9vw, 14rem);
+  --gap-section: clamp(6rem, 3rem + 8vw, 11rem);
   --header: 0rem;
-  --measure: 40ch;
+  --measure: 42ch;
   --radius: 0;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 *,
@@ -57,13 +67,13 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
+  background: var(--ground);
   color: var(--ink);
-  font-family: var(--font);
+  font-family: var(--font-text);
   font-size: var(--step-body);
   line-height: 1.5;
-  letter-spacing: -0.01em;
   overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1,
@@ -82,10 +92,18 @@ dd {
 h1,
 h2,
 h3 {
-  font-weight: 400;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
   text-wrap: balance;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 p {
@@ -120,13 +138,13 @@ img {
 }
 
 :focus-visible {
-  outline: 2px solid var(--sage);
+  outline: 2px solid var(--jade);
   outline-offset: 3px;
 }
 
 ::selection {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--jade);
+  color: var(--ground);
 }
 
 .visually-hidden {
@@ -146,12 +164,11 @@ img {
   padding: 0 1.75rem;
   border: 0;
   border-radius: var(--radius);
-  background: var(--sage);
-  color: #ffffff;
-  font-family: var(--font);
+  background: var(--jade);
+  color: var(--ground);
+  font-family: var(--font-text);
   font-size: var(--step-body);
   font-weight: 500;
-  letter-spacing: -0.01em;
   text-decoration: none;
   cursor: pointer;
   user-select: none;
@@ -166,27 +183,27 @@ img {
 }
 
 .button--inverse {
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--ground);
+  color: var(--bone);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
-    background: color-mix(in oklab, var(--sage) 86%, var(--ink));
+    background: color-mix(in oklab, var(--jade) 84%, white);
   }
   .button--inverse:hover {
-    background: var(--surface);
+    background: var(--raised);
   }
 }
 
 /* Content stays visible without script: only a page that runs the observer hides it first. */
 .js [data-reveal] > * {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(24px);
   transition:
     opacity 600ms var(--ease-out),
     transform 700ms var(--ease-out);
-  transition-delay: calc(var(--i, 0) * 80ms);
+  transition-delay: calc(var(--i, 0) * 70ms);
 }
 
 .js [data-reveal].is-in > * {
