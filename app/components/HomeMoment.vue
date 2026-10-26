@@ -43,7 +43,7 @@ const photoScreen: ChatScreen = {
   margin: var(--gap-section) var(--margin) 0;
   padding: clamp(2rem, 1rem + 3vw, 4rem);
   border-radius: 2rem;
-  background: var(--sand);
+  background: var(--card);
   color: var(--ink);
 }
 
