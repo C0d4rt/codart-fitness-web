@@ -14,12 +14,9 @@ useSeoMeta({ title: 'Página não encontrada', robots: 'noindex' })
 </template>
 
 <style scoped>
-.missing {
-  padding: 0 var(--margin);
-}
-
 main {
   display: grid;
+  padding-inline: var(--margin);
   gap: 1.5rem;
   min-height: 60svh;
   align-content: center;
@@ -27,9 +24,5 @@ main {
 
 h1 {
   font-size: var(--step-head);
-}
-
-.missing :deep(.footer) {
-  padding-inline: 0;
 }
 </style>

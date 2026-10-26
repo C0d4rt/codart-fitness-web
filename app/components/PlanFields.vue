@@ -16,13 +16,13 @@ const upper = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
 
 <template>
   <section class="fields" aria-label="Planos">
-    <div id="premium" class="field premium">
+    <div id="premium" class="field premium" data-chapter="green">
       <component :is="headingLevel ?? 'h2'" class="name">{{ catalog.premium.name }}</component>
       <p class="who">Para quem quer a foto do prato e saber o que comer.</p>
       <p class="includes">
         Tudo do Básico, mais {{ list(premiumOnly.map((feature) => lower(feature.name))) }}.
       </p>
-      <div class="foot">
+      <div class="foot" data-reveal>
         <p class="price">
           <span class="amount">{{ money(catalog.premium.monthlyCents) }}</span>
           <span class="period">por mês</span>
@@ -33,16 +33,16 @@ const upper = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
             por mês)
           </span>
         </p>
-        <WhatsAppButton location="plans-premium" inverse />
+        <WhatsAppButton location="plans-premium" />
       </div>
     </div>
-    <div id="basic" class="field basic">
+    <div id="basic" class="field basic" data-chapter="lime">
       <component :is="headingLevel ?? 'h2'" class="name">{{ catalog.basic.name }}</component>
       <p class="who">Para quem quer o diário inteiro, por texto e áudio.</p>
       <p class="includes">
         {{ upper(list(catalog.basic.features.map((feature) => lower(feature.name)))) }}.
       </p>
-      <div class="foot">
+      <div class="foot" data-reveal>
         <p class="price">
           <span class="amount">{{ money(catalog.basic.monthlyCents) }}</span>
           <span class="period">por mês</span>
@@ -54,7 +54,7 @@ const upper = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
         <WhatsAppButton location="plans-basic" label="Começar pelo teste" />
       </div>
     </div>
-    <p class="trial">
+    <p class="trial" data-chapter="paper">
       Os {{ catalog.trialDays }} dias grátis são do Premium, sem cartão, a partir da primeira
       mensagem. No fim, você escolhe o plano na própria conversa, no Pix ou no cartão.
     </p>
@@ -73,17 +73,16 @@ const upper = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
   grid-template-rows: auto auto 1fr auto;
   gap: 1.25rem;
   min-height: 90svh;
-  padding: 2.5rem var(--margin) 2.5rem;
+  padding: calc(var(--header) + 2.5rem) var(--margin) 2.5rem;
+  color: var(--ink);
 }
 
 .premium {
-  background: var(--field);
-  color: var(--field-ink);
+  background: var(--green);
 }
 
 .basic {
-  background: var(--surface);
-  color: var(--ink);
+  background: var(--lime);
 }
 
 .name {
@@ -93,7 +92,9 @@ const upper = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
 .who {
   max-width: 26ch;
   font-size: var(--step-lead);
-  line-height: 1.3;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
 }
 
 .includes {
@@ -117,10 +118,10 @@ const upper = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
 }
 
 .amount {
-  font-family: var(--font-display);
-  font-size: calc(var(--step-display) * 0.5);
-  line-height: 0.9;
-  letter-spacing: -0.04em;
+  font-size: var(--step-display);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.05em;
   font-variant-numeric: lining-nums;
 }
 
@@ -128,9 +129,15 @@ const upper = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
   font-size: var(--step-head);
 }
 
+.period {
+  font-weight: 500;
+}
+
 .yearly {
   grid-column: 1 / -1;
+  margin-top: 0.75rem;
   font-size: var(--step-small);
+  font-weight: 500;
 }
 
 .trial {
@@ -145,13 +152,19 @@ const upper = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
   }
   .field {
     min-height: 70svh;
-    padding: 1.5rem 1.25rem;
+    padding: calc(var(--header) + 1.5rem) var(--margin) 1.5rem;
+  }
+  .name {
+    font-size: 12vw;
+  }
+  .price {
+    grid-template-columns: auto;
   }
   .amount {
-    font-size: calc(var(--step-display) * 0.8);
+    font-size: 18vw;
   }
   .basic .amount {
-    font-size: calc(var(--step-display) * 0.6);
+    font-size: 13vw;
   }
   .foot :deep(.button) {
     width: 100%;

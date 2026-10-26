@@ -15,11 +15,8 @@ export default defineNuxtConfig({
   typescript: { strict: true },
   css: ['~/assets/css/main.css', '~/assets/css/split.css'],
   fonts: {
-    defaults: { weights: [400, 500], styles: ['normal'], subsets: ['latin', 'latin-ext'] },
-    families: [
-      { name: 'Bodoni Moda', provider: 'google', weights: [500] },
-      { name: 'Jost', provider: 'google', weights: [400, 500] },
-    ],
+    defaults: { weights: [400, 500, 700], styles: ['normal'], subsets: ['latin', 'latin-ext'] },
+    families: [{ name: 'General Sans', provider: 'fontshare', weights: [400, 500, 700] }],
   },
   site: {
     url: brand.siteUrl,

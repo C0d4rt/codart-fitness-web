@@ -1,36 +1,69 @@
 <script setup lang="ts">
 import { brand } from '~/brand'
 
-defineProps<{ home?: boolean }>()
+const tone = useChapterTone()
 </script>
 
 <template>
-  <nav class="nav" aria-label="Principal">
-    <NuxtLink v-if="!home" to="/" class="wordmark">{{ brand.name.toLowerCase() }}</NuxtLink>
-    <ul>
-      <li><NuxtLink to="/#como-funciona">Como funciona</NuxtLink></li>
-      <li><NuxtLink to="/planos">Planos</NuxtLink></li>
-      <li><NuxtLink to="/#perguntas">Perguntas</NuxtLink></li>
-      <li><WhatsAppButton location="nav" label="Testar grátis" class="nav-action" /></li>
-    </ul>
-  </nav>
+  <header class="site-header" :data-tone="tone">
+    <nav class="nav" aria-label="Principal">
+      <NuxtLink to="/" class="wordmark">{{ brand.name.toLowerCase() }}</NuxtLink>
+      <ul>
+        <li class="extra"><NuxtLink to="/#como-funciona">Como funciona</NuxtLink></li>
+        <li><NuxtLink to="/planos">Planos</NuxtLink></li>
+        <li class="extra"><NuxtLink to="/#perguntas">Perguntas</NuxtLink></li>
+        <li><WhatsAppButton location="nav" label="Testar grátis" class="nav-action" /></li>
+      </ul>
+    </nav>
+  </header>
 </template>
 
 <style scoped>
+.site-header {
+  --header-bg: var(--paper);
+  --header-ink: var(--ink);
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 20;
+  background: var(--header-bg);
+  color: var(--header-ink);
+  transition:
+    background-color 300ms ease,
+    color 300ms ease;
+}
+
+.site-header[data-tone='green'] {
+  --header-bg: var(--green);
+}
+
+.site-header[data-tone='lime'] {
+  --header-bg: var(--lime);
+}
+
+.site-header[data-tone='surface'] {
+  --header-bg: var(--surface);
+}
+
+.site-header[data-tone='ink'] {
+  --header-bg: var(--ink);
+  --header-ink: var(--paper);
+}
+
 .nav {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   gap: 2rem;
-  min-height: 5rem;
+  min-height: var(--header);
+  padding: 0 var(--margin);
   font-size: var(--step-small);
+  font-weight: 500;
 }
 
 .wordmark {
   margin-right: auto;
-  font-family: var(--font-display);
-  font-size: 1.75rem;
-  letter-spacing: -0.03em;
+  font-size: var(--step-body);
+  font-weight: 700;
+  letter-spacing: -0.04em;
   text-decoration: none;
 }
 
@@ -55,12 +88,17 @@ a:not(.button) {
 
 .nav-action {
   min-height: 2.75rem;
-  padding: 0 1.125rem;
-  font-size: 0.9375rem;
+  padding: 0 1.25rem;
+  font-size: var(--step-small);
+}
+
+.site-header[data-tone='ink'] .nav-action {
+  background: var(--lime);
+  color: var(--ink);
 }
 
 @media (max-width: 47.99rem) {
-  ul li:not(:last-child):not(:nth-child(2)) {
+  .extra {
     display: none;
   }
   ul {
