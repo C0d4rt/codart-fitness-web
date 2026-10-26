@@ -42,7 +42,16 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/planos', '/termos', '/privacidade', '/404', '/sitemap.xml', '/robots.txt'],
+      routes: [
+        '/',
+        '/planos',
+        '/termos',
+        '/privacidade',
+        '/creditos',
+        '/404',
+        '/sitemap.xml',
+        '/robots.txt',
+      ],
       failOnError: true,
     },
     hooks: {
