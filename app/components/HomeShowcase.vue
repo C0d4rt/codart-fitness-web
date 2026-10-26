@@ -8,7 +8,7 @@ const NOTES: Record<ShowcaseOutput, string> = {
   day: 'O total do dia e quanto falta, a cada registro ou quando você perguntar.',
   week: 'Toda segunda, o resumo da semana anterior, com um gráfico das calorias e dos macros.',
   weight: 'A evolução desde o primeiro registro, ou dos últimos 30 ou 90 dias.',
-  nutrients: 'Sódio, fibra, açúcar e mais, contra os valores de referência da ANVISA.',
+  nutrients: 'Sódio, fibra, açúcar e mais, comparados aos valores de referência.',
   file: 'Tudo numa planilha, para abrir no Excel ou levar à consulta. No Premium.',
 }
 </script>

@@ -1,58 +1,87 @@
 <script setup lang="ts">
-const ITEMS = [
-  { name: 'Arroz branco cozido', amount: '150 g', kcal: 192 },
-  { name: 'Feijão carioca', amount: '1 concha, ~86 g', kcal: 65 },
-  { name: 'Filé de frango grelhado', amount: '1 filé, ~100 g', kcal: 159 },
-] as const
+import type { ChatScreen } from '#shared/chat'
+import { goalScreen, logModeScreen, reminderScreen } from '#shared/screens'
 
-const STEPS = [
-  { tone: 'mint', clause: 'Primeiro, você conta.' },
-  { tone: 'sky', clause: 'Ele entende cada alimento.' },
-  { tone: 'peach', clause: 'Ele soma pela tabela TACO.' },
-  { tone: 'sand', clause: 'E diz quanto falta.' },
-] as const
+const diary = logModeScreen('text').messages
+const goal = goalScreen(1800).messages
+
+const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
+  {
+    tone: 'mint',
+    clause: 'Você conta o que comeu.',
+    screen: {
+      id: 'how-tell',
+      label: 'A pessoa conta o almoço numa mensagem.',
+      messages: diary.slice(0, 1),
+    },
+  },
+  {
+    tone: 'sky',
+    clause: 'Ele anota e soma na hora.',
+    screen: {
+      id: 'how-log',
+      label: 'O registro do almoço com as calorias.',
+      messages: diary.slice(1),
+    },
+  },
+  {
+    tone: 'peach',
+    clause: 'Pergunte quanto falta.',
+    screen: {
+      id: 'how-left',
+      label: 'A pergunta de quanto falta e a resposta.',
+      messages: goal.slice(2),
+    },
+  },
+  {
+    tone: 'sand',
+    clause: 'Sumiu? Ele te lembra.',
+    screen: {
+      id: 'how-remind',
+      label: 'O lembrete curto do dia seguinte.',
+      messages: reminderScreen(true).messages,
+    },
+  },
+]
 </script>
 
 <template>
   <section id="como-funciona" class="how" aria-labelledby="how-title">
-    <div v-for="(step, index) in STEPS" :key="step.tone" class="field" :class="step.tone">
-      <h2 v-if="index === 0" id="how-title" class="title">Como funciona</h2>
-      <div class="card" data-ui>
-        <p class="card-head">Almoço · 12:41</p>
-        <p v-if="index === 0" class="said">
-          "almocei 150 g de arroz, uma concha de feijão e um filé de frango"
-        </p>
-        <ul v-else class="items">
-          <li v-for="item in ITEMS" :key="item.name">
-            <span class="item-name">{{ item.name }}</span>
-            <span class="item-amount">{{ item.amount }}</span>
-            <span v-if="index >= 2" class="item-kcal">{{ item.kcal }} kcal</span>
-          </li>
-        </ul>
-        <p v-if="index >= 2" class="sum"><span>Refeição</span><strong>416 kcal</strong></p>
-        <p v-if="index === 3" class="left">Faltam 1.384 kcal da meta de 1.800</p>
-      </div>
-      <p class="clause">{{ step.clause }}</p>
-    </div>
+    <h2 id="how-title" class="title">Como funciona</h2>
+    <ol class="steps">
+      <li v-for="step in STEPS" :key="step.tone" class="field" :class="step.tone">
+        <p class="clause">{{ step.clause }}</p>
+        <ChatWindow :screen="step.screen" bare class="chat" />
+      </li>
+    </ol>
   </section>
 </template>
 
 <style scoped>
 .how {
   display: grid;
+  gap: 2.5rem;
+  padding: var(--gap-section) var(--margin) 0;
+}
+
+.title {
+  font-size: var(--step-head);
+}
+
+.steps {
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.75rem;
-  margin-top: var(--gap-section);
-  padding: 0 var(--margin);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .field {
-  position: relative;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
   gap: 1.5rem;
-  min-height: 34rem;
-  padding: 1.75rem;
+  padding: 1.75rem 1.5rem;
   border-radius: var(--radius);
 }
 
@@ -72,121 +101,26 @@ const STEPS = [
   background: var(--sand);
 }
 
-.title {
-  grid-row: 1;
-  font-size: var(--step-lead);
-}
-
-.card {
-  grid-row: 2;
-  align-self: center;
-  display: grid;
-  gap: 0.75rem;
-  padding: 1.125rem 1.25rem;
-  border-radius: 1.125rem;
-  background: var(--card);
-  font-size: var(--step-small);
-  transition: transform 150ms var(--ease-out);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .field:hover .card {
-    transform: translateY(-6px);
-  }
-}
-
-.card-head {
-  color: var(--muted);
-  font-weight: 500;
-}
-
-.said {
-  font-size: var(--step-body);
-  line-height: 1.4;
-}
-
-.items {
-  display: grid;
-  gap: 0.625rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.items li {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  column-gap: 0.75rem;
-}
-
-.item-name {
-  font-weight: 500;
-}
-
-.item-amount {
-  grid-column: 1;
-  color: var(--muted);
-}
-
-.item-kcal {
-  grid-column: 2;
-  grid-row: 1 / 3;
-  align-self: center;
-  font-variant-numeric: tabular-nums;
-}
-
-.sum {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--tone); /* taste-skill-ignore: the meal card draws its own total rule (data-ui fragment) */
-}
-
-.sum strong {
-  font-variant-numeric: tabular-nums;
-}
-
-.left {
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.625rem;
-  background: var(--mint);
-  color: var(--green);
-  font-weight: 700;
-}
-
 .clause {
-  grid-row: 3;
   font-size: var(--step-lead);
   font-weight: 700;
   letter-spacing: -0.025em;
   line-height: 1.15;
 }
 
+.chat {
+  align-self: end;
+}
+
 @media (max-width: 63.99rem) {
-  .how {
+  .steps {
     grid-template-columns: 1fr 1fr;
-  }
-  .field {
-    min-height: 28rem;
   }
 }
 
 @media (max-width: 47.99rem) {
-  .how {
+  .steps {
     grid-template-columns: 1fr;
-  }
-  .field {
-    grid-template-rows: auto auto auto;
-    min-height: 0;
-  }
-  .clause {
-    grid-row: 2;
-  }
-  .card {
-    grid-row: 3;
-  }
-  .title {
-    grid-row: 1;
   }
 }
 </style>

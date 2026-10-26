@@ -2,24 +2,24 @@
   <section class="moment" aria-labelledby="moment-title">
     <img
       class="photo"
-      src="/images/celular-academia.jpg"
-      alt="Uma pessoa na academia olhando o celular entre um exercício e outro"
+      src="/images/marmitas.jpg"
+      alt="Três marmitas de vidro com arroz, milho, tomate, pepino e azeitonas, vistas de cima"
       width="1920"
-      height="1282"
+      height="1440"
       loading="lazy"
     />
     <div class="scrim" />
     <div class="copy">
-      <h2 id="moment-title" class="title">Entre uma série e outra</h2>
+      <h2 id="moment-title" class="title">Do preparo ao prato</h2>
       <p>
-        Uma mensagem e pronto. Sem abrir app, sem procurar alimento em lista: ele está na conversa
-        que você já abre o dia todo.
+        Comeu, mandou uma mensagem. Sem abrir app e sem procurar alimento em lista: ele está na
+        conversa que você já abre o dia todo.
       </p>
     </div>
     <div class="note" data-ui>
       <p class="note-head">Fitness · agora</p>
-      <p>Treino registrado: supino reto 3 × 8 com 60 kg e 30 min de corrida.</p>
-      <p class="note-figure">Cerca de 410 kcal gastas</p>
+      <p>Almoço registrado: arroz, feijão e frango, 416 kcal.</p>
+      <p class="note-figure">Faltam 1.384 kcal</p>
     </div>
   </section>
 </template>
@@ -31,7 +31,7 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   align-items: end;
-  min-height: 92svh;
+  min-height: 86svh;
   margin-top: var(--gap-section);
   overflow: hidden;
   padding: 4rem var(--margin);
@@ -45,7 +45,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 30%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -58,7 +57,7 @@
 
 @keyframes drift {
   from {
-    transform: scale(1.12) translateY(-3%);
+    transform: scale(1.1) translateY(-3%);
   }
   to {
     transform: scale(1.02) translateY(3%);
@@ -69,7 +68,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: rgb(8 24 16 / 0.48);
+  background: rgb(8 24 16 / 0.5);
 }
 
 .copy {
@@ -116,7 +115,7 @@
   .moment {
     grid-template-columns: 1fr;
     row-gap: 2rem;
-    min-height: 80svh;
+    min-height: 72svh;
   }
   .copy,
   .note {

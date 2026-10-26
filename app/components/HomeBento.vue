@@ -14,23 +14,23 @@ const weightPath = computed(() => {
     return `${index === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`
   }).join(' ')
 })
+
+const height = (value: number) =>
+  value === 0 ? '4%' : `${((value - FLOOR) / (CEILING - FLOOR)) * 100}%`
 </script>
 
 <template>
   <section id="do-seu-jeito" class="bento" aria-labelledby="bento-title">
     <div class="intro" data-reveal>
       <h2 id="bento-title" class="title">Tudo o que importa, numa conversa</h2>
-      <p>
-        Comida, treino, peso e jejum ficam no mesmo diário. Você pergunta, ele responde com os seus
-        números.
-      </p>
+      <p>Você pergunta, ele responde com os seus números.</p>
     </div>
 
     <div class="grid">
       <article class="tile day" data-ui>
         <p class="tile-title">Meta do dia</p>
-        <CalorieRing :eaten="1240" :goal="1800" :size="208" />
-        <p class="tile-text">Cada registro mostra o total do dia e quanto ainda cabe.</p>
+        <CalorieRing :eaten="1240" :goal="1800" :size="150" />
+        <p class="tile-text">Faltam 560 kcal para a meta de hoje.</p>
       </article>
 
       <article class="tile week" data-ui>
@@ -45,16 +45,11 @@ const weightPath = computed(() => {
             :key="index"
             class="bar"
             :class="{ over: value > GOAL, missing: value === 0 }"
-            :style="{
-              '--h': value === 0 ? '4%' : `${((value - FLOOR) / (CEILING - FLOOR)) * 100}%`,
-            }"
+            :style="{ '--h': height(value) }"
           />
-          <span
-            class="goal-line"
-            :style="{ '--g': `${((GOAL - FLOOR) / (CEILING - FLOOR)) * 100}%` }"
-          />
+          <span class="goal-line" :style="{ '--g': height(GOAL) }" />
         </div>
-        <p class="tile-text">Média de 1.760 kcal, 6 de 7 dias registrados. Chega toda segunda.</p>
+        <p class="tile-text">Média de 1.760 kcal em 6 de 7 dias. Chega toda segunda.</p>
       </article>
 
       <article class="tile weight" data-ui>
@@ -63,34 +58,7 @@ const weightPath = computed(() => {
         <svg viewBox="0 0 300 100" class="line" aria-hidden="true" preserveAspectRatio="none">
           <path :d="weightPath" />
         </svg>
-        <p class="tile-text">A evolução desde o primeiro registro, ou dos últimos 30 ou 90 dias.</p>
-      </article>
-
-      <article class="tile photo">
-        <img
-          src="/images/lanche.jpg"
-          alt="Mãos cortando uma maçã ao lado de frutas e salada numa mesa clara"
-          width="1024"
-          height="684"
-          loading="lazy"
-        />
-        <p class="photo-caption">Foto do prato: você confere e ele registra. No Premium.</p>
-      </article>
-
-      <article class="tile workout" data-ui>
-        <p class="tile-title">Treino</p>
-        <ul class="sets">
-          <li><span>Supino reto</span><span>3 × 8 · 60 kg</span></li>
-          <li><span>Corrida</span><span>30 min</span></li>
-        </ul>
-        <p class="burn">Cerca de 410 kcal gastas</p>
-        <p class="tile-text">Estimativa pelo Compendium of Physical Activities.</p>
-      </article>
-
-      <article class="tile fasting" data-ui>
-        <p class="tile-title">Jejum 16:8</p>
-        <p class="big">12:00</p>
-        <p class="tile-text">Começou às 20:00. O aviso chega quando a janela terminar.</p>
+        <p class="tile-text">A sua evolução desde o primeiro registro.</p>
       </article>
     </div>
   </section>
@@ -99,42 +67,39 @@ const weightPath = computed(() => {
 <style scoped>
 .bento {
   display: grid;
-  gap: 3rem;
+  gap: 2.5rem;
   padding: var(--gap-section) var(--margin) 0;
 }
 
 .intro {
   display: grid;
   gap: 1rem;
-  max-width: 44rem;
 }
 
 .title {
+  max-width: 16ch;
   font-size: var(--step-head);
 }
 
 .intro p {
-  max-width: 46ch;
   color: var(--muted);
   font-size: var(--step-lead);
-  line-height: 1.4;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: minmax(15rem, auto);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
 }
 
 .tile {
   display: grid;
-  align-content: space-between;
-  gap: 1rem;
+  grid-template-rows: auto 1fr auto;
+  gap: 1.25rem;
+  min-height: 21rem;
   padding: 1.5rem;
   border-radius: var(--radius);
   background: var(--card);
-  overflow: hidden;
 }
 
 .tile-title {
@@ -142,14 +107,11 @@ const weightPath = computed(() => {
 }
 
 .tile-text {
-  max-width: 34ch;
   color: var(--muted);
   font-size: var(--step-small);
 }
 
 .day {
-  grid-column: 1 / 5;
-  grid-row: span 2;
   justify-items: center;
   background: var(--mint);
 }
@@ -159,48 +121,12 @@ const weightPath = computed(() => {
   justify-self: start;
 }
 
-.week {
-  grid-column: 5 / 10;
+.day :deep(.ring) {
+  align-self: center;
 }
 
 .weight {
-  grid-column: 10 / 13;
   background: var(--sky);
-}
-
-.photo {
-  grid-column: 5 / 8;
-  position: relative;
-  padding: 0;
-  align-content: end;
-}
-
-.photo img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.photo-caption {
-  position: relative;
-  margin: 0.75rem;
-  padding: 0.625rem 0.875rem;
-  border-radius: 0.875rem;
-  background: var(--card);
-  font-size: var(--step-small);
-  font-weight: 500;
-}
-
-.workout {
-  grid-column: 8 / 11;
-  background: var(--peach);
-}
-
-.fasting {
-  grid-column: 11 / 13;
-  background: var(--sand);
 }
 
 .bars {
@@ -208,15 +134,15 @@ const weightPath = computed(() => {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   align-items: end;
+  align-self: center;
   gap: 0.5rem;
-  height: 7.5rem;
+  height: 8.5rem;
 }
 
 .bar {
   height: var(--h);
   border-radius: 0.375rem;
   background: var(--green);
-  transform-origin: bottom;
 }
 
 .bar.over {
@@ -225,36 +151,6 @@ const weightPath = computed(() => {
 
 .bar.missing {
   background: var(--tone);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .js .bento .bar {
-    animation: grow 900ms var(--ease-out) both;
-  }
-  .bar:nth-child(2) {
-    animation-delay: 60ms;
-  }
-  .bar:nth-child(3) {
-    animation-delay: 120ms;
-  }
-  .bar:nth-child(4) {
-    animation-delay: 180ms;
-  }
-  .bar:nth-child(5) {
-    animation-delay: 240ms;
-  }
-  .bar:nth-child(6) {
-    animation-delay: 300ms;
-  }
-  .bar:nth-child(7) {
-    animation-delay: 360ms;
-  }
-}
-
-@keyframes grow {
-  from {
-    transform: scaleY(0.1);
-  }
 }
 
 .goal-line {
@@ -266,6 +162,7 @@ const weightPath = computed(() => {
 }
 
 .big {
+  align-self: center;
   font-size: var(--step-head);
   font-weight: 700;
   letter-spacing: -0.035em;
@@ -282,8 +179,12 @@ const weightPath = computed(() => {
 
 .line {
   width: 100%;
-  height: 4.5rem;
+  height: 4rem;
   overflow: visible;
+}
+
+.weight {
+  grid-template-rows: auto auto 1fr auto;
 }
 
 .line path {
@@ -295,69 +196,12 @@ const weightPath = computed(() => {
   vector-effect: non-scaling-stroke;
 }
 
-.sets {
-  display: grid;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: var(--step-small);
-}
-
-.sets li {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.fasting .big {
-  font-size: clamp(2rem, 1rem + 2vw, 3rem);
-}
-
-.burn {
-  font-size: var(--step-lead);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-}
-
 @media (max-width: 63.99rem) {
-  .grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
-  .day {
-    grid-column: 1 / 4;
-  }
-  .week {
-    grid-column: 4 / 7;
-  }
-  .weight {
-    grid-column: 4 / 7;
-  }
-  .photo {
-    grid-column: 1 / 4;
-    min-height: 15rem;
-  }
-  .workout {
-    grid-column: 4 / 7;
-  }
-  .fasting {
-    grid-column: 1 / 7;
-  }
-}
-
-@media (max-width: 47.99rem) {
   .grid {
     grid-template-columns: 1fr;
   }
-  .day,
-  .week,
-  .weight,
-  .photo,
-  .workout,
-  .fasting {
-    grid-column: 1;
-    grid-row: auto;
+  .tile {
+    min-height: 0;
   }
 }
 </style>

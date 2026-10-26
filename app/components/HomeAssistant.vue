@@ -2,10 +2,10 @@
   <section class="assistant" aria-labelledby="assistant-title">
     <figure class="photo">
       <img
-        src="/images/agua.jpg"
-        alt="Uma pessoa bebendo água na sala depois de treinar em casa"
-        width="1200"
-        height="1804"
+        src="/images/potes.jpg"
+        alt="Potes de vidro com aveia, chia, iogurte e frutas para o café da manhã"
+        width="1400"
+        height="1050"
         loading="lazy"
       />
     </figure>
@@ -18,15 +18,14 @@
       <ul class="facts">
         <li><strong>Sem app novo.</strong> Tudo no WhatsApp, no celular ou no computador.</li>
         <li><strong>Seus dados, seus.</strong> Diga "quero apagar minha conta" e tudo some.</li>
-        <li><strong>Números com fonte.</strong> TACO, Open Food Facts e Compendium.</li>
       </ul>
     </div>
     <figure class="photo small">
       <img
-        src="/images/celular-tapete.jpg"
-        alt="Uma pessoa sentada no tapete de treino conferindo o celular"
+        src="/images/receita.jpg"
+        alt="Quatro marmitas com arroz, legumes assados e bolinhos de grão-de-bico"
         width="1400"
-        height="933"
+        height="1050"
         loading="lazy"
       />
     </figure>
