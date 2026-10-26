@@ -43,7 +43,10 @@ const NOTES: Record<ShowcaseOutput, string> = {
 
 <style scoped>
 .showcase {
-  padding: var(--gap-section) var(--margin) 0;
+  margin-top: var(--gap-section);
+  padding: clamp(4rem, 2rem + 5vw, 7rem) var(--margin);
+  background: var(--ink);
+  color: #ffffff;
 }
 
 .panel {
@@ -51,9 +54,6 @@ const NOTES: Record<ShowcaseOutput, string> = {
   grid-template-columns: 5fr 7fr;
   gap: 3rem;
   align-items: center;
-  padding: clamp(1.5rem, 1rem + 3vw, 4rem);
-  border-radius: 2rem;
-  background: var(--card);
 }
 
 .side {
@@ -76,8 +76,8 @@ const NOTES: Record<ShowcaseOutput, string> = {
   padding: 0 1.125rem;
   border: 0;
   border-radius: 999px;
-  background: var(--tone);
-  color: var(--ink);
+  background: rgb(255 255 255 / 0.1);
+  color: #ffffff;
   font-weight: 500;
   cursor: pointer;
   transition:
@@ -87,8 +87,8 @@ const NOTES: Record<ShowcaseOutput, string> = {
 }
 
 .tab[aria-pressed='true'] {
-  background: var(--green);
-  color: var(--green-ink);
+  background: var(--mint);
+  color: var(--ink);
 }
 
 .tab:active {
@@ -97,13 +97,13 @@ const NOTES: Record<ShowcaseOutput, string> = {
 
 @media (hover: hover) and (pointer: fine) {
   .tab:not([aria-pressed='true']):hover {
-    background: var(--mint);
+    background: rgb(255 255 255 / 0.18);
   }
 }
 
 .note {
   max-width: 36ch;
-  color: var(--muted);
+  color: #cfdcd5;
 }
 
 .answer {
@@ -112,7 +112,7 @@ const NOTES: Record<ShowcaseOutput, string> = {
   min-height: 30rem;
   padding: 2rem;
   border-radius: 1.5rem;
-  background: var(--mint);
+  background: #1d3a2c;
 }
 
 .sheet {

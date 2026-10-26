@@ -68,10 +68,10 @@ const weightPath = computed(() => {
 
       <article class="tile photo">
         <img
-          src="/images/salada.jpg"
-          alt="Uma salada com rúcula, ovos e cenoura numa travessa branca"
-          width="1400"
-          height="933"
+          src="/images/lanche.jpg"
+          alt="Mãos cortando uma maçã ao lado de frutas e salada numa mesa clara"
+          width="1024"
+          height="684"
           loading="lazy"
         />
         <p class="photo-caption">Foto do prato: você confere e ele registra. No Premium.</p>
@@ -308,6 +308,10 @@ const weightPath = computed(() => {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.fasting .big {
+  font-size: clamp(2rem, 1rem + 2vw, 3rem);
 }
 
 .burn {

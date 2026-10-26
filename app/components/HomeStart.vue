@@ -11,10 +11,10 @@
       </div>
       <figure class="photo">
         <img
-          src="/images/brunch.jpg"
-          alt="Uma tigela de frutas com kiwi, banana e amoras, vista de cima"
-          width="1600"
-          height="1100"
+          src="/images/laranja.jpg"
+          alt="Mãos cortando uma laranja numa tábua de madeira"
+          width="1024"
+          height="684"
           loading="lazy"
         />
       </figure>

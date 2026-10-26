@@ -51,7 +51,7 @@ const { $analytics } = useNuxtApp()
   grid-template-columns: repeat(12, 1fr);
   gap: 0.5rem;
   margin-top: var(--gap-section);
-  padding: 0 0.75rem 0.75rem;
+  padding: 0 var(--margin) var(--margin);
 }
 
 .tile {
