@@ -1,6 +1,6 @@
 export type ChatAttachment =
   | { kind: 'audio'; seconds: number }
-  | { kind: 'photo'; label: string }
+  | { kind: 'photo'; label: string; src?: string }
   | { kind: 'file'; name: string }
 
 /** One WhatsApp message, written the way the diary really sends it (`*bold*`, `_italic_`). */

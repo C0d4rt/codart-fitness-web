@@ -35,6 +35,15 @@ defineProps<{ screen: ChatScreen; bare?: boolean }>()
                 >0:{{ String(message.attachment.seconds).padStart(2, '0') }}</span
               >
             </div>
+            <img
+              v-else-if="message.attachment?.kind === 'photo' && message.attachment.src"
+              :src="message.attachment.src"
+              :alt="message.attachment.label"
+              width="640"
+              height="426"
+              loading="lazy"
+              class="photo shot"
+            />
             <PlateDrawing v-else-if="message.attachment?.kind === 'photo'" class="photo" />
             <div v-else-if="message.attachment?.kind === 'file'" class="file">
               <span class="file-icon">CSV</span>
@@ -198,6 +207,15 @@ defineProps<{ screen: ChatScreen; bare?: boolean }>()
 .photo {
   width: 13rem;
   border-radius: 0.5rem;
+}
+
+.shot {
+  display: block;
+  width: 16rem;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
 }
 
 .file {

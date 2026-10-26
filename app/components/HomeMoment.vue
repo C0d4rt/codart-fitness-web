@@ -1,25 +1,34 @@
 <script setup lang="ts">
+import type { ChatScreen } from '#shared/chat'
 import { logModeScreen } from '#shared/screens'
 
-const photoScreen = logModeScreen('photo')
+const base = logModeScreen('photo')
+const photoScreen: ChatScreen = {
+  ...base,
+  messages: base.messages.map((message) =>
+    message.attachment?.kind === 'photo'
+      ? {
+          ...message,
+          attachment: {
+            ...message.attachment,
+            label: 'Uma salada com rúcula, ovos, cenoura e tomate',
+            src: '/images/salada.jpg',
+          },
+        }
+      : message,
+  ),
+}
 </script>
 
 <template>
   <section class="moment" aria-labelledby="moment-title">
-    <figure class="photo">
-      <img
-        src="/images/salada.jpg"
-        alt="Uma salada com rúcula, ovos, cenoura e tomate numa travessa, ao lado de uvas"
-        width="1800"
-        height="1200"
-        loading="lazy"
-      />
-    </figure>
     <div class="copy" data-reveal>
       <h2 id="moment-title" class="title">Do prato à conversa</h2>
       <p>
         Tire uma foto do prato e mande. É fácil porque é no WhatsApp, que você já usa o dia todo
       </p>
+    </div>
+    <div class="stage">
       <ChatWindow :screen="photoScreen" class="chat" />
     </div>
   </section>
@@ -28,47 +37,19 @@ const photoScreen = logModeScreen('photo')
 <style scoped>
 .moment {
   display: grid;
-  grid-template-columns: 7fr 5fr;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: center;
+  gap: 2rem;
   margin: var(--gap-section) var(--margin) 0;
-  overflow: hidden;
+  padding: clamp(2rem, 1rem + 3vw, 4rem);
   border-radius: 2rem;
   background: var(--ink);
   color: #ffffff;
 }
 
-.photo {
-  overflow: hidden;
-}
-
-.photo img {
-  width: 100%;
-  height: 100%;
-  min-height: 26rem;
-  object-fit: cover;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .photo img {
-    animation: drift linear both;
-    animation-timeline: view();
-    animation-range: entry 0% exit 100%;
-  }
-}
-
-@keyframes drift {
-  from {
-    transform: scale(1.12);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
 .copy {
   display: grid;
-  align-content: center;
   gap: 1.5rem;
-  padding: clamp(2rem, 1rem + 3vw, 4rem);
 }
 
 .title {
@@ -82,18 +63,18 @@ const photoScreen = logModeScreen('photo')
   font-size: var(--step-body);
 }
 
-.chat {
-  width: 100%;
-  max-width: 24rem;
+.stage {
+  display: grid;
+  place-items: center;
+}
+
+.stage .chat {
+  width: min(28rem, 100%);
 }
 
 @media (max-width: 63.99rem) {
   .moment {
     grid-template-columns: 1fr;
-  }
-  .photo img {
-    min-height: 0;
-    aspect-ratio: 16 / 10;
   }
 }
 </style>
