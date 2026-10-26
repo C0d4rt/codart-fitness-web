@@ -49,6 +49,7 @@ export default defineNuxtConfig({
         '/termos',
         '/privacidade',
         '/creditos',
+        '/contato',
         '/404',
         '/sitemap.xml',
         '/robots.txt',
