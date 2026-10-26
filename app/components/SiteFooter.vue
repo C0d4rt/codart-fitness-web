@@ -5,9 +5,9 @@ const consent = useConsent()
 </script>
 
 <template>
-  <footer class="footer" data-chapter="ink">
+  <footer class="footer">
+    <img class="photo" src="/images/corrida.jpg" alt="" width="1600" height="1200" loading="lazy" />
     <div class="top">
-      <p class="what">{{ brand.name }}: diário de dieta e treino no WhatsApp</p>
       <ul class="links">
         <li><NuxtLink to="/planos">Planos</NuxtLink></li>
         <li><NuxtLink to="/termos">Termos</NuxtLink></li>
@@ -16,25 +16,39 @@ const consent = useConsent()
         <li v-if="consent.needed">
           <button type="button" class="link" @click="consent.reopen()">Cookies</button>
         </li>
-        <li>
-          <a :href="`mailto:${brand.company.email}`">{{ brand.company.email }}</a>
-        </li>
       </ul>
+      <p class="contact">
+        {{ brand.name }}: diário de dieta e treino no WhatsApp<br />
+        <a :href="`mailto:${brand.company.email}`">{{ brand.company.email }}</a>
+      </p>
     </div>
-    <p class="small">© 2026 {{ brand.company.name }}</p>
-    <p class="name" aria-hidden="true">{{ brand.name.toLowerCase() }}</p>
+    <div class="bottom">
+      <p class="name" aria-hidden="true">{{ brand.name.toLowerCase() }}</p>
+      <p class="legal">© 2026 {{ brand.company.name }}</p>
+    </div>
   </footer>
 </template>
 
 <style scoped>
 .footer {
+  position: relative;
+  isolation: isolate;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 2.5rem;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100svh;
   overflow: hidden;
-  padding: calc(var(--header) + 2rem) var(--margin) 0;
-  background: var(--ink);
+  padding: 2rem var(--margin) 2rem;
   color: var(--paper);
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
 }
 
 .top {
@@ -44,14 +58,9 @@ const consent = useConsent()
   gap: 1.5rem 3rem;
 }
 
-.what {
-  font-weight: 500;
-}
-
 .links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.75rem;
+  display: grid;
+  gap: 0.375rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -71,29 +80,47 @@ const consent = useConsent()
 
 @media (hover: hover) and (pointer: fine) {
   .links a:hover,
-  .link:hover {
-    color: var(--lime);
+  .link:hover,
+  .contact a:hover {
+    text-decoration: underline;
   }
 }
 
-.small {
-  font-size: var(--step-small);
+.contact {
+  text-align: right;
+}
+
+.contact a {
+  text-decoration: none;
+}
+
+.bottom {
+  grid-row: 3;
+  display: grid;
+  gap: 0.75rem;
 }
 
 .name {
-  margin-top: 2rem;
-  color: var(--lime);
-  font-size: clamp(7rem, 2rem + 24vw, 26rem);
-  font-weight: 700;
+  font-size: clamp(5rem, 1rem + 17vw, 18rem);
+  font-weight: 500;
   line-height: 0.8;
   letter-spacing: -0.06em;
   white-space: nowrap;
-  transform: translateY(18%);
+}
+
+.legal {
+  font-size: var(--step-small);
 }
 
 @media (max-width: 47.99rem) {
+  .footer {
+    min-height: 88svh;
+  }
+  .contact {
+    text-align: left;
+  }
   .name {
-    font-size: 40vw;
+    font-size: 24vw;
   }
 }
 </style>

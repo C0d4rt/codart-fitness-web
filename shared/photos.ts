@@ -29,6 +29,13 @@ export const PHOTO_CREDITS = [
     page: 'https://commons.wikimedia.org/wiki/File:Healthy_Breakfast_1_(Unsplash).jpg',
   },
   {
+    title: 'Eating Healthy',
+    author: 'rawpixel.com',
+    licence: 'CC0',
+    licenceUrl: 'https://creativecommons.org/publicdomain/zero/1.0/deed.pt-br',
+    page: 'https://commons.wikimedia.org/wiki/File:Eating_Healthy_(Unsplash).jpg',
+  },
+  {
     title: 'Jogger in morning mist, 7th Brigade Park, Chermside',
     author: 'John Robert McPherson',
     licence: 'CC BY-SA 4.0',

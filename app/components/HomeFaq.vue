@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { brand } from '~/brand'
+
 const props = defineProps<{ trialDays: number }>()
 
 const QUESTIONS = computed(() => [
@@ -52,75 +54,232 @@ const QUESTIONS = computed(() => [
 </script>
 
 <template>
-  <section id="perguntas" class="faq" data-chapter="paper">
-    <h2 class="heading">Perguntas</h2>
-    <dl class="rows">
-      <div v-for="each in QUESTIONS" :key="each.question" class="row" data-reveal>
-        <dt class="question">{{ each.question }}</dt>
-        <dd class="answer">{{ each.answer }}</dd>
+  <section id="perguntas" class="faq" aria-labelledby="faq-title">
+    <div class="column">
+      <h2 id="faq-title" class="title">Perguntas</h2>
+      <ul class="facts">
+        <li>Sem app novo: tudo no WhatsApp.</li>
+        <li>{{ trialDays }} dias grátis, sem cartão.</li>
+        <li>Pix ou cartão, na própria conversa.</li>
+      </ul>
+      <div class="questions">
+        <details v-for="each in QUESTIONS" :key="each.question">
+          <summary>
+            <span>{{ each.question }}</span>
+            <span class="chevron" aria-hidden="true" />
+          </summary>
+          <p>{{ each.answer }}</p>
+        </details>
       </div>
-    </dl>
+      <div class="actions">
+        <WhatsAppButton location="faq" />
+        <a :href="`mailto:${brand.company.email}`" class="link">Escrever para nós</a>
+      </div>
+    </div>
+    <div class="pictures">
+      <figure class="tall">
+        <img
+          src="/images/refeicao.jpg"
+          alt="Uma pessoa comendo uma salada de beterraba numa mesa de madeira"
+          width="1400"
+          height="934"
+          loading="lazy"
+        />
+      </figure>
+      <figure class="square">
+        <img
+          src="/images/iogurte.jpg"
+          alt="Uma tigela de iogurte com frutas"
+          width="1100"
+          height="1650"
+          loading="lazy"
+        />
+      </figure>
+    </div>
   </section>
 </template>
 
 <style scoped>
 .faq {
   display: grid;
-  gap: 3rem;
-  padding: var(--gap-section) var(--margin) 0;
-}
-
-.heading,
-.question {
-  font-size: var(--step-lead);
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-
-.heading {
-  color: var(--green-ink);
-}
-
-.rows {
-  display: grid;
-  gap: 4rem;
-  margin: 0;
-}
-
-.row {
-  display: grid;
   grid-template-columns: repeat(12, 1fr);
-  column-gap: 1.5rem;
-  align-items: baseline;
+  column-gap: var(--gutter);
+  padding: 0 var(--margin) 5rem;
+  background: var(--surface);
 }
 
-.question {
-  grid-column: 1 / 7;
+.column {
+  grid-column: 1 / 6;
+  display: grid;
+  align-content: start;
+  gap: 2rem;
+  padding-top: 6rem;
+}
+
+.title {
+  font-size: var(--step-head);
+}
+
+.facts {
+  display: grid;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--step-body);
+}
+
+.questions {
+  display: grid;
+  gap: 1.75rem;
+}
+
+summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 2.75rem;
+  font-size: var(--step-body);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  list-style: none;
+  cursor: pointer;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+.chevron {
+  position: relative;
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+  transition: transform 260ms var(--ease-out);
+}
+
+.chevron::before,
+.chevron::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 0.5rem;
+  height: 2px;
+  background: currentColor;
+}
+
+.chevron::before {
+  left: 0;
+  transform: rotate(40deg);
+}
+
+.chevron::after {
+  right: 0;
+  transform: rotate(-40deg);
+}
+
+details[open] .chevron {
+  transform: rotate(180deg);
+}
+
+details p {
+  max-width: 44ch;
+  padding-top: 0.5rem;
+  color: var(--muted);
+  font-size: var(--step-body);
+}
+
+details[open] p {
+  animation: open 320ms var(--ease-out);
+}
+
+@keyframes open {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  summary:hover span:first-child {
+    text-decoration: underline;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.link {
   font-weight: 500;
 }
 
-.answer {
-  grid-column: 8 / 13;
-  max-width: 42ch;
-  margin: 0;
-  line-height: 1.55;
+.pictures {
+  grid-column: 7 / 13;
+  position: relative;
+  align-self: start;
+  margin-top: -4rem;
 }
 
-@media (max-width: 63.99rem) {
-  .rows {
-    gap: 3rem;
+.tall {
+  overflow: hidden;
+}
+
+.tall img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.square {
+  position: absolute;
+  bottom: 2.5rem;
+  left: -2.5rem;
+  width: 33%;
+  overflow: hidden;
+}
+
+.square img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  details[open] p {
+    animation: none;
   }
-  .row {
-    grid-template-columns: 1fr;
-    row-gap: 0.75rem;
+}
+
+@media (max-width: 47.99rem) {
+  .faq {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 2rem;
   }
-  .question,
-  .answer {
-    grid-column: 1;
+  .pictures {
+    margin-top: 0;
+    padding-top: 3rem;
   }
-  .heading,
-  .question {
-    font-size: 1.5rem;
+  .tall img {
+    aspect-ratio: 4 / 5;
+  }
+  .square {
+    left: auto;
+    right: -0.5rem;
+    bottom: -1.5rem;
+    width: 38%;
+  }
+  .column {
+    padding-top: 2rem;
+  }
+  .actions :deep(.button) {
+    width: 100%;
   }
 }
 </style>

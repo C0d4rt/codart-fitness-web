@@ -21,22 +21,31 @@ useSeoMeta({
     <SiteNav />
 
     <header id="hero" class="hero">
-      <div class="upper" data-chapter="paper" />
-      <div class="lower" data-chapter="green" />
+      <figure class="small">
+        <img
+          src="/images/frutas.jpg"
+          alt="Framboesas e mirtilos num prato branco"
+          width="1400"
+          height="941"
+        />
+      </figure>
       <h1 class="headline">
-        Conte o que<br />
-        <span class="slot"
-          ><img
-            src="/images/brunch.jpg"
-            alt="Uma tigela de frutas com kiwi, banana e amoras, vista de cima"
-            width="1600"
-            height="1100" /></span
-        >comeu.
+        <span class="line one"><span>Conte o</span></span
+        >{{ ' ' }}
+        <span class="line two"><span>que comeu.</span></span>
       </h1>
-      <div class="hero-copy" data-reveal>
-        <p class="claim">
-          Seu diário de dieta e treino no WhatsApp: mande texto, áudio ou foto e saiba quanto falta
-          da meta.
+      <figure class="tall">
+        <img
+          src="/images/brunch.jpg"
+          alt="Uma tigela de frutas com kiwi, banana e amoras, vista de cima"
+          width="1600"
+          height="1100"
+        />
+      </figure>
+      <div class="lead">
+        <p>
+          Um diário de dieta e treino dentro do WhatsApp. Mande texto, áudio ou foto e saiba quanto
+          falta da meta.
         </p>
         <WhatsAppButton location="hero" />
         <p class="terms">
@@ -46,15 +55,10 @@ useSeoMeta({
       </div>
     </header>
 
-    <HomeHow />
+    <HomeDay />
     <HomeShowcase />
     <HomeFeatures />
-    <HomeTraining />
-
-    <PlanFields :catalog="catalog" />
-    <p class="more" data-chapter="paper">
-      <NuxtLink to="/planos">Ver tudo o que cada plano faz, com exemplos</NuxtLink>
-    </p>
+    <PlanMenu :catalog="catalog" />
     <HomeSources />
     <HomeFaq :trial-days="catalog.trialDays" />
     <HomeStart />
@@ -64,120 +68,146 @@ useSeoMeta({
 
 <style scoped>
 .hero {
-  --seam: 52svh;
-  position: relative;
   display: grid;
-  min-height: calc(100svh + 12svh);
-  overflow: hidden;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 30svh auto auto auto;
+  column-gap: var(--gutter);
+  min-height: calc(100svh - 5.5rem);
+  padding: 0 var(--margin);
 }
 
-.upper,
-.lower {
-  position: absolute;
-  inset-inline: 0;
+.small {
+  grid-column: 10 / 13;
+  grid-row: 1;
+  align-self: end;
+  margin-bottom: 1.25rem;
 }
 
-.upper {
-  top: 0;
-  height: var(--seam);
-  background: var(--paper);
-}
-
-.lower {
-  top: var(--seam);
-  bottom: 0;
-  background: var(--green);
+.small img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
 }
 
 .headline {
-  position: absolute;
-  top: calc(var(--seam) - 1.22em);
-  left: 50%;
-  width: max-content;
-  color: var(--ink);
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: block;
   font-size: var(--step-display);
-  line-height: 0.9;
+  line-height: 1;
   letter-spacing: -0.045em;
-  text-align: center;
-  transform: translateX(-50%);
 }
 
-.slot {
-  display: inline-block;
-  width: 2.1em;
-  height: 0.74em;
-  margin-right: 0.18em;
+.line {
+  display: block;
   overflow: hidden;
-  border-radius: 0.14em;
-  vertical-align: -0.02em;
+  padding-bottom: 0.08em;
 }
 
-.slot img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 55% 48%;
+.line > span {
+  display: block;
+}
+
+.one {
+  padding-left: calc((100% + var(--gutter)) / 12);
+}
+
+.two {
+  padding-left: calc((100% + var(--gutter)) / 12 * 5);
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .slot img {
-    animation: drift 14s var(--ease-in-out) infinite alternate;
+  .line > span {
+    animation: rise 900ms var(--ease-out) both;
+  }
+  .two > span {
+    animation-delay: 110ms;
+  }
+  .lead {
+    animation: appear 700ms var(--ease-out) 420ms both;
   }
 }
 
-@keyframes drift {
+@keyframes rise {
   from {
-    transform: scale(1.04);
-  }
-  to {
-    transform: scale(1.22) translateX(-6%);
+    transform: translateY(105%);
   }
 }
 
-.hero-copy {
-  position: relative;
-  align-self: end;
-  justify-self: center;
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.tall {
+  grid-column: 2 / 5;
+  grid-row: 3 / 5;
+  margin-top: 1.5rem;
+  overflow: hidden;
+}
+
+.tall img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.lead {
+  grid-column: 6 / 12;
+  grid-row: 3;
   display: grid;
-  justify-items: center;
+  justify-items: start;
   gap: 1.5rem;
-  max-width: 48rem;
-  padding: 0 var(--margin) 4.5rem;
-  color: var(--ink);
-  text-align: center;
+  margin-top: 2.5rem;
 }
 
-.claim {
+.lead > p:first-child {
+  max-width: 36ch;
+  color: var(--muted);
   font-size: var(--step-lead);
-  font-weight: 500;
-  line-height: 1.25;
-  letter-spacing: -0.015em;
+  line-height: 1.35;
 }
 
 .terms {
+  color: var(--muted);
   font-size: var(--step-small);
-  font-weight: 500;
-}
-
-.more {
-  padding: 2rem var(--margin) 0;
-  font-weight: 500;
 }
 
 @media (max-width: 47.99rem) {
   .hero {
-    --seam: 42svh;
-    min-height: 100svh;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    min-height: auto;
+  }
+  .small {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: end;
+    width: 46%;
+    margin: 1rem 0 1.5rem;
   }
   .headline {
-    font-size: 16vw;
+    grid-row: 2;
+    font-size: 14vw;
   }
-  .hero-copy {
-    padding-bottom: 2.5rem;
+  .one {
+    padding-left: 0;
   }
-  .claim {
-    max-width: 28ch;
-    font-size: 1.125rem;
+  .two {
+    padding-left: 18vw;
+  }
+  .tall {
+    grid-column: 1;
+    grid-row: 3;
+    width: 72%;
+  }
+  .lead {
+    grid-column: 1;
+    grid-row: 4;
+    margin-top: 1.5rem;
   }
 }
 </style>
