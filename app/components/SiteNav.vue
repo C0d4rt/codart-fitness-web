@@ -5,9 +5,12 @@ import { brand } from '~/brand'
 <template>
   <header class="site-header">
     <nav class="nav" aria-label="Principal">
-      <NuxtLink to="/" class="wordmark display">{{ brand.name }}</NuxtLink>
+      <NuxtLink to="/" class="wordmark">
+        <span class="mark" aria-hidden="true" />{{ brand.name.toLowerCase() }}
+      </NuxtLink>
       <ul class="links">
         <li><NuxtLink to="/#como-funciona">Como funciona</NuxtLink></li>
+        <li><NuxtLink to="/#do-seu-jeito">Recursos</NuxtLink></li>
         <li><NuxtLink to="/planos">Planos</NuxtLink></li>
         <li><NuxtLink to="/#perguntas">Perguntas</NuxtLink></li>
       </ul>
@@ -27,9 +30,22 @@ import { brand } from '~/brand'
 }
 
 .wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   justify-self: start;
-  font-size: 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
   text-decoration: none;
+}
+
+.mark {
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: inset 0 0 0 0.3rem var(--mint); /* taste-skill-ignore: a ring drawn as the logo mark, not a shadow */
 }
 
 .links {
@@ -38,6 +54,7 @@ import { brand } from '~/brand'
   margin: 0;
   padding: 0;
   list-style: none;
+  font-weight: 500;
 }
 
 .links a {
@@ -59,7 +76,7 @@ import { brand } from '~/brand'
   font-size: var(--step-small);
 }
 
-@media (max-width: 47.99rem) {
+@media (max-width: 63.99rem) {
   .nav {
     grid-template-columns: 1fr auto;
   }

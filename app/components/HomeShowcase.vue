@@ -15,103 +15,108 @@ const NOTES: Record<ShowcaseOutput, string> = {
 
 <template>
   <section id="o-que-volta" class="showcase" aria-labelledby="showcase-title">
-    <div class="index">
-      <h2 id="showcase-title" class="title">O que ele te devolve</h2>
-      <div class="names" role="group" aria-label="Escolha uma resposta para ver">
-        <button
-          v-for="output in SHOWCASE_OUTPUTS"
-          :key="output.id"
-          type="button"
-          class="name"
-          :aria-pressed="selected === output.id"
-          @click="selected = output.id"
-        >
-          {{ output.name }}
-        </button>
+    <div class="panel">
+      <div class="side">
+        <h2 id="showcase-title" class="title">Pergunte, e ele responde</h2>
+        <div class="tabs" role="group" aria-label="Escolha uma resposta para ver">
+          <button
+            v-for="output in SHOWCASE_OUTPUTS"
+            :key="output.id"
+            type="button"
+            class="tab"
+            :aria-pressed="selected === output.id"
+            @click="selected = output.id"
+          >
+            {{ output.name }}
+          </button>
+        </div>
+        <p class="note" aria-live="polite">{{ NOTES[selected] }}</p>
       </div>
-      <p class="note" aria-live="polite">{{ NOTES[selected] }}</p>
-    </div>
-    <div class="stage">
-      <Transition name="swap" mode="out-in">
-        <ChatWindow :key="screen.id" :screen="screen" class="sheet" />
-      </Transition>
+      <div class="answer">
+        <Transition name="swap" mode="out-in">
+          <ChatWindow :key="screen.id" :screen="screen" class="sheet" />
+        </Transition>
+      </div>
     </div>
   </section>
 </template>
 
 <style scoped>
 .showcase {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  column-gap: var(--gutter);
   padding: var(--gap-section) var(--margin) 0;
 }
 
-.index {
-  grid-column: 1 / 6;
+.panel {
   display: grid;
-  align-content: center;
-  gap: 2rem;
+  grid-template-columns: 5fr 7fr;
+  gap: 3rem;
+  align-items: center;
+  padding: clamp(1.5rem, 1rem + 3vw, 4rem);
+  border-radius: 2rem;
+  background: var(--card);
+}
+
+.side {
+  display: grid;
+  gap: 1.75rem;
 }
 
 .title {
-  color: var(--muted);
-  font-size: var(--step-lead);
-}
-
-.names {
-  display: grid;
-  justify-items: start;
-}
-
-.name {
-  padding: 0.125rem 0;
-  border: 0;
-  background: none;
-  color: var(--muted);
   font-size: var(--step-head);
-  font-weight: 400;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  text-align: left;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tab {
+  min-height: 2.75rem;
+  padding: 0 1.125rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--tone);
+  color: var(--ink);
+  font-weight: 500;
   cursor: pointer;
   transition:
+    background-color 180ms ease,
     color 180ms ease,
     transform 160ms var(--ease-out);
 }
 
-.name[aria-pressed='true'] {
-  color: var(--ink);
+.tab[aria-pressed='true'] {
+  background: var(--green);
+  color: var(--green-ink);
 }
 
-.name:active {
-  transform: scale(0.98);
+.tab:active {
+  transform: scale(0.97);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .name:hover {
-    color: var(--ink);
+  .tab:not([aria-pressed='true']):hover {
+    background: var(--mint);
   }
 }
 
 .note {
-  max-width: 34ch;
+  max-width: 36ch;
+  color: var(--muted);
 }
 
-.stage {
-  grid-column: 7 / 13;
+.answer {
   display: grid;
-  justify-items: start;
-  align-items: start;
-  height: 38rem;
-  overflow: hidden;
-  padding: 4.5rem 0 0 4rem;
-  background: var(--surface);
+  place-items: center;
+  min-height: 30rem;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  background: var(--mint);
 }
 
 .sheet {
-  width: min(25rem, 100%);
-  max-height: none;
+  width: min(24rem, 100%);
 }
 
 .swap-enter-active {
@@ -126,7 +131,7 @@ const NOTES: Record<ShowcaseOutput, string> = {
 
 .swap-enter-from {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(10px) scale(0.98);
 }
 
 .swap-leave-to {
@@ -140,29 +145,12 @@ const NOTES: Record<ShowcaseOutput, string> = {
 }
 
 @media (max-width: 63.99rem) {
-  .showcase {
+  .panel {
     grid-template-columns: 1fr;
-    row-gap: 2rem;
   }
-  .index,
-  .stage {
-    grid-column: 1;
-  }
-  .names {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 1.25rem;
-  }
-  .name {
-    font-size: 1.5rem;
-  }
-  .stage {
-    height: auto;
-    max-height: 32rem;
-    padding: 1.25rem 0 1.25rem 1rem;
-  }
-  .sheet {
-    width: min(22rem, calc(100% - 1rem));
+  .answer {
+    min-height: 0;
+    padding: 1.25rem;
   }
 }
 </style>
