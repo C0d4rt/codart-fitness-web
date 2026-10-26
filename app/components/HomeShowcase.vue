@@ -110,9 +110,6 @@ const NOTES: Record<ShowcaseOutput, string> = {
   display: grid;
   place-items: center;
   min-height: 30rem;
-  padding: 2rem;
-  border-radius: 1.5rem;
-  background: #1d3a2c;
 }
 
 .sheet {
@@ -150,7 +147,6 @@ const NOTES: Record<ShowcaseOutput, string> = {
   }
   .answer {
     min-height: 0;
-    padding: 1.25rem;
   }
 }
 </style>
