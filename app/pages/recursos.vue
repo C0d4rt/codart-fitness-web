@@ -17,10 +17,7 @@ const planLine = (plan: 'basic' | 'premium') =>
     <SiteNav />
     <header class="intro">
       <h1 class="title">Recursos</h1>
-      <p class="lead">
-        Cada recurso com um exemplo da conversa. Os {{ catalog.trialDays }} dias grátis têm tudo do
-        Premium.
-      </p>
+      <p class="lead">Tudo o que dá para fazer na conversa, com exemplos de verdade</p>
     </header>
 
     <section
@@ -72,8 +69,8 @@ const planLine = (plan: 'basic' | 'premium') =>
 
 .group {
   display: grid;
-  gap: 0.75rem;
-  padding: 4rem var(--margin) 0;
+  gap: 4rem;
+  padding: 6rem var(--margin) 0;
 }
 
 .group-name {
@@ -84,11 +81,8 @@ const planLine = (plan: 'basic' | 'premium') =>
 .feature {
   display: grid;
   grid-template-columns: 5fr 7fr;
-  gap: 2.5rem;
+  gap: 3rem;
   align-items: center;
-  padding: 2rem;
-  border-radius: var(--radius);
-  background: var(--card);
   scroll-margin-top: 1.5rem;
 }
 
@@ -119,9 +113,6 @@ const planLine = (plan: 'basic' | 'premium') =>
 .example {
   display: grid;
   place-items: center end;
-  padding: 1.5rem;
-  border-radius: 1.25rem;
-  background: var(--mint);
 }
 
 .chat {
@@ -132,10 +123,6 @@ const planLine = (plan: 'basic' | 'premium') =>
   .feature {
     grid-template-columns: 1fr;
     gap: 1.5rem;
-    padding: 1.5rem;
-  }
-  .example {
-    padding: 1rem;
   }
 }
 </style>

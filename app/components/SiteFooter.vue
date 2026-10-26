@@ -18,16 +18,16 @@ const consent = useConsent()
           <button type="button" class="link" @click="consent.reopen()">Cookies</button>
         </li>
       </ul>
-      <a class="email" :href="`mailto:${brand.company.email}`">{{ brand.company.email }}</a>
+      <p class="end">
+        <a class="email" :href="`mailto:${brand.company.email}`">{{ brand.company.email }}</a>
+        <span class="legal">© 2026 {{ brand.company.name }}</span>
+      </p>
     </div>
-    <p class="legal">© 2026 {{ brand.company.name }}</p>
   </footer>
 </template>
 
 <style scoped>
 .footer {
-  display: grid;
-  gap: 1.5rem;
   margin-top: var(--gap-section);
   padding: 2.5rem var(--margin) 2rem;
   background: var(--card);
@@ -91,6 +91,12 @@ const consent = useConsent()
   .email:hover {
     color: var(--ink);
   }
+}
+
+.end {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
 }
 
 .legal {

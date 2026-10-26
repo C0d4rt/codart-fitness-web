@@ -4,7 +4,7 @@
       <div class="copy" data-reveal>
         <h2 id="comece" class="title">Comece pelo almoço de hoje</h2>
         <p>
-          Mande um oi no WhatsApp e comece agora: 7 dias grátis, com tudo do Premium e sem cartão.
+          Mande um oi no WhatsApp e comece agora: 7 dias grátis, com tudo do Premium e sem cartão
         </p>
         <WhatsAppButton location="start" inverse />
       </div>

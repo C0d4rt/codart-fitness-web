@@ -56,7 +56,6 @@ onBeforeUnmount(() => clearInterval(timer))
         <ChatWindow :key="current.screen.id" :screen="current.screen" class="chat" />
       </Transition>
     </div>
-    <p class="caption" aria-live="polite">{{ current.caption }}</p>
   </div>
 </template>
 
@@ -105,13 +104,6 @@ onBeforeUnmount(() => clearInterval(timer))
   .swap-enter-from {
     transform: none;
   }
-}
-
-.caption {
-  justify-self: center;
-  color: var(--muted);
-  font-size: var(--step-small);
-  font-weight: 500;
 }
 
 @media (max-width: 47.99rem) {

@@ -16,7 +16,7 @@ useSeoMeta({
       <h1 class="title">Planos</h1>
       <p class="lead">
         Comece com {{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão. Depois,
-        escolha o plano na própria conversa.
+        escolha o plano na própria conversa
       </p>
     </header>
 

@@ -9,7 +9,7 @@ const plans = computed(() => [
   {
     id: 'premium',
     plan: props.catalog.premium,
-    who: 'Para quem quer a foto do prato e saber o que comer. É o plano do teste grátis.',
+    who: 'Para quem quer a foto do prato e saber o que comer',
     items: [
       'Tudo do Básico',
       ...props.catalog.premium.features
@@ -22,7 +22,7 @@ const plans = computed(() => [
   {
     id: 'basic',
     plan: props.catalog.basic,
-    who: 'Para quem quer o diário inteiro, por texto e áudio.',
+    who: 'Para quem quer o diário inteiro, por texto e áudio',
     items: props.catalog.basic.features.slice(0, 6).map((feature) => feature.name),
     featured: false,
   },
@@ -34,8 +34,8 @@ const plans = computed(() => [
     <div class="head" data-reveal>
       <h2 id="pricing-title" :class="bare ? 'visually-hidden' : 'title'">Planos simples</h2>
       <p v-if="!bare">
-        {{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão. Depois, escolha na
-        própria conversa e pague no Pix ou no cartão.
+        {{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão. Depois, pague no Pix ou
+        no cartão
       </p>
       <div class="period" role="group" aria-label="Período">
         <button type="button" :aria-pressed="period === 'month'" @click="period = 'month'">

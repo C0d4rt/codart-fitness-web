@@ -4,7 +4,7 @@ import type { ChatScreen } from '#shared/chat'
 const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
   {
     tone: 'mint',
-    clause: 'Você conta o que comeu.',
+    clause: 'Você conta o que comeu',
     screen: {
       id: 'how-tell',
       label: 'A pessoa conta o almoço numa mensagem.',
@@ -13,7 +13,7 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
   },
   {
     tone: 'sky',
-    clause: 'Ele anota e soma na hora.',
+    clause: 'Ele anota e soma na hora',
     screen: {
       id: 'how-log',
       label: 'O almoço registrado com as calorias.',
@@ -22,7 +22,7 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
   },
   {
     tone: 'peach',
-    clause: 'Pergunte quanto falta.',
+    clause: 'Pergunte quanto falta',
     screen: {
       id: 'how-left',
       label: 'A pergunta de quanto falta e a resposta.',
@@ -34,7 +34,7 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
   },
   {
     tone: 'sand',
-    clause: 'Sumiu? Ele te lembra.',
+    clause: 'Sumiu? Ele te lembra',
     screen: {
       id: 'how-remind',
       label: 'O lembrete curto do dia seguinte.',
