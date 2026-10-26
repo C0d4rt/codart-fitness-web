@@ -258,6 +258,23 @@ export const FEATURE_COPY: Record<string, FeatureCopy> = {
       bot('⏱️ Seu jejum de 16 h terminou (começou às 20:00). Pode comer!', '12:00'),
     ],
   },
+  compareProducts: {
+    headline: 'No mercado, compare antes de levar',
+    howTo:
+      'Diga "quero comparar" e mande o código de barras ou a foto do rótulo de cada produto, um por vez, até 5. O diário põe lado a lado os números, os selos "alto em", os primeiros ingredientes e quanto cada um cabe no seu dia, sem dizer qual é "o melhor".',
+    exchange: [
+      you('quero comparar esses dois iogurtes', '17:40'),
+      bot(
+        '🛒 Vamos comparar. Manda o código de barras ou a foto do rótulo de cada produto, *uma foto por vez*, até 5 produtos. Quando terminar, diga *compara*.',
+        '17:40',
+      ),
+      you('qual tem menos açúcar?', '17:43'),
+      bot(
+        '🛒 *Comparação* de 2 produtos, por 100 g\nNa ordem de menos açúcar, menos calorias e menos selos "alto em":\n\n*A) Iogurte natural*\n60 kcal · 4 g de proteína · 5 g de açúcares totais · 50 mg de sódio\nSem selo "alto em"\nPrimeiros ingredientes: leite integral, fermento lácteo\nPorção de 170 g: 102 kcal, cabe nas 420 kcal que faltam hoje\n\n*B) Iogurte de morango*\n90 kcal · 3 g de proteína · 12 g de açúcares totais · 60 mg de sódio\nSem selo "alto em"\nPrimeiros ingredientes: leite, açúcar, preparado de morango (açúcar entre eles)\nUltraprocessado (NOVA 4, segundo a Open Food Facts)\nPorção de 170 g: 153 kcal, cabe nas 420 kcal que faltam hoje\n\nComparei pelos números do rótulo, com dados da Open Food Facts.',
+        '17:43',
+      ),
+    ],
+  },
   weekSummary: {
     headline: 'A semana num resumo e num gráfico',
     howTo:

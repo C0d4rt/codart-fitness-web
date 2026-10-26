@@ -167,6 +167,12 @@
       "name": "Jejum intermitente"
     },
     {
+      "id": "compareProducts",
+      "plan": "premium",
+      "group": "goals",
+      "name": "Comparar no mercado"
+    },
+    {
       "id": "weekSummary",
       "plan": "basic",
       "group": "reports",
