@@ -27,21 +27,28 @@ const planLine = (plan: 'basic' | 'premium') =>
       :aria-labelledby="`group-${group.id}`"
     >
       <h2 :id="`group-${group.id}`" class="group-name">{{ group.name }}</h2>
-      <article v-for="feature in group.features" :id="feature.id" :key="feature.id" class="feature">
-        <div class="words">
-          <h3 class="headline">{{ feature.headline }}</h3>
-          <p class="plan" :class="feature.plan">
-            {{ feature.name }} · {{ planLine(feature.plan) }}
-          </p>
-          <p class="how-to">{{ feature.howTo }}</p>
-        </div>
-        <div class="example">
-          <ChatWindow
-            :screen="{ id: feature.id, label: feature.headline, messages: feature.exchange }"
-            class="chat"
-          />
-        </div>
-      </article>
+      <div class="features">
+        <article
+          v-for="feature in group.features"
+          :id="feature.id"
+          :key="feature.id"
+          class="feature"
+        >
+          <div class="words">
+            <h3 class="headline">{{ feature.headline }}</h3>
+            <p class="plan" :class="feature.plan">
+              {{ feature.name }} · {{ planLine(feature.plan) }}
+            </p>
+            <p class="how-to">{{ feature.howTo }}</p>
+          </div>
+          <div class="example">
+            <ChatWindow
+              :screen="{ id: feature.id, label: feature.headline, messages: feature.exchange }"
+              class="chat"
+            />
+          </div>
+        </article>
+      </div>
     </section>
 
     <SiteFooter />
@@ -49,16 +56,10 @@ const planLine = (plan: 'basic' | 'premium') =>
 </template>
 
 <style scoped>
-.intro,
-.group {
-  width: min(100% - 2 * var(--margin), 59rem);
-  margin-inline: auto;
-}
-
 .intro {
   display: grid;
   gap: 1.25rem;
-  padding: 4rem 0 2rem;
+  padding: 4rem var(--margin) 0;
 }
 
 .title {
@@ -74,13 +75,21 @@ const planLine = (plan: 'basic' | 'premium') =>
 
 .group {
   display: grid;
-  gap: 4rem;
-  padding: 6rem 0 0;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+  gap: 3rem;
+  padding: 6rem var(--margin) 0;
 }
 
 .group-name {
-  margin-bottom: 0.75rem;
-  font-size: var(--step-head);
+  position: sticky;
+  top: 6rem;
+  align-self: start;
+  font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.75rem);
+}
+
+.features {
+  display: grid;
+  gap: 4rem;
 }
 
 .feature {
@@ -126,6 +135,14 @@ const planLine = (plan: 'basic' | 'premium') =>
 }
 
 @media (max-width: 63.99rem) {
+  .group {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-top: 4rem;
+  }
+  .group-name {
+    position: static;
+  }
   .feature {
     grid-template-columns: 1fr;
     gap: 1.5rem;

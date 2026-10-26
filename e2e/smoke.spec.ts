@@ -44,7 +44,7 @@ test('the showcase swaps the answer the visitor picks', async ({ page }) => {
   ).toBeVisible()
 })
 
-for (const path of ['/', '/planos', '/recursos']) {
+for (const path of ['/', '/planos', '/recursos', '/contato']) {
   test(`screenshot of ${path}`, async ({ page }, info) => {
     await page.goto(path)
     await page.waitForLoadState('networkidle')

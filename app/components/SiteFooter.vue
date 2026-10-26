@@ -14,14 +14,12 @@ const consent = useConsent()
         <li><NuxtLink to="/termos">Termos</NuxtLink></li>
         <li><NuxtLink to="/privacidade">Privacidade</NuxtLink></li>
         <li><NuxtLink to="/creditos">Créditos</NuxtLink></li>
+        <li><NuxtLink to="/contato">Contato</NuxtLink></li>
         <li v-if="consent.needed">
           <button type="button" class="link" @click="consent.reopen()">Cookies</button>
         </li>
       </ul>
-      <p class="end">
-        <a class="email" :href="`mailto:${brand.company.email}`">{{ brand.company.email }}</a>
-        <span class="legal">© 2026 {{ brand.company.name }}</span>
-      </p>
+      <p class="legal">© 2026 {{ brand.company.name }}</p>
     </div>
   </footer>
 </template>
@@ -71,8 +69,7 @@ const consent = useConsent()
 }
 
 .links a,
-.link,
-.email {
+.link {
   color: var(--muted);
   text-decoration: none;
   transition: color 160ms ease;
@@ -87,16 +84,9 @@ const consent = useConsent()
 
 @media (hover: hover) and (pointer: fine) {
   .links a:hover,
-  .link:hover,
-  .email:hover {
+  .link:hover {
     color: var(--ink);
   }
-}
-
-.end {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
 }
 
 .legal {
