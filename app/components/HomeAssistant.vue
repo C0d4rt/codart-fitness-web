@@ -2,10 +2,10 @@
   <section class="assistant" aria-labelledby="assistant-title">
     <figure class="photo">
       <img
-        src="/images/corrida.jpg"
-        alt="Uma pessoa correndo num parque na névoa da manhã"
-        width="1600"
-        height="1200"
+        src="/images/agua.jpg"
+        alt="Uma pessoa bebendo água na sala depois de treinar em casa"
+        width="1200"
+        height="1804"
         loading="lazy"
       />
     </figure>
@@ -23,10 +23,10 @@
     </div>
     <figure class="photo small">
       <img
-        src="/images/iogurte.jpg"
-        alt="Uma tigela de iogurte com frutas ao lado de uma jarra de leite"
-        width="1100"
-        height="1650"
+        src="/images/celular-tapete.jpg"
+        alt="Uma pessoa sentada no tapete de treino conferindo o celular"
+        width="1400"
+        height="933"
         loading="lazy"
       />
     </figure>

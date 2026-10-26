@@ -24,6 +24,12 @@ export const HOW_SCREEN: ChatScreen = {
   messages: [...exchange('reminders'), ...exchange('dayGoal')],
 }
 
+export const WORKOUT_SCREEN: ChatScreen = {
+  id: 'workout',
+  label: 'O treino contado numa mensagem e o gasto estimado que volta.',
+  messages: exchange('workouts'),
+}
+
 export const SHOWCASE_OUTPUTS = [
   { id: 'day', name: 'O dia', feature: 'dayGoal' },
   { id: 'week', name: 'A semana', feature: 'weekSummary' },

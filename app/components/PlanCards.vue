@@ -192,6 +192,7 @@ const plans = computed(() => [
 
 .per {
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .items {

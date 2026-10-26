@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { money } from '#shared/plans'
-import { HERO_SCREEN } from '#shared/screens'
 
 import { brand } from '~/brand'
 
@@ -23,10 +22,10 @@ useSeoMeta({
 
     <header id="hero" class="hero">
       <div class="copy" data-reveal>
-        <h1 class="headline">Seu assistente de saúde no WhatsApp</h1>
+        <h1 class="headline">Seu assistente de saúde.</h1>
         <p class="lead">
-          Hoje ele cuida da sua alimentação e dos seus treinos. Conte o que comeu por texto, áudio
-          ou foto e saiba na hora quanto falta da meta.
+          No WhatsApp. Hoje ele cuida da sua alimentação e dos seus treinos: conte o que comeu por
+          texto, áudio ou foto e saiba na hora quanto falta da meta.
         </p>
         <div class="actions">
           <WhatsAppButton location="hero" />
@@ -37,38 +36,12 @@ useSeoMeta({
           {{ from }} por mês.
         </p>
       </div>
-
-      <div class="stage">
-        <div class="phone">
-          <PhoneFrame :screen="HERO_SCREEN" />
-        </div>
-        <div class="float today" data-ui>
-          <p class="float-title">Hoje</p>
-          <CalorieRing :eaten="1240" :goal="1800" :size="112" />
-          <p class="float-note">Faltam 560 kcal</p>
-        </div>
-        <div class="float macros" data-ui>
-          <p class="float-title">Macros do dia</p>
-          <ul>
-            <li>
-              <span>Proteína</span><span class="grams">78 g</span>
-              <i class="meter"><b style="--w: 65%; --c: var(--protein)" /></i>
-            </li>
-            <li>
-              <span>Carboidrato</span><span class="grams">140 g</span>
-              <i class="meter"><b style="--w: 70%; --c: var(--carbs)" /></i>
-            </li>
-            <li>
-              <span>Gordura</span><span class="grams">38 g</span>
-              <i class="meter"><b style="--w: 63%; --c: var(--fat)" /></i>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <HeroDemo />
     </header>
 
     <HomeHow />
     <HomeBento />
+    <HomeMoment />
     <HomeShowcase />
     <HomeAssistant />
     <PlanCards :catalog="catalog" />
@@ -95,8 +68,10 @@ useSeoMeta({
 }
 
 .headline {
-  max-width: 18ch;
+  max-width: 13ch;
   font-size: var(--step-display);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
 }
 
 .lead {
@@ -129,144 +104,10 @@ useSeoMeta({
   font-size: var(--step-small);
 }
 
-.stage {
-  position: relative;
-  display: grid;
-  grid-template-columns: 100%;
-  place-items: center;
-  height: min(80svh, 46rem);
-  overflow: hidden;
-  border-radius: 2rem;
-  background: var(--mint);
-}
-
-.phone {
-  width: min(21rem, 66%);
-  margin-top: 8rem;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .phone {
-    animation: rise 1s var(--ease-out) 150ms both;
-  }
-  .float {
-    animation: pop 700ms var(--ease-out) both;
-  }
-  .today {
-    animation-delay: 700ms;
-  }
-  .macros {
-    animation-delay: 850ms;
-  }
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-}
-
-@keyframes pop {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.96);
-  }
-}
-
-.float {
-  position: absolute;
-  display: grid;
-  gap: 0.625rem;
-  padding: 1.125rem 1.25rem;
-  border-radius: 1.25rem;
-  background: var(--card);
-  font-size: var(--step-small);
-}
-
-.today {
-  top: 2.5rem;
-  left: 2rem;
-  justify-items: center;
-}
-
-.macros {
-  right: 2rem;
-  bottom: 3rem;
-  width: 15rem;
-}
-
-.float-title {
-  justify-self: start;
-  font-weight: 700;
-}
-
-.float-note {
-  color: var(--green);
-  font-weight: 500;
-}
-
-.macros ul {
-  display: grid;
-  gap: 0.75rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.macros li {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.25rem 0.5rem;
-}
-
-.grams {
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-}
-
-.meter {
-  grid-column: 1 / -1;
-  display: block;
-  height: 6px;
-  overflow: hidden;
-  border-radius: 3px;
-  background: var(--tone);
-}
-
-.meter b {
-  display: block;
-  width: var(--w);
-  height: 100%;
-  border-radius: 3px;
-  background: var(--c);
-}
-
 @media (max-width: 63.99rem) {
   .hero {
     grid-template-columns: 1fr;
     min-height: 0;
-  }
-  .stage {
-    height: 36rem;
-  }
-}
-
-@media (max-width: 47.99rem) {
-  .stage {
-    height: 30rem;
-  }
-  .phone {
-    width: 78%;
-    margin-top: 5rem;
-  }
-  .today {
-    top: 1rem;
-    left: 1rem;
-    padding: 0.875rem;
-  }
-  .macros {
-    display: none;
   }
 }
 </style>
