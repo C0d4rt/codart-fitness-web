@@ -19,16 +19,16 @@ useSeoMeta({
 
     <header id="hero" class="hero">
       <div class="copy" data-reveal>
-        <h1 class="headline">Seu assistente fitness.</h1>
+        <h1 class="headline">Seu assistente fitness</h1>
         <p class="lead">
           No WhatsApp. Ele anota suas refeições e treinos, acompanha suas metas e seu peso, e te
-          responde na hora.
+          responde na hora
         </p>
         <div class="actions">
           <WhatsAppButton location="hero" />
           <NuxtLink to="/#como-funciona" class="secondary">Ver como funciona</NuxtLink>
         </div>
-        <p class="terms">{{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão.</p>
+        <p class="terms">{{ catalog.trialDays }} dias grátis com tudo do Premium</p>
       </div>
       <HeroDemo />
     </header>

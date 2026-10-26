@@ -43,7 +43,7 @@ const QUESTIONS = computed(() => [
   <section id="perguntas" class="faq" aria-labelledby="faq-title">
     <div class="head">
       <h2 id="faq-title" class="title">Perguntas frequentes</h2>
-      <p>Não achou a sua? Pergunte na própria conversa.</p>
+      <p>Não achou a sua? Pergunte na própria conversa</p>
     </div>
     <div class="list">
       <details

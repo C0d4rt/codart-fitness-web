@@ -23,7 +23,7 @@ const height = (value: number) =>
   <section id="do-seu-jeito" class="bento" aria-labelledby="bento-title">
     <div class="intro" data-reveal>
       <h2 id="bento-title" class="title">Tudo o que importa, numa conversa</h2>
-      <p>Você pergunta, ele responde com os seus números.</p>
+      <p>Você pergunta, ele responde com os seus números</p>
       <NuxtLink to="/recursos" class="link">Ver todos os recursos, com exemplos</NuxtLink>
     </div>
 
@@ -31,7 +31,7 @@ const height = (value: number) =>
       <article class="tile day" data-ui>
         <p class="tile-title">Meta do dia</p>
         <CalorieRing :eaten="1240" :goal="1800" :size="150" />
-        <p class="tile-text">Faltam 560 kcal para a meta de hoje.</p>
+        <p class="tile-text">Faltam 560 kcal para a meta de hoje</p>
       </article>
 
       <article class="tile week" data-ui>
@@ -50,7 +50,7 @@ const height = (value: number) =>
           />
           <span class="goal-line" :style="{ '--g': height(GOAL) }" />
         </div>
-        <p class="tile-text">Média de 1.760 kcal em 6 de 7 dias. Chega toda segunda.</p>
+        <p class="tile-text">Média de 1.760 kcal em 6 de 7 dias, toda segunda</p>
       </article>
 
       <article class="tile weight" data-ui>
@@ -59,7 +59,7 @@ const height = (value: number) =>
         <svg viewBox="0 0 300 100" class="line" aria-hidden="true" preserveAspectRatio="none">
           <path :d="weightPath" />
         </svg>
-        <p class="tile-text">A sua evolução desde o primeiro registro.</p>
+        <p class="tile-text">A sua evolução desde o primeiro registro</p>
       </article>
     </div>
   </section>
