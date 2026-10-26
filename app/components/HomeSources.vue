@@ -34,10 +34,10 @@ const joiner = (index: number) =>
     </div>
     <figure class="picture">
       <img
-        src="/images/mangas.jpg"
-        alt="Mangas empilhadas numa banca de frutas em São Paulo"
-        width="1024"
-        height="768"
+        src="/images/iogurte.jpg"
+        alt="Uma tigela de iogurte com frutas ao lado de uma jarra de leite"
+        width="1100"
+        height="1650"
         loading="lazy"
       />
     </figure>
