@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { PHOTO_CREDITS } from '#shared/photos'
-
 import { brand } from '~/brand'
 
 const consent = useConsent()
@@ -14,6 +12,7 @@ const consent = useConsent()
         <li><NuxtLink to="/planos">Planos</NuxtLink></li>
         <li><NuxtLink to="/termos">Termos</NuxtLink></li>
         <li><NuxtLink to="/privacidade">Privacidade</NuxtLink></li>
+        <li><NuxtLink to="/creditos">Créditos</NuxtLink></li>
         <li v-if="consent.needed">
           <button type="button" class="link" @click="consent.reopen()">Cookies</button>
         </li>
@@ -22,26 +21,7 @@ const consent = useConsent()
         </li>
       </ul>
     </div>
-    <div class="small">
-      <p>
-        Alimentos da Tabela Brasileira de Composição de Alimentos (TACO, NEPA/Unicamp) e do
-        <a href="https://world.openfoodfacts.org" rel="noopener">Open Food Facts</a>, sob a licença
-        <a href="https://opendatacommons.org/licenses/odbl/1-0/" rel="noopener">ODbL</a>. Gasto dos
-        exercícios pelo Compendium of Physical Activities.
-      </p>
-      <p>
-        Fotos:
-        <template v-for="(photo, index) in PHOTO_CREDITS" :key="photo.page">
-          <a :href="photo.page" rel="noopener">{{ photo.title }}</a
-          >, de {{ photo.author }},
-          <a :href="photo.licenceUrl" rel="noopener">{{ photo.licence }}</a
-          >{{ index === PHOTO_CREDITS.length - 1 ? '.' : '; ' }}
-        </template>
-      </p>
-      <p>
-        © 2026 {{ brand.company.name }} · CNPJ {{ brand.company.cnpj }} · {{ brand.company.city }}
-      </p>
-    </div>
+    <p class="small">© 2026 {{ brand.company.name }}</p>
     <p class="name" aria-hidden="true">{{ brand.name.toLowerCase() }}</p>
   </footer>
 </template>
@@ -97,9 +77,6 @@ const consent = useConsent()
 }
 
 .small {
-  display: grid;
-  gap: 0.75rem;
-  max-width: 96ch;
   font-size: var(--step-small);
 }
 
