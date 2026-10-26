@@ -10,6 +10,12 @@ describe('brand', () => {
   })
 
   it('greets without dashes, which read as machine text in a chat', () => {
-    expect(brand.whatsappGreeting).not.toMatch(/[–—]/)
+    expect(brand.greeting(7)).not.toMatch(/[–—]/)
+    expect(brand.greeting()).not.toMatch(/[–—]/)
+  })
+
+  it('names the trial length only when it is known', () => {
+    expect(brand.greeting(7)).toContain('7 dias grátis')
+    expect(brand.greeting()).not.toMatch(/\d/)
   })
 })

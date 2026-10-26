@@ -1,7 +1,31 @@
 <script setup lang="ts">
+import type { Plan } from '#shared/plans'
+
 import { brand } from '~/brand'
 
 const catalog = await usePlans()
+
+const offer = (plan: Plan, cents: number, period: string) => ({
+  '@type': 'Offer',
+  name: `${plan.name} ${period}`,
+  price: (cents / 100).toFixed(2),
+  priceCurrency: 'BRL',
+  availability: 'https://schema.org/InStock',
+  url: `${brand.siteUrl}/planos`,
+})
+
+useSchemaOrg([
+  defineProduct({
+    name: brand.name,
+    description: brand.tagline,
+    image: `${brand.siteUrl}/og.png`,
+    brand: { '@type': 'Brand', name: brand.name },
+    offers: [catalog.premium, catalog.basic].flatMap((plan) => [
+      offer(plan, plan.monthlyCents, 'mensal'),
+      offer(plan, plan.yearlyCents, 'anual'),
+    ]),
+  }),
+])
 
 useSeoMeta({
   title: 'Planos',
@@ -43,7 +67,7 @@ useSeoMeta({
             <th scope="row">
               <NuxtLink :to="`/recursos#${feature.id}`">{{ feature.name }}</NuxtLink>
             </th>
-            <td>{{ feature.plan === 'basic' ? 'Incluso' : '—' }}</td>
+            <td>{{ feature.plan === 'basic' ? 'Incluso' : 'Só no Premium' }}</td>
             <td>Incluso</td>
           </tr>
         </tbody>

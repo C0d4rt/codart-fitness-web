@@ -72,7 +72,14 @@ jobs:
       - name: Upload the pages
         run: >
           aws s3 sync .output/public "s3://${{ vars.SITE_BUCKET }}"
-          --exclude "_nuxt/*" --exclude "_scripts/*" --delete
+          --exclude "_nuxt/*" --exclude "_scripts/*" --exclude "llms.txt" --delete
+          --cache-control "public, max-age=0, s-maxage=300, must-revalidate"
+
+      # S3 would store it as text/plain with no charset, and nosniff then garbles the accents.
+      - name: Upload the file for AI assistants
+        run: >
+          aws s3 cp .output/public/llms.txt "s3://${{ vars.SITE_BUCKET }}/llms.txt"
+          --content-type "text/plain; charset=utf-8"
           --cache-control "public, max-age=0, s-maxage=300, must-revalidate"
 
       - name: Refresh the pages at the edge

@@ -1,9 +1,14 @@
 /** The one place the provisional brand lives: moving to the own domain is changing this file. */
+const name = 'Fitness'
+
 export const brand = {
-  name: 'Fitness',
+  name,
   siteUrl: 'https://fitness.codart.dev',
   tagline: 'Seu diário de dieta e treino no WhatsApp',
-  whatsappGreeting: 'Oi! Quero testar o Fitness 7 dias grátis',
+  greeting: (trialDays?: number) =>
+    trialDays
+      ? `Oi! Quero testar o ${name} ${trialDays} dias grátis`
+      : `Oi! Quero testar o ${name}`,
   company: {
     name: 'Codart Tecnologia LTDA',
     cnpj: '65.840.318/0001-26',

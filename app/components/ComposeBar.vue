@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { brand } from '~/brand'
+
+const trialDays = useTrialDays()
 </script>
 
 <template>
   <figure class="compose" data-ui aria-label="O WhatsApp aberto com a primeira mensagem já escrita">
-    <span class="field">{{ brand.whatsappGreeting }}</span>
+    <span class="field">{{ brand.greeting(trialDays) }}</span>
     <span class="send" aria-hidden="true">
       <svg viewBox="0 0 24 24" width="20" height="20">
         <path d="M3 20.5 21 12 3 3.5l.02 6.6L15 12 3.02 13.9z" fill="currentColor" />

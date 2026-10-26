@@ -1,9 +1,14 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{ location: string; text?: string; inverse?: boolean; label?: string }>(),
-  { text: undefined, inverse: false, label: 'Testar 7 dias grátis' },
+  { text: undefined, inverse: false, label: undefined },
 )
 
+const trialDays = useTrialDays()
+const text = computed(
+  () =>
+    props.label ?? (trialDays.value ? `Testar ${trialDays.value} dias grátis` : 'Testar grátis'),
+)
 const href = useWhatsAppLink(() => props.text)
 const { $analytics } = useNuxtApp()
 </script>
@@ -17,6 +22,6 @@ const { $analytics } = useNuxtApp()
     rel="noopener"
     @click="$analytics?.lead(location)"
   >
-    {{ label }}
+    {{ text }}
   </a>
 </template>

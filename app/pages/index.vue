@@ -4,9 +4,9 @@ import { brand } from '~/brand'
 const catalog = await usePlans()
 
 useSeoMeta({
-  title: `${brand.name}: seu assistente fitness no WhatsApp`,
+  title: brand.tagline,
   description: `Refeições, treinos, metas e peso numa conversa no WhatsApp, com respostas na hora. ${catalog.trialDays} dias grátis, sem cartão.`,
-  ogTitle: `${brand.name}: seu assistente fitness no WhatsApp`,
+  ogTitle: `${brand.tagline} · ${brand.name}`,
   ogDescription: `Dieta e treino numa conversa. ${catalog.trialDays} dias grátis.`,
   ogType: 'website',
   ogLocale: 'pt_BR',
@@ -19,16 +19,18 @@ useSeoMeta({
 
     <header id="hero" class="hero">
       <div class="copy" data-reveal>
-        <h1 class="headline">Seu assistente fitness</h1>
+        <h1 class="headline">Dieta e treino no WhatsApp</h1>
         <p class="lead">
-          No WhatsApp. Ele anota suas refeições e treinos, acompanha suas metas e seu peso, e te
-          responde na hora
+          Um diário que anota o que você comeu ou treinou, por texto, áudio ou foto, e responde na
+          hora com o total do dia e quanto falta para a meta
         </p>
         <div class="actions">
           <WhatsAppButton location="hero" />
           <NuxtLink to="/#como-funciona" class="secondary">Ver como funciona</NuxtLink>
         </div>
-        <p class="terms">{{ catalog.trialDays }} dias grátis com tudo do Premium</p>
+        <p class="terms">
+          {{ catalog.trialDays }} dias grátis com tudo do Premium. Não pedimos cartão
+        </p>
       </div>
       <HeroDemo />
     </header>
