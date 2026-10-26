@@ -13,10 +13,10 @@ const CAPTIONS: Record<ShowcaseOutput, string> = {
 }
 
 const PHOTOS: Record<ShowcaseOutput, { src: string; width: number; height: number }> = {
-  day: { src: '/images/prato-feito.jpg', width: 1600, height: 1073 },
+  day: { src: '/images/salada.jpg', width: 1400, height: 933 },
   week: { src: '/images/corrida.jpg', width: 1600, height: 1200 },
   weight: { src: '/images/treino.jpg', width: 1400, height: 931 },
-  nutrients: { src: '/images/mangas.jpg', width: 1024, height: 768 },
+  nutrients: { src: '/images/frutas.jpg', width: 1400, height: 941 },
   file: { src: '/images/halter.jpg', width: 1400, height: 931 },
 }
 </script>

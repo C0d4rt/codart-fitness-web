@@ -27,10 +27,10 @@ useSeoMeta({
         Conte o que<br />
         <span class="slot"
           ><img
-            src="/images/prato-feito.jpg"
-            alt="Um prato feito com arroz, feijão, salada e frango"
+            src="/images/brunch.jpg"
+            alt="Uma tigela de frutas com kiwi, banana e amoras, vista de cima"
             width="1600"
-            height="1073" /></span
+            height="1100" /></span
         >comeu.
       </h1>
       <div class="hero-copy" data-reveal>
@@ -116,7 +116,7 @@ useSeoMeta({
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 62% 30%;
+  object-position: 55% 48%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
