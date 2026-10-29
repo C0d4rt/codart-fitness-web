@@ -34,9 +34,6 @@
   "chat": {
     "online": "online"
   },
-  "compose": {
-    "label": "O WhatsApp aberto com a primeira mensagem já escrita"
-  },
   "plate": {
     "label": "Desenho de um prato de almoço"
   },
@@ -50,13 +47,6 @@
     "lead": "Um diário que anota o que você comeu ou treinou, por texto, áudio ou foto, e responde na hora com o total do dia e quanto falta para a meta",
     "seeHow": "Ver como funciona",
     "terms": "{days} dias grátis com tudo do Premium. Não pedimos cartão"
-  },
-  "hero": {
-    "lunchByText": "O almoço contado por texto",
-    "breakfastByAudio": "O café da manhã por áudio",
-    "platePhoto": "A foto do prato",
-    "goalLeft": "Quanto falta da meta",
-    "workout": "O treino do dia"
   },
   "how": {
     "title": "Como funciona",
@@ -74,7 +64,7 @@
       "clause": "Pergunte quanto falta",
       "label": "A pergunta de quanto falta e a resposta.",
       "question": "quanto falta?",
-      "answer": "Faltam 1.384 kcal para a meta de 1.800."
+      "answer": "Faltam {left} kcal para a meta de {goal}."
     },
     "remind": {
       "clause": "Sumiu? Ele te lembra",
@@ -88,17 +78,17 @@
     "seeAll": "Ver todos os recursos, com exemplos",
     "day": {
       "title": "Meta do dia",
-      "text": "Faltam 560 kcal para a meta de hoje"
+      "text": "Faltam {left} kcal para a meta de hoje"
     },
     "week": {
       "title": "Resumo da semana",
-      "chartLabel": "Calorias de cada dia da semana, perto da meta de 1.800",
-      "text": "Média de 1.760 kcal em 6 de 7 dias, toda segunda"
+      "chartLabel": "Calorias de cada dia da semana, perto da meta de {goal}",
+      "text": "Média de {average} kcal em {logged} de {days} dias, toda segunda"
     },
     "weight": {
       "title": "Peso",
-      "value": "71,8 kg",
-      "delta": "-0,6 kg",
+      "value": "{weight} kg",
+      "delta": "{delta} kg",
       "text": "A sua evolução desde o primeiro registro"
     }
   },

@@ -9,10 +9,11 @@ const QUESTIONS = computed(() =>
     answer: rt(item.a, { days: props.trialDays }),
   })),
 )
+const anchors = useAnchors()
 </script>
 
 <template>
-  <section id="perguntas" class="faq" aria-labelledby="faq-title">
+  <section :id="anchors.faq" class="faq" aria-labelledby="faq-title">
     <div class="head">
       <h2 id="faq-title" class="title">{{ t('faq.title') }}</h2>
       <p>{{ t('faq.lead') }}</p>

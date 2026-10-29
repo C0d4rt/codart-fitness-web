@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { thousands } from '#shared/locale'
+
 const props = withDefaults(defineProps<{ eaten: number; goal: number; size?: number }>(), {
   size: 120,
 })
@@ -6,7 +8,7 @@ const props = withDefaults(defineProps<{ eaten: number; goal: number; size?: num
 const radius = 52
 const circumference = 2 * Math.PI * radius
 const share = computed(() => Math.min(props.eaten / props.goal, 1))
-const thousands = (value: number) => value.toLocaleString('pt-BR')
+const locale = useSiteLocale()
 const { t } = useI18n()
 </script>
 
@@ -24,8 +26,8 @@ const { t } = useI18n()
       />
     </svg>
     <figcaption>
-      <strong>{{ thousands(eaten) }}</strong>
-      <span>{{ t('ring.ofGoal', { goal: thousands(goal) }) }}</span>
+      <strong>{{ thousands(eaten, locale) }}</strong>
+      <span>{{ t('ring.ofGoal', { goal: thousands(goal, locale) }) }}</span>
     </figcaption>
   </figure>
 </template>

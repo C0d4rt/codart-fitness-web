@@ -1,6 +1,8 @@
 import { z } from 'zod'
 
+import { CATALOG_NAMES, type CatalogNames } from './catalogNames'
 import { FEATURE_COPY, type FeatureCopy } from './featureCopy'
+import { DEFAULT_LOCALE, LANGUAGE, type Locale } from './locale'
 
 const planId = z.enum(['basic', 'premium'])
 
@@ -53,10 +55,27 @@ export class CatalogMismatch extends Error {
   }
 }
 
+const namingProblems = (facts: PlansFacts, names: CatalogNames, locale: Locale): string[] => {
+  const sides = [
+    ['feature', facts.features.map((each) => each.id), names.features],
+    ['group', facts.groups.map((each) => each.id), names.groups],
+  ] as const
+  return sides.flatMap(([kind, ids, named]) => [
+    ...ids
+      .filter((id) => named[id] === undefined)
+      .map((id) => `no ${locale} name for the ${kind} "${id}"`),
+    ...Object.keys(named)
+      .filter((id) => !ids.includes(id))
+      .map((id) => `${locale} name for the ${kind} "${id}", which the plans no longer have`),
+  ])
+}
+
 /** Fails loudly on any disagreement, so a build never ships a feature without its copy or the other way round. */
 export const buildCatalog = (
   raw: unknown,
-  copy: Record<string, FeatureCopy> = FEATURE_COPY,
+  locale: Locale = DEFAULT_LOCALE,
+  copy: Record<string, FeatureCopy> = FEATURE_COPY[locale],
+  names: CatalogNames | undefined = CATALOG_NAMES[locale],
 ): Catalog => {
   const facts = plansSchema.parse(raw)
   const groupIds = new Set(facts.groups.map((group) => group.id))
@@ -64,13 +83,14 @@ export const buildCatalog = (
   const problems = [
     ...facts.features
       .filter((feature) => copy[feature.id] === undefined)
-      .map((feature) => `no copy for the feature "${feature.id}"`),
+      .map((feature) => `no ${locale} copy for the feature "${feature.id}"`),
     ...Object.keys(copy)
       .filter((id) => !factIds.has(id))
-      .map((id) => `copy for "${id}", which the plans no longer have`),
+      .map((id) => `${locale} copy for "${id}", which the plans no longer have`),
     ...facts.features
       .filter((feature) => !groupIds.has(feature.group))
       .map((feature) => `"${feature.id}" is in the unknown group "${feature.group}"`),
+    ...(names === undefined ? [] : namingProblems(facts, names, locale)),
   ]
   if (problems.length > 0) {
     throw new CatalogMismatch(problems)
@@ -78,6 +98,7 @@ export const buildCatalog = (
   const features: Feature[] = facts.features.map((feature) => ({
     ...feature,
     ...copy[feature.id]!,
+    name: names?.features[feature.id] ?? feature.name,
   }))
   const planOf = (id: PlanId): Plan => {
     const plan = facts.plans.find((each) => each.id === id)
@@ -86,6 +107,7 @@ export const buildCatalog = (
     }
     return {
       ...plan,
+      name: names?.plans[id] ?? plan.name,
       features: features.filter((feature) => id === 'premium' || feature.plan === 'basic'),
     }
   }
@@ -96,16 +118,18 @@ export const buildCatalog = (
     basic: planOf('basic'),
     groups: facts.groups.map((group) => ({
       ...group,
+      name: names?.groups[group.id] ?? group.name,
       features: features.filter((feature) => feature.group === group.id),
     })),
   }
 }
 
-const BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
-
-/** "R$ 29,90", with a non-breaking space so the price never splits across lines. */
-export const money = (cents: number): string => BRL.format(cents / 100).replace(/\s/g, ' ')
+/** Always reais, written the reader's way ("R$ 29,90", "R$29.90"), and never split across lines. */
+export const money = (cents: number, locale: Locale): string =>
+  new Intl.NumberFormat(LANGUAGE[locale], { style: 'currency', currency: 'BRL' })
+    .format(cents / 100)
+    .replace(/\s/g, ' ')
 
 /** What the yearly plan costs a month, rounded down to the cent. */
-export const yearlyPerMonth = (plan: Pick<Plan, 'yearlyCents'>): string =>
-  money(Math.floor(plan.yearlyCents / 12))
+export const yearlyPerMonth = (plan: Pick<Plan, 'yearlyCents'>, locale: Locale): string =>
+  money(Math.floor(plan.yearlyCents / 12), locale)

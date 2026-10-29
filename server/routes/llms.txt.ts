@@ -6,8 +6,8 @@ export default defineEventHandler(async (event) => {
   setHeader(event, 'content-type', 'text/plain; charset=utf-8')
   const builtOn = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })
   return llmsText(
-    { name: brand.name, url: brand.siteUrl, tagline: brand.tagline },
-    await loadCatalog(),
+    { name: brand.name, url: brand.siteUrl, tagline: brand.tagline.pt },
+    await loadCatalog('pt'),
     builtOn,
   )
 })

@@ -4,7 +4,7 @@ import { logModeScreen } from '#shared/screens'
 
 const { t } = useI18n()
 
-const base = logModeScreen('photo')
+const base = logModeScreen('photo', useSiteLocale().value)
 const photoScreen: ChatScreen = {
   ...base,
   messages: base.messages.map((message) =>

@@ -2,14 +2,16 @@
 import { SHOWCASE_OUTPUTS, type ShowcaseOutput, showcaseScreen } from '#shared/screens'
 
 const selected = useState<ShowcaseOutput>('showcase', () => 'day')
-const screen = computed(() => showcaseScreen(selected.value))
+const locale = useSiteLocale()
+const screen = computed(() => showcaseScreen(selected.value, locale.value))
 
 const { t } = useI18n()
 const note = computed(() => t(`showcase.notes.${selected.value}`))
+const anchors = useAnchors()
 </script>
 
 <template>
-  <section id="o-que-volta" class="showcase" aria-labelledby="showcase-title">
+  <section :id="anchors.showcase" class="showcase" aria-labelledby="showcase-title">
     <div class="panel">
       <div class="side">
         <h2 id="showcase-title" class="title">{{ t('showcase.title') }}</h2>
@@ -22,7 +24,7 @@ const note = computed(() => t(`showcase.notes.${selected.value}`))
             :aria-pressed="selected === output.id"
             @click="selected = output.id"
           >
-            {{ output.name }}
+            {{ output.name[locale] }}
           </button>
         </div>
         <p class="note" aria-live="polite">{{ note }}</p>

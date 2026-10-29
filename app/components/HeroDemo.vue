@@ -1,33 +1,28 @@
 <script setup lang="ts">
 import type { ChatScreen } from '#shared/chat'
 import { FEATURE_COPY } from '#shared/featureCopy'
-import { goalScreen, HERO_SCREEN, logModeScreen, WORKOUT_SCREEN } from '#shared/screens'
+import { goalScreen, heroScreen, logModeScreen, workoutScreen } from '#shared/screens'
 
-const { t } = useI18n()
+const locale = useSiteLocale().value
 
-const FIRST = { caption: t('hero.lunchByText'), screen: HERO_SCREEN }
-
-const fromFeature = (id: string): { caption: string; screen: ChatScreen }[] => {
-  const copy = FEATURE_COPY[id]
+const fromFeature = (id: string): ChatScreen[] => {
+  const copy = FEATURE_COPY[locale][id]
   return copy === undefined
     ? []
-    : [
-        {
-          caption: copy.headline,
-          screen: { id: `hero-${id}`, label: copy.headline, messages: copy.exchange },
-        },
-      ]
+    : [{ id: `hero-${id}`, label: copy.headline, messages: copy.exchange }]
 }
+
+const FIRST = heroScreen(locale)
 
 const EXAMPLES = [
   FIRST,
-  { caption: t('hero.breakfastByAudio'), screen: logModeScreen('audio') },
-  { caption: t('hero.platePhoto'), screen: logModeScreen('photo') },
+  logModeScreen('audio', locale),
+  logModeScreen('photo', locale),
   ...fromFeature('barcode'),
-  { caption: t('hero.goalLeft'), screen: goalScreen(1800) },
+  goalScreen(1800, locale),
   ...fromFeature('mealSuggestion'),
   ...fromFeature('mealGoals'),
-  { caption: t('hero.workout'), screen: WORKOUT_SCREEN },
+  workoutScreen(locale),
   ...fromFeature('fasting'),
   ...fromFeature('weekSummary'),
   ...fromFeature('weight'),
@@ -55,7 +50,7 @@ onBeforeUnmount(() => clearInterval(timer))
   <div class="demo" @mouseenter="paused = true" @mouseleave="paused = false">
     <div class="stage">
       <Transition name="swap" mode="out-in">
-        <ChatWindow :key="current.screen.id" :screen="current.screen" class="chat" />
+        <ChatWindow :key="current.id" :screen="current" class="chat" />
       </Transition>
     </div>
   </div>

@@ -1,0 +1,216 @@
+{
+  "cta": {
+    "try": "Try it free",
+    "tryDays": "Try {days} days free",
+    "startTrial": "Start with the trial"
+  },
+  "nav": {
+    "label": "Main",
+    "howItWorks": "How it works",
+    "features": "Features",
+    "plans": "Plans",
+    "faq": "Questions"
+  },
+  "footer": {
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "credits": "Credits",
+    "contact": "Contact",
+    "cookies": "Cookies"
+  },
+  "consent": {
+    "title": "Cookies",
+    "text": "With your permission, we use Google Analytics and the Meta pixel to count visits and measure ads. Without it, none of them is loaded.",
+    "privacy": "Privacy",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "heading": "This page does not exist",
+    "text": "The address may have changed. {back}.",
+    "back": "Back to the start"
+  },
+  "chat": {
+    "online": "online"
+  },
+  "plate": {
+    "label": "Drawing of a lunch plate"
+  },
+  "ring": {
+    "ofGoal": "of {goal} kcal"
+  },
+  "home": {
+    "description": "Meals, workouts, goals and weight in a WhatsApp chat, with instant answers. {days} days free, no card needed.",
+    "ogDescription": "Diet and workouts in a chat. {days} days free.",
+    "headline": "Diet and workouts on WhatsApp",
+    "lead": "A diary that logs what you ate or trained, by text, voice or photo, and instantly replies with the day total and how much is left for your goal",
+    "seeHow": "See how it works",
+    "terms": "{days} days free with everything in Premium. No card needed"
+  },
+  "how": {
+    "title": "How it works",
+    "tell": {
+      "clause": "You say what you ate",
+      "label": "Someone tells the diary about their lunch in one message.",
+      "message": "I had rice, beans and chicken for lunch"
+    },
+    "log": {
+      "clause": "It logs and adds it up right away",
+      "label": "Lunch logged with its calories.",
+      "message": "✅ *Lunch* logged: 416 kcal."
+    },
+    "left": {
+      "clause": "Ask how much is left",
+      "label": "The question of how much is left, and the answer.",
+      "question": "how much is left?",
+      "answer": "{left} kcal left for the goal of {goal}."
+    },
+    "remind": {
+      "clause": "Went quiet? It reminds you",
+      "label": "The short reminder the next day.",
+      "message": "Hi! What have you eaten today? Tell me and I'll log it."
+    }
+  },
+  "bento": {
+    "title": "Everything that matters, in one chat",
+    "lead": "You ask, it answers with your numbers",
+    "seeAll": "See all features, with examples",
+    "day": {
+      "title": "Daily goal",
+      "text": "{left} kcal left for today's goal"
+    },
+    "week": {
+      "title": "Week summary",
+      "chartLabel": "Calories for each day of the week, close to the goal of {goal}",
+      "text": "An average of {average} kcal on {logged} of {days} days, every Monday"
+    },
+    "weight": {
+      "title": "Weight",
+      "value": "{weight} kg",
+      "delta": "{delta} kg",
+      "text": "Your progress since your first weigh-in"
+    }
+  },
+  "moment": {
+    "title": "From your plate to the chat",
+    "text": "Take a photo of your plate and send it. It's easy because it's on WhatsApp, which you already use all day",
+    "photoLabel": "A salad with arugula, eggs, carrot and tomato"
+  },
+  "showcase": {
+    "title": "Ask, and it answers",
+    "tabsLabel": "Pick an answer to see",
+    "notes": {
+      "day": "The day total and how much is left, with every entry or whenever you ask",
+      "week": "Every Monday, a summary of the week before, with a chart of calories and macros",
+      "weight": "Your progress since the first weigh-in, or over the last 30 or 90 days",
+      "nutrients": "Sodium, fiber, sugar and more, compared with the reference values",
+      "file": "Everything in a spreadsheet, to open in Excel or take to your appointment, on Premium"
+    }
+  },
+  "pricing": {
+    "title": "Simple plans",
+    "lead": "{days} days free with everything in Premium, no card needed. After that, pay by Pix or card",
+    "periodLabel": "Billing period",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "perMonth": "per month",
+    "perYear": "per year",
+    "orYearly": "or {price} per year",
+    "yearlyPerMonth": "same as {price} per month",
+    "premiumWho": "For those who want plate photos and to know what to eat",
+    "basicWho": "For those who want the whole diary, by text and voice",
+    "allOfBasic": "Everything in Basic"
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "lead": "Can't find yours? Ask in the chat itself",
+    "items": [
+      {
+        "q": "How do I start?",
+        "a": "Tap \"Try {days} days free\" and say hi on WhatsApp. It works on your phone or your computer."
+      },
+      {
+        "q": "How does the free trial work?",
+        "a": "You get {days} days with everything in Premium, counted from your first message. No card needed."
+      },
+      {
+        "q": "What happens when the trial ends?",
+        "a": "The diary stops logging until you choose a plan. Everything you logged stays saved and comes back in full when you subscribe."
+      },
+      {
+        "q": "How do I pay and cancel?",
+        "a": "Right in the chat: reply \"subscribe\", choose your plan and pay by Pix or card. Cancel whenever you like; your access lasts until the end of the period you paid for."
+      },
+      {
+        "q": "What if I change my mind?",
+        "a": "Within 7 days of paying, ask for a refund in the chat and it goes through on its own, as the Brazilian Consumer Protection Code provides."
+      },
+      {
+        "q": "Does it replace a nutritionist?",
+        "a": "No. The diary logs, adds up and informs; it doesn't prescribe diets or workouts. Its suggestions are general, based on your goal."
+      },
+      {
+        "q": "What about my data?",
+        "a": "It's used only for your diary. Say \"delete my data\" and everything is deleted, as Brazil's data protection law (LGPD) provides."
+      }
+    ]
+  },
+  "plans": {
+    "title": "Plans",
+    "description": "{name} Premium and Basic, with prices and what each one includes. {days} days free with everything in Premium.",
+    "lead": "Start with {days} days free with everything in Premium, no card needed. Then choose your plan right in the chat",
+    "compareTitle": "What each plan includes",
+    "seeFeatures": "See each feature with an example",
+    "featureColumn": "Feature",
+    "included": "Included",
+    "premiumOnly": "Premium only",
+    "offerMonthly": "{plan} monthly",
+    "offerYearly": "{plan} yearly"
+  },
+  "features": {
+    "title": "Features",
+    "description": "Everything {name} does on WhatsApp, with a sample chat for each feature. {days} days free with everything in Premium.",
+    "lead": "Everything you can do in the chat, with real examples",
+    "basic": "On Basic and Premium",
+    "premium": "Only on Premium and the trial"
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "Get in touch with the {name} team by email.",
+    "lead": "Questions, suggestions or something about your subscription? Write to us",
+    "email": "Email",
+    "beforeWriting": "Before you write",
+    "faq": "Frequently asked questions",
+    "taxId": "CNPJ {cnpj}"
+  },
+  "credits": {
+    "title": "Credits",
+    "description": "Where the data and photos of {name} come from, and who makes the product.",
+    "data": {
+      "title": "The data",
+      "text": "Foods from the Brazilian Food Composition Table (TACO, NEPA/Unicamp) and from {openFoodFacts}, under the {odbl} license. Exercise burn from the Compendium of Physical Activities."
+    },
+    "photos": {
+      "title": "The photos",
+      "byAuthor": ", by {author},"
+    },
+    "company": {
+      "title": "The company",
+      "text": "{name}, CNPJ {cnpj}, {city}. Contact:"
+    }
+  },
+  "legal": {
+    "pending": "The final text is under legal review and will be published here before launch. Until then, what the chat shows when you start applies.",
+    "questions": "Questions: {email}."
+  },
+  "privacy": {
+    "title": "Privacy",
+    "site": "This site does not ask for or store personal data. With your permission in the cookie notice, Google Analytics and the Meta pixel count visits and measure ads; without it, none of them is loaded. Your choice stays only in your browser and can be changed through the Cookies link in the footer.",
+    "whatsapp": "On WhatsApp, what you log is used only for your diary. Say \"delete my data\" and everything is deleted, as Brazil's data protection law (LGPD) provides."
+  },
+  "terms": {
+    "title": "Terms of use",
+    "scope": "The diary logs, adds up and informs: it doesn't prescribe diets or workouts and doesn't replace a nutritionist, doctor or personal trainer. Food values come from the Brazilian Food Composition Table (TACO, NEPA/Unicamp) and from Open Food Facts, under the ODbL license."
+  }
+}

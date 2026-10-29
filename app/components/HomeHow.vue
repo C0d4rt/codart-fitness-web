@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { ChatScreen } from '#shared/chat'
+import { thousands } from '#shared/locale'
 
 const { t } = useI18n()
+const locale = useSiteLocale().value
 
 const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
   {
@@ -30,7 +32,14 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
       label: t('how.left.label'),
       messages: [
         { from: 'you', text: t('how.left.question'), time: '12:42' },
-        { from: 'bot', text: t('how.left.answer'), time: '12:42' },
+        {
+          from: 'bot',
+          text: t('how.left.answer', {
+            left: thousands(1384, locale),
+            goal: thousands(1800, locale),
+          }),
+          time: '12:42',
+        },
       ],
     },
   },
@@ -44,10 +53,11 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
     },
   },
 ]
+const anchors = useAnchors()
 </script>
 
 <template>
-  <section id="como-funciona" class="how" aria-labelledby="how-title">
+  <section :id="anchors.how" class="how" aria-labelledby="how-title">
     <h2 id="how-title" class="title">{{ t('how.title') }}</h2>
     <ol class="steps">
       <li v-for="step in STEPS" :key="step.tone" class="field" :class="step.tone">

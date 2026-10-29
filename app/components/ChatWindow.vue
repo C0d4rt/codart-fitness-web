@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import type { ChatScreen } from '#shared/chat'
 import { formatChat } from '#shared/formatChat'
+import { clock } from '#shared/locale'
 
 import { brand } from '~/brand'
 
 defineProps<{ screen: ChatScreen; bare?: boolean }>()
+
+const locale = useSiteLocale()
 </script>
 
 <template>
@@ -51,7 +54,7 @@ defineProps<{ screen: ChatScreen; bare?: boolean }>()
             </div>
             <!-- eslint-disable-next-line vue/no-v-html -- the text is escaped by formatChat before the marks become tags -->
             <p v-if="message.text" class="text" v-html="formatChat(message.text)" />
-            <span class="time">{{ message.time }}</span>
+            <span class="time">{{ clock(message.time, locale) }}</span>
             <span v-if="message.button" class="reply-button">{{ message.button }}</span>
           </div>
         </li>

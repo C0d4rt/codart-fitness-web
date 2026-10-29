@@ -13,13 +13,13 @@ const offer = (plan: Plan, cents: number, name: string) => ({
   price: (cents / 100).toFixed(2),
   priceCurrency: 'BRL',
   availability: 'https://schema.org/InStock',
-  url: `${brand.siteUrl}/planos`,
+  url: brand.siteUrl + localePath('/planos'),
 })
 
 useSchemaOrg([
   defineProduct({
     name: brand.name,
-    description: brand.tagline,
+    description: brand.tagline[useSiteLocale().value],
     image: `${brand.siteUrl}/og.png`,
     brand: { '@type': 'Brand', name: brand.name },
     offers: [catalog.premium, catalog.basic].flatMap((plan) => [
