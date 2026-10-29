@@ -96,7 +96,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Dados que guardamos',
         items: [
-          'Da conta: o seu número de WhatsApp, o nome do seu perfil quando o WhatsApp o envia, o idioma e o fuso horário.',
+          'Da conta: o seu número de WhatsApp, o nome que você disser na conversa, o idioma e o fuso horário.',
           'Das conversas: as mensagens que você envia e as respostas, e os áudios e fotos que você manda (pratos, rótulos, códigos de barras).',
           'Do diário: refeições, alimentos, receitas, despensa, treinos e jejum.',
           'Dados de saúde: peso, altura, idade, sexo, nível de atividade, metas e pesagens. A LGPD trata esses dados como sensíveis.',
@@ -273,7 +273,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Data we keep',
         items: [
-          'Account: your WhatsApp number, your profile name when WhatsApp sends it, your language and time zone.',
+          'Account: your WhatsApp number, the name you tell the chat, your language and time zone.',
           'Conversations: the messages you send and the replies, and the voice notes and photos you send (plates, labels, barcodes).',
           'Diary: meals, foods, recipes, pantry, workouts and fasting.',
           'Health data: weight, height, age, sex, activity level, goals and weigh-ins. Brazil’s data protection law (LGPD) treats this data as sensitive.',
