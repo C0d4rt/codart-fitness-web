@@ -43,6 +43,9 @@ Antes de abrir PR: `pnpm format:check && pnpm lint && pnpm typecheck && pnpm tes
 - **O botão do WhatsApp sai sempre do `useWhatsAppLink`.**
 - **Script de terceiro só depois do consentimento**, pelo `@nuxt/scripts`, e só
   com o id configurado. Nada de Google Tag Manager.
+- **Textos em ICU MessageFormat**, um JSON por idioma em `i18n/locales/`
+  (BCP 47: `pt-BR.json`, `en-US.json`), igual ao `codart-messaging`. Plural é
+  `{n, plural, one {...} other {...}}`, nunca o `|` do vue-i18n.
 - **Sem travessão (— nem –) no texto que a pessoa lê.** No lugar, dois-pontos,
   vírgula ou parênteses.
 - **Tudo estático:** nenhuma página depende de servidor.

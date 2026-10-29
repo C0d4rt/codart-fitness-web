@@ -25,8 +25,8 @@ export default defineNuxtConfig({
     baseUrl: brand.siteUrl,
     detectBrowserLanguage: false,
     locales: [
-      { code: 'pt', language: 'pt-BR', name: 'Português', file: 'pt-BR.json' },
-      { code: 'en', language: 'en-US', name: 'English', file: 'en-US.json' },
+      { code: 'pt', language: 'pt-BR', name: 'Português' },
+      { code: 'en', language: 'en-US', name: 'English' },
     ],
     customRoutes: 'config',
     pages: {
