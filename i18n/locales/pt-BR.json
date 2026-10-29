@@ -1,0 +1,226 @@
+{
+  "cta": {
+    "try": "Testar grátis",
+    "tryDays": "Testar {days} dias grátis",
+    "startTrial": "Começar pelo teste"
+  },
+  "nav": {
+    "label": "Principal",
+    "howItWorks": "Como funciona",
+    "features": "Recursos",
+    "plans": "Planos",
+    "faq": "Perguntas"
+  },
+  "footer": {
+    "terms": "Termos",
+    "privacy": "Privacidade",
+    "credits": "Créditos",
+    "contact": "Contato",
+    "cookies": "Cookies"
+  },
+  "consent": {
+    "title": "Cookies",
+    "text": "Com a sua permissão, usamos o Google Analytics e o pixel da Meta para contar visitas e medir anúncios. Sem ela, nada deles é carregado.",
+    "privacy": "Privacidade",
+    "accept": "Aceitar",
+    "decline": "Recusar"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "heading": "Esta página não existe",
+    "text": "O endereço pode ter mudado. {back}.",
+    "back": "Voltar ao começo"
+  },
+  "chat": {
+    "online": "online"
+  },
+  "compose": {
+    "label": "O WhatsApp aberto com a primeira mensagem já escrita"
+  },
+  "plate": {
+    "label": "Desenho de um prato de almoço"
+  },
+  "ring": {
+    "ofGoal": "de {goal} kcal"
+  },
+  "home": {
+    "description": "Refeições, treinos, metas e peso numa conversa no WhatsApp, com respostas na hora. {days} dias grátis, sem cartão.",
+    "ogDescription": "Dieta e treino numa conversa. {days} dias grátis.",
+    "headline": "Dieta e treino no WhatsApp",
+    "lead": "Um diário que anota o que você comeu ou treinou, por texto, áudio ou foto, e responde na hora com o total do dia e quanto falta para a meta",
+    "seeHow": "Ver como funciona",
+    "terms": "{days} dias grátis com tudo do Premium. Não pedimos cartão"
+  },
+  "hero": {
+    "lunchByText": "O almoço contado por texto",
+    "breakfastByAudio": "O café da manhã por áudio",
+    "platePhoto": "A foto do prato",
+    "goalLeft": "Quanto falta da meta",
+    "workout": "O treino do dia"
+  },
+  "how": {
+    "title": "Como funciona",
+    "tell": {
+      "clause": "Você conta o que comeu",
+      "label": "A pessoa conta o almoço numa mensagem.",
+      "message": "almocei arroz, feijão e frango"
+    },
+    "log": {
+      "clause": "Ele anota e soma na hora",
+      "label": "O almoço registrado com as calorias.",
+      "message": "✅ *Almoço* registrado: 416 kcal."
+    },
+    "left": {
+      "clause": "Pergunte quanto falta",
+      "label": "A pergunta de quanto falta e a resposta.",
+      "question": "quanto falta?",
+      "answer": "Faltam 1.384 kcal para a meta de 1.800."
+    },
+    "remind": {
+      "clause": "Sumiu? Ele te lembra",
+      "label": "O lembrete curto do dia seguinte.",
+      "message": "Oi! O que você já comeu hoje? Me conta que eu anoto."
+    }
+  },
+  "bento": {
+    "title": "Tudo o que importa, numa conversa",
+    "lead": "Você pergunta, ele responde com os seus números",
+    "seeAll": "Ver todos os recursos, com exemplos",
+    "day": {
+      "title": "Meta do dia",
+      "text": "Faltam 560 kcal para a meta de hoje"
+    },
+    "week": {
+      "title": "Resumo da semana",
+      "chartLabel": "Calorias de cada dia da semana, perto da meta de 1.800",
+      "text": "Média de 1.760 kcal em 6 de 7 dias, toda segunda"
+    },
+    "weight": {
+      "title": "Peso",
+      "value": "71,8 kg",
+      "delta": "-0,6 kg",
+      "text": "A sua evolução desde o primeiro registro"
+    }
+  },
+  "moment": {
+    "title": "Do prato à conversa",
+    "text": "Tire uma foto do prato e mande. É fácil porque é no WhatsApp, que você já usa o dia todo",
+    "photoLabel": "Uma salada com rúcula, ovos, cenoura e tomate"
+  },
+  "showcase": {
+    "title": "Pergunte, e ele responde",
+    "tabsLabel": "Escolha uma resposta para ver",
+    "notes": {
+      "day": "O total do dia e quanto falta, a cada registro ou quando você perguntar",
+      "week": "Toda segunda, o resumo da semana anterior, com um gráfico das calorias e dos macros",
+      "weight": "A evolução desde o primeiro registro, ou dos últimos 30 ou 90 dias",
+      "nutrients": "Sódio, fibra, açúcar e mais, comparados aos valores de referência",
+      "file": "Tudo numa planilha, para abrir no Excel ou levar à consulta, no Premium"
+    }
+  },
+  "pricing": {
+    "title": "Planos simples",
+    "lead": "{days} dias grátis com tudo do Premium, sem cartão. Depois, pague no Pix ou no cartão",
+    "periodLabel": "Período",
+    "monthly": "Mensal",
+    "yearly": "Anual",
+    "perMonth": "por mês",
+    "perYear": "por ano",
+    "orYearly": "ou {price} por ano",
+    "yearlyPerMonth": "equivale a {price} por mês",
+    "premiumWho": "Para quem quer a foto do prato e saber o que comer",
+    "basicWho": "Para quem quer o diário inteiro, por texto e áudio",
+    "allOfBasic": "Tudo do Básico"
+  },
+  "faq": {
+    "title": "Perguntas frequentes",
+    "lead": "Não achou a sua? Pergunte na própria conversa",
+    "items": [
+      {
+        "q": "Como eu começo?",
+        "a": "Toque em \"Testar {days} dias grátis\" e mande o oi no WhatsApp. Funciona no celular ou no computador."
+      },
+      {
+        "q": "Como funciona o teste grátis?",
+        "a": "São {days} dias com tudo do Premium, contados da primeira mensagem. Não pedimos cartão."
+      },
+      {
+        "q": "E quando o teste acaba?",
+        "a": "O diário para de anotar até você escolher um plano. Tudo o que você registrou fica guardado e volta inteiro ao assinar."
+      },
+      {
+        "q": "Como eu pago e cancelo?",
+        "a": "Na própria conversa: responda \"assinar\", escolha o plano e pague no Pix ou no cartão. Cancele quando quiser; o acesso continua até o fim do período pago."
+      },
+      {
+        "q": "E se eu me arrepender?",
+        "a": "Nos 7 dias depois do pagamento, peça o reembolso na conversa e ele sai sozinho, como prevê o Código de Defesa do Consumidor."
+      },
+      {
+        "q": "Ele substitui um nutricionista?",
+        "a": "Não. O diário registra, soma e informa; não prescreve dieta nem treino. As sugestões são gerais, a partir da sua meta."
+      },
+      {
+        "q": "E os meus dados?",
+        "a": "Servem só para o seu diário. Diga \"quero apagar minha conta\" e tudo é apagado, como prevê a LGPD."
+      }
+    ]
+  },
+  "plans": {
+    "title": "Planos",
+    "description": "O Premium e o Básico do {name}, com preços e o que cada um inclui. {days} dias grátis com tudo do Premium.",
+    "lead": "Comece com {days} dias grátis com tudo do Premium, sem cartão. Depois, escolha o plano na própria conversa",
+    "compareTitle": "O que cada plano inclui",
+    "seeFeatures": "Ver cada recurso com um exemplo",
+    "featureColumn": "Recurso",
+    "included": "Incluso",
+    "premiumOnly": "Só no Premium",
+    "offerMonthly": "{plan} mensal",
+    "offerYearly": "{plan} anual"
+  },
+  "features": {
+    "title": "Recursos",
+    "description": "Tudo o que o {name} faz no WhatsApp, com um exemplo de conversa para cada recurso. {days} dias grátis com tudo do Premium.",
+    "lead": "Tudo o que dá para fazer na conversa, com exemplos de verdade",
+    "basic": "No Básico e no Premium",
+    "premium": "Só no Premium e no teste"
+  },
+  "contact": {
+    "title": "Contato",
+    "description": "Fale com a equipe do {name} por email.",
+    "lead": "Dúvidas, sugestões ou algo com a sua assinatura, escreva para a gente",
+    "email": "Email",
+    "beforeWriting": "Antes de escrever",
+    "faq": "Perguntas frequentes",
+    "taxId": "CNPJ {cnpj}"
+  },
+  "credits": {
+    "title": "Créditos",
+    "description": "De onde vêm os dados e as fotos do {name}, e quem faz o produto.",
+    "data": {
+      "title": "Os dados",
+      "text": "Alimentos da Tabela Brasileira de Composição de Alimentos (TACO, NEPA/Unicamp) e do {openFoodFacts}, sob a licença {odbl}. Gasto dos exercícios pelo Compendium of Physical Activities."
+    },
+    "photos": {
+      "title": "As fotos",
+      "byAuthor": ", de {author},"
+    },
+    "company": {
+      "title": "A empresa",
+      "text": "{name}, CNPJ {cnpj}, {city}. Contato:"
+    }
+  },
+  "legal": {
+    "pending": "O texto definitivo está em revisão jurídica e entra aqui antes do lançamento. Até lá, vale o que a conversa mostra ao começar.",
+    "questions": "Dúvidas: {email}."
+  },
+  "privacy": {
+    "title": "Privacidade",
+    "site": "Este site não pede nem guarda dado pessoal. Com a sua permissão no aviso de cookies, o Google Analytics e o pixel da Meta contam visitas e medem anúncios; sem ela, nada deles é carregado. A escolha fica só no seu navegador e muda pelo link Cookies no rodapé.",
+    "whatsapp": "No WhatsApp, o que você registra serve só para o seu diário. Diga \"quero apagar minha conta\" e tudo é apagado, como prevê a LGPD."
+  },
+  "terms": {
+    "title": "Termos de uso",
+    "scope": "O diário registra, soma e informa: não prescreve dieta nem treino e não substitui nutricionista, médico ou educador físico. Os valores de alimentos vêm da Tabela Brasileira de Composição de Alimentos (TACO, NEPA/Unicamp) e do Open Food Facts, sob a licença ODbL."
+  }
+}

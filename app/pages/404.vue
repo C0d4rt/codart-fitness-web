@@ -1,13 +1,19 @@
 <script setup lang="ts">
-useSeoMeta({ title: 'Página não encontrada', robots: 'noindex' })
+const { t } = useI18n()
+
+useSeoMeta({ title: t('notFound.title'), robots: 'noindex' })
 </script>
 
 <template>
   <div class="missing">
     <SiteNav />
     <main>
-      <h1>Esta página não existe</h1>
-      <p>O endereço pode ter mudado. <NuxtLink to="/">Voltar ao começo</NuxtLink>.</p>
+      <h1>{{ t('notFound.heading') }}</h1>
+      <i18n-t keypath="notFound.text" tag="p">
+        <template #back>
+          <NuxtLinkLocale to="/">{{ t('notFound.back') }}</NuxtLinkLocale>
+        </template>
+      </i18n-t>
     </main>
     <SiteFooter />
   </div>

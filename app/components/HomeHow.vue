@@ -1,50 +1,46 @@
 <script setup lang="ts">
 import type { ChatScreen } from '#shared/chat'
 
+const { t } = useI18n()
+
 const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
   {
     tone: 'mint',
-    clause: 'Você conta o que comeu',
+    clause: t('how.tell.clause'),
     screen: {
       id: 'how-tell',
-      label: 'A pessoa conta o almoço numa mensagem.',
-      messages: [{ from: 'you', text: 'almocei arroz, feijão e frango', time: '12:41' }],
+      label: t('how.tell.label'),
+      messages: [{ from: 'you', text: t('how.tell.message'), time: '12:41' }],
     },
   },
   {
     tone: 'sky',
-    clause: 'Ele anota e soma na hora',
+    clause: t('how.log.clause'),
     screen: {
       id: 'how-log',
-      label: 'O almoço registrado com as calorias.',
-      messages: [{ from: 'bot', text: '✅ *Almoço* registrado: 416 kcal.', time: '12:41' }],
+      label: t('how.log.label'),
+      messages: [{ from: 'bot', text: t('how.log.message'), time: '12:41' }],
     },
   },
   {
     tone: 'peach',
-    clause: 'Pergunte quanto falta',
+    clause: t('how.left.clause'),
     screen: {
       id: 'how-left',
-      label: 'A pergunta de quanto falta e a resposta.',
+      label: t('how.left.label'),
       messages: [
-        { from: 'you', text: 'quanto falta?', time: '12:42' },
-        { from: 'bot', text: 'Faltam 1.384 kcal para a meta de 1.800.', time: '12:42' },
+        { from: 'you', text: t('how.left.question'), time: '12:42' },
+        { from: 'bot', text: t('how.left.answer'), time: '12:42' },
       ],
     },
   },
   {
     tone: 'sand',
-    clause: 'Sumiu? Ele te lembra',
+    clause: t('how.remind.clause'),
     screen: {
       id: 'how-remind',
-      label: 'O lembrete curto do dia seguinte.',
-      messages: [
-        {
-          from: 'bot',
-          text: 'Oi! O que você já comeu hoje? Me conta que eu anoto.',
-          time: '11:30',
-        },
-      ],
+      label: t('how.remind.label'),
+      messages: [{ from: 'bot', text: t('how.remind.message'), time: '11:30' }],
     },
   },
 ]
@@ -52,7 +48,7 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
 
 <template>
   <section id="como-funciona" class="how" aria-labelledby="how-title">
-    <h2 id="how-title" class="title">Como funciona</h2>
+    <h2 id="how-title" class="title">{{ t('how.title') }}</h2>
     <ol class="steps">
       <li v-for="step in STEPS" :key="step.tone" class="field" :class="step.tone">
         <p class="clause">{{ step.clause }}</p>

@@ -2,6 +2,8 @@
 import type { ChatScreen } from '#shared/chat'
 import { logModeScreen } from '#shared/screens'
 
+const { t } = useI18n()
+
 const base = logModeScreen('photo')
 const photoScreen: ChatScreen = {
   ...base,
@@ -11,7 +13,7 @@ const photoScreen: ChatScreen = {
           ...message,
           attachment: {
             ...message.attachment,
-            label: 'Uma salada com rúcula, ovos, cenoura e tomate',
+            label: t('moment.photoLabel'),
             src: '/images/salada.jpg',
           },
         }
@@ -23,10 +25,8 @@ const photoScreen: ChatScreen = {
 <template>
   <section class="moment" aria-labelledby="moment-title">
     <div class="copy" data-reveal>
-      <h2 id="moment-title" class="title">Do prato à conversa</h2>
-      <p>
-        Tire uma foto do prato e mande. É fácil porque é no WhatsApp, que você já usa o dia todo
-      </p>
+      <h2 id="moment-title" class="title">{{ t('moment.title') }}</h2>
+      <p>{{ t('moment.text') }}</p>
     </div>
     <div class="stage">
       <ChatWindow :screen="photoScreen" class="chat" />

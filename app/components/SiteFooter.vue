@@ -2,21 +2,32 @@
 import { brand } from '~/brand'
 
 const consent = useConsent()
+const { t } = useI18n()
 </script>
 
 <template>
   <footer class="footer">
     <div class="row">
-      <NuxtLink to="/" class="wordmark">
+      <NuxtLinkLocale to="/" class="wordmark">
         <span class="mark" aria-hidden="true" />{{ brand.name.toLowerCase() }}
-      </NuxtLink>
+      </NuxtLinkLocale>
       <ul class="links">
-        <li><NuxtLink to="/termos">Termos</NuxtLink></li>
-        <li><NuxtLink to="/privacidade">Privacidade</NuxtLink></li>
-        <li><NuxtLink to="/creditos">Créditos</NuxtLink></li>
-        <li><NuxtLink to="/contato">Contato</NuxtLink></li>
+        <li>
+          <NuxtLinkLocale to="/termos">{{ t('footer.terms') }}</NuxtLinkLocale>
+        </li>
+        <li>
+          <NuxtLinkLocale to="/privacidade">{{ t('footer.privacy') }}</NuxtLinkLocale>
+        </li>
+        <li>
+          <NuxtLinkLocale to="/creditos">{{ t('footer.credits') }}</NuxtLinkLocale>
+        </li>
+        <li>
+          <NuxtLinkLocale to="/contato">{{ t('footer.contact') }}</NuxtLinkLocale>
+        </li>
         <li v-if="consent.needed">
-          <button type="button" class="link" @click="consent.reopen()">Cookies</button>
+          <button type="button" class="link" @click="consent.reopen()">
+            {{ t('footer.cookies') }}
+          </button>
         </li>
       </ul>
       <p class="legal">© 2026 {{ brand.company.name }}</p>

@@ -4,10 +4,12 @@ import type { Plan } from '#shared/plans'
 import { brand } from '~/brand'
 
 const catalog = await usePlans()
+const { t } = useI18n()
+const localePath = useLocalePath()
 
-const offer = (plan: Plan, cents: number, period: string) => ({
+const offer = (plan: Plan, cents: number, name: string) => ({
   '@type': 'Offer',
-  name: `${plan.name} ${period}`,
+  name,
   price: (cents / 100).toFixed(2),
   priceCurrency: 'BRL',
   availability: 'https://schema.org/InStock',
@@ -21,15 +23,15 @@ useSchemaOrg([
     image: `${brand.siteUrl}/og.png`,
     brand: { '@type': 'Brand', name: brand.name },
     offers: [catalog.premium, catalog.basic].flatMap((plan) => [
-      offer(plan, plan.monthlyCents, 'mensal'),
-      offer(plan, plan.yearlyCents, 'anual'),
+      offer(plan, plan.monthlyCents, t('plans.offerMonthly', { plan: plan.name })),
+      offer(plan, plan.yearlyCents, t('plans.offerYearly', { plan: plan.name })),
     ]),
   }),
 ])
 
 useSeoMeta({
-  title: 'Planos',
-  description: `O Premium e o Básico do ${brand.name}, com preços e o que cada um inclui. ${catalog.trialDays} dias grátis com tudo do Premium.`,
+  title: t('plans.title'),
+  description: t('plans.description', { name: brand.name, days: catalog.trialDays }),
 })
 </script>
 
@@ -37,24 +39,23 @@ useSeoMeta({
   <div class="page">
     <SiteNav />
     <header class="intro">
-      <h1 class="title">Planos</h1>
-      <p class="lead">
-        Comece com {{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão. Depois,
-        escolha o plano na própria conversa
-      </p>
+      <h1 class="title">{{ t('plans.title') }}</h1>
+      <p class="lead">{{ t('plans.lead', { days: catalog.trialDays }) }}</p>
     </header>
 
     <PlanCards :catalog="catalog" bare />
 
     <section class="compare" aria-labelledby="compare-title">
       <div class="compare-head">
-        <h2 id="compare-title" class="compare-title">O que cada plano inclui</h2>
-        <NuxtLink to="/recursos" class="link">Ver cada recurso com um exemplo</NuxtLink>
+        <h2 id="compare-title" class="compare-title">{{ t('plans.compareTitle') }}</h2>
+        <NuxtLinkLocale to="/recursos" class="link">{{ t('plans.seeFeatures') }}</NuxtLinkLocale>
       </div>
       <table class="table">
         <thead>
           <tr>
-            <th scope="col"><span class="visually-hidden">Recurso</span></th>
+            <th scope="col">
+              <span class="visually-hidden">{{ t('plans.featureColumn') }}</span>
+            </th>
             <th scope="col">{{ catalog.basic.name }}</th>
             <th scope="col">{{ catalog.premium.name }}</th>
           </tr>
@@ -65,10 +66,12 @@ useSeoMeta({
           </tr>
           <tr v-for="feature in group.features" :key="feature.id">
             <th scope="row">
-              <NuxtLink :to="`/recursos#${feature.id}`">{{ feature.name }}</NuxtLink>
+              <NuxtLink :to="localePath(`/recursos#${feature.id}`)">{{ feature.name }}</NuxtLink>
             </th>
-            <td>{{ feature.plan === 'basic' ? 'Incluso' : 'Só no Premium' }}</td>
-            <td>Incluso</td>
+            <td>
+              {{ feature.plan === 'basic' ? t('plans.included') : t('plans.premiumOnly') }}
+            </td>
+            <td>{{ t('plans.included') }}</td>
           </tr>
         </tbody>
       </table>

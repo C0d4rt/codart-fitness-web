@@ -1,5 +1,5 @@
 <template>
-  <svg viewBox="0 0 208 156" role="img" aria-label="Desenho de um prato de almoço">
+  <svg viewBox="0 0 208 156" role="img" :aria-label="$t('plate.label')">
     <rect width="208" height="156" fill="#c9d8d3" />
     <ellipse cx="104" cy="80" rx="82" ry="62" fill="#f4f6f5" />
     <ellipse cx="104" cy="80" rx="64" ry="47" fill="#e9eeec" />

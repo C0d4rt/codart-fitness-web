@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const consent = useConsent()
+const { t } = useI18n()
 const mounted = ref(false)
 onMounted(() => {
   mounted.value = true
@@ -15,16 +16,17 @@ onMounted(() => {
       aria-labelledby="consent-title"
       aria-describedby="consent-text"
     >
-      <h2 id="consent-title" class="title">Cookies</h2>
+      <h2 id="consent-title" class="title">{{ t('consent.title') }}</h2>
       <p id="consent-text">
-        Com a sua permissão, usamos o Google Analytics e o pixel da Meta para contar visitas e medir
-        anúncios. Sem ela, nada deles é carregado.
-        <NuxtLink to="/privacidade">Privacidade</NuxtLink>
+        {{ t('consent.text') }}
+        <NuxtLinkLocale to="/privacidade">{{ t('consent.privacy') }}</NuxtLinkLocale>
       </p>
       <div class="actions">
-        <button type="button" class="button" @click="consent.choose('granted')">Aceitar</button>
+        <button type="button" class="button" @click="consent.choose('granted')">
+          {{ t('consent.accept') }}
+        </button>
         <button type="button" class="button button--quiet" @click="consent.choose('denied')">
-          Recusar
+          {{ t('consent.decline') }}
         </button>
       </div>
     </aside>

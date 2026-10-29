@@ -2,15 +2,19 @@
 import { brand } from '~/brand'
 
 const catalog = await usePlans()
+const { t } = useI18n()
 
 useSeoMeta({
   title: brand.tagline,
-  description: `Refeições, treinos, metas e peso numa conversa no WhatsApp, com respostas na hora. ${catalog.trialDays} dias grátis, sem cartão.`,
+  description: t('home.description', { days: catalog.trialDays }),
   ogTitle: `${brand.tagline} · ${brand.name}`,
-  ogDescription: `Dieta e treino numa conversa. ${catalog.trialDays} dias grátis.`,
+  ogDescription: t('home.ogDescription', { days: catalog.trialDays }),
   ogType: 'website',
   ogLocale: 'pt_BR',
 })
+
+// The i18n defaults of nuxt-schema-org drop this link unless the company is the module identity.
+useSchemaOrg([defineWebPage({ about: { '@id': `${brand.siteUrl}/#identity` } })])
 </script>
 
 <template>
@@ -19,18 +23,15 @@ useSeoMeta({
 
     <header id="hero" class="hero">
       <div class="copy" data-reveal>
-        <h1 class="headline">Dieta e treino no WhatsApp</h1>
-        <p class="lead">
-          Um diário que anota o que você comeu ou treinou, por texto, áudio ou foto, e responde na
-          hora com o total do dia e quanto falta para a meta
-        </p>
+        <h1 class="headline">{{ t('home.headline') }}</h1>
+        <p class="lead">{{ t('home.lead') }}</p>
         <div class="actions">
           <WhatsAppButton location="hero" />
-          <NuxtLink to="/#como-funciona" class="secondary">Ver como funciona</NuxtLink>
+          <NuxtLinkLocale to="/#como-funciona" class="secondary">{{
+            t('home.seeHow')
+          }}</NuxtLinkLocale>
         </div>
-        <p class="terms">
-          {{ catalog.trialDays }} dias grátis com tudo do Premium. Não pedimos cartão
-        </p>
+        <p class="terms">{{ t('home.terms', { days: catalog.trialDays }) }}</p>
       </div>
       <HeroDemo />
     </header>
