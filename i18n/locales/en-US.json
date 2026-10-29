@@ -201,16 +201,13 @@
     }
   },
   "legal": {
-    "pending": "The final text is under legal review and will be published here before launch. Until then, what the chat shows when you start applies.",
-    "questions": "Questions: {email}."
+    "questions": "Questions: {email}.",
+    "version": "Version {version}, in effect since {date}."
   },
   "privacy": {
-    "title": "Privacy",
-    "site": "This site does not ask for or store personal data. With your permission in the cookie notice, Google Analytics and the Meta pixel count visits and measure ads; without it, none of them is loaded. Your choice stays only in your browser and can be changed through the Cookies link in the footer.",
-    "whatsapp": "On WhatsApp, what you log is used only for your diary. Say \"delete my data\" and everything is deleted, as Brazil's data protection law (LGPD) provides."
+    "title": "Privacy"
   },
   "terms": {
-    "title": "Terms of use",
-    "scope": "The diary logs, adds up and informs: it doesn't prescribe diets or workouts and doesn't replace a nutritionist, doctor or personal trainer. Food values come from the Brazilian Food Composition Table (TACO, NEPA/Unicamp) and from Open Food Facts, under the ODbL license."
+    "title": "Terms of use"
   }
 }

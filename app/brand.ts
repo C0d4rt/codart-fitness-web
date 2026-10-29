@@ -23,7 +23,7 @@ export const brand = {
   } satisfies Record<Locale, (trialDays?: number) => string>,
   /** `support@` and `privacy@` are aliases of the Portuguese mailboxes, for English readers. */
   email: {
-    pt: { support: 'contato@codart.dev', privacy: 'contato@codart.dev' },
+    pt: { support: 'contato@codart.dev', privacy: 'privacidade@codart.dev' },
     en: { support: 'support@codart.dev', privacy: 'privacy@codart.dev' },
   } satisfies Record<Locale, { support: string; privacy: string }>,
   company: {

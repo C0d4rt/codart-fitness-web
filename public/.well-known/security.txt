@@ -1,0 +1,5 @@
+Contact: mailto:security@codart.dev
+Expires: 2027-10-29T00:00:00.000Z
+Preferred-Languages: pt, en
+Canonical: https://fitness.codart.dev/.well-known/security.txt
+Policy: https://fitness.codart.dev/privacidade
