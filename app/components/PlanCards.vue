@@ -5,6 +5,7 @@ const props = defineProps<{ catalog: Catalog; bare?: boolean }>()
 
 const period = ref<'month' | 'year'>('month')
 const { t } = useI18n()
+const locale = useSiteLocale()
 
 const plans = computed(() => [
   {
@@ -59,7 +60,7 @@ const plans = computed(() => [
         <p class="who">{{ each.who }}</p>
         <p class="price">
           <span class="amount">{{
-            money(period === 'month' ? each.plan.monthlyCents : each.plan.yearlyCents)
+            money(period === 'month' ? each.plan.monthlyCents : each.plan.yearlyCents, locale)
           }}</span>
           <span class="per">{{
             period === 'month' ? t('pricing.perMonth') : t('pricing.perYear')
@@ -68,8 +69,8 @@ const plans = computed(() => [
         <p class="equiv">
           {{
             period === 'month'
-              ? t('pricing.orYearly', { price: money(each.plan.yearlyCents) })
-              : t('pricing.yearlyPerMonth', { price: yearlyPerMonth(each.plan) })
+              ? t('pricing.orYearly', { price: money(each.plan.yearlyCents, locale) })
+              : t('pricing.yearlyPerMonth', { price: yearlyPerMonth(each.plan, locale) })
           }}
         </p>
         <ul class="items">

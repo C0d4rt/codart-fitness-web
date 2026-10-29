@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { decimal, thousands } from '#shared/locale'
+
 const { t } = useI18n()
 
 const WEIGHT = [72.4, 72.3, 72.3, 72.1, 72.2, 72.0, 71.8]
@@ -19,10 +21,24 @@ const weightPath = computed(() => {
 
 const height = (value: number) =>
   value === 0 ? '4%' : `${((value - FLOOR) / (CEILING - FLOOR)) * 100}%`
+const anchors = useAnchors()
+const locale = useSiteLocale()
+
+const EATEN_TODAY = 1240
+const LOGGED = WEEK.filter((value) => value > 0)
+const figures = computed(() => ({
+  left: thousands(GOAL - EATEN_TODAY, locale.value),
+  goal: thousands(GOAL, locale.value),
+  average: thousands(LOGGED.reduce((sum, value) => sum + value, 0) / LOGGED.length, locale.value),
+  logged: LOGGED.length,
+  days: WEEK.length,
+  weight: decimal(WEIGHT.at(-1)!, locale.value),
+  delta: decimal(WEIGHT.at(-1)! - WEIGHT[0]!, locale.value),
+}))
 </script>
 
 <template>
-  <section id="do-seu-jeito" class="bento" aria-labelledby="bento-title">
+  <section :id="anchors.bento" class="bento" aria-labelledby="bento-title">
     <div class="intro" data-reveal>
       <h2 id="bento-title" class="title">{{ t('bento.title') }}</h2>
       <p>{{ t('bento.lead') }}</p>
@@ -32,13 +48,13 @@ const height = (value: number) =>
     <div class="grid">
       <article class="tile day" data-ui>
         <p class="tile-title">{{ t('bento.day.title') }}</p>
-        <CalorieRing :eaten="1240" :goal="1800" :size="150" />
-        <p class="tile-text">{{ t('bento.day.text') }}</p>
+        <CalorieRing :eaten="EATEN_TODAY" :goal="GOAL" :size="150" />
+        <p class="tile-text">{{ t('bento.day.text', figures) }}</p>
       </article>
 
       <article class="tile week" data-ui>
         <p class="tile-title">{{ t('bento.week.title') }}</p>
-        <div class="bars" role="img" :aria-label="t('bento.week.chartLabel')">
+        <div class="bars" role="img" :aria-label="t('bento.week.chartLabel', figures)">
           <span
             v-for="(value, index) in WEEK"
             :key="index"
@@ -48,14 +64,14 @@ const height = (value: number) =>
           />
           <span class="goal-line" :style="{ '--g': height(GOAL) }" />
         </div>
-        <p class="tile-text">{{ t('bento.week.text') }}</p>
+        <p class="tile-text">{{ t('bento.week.text', figures) }}</p>
       </article>
 
       <article class="tile weight" data-ui>
         <p class="tile-title">{{ t('bento.weight.title') }}</p>
         <p class="big">
-          {{ t('bento.weight.value') }}
-          <span class="delta">{{ t('bento.weight.delta') }}</span>
+          {{ t('bento.weight.value', figures) }}
+          <span class="delta">{{ t('bento.weight.delta', figures) }}</span>
         </p>
         <svg viewBox="0 0 300 100" class="line" aria-hidden="true" preserveAspectRatio="none">
           <path :d="weightPath" />

@@ -24,7 +24,21 @@ export default defineNuxtConfig({
     defaultLocale: 'pt',
     baseUrl: brand.siteUrl,
     detectBrowserLanguage: false,
-    locales: [{ code: 'pt', language: 'pt-BR', name: 'Português', file: 'pt-BR.json' }],
+    locales: [
+      { code: 'pt', language: 'pt-BR', name: 'Português', file: 'pt-BR.json' },
+      { code: 'en', language: 'en-US', name: 'English', file: 'en-US.json' },
+    ],
+    customRoutes: 'config',
+    pages: {
+      index: { en: '/' },
+      planos: { en: '/plans' },
+      recursos: { en: '/features' },
+      termos: { en: '/terms' },
+      privacidade: { en: '/privacy' },
+      creditos: { en: '/credits' },
+      contato: { en: '/contact' },
+      '404': { en: false },
+    },
   },
   site: {
     url: brand.siteUrl,
@@ -33,7 +47,6 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      htmlAttrs: { lang: 'pt-BR' },
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
         { name: 'format-detection', content: 'telephone=no' },
@@ -58,8 +71,16 @@ export default defineNuxtConfig({
         '/privacidade',
         '/creditos',
         '/contato',
+        '/en',
+        '/en/plans',
+        '/en/features',
+        '/en/terms',
+        '/en/privacy',
+        '/en/credits',
+        '/en/contact',
         '/404',
         '/sitemap.xml',
+        '/sitemap_index.xml',
         '/robots.txt',
         '/llms.txt',
       ],
@@ -74,8 +95,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  // With one locale, the per-locale sitemap index would only move sitemap.xml to sitemap_index.xml.
-  sitemap: { exclude: ['/404'], autoI18n: false },
+  sitemap: { exclude: ['/404'] },
   eslint: {
     config: { stylistic: false },
   },

@@ -5,7 +5,7 @@ type Site = { name: string; url: string; tagline: string }
 /** The site as plain text for AI assistants, rebuilt from the plans contract on every generate. */
 export const llmsText = (site: Site, catalog: Catalog, builtOn: string): string => {
   const plan = (p: Catalog['premium']) =>
-    `- ${p.name}: ${money(p.monthlyCents)} por mês ou ${money(p.yearlyCents)} por ano`
+    `- ${p.name}: ${money(p.monthlyCents, 'pt')} por mês ou ${money(p.yearlyCents, 'pt')} por ano`
   const group = (g: Catalog['groups'][number]) =>
     [
       `### ${g.name}`,

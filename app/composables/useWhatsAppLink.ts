@@ -6,7 +6,11 @@ import { brand } from '~/brand'
 export const useWhatsAppLink = (text?: MaybeRefOrGetter<string | undefined>) => {
   const { whatsappNumber } = useRuntimeConfig().public
   const trialDays = useTrialDays()
+  const locale = useSiteLocale()
   return computed(() =>
-    whatsAppLink(whatsappNumber, toValue(text)?.trim() || brand.greeting(trialDays.value)),
+    whatsAppLink(
+      whatsappNumber,
+      toValue(text)?.trim() || brand.greeting[locale.value](trialDays.value),
+    ),
   )
 }

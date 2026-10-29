@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { brand } from '~/brand'
 
-const props = defineProps<{ title: string }>()
+const props = defineProps<{ title: string; mailbox: 'support' | 'privacy' }>()
 
 const { t } = useI18n()
+const locale = useSiteLocale()
+const email = computed(() => brand.email[locale.value][props.mailbox])
 
 useSeoMeta({ title: props.title, robots: 'noindex' })
 </script>
@@ -17,7 +19,7 @@ useSeoMeta({ title: props.title, robots: 'noindex' })
       <slot />
       <i18n-t keypath="legal.questions" tag="p">
         <template #email>
-          <a :href="`mailto:${brand.company.email}`">{{ brand.company.email }}</a>
+          <a :href="`mailto:${email}`">{{ email }}</a>
         </template>
       </i18n-t>
     </main>

@@ -7,6 +7,9 @@ useSeoMeta({
   title: t('contact.title'),
   description: t('contact.description', { name: brand.name }),
 })
+const anchors = useAnchors()
+const locale = useSiteLocale()
+const email = computed(() => brand.email[locale.value].support)
 </script>
 
 <template>
@@ -19,11 +22,11 @@ useSeoMeta({
       </header>
 
       <div class="tiles">
-        <a class="tile email" :href="`mailto:${brand.company.email}`">
+        <a class="tile email" :href="`mailto:${email}`">
           <span class="label">{{ t('contact.email') }}</span>
-          <span class="address">{{ brand.company.email }}</span>
+          <span class="address">{{ email }}</span>
         </a>
-        <NuxtLinkLocale class="tile faq" to="/#perguntas">
+        <NuxtLinkLocale class="tile faq" :to="`/#${anchors.faq}`">
           <span class="label">{{ t('contact.beforeWriting') }}</span>
           <span class="address">{{ t('contact.faq') }}</span>
         </NuxtLinkLocale>
@@ -32,7 +35,7 @@ useSeoMeta({
       <p class="company">
         {{ brand.company.name }},
         <span class="nowrap">{{ t('contact.taxId', { cnpj: brand.company.cnpj }) }}</span
-        >, {{ brand.company.city }}
+        >, {{ brand.company.city[locale] }}
       </p>
     </main>
     <SiteFooter />

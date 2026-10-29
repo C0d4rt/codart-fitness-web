@@ -2,6 +2,7 @@
 import { brand } from '~/brand'
 
 const { t } = useI18n()
+const anchors = useAnchors()
 </script>
 
 <template>
@@ -12,7 +13,7 @@ const { t } = useI18n()
       </NuxtLinkLocale>
       <ul class="links">
         <li>
-          <NuxtLinkLocale to="/#como-funciona">{{ t('nav.howItWorks') }}</NuxtLinkLocale>
+          <NuxtLinkLocale :to="`/#${anchors.how}`">{{ t('nav.howItWorks') }}</NuxtLinkLocale>
         </li>
         <li>
           <NuxtLinkLocale to="/recursos">{{ t('nav.features') }}</NuxtLinkLocale>
@@ -21,7 +22,7 @@ const { t } = useI18n()
           <NuxtLinkLocale to="/planos">{{ t('nav.plans') }}</NuxtLinkLocale>
         </li>
         <li>
-          <NuxtLinkLocale to="/#perguntas">{{ t('nav.faq') }}</NuxtLinkLocale>
+          <NuxtLinkLocale :to="`/#${anchors.faq}`">{{ t('nav.faq') }}</NuxtLinkLocale>
         </li>
       </ul>
       <WhatsAppButton location="nav" :label="t('cta.try')" class="nav-action" />

@@ -3,14 +3,15 @@ import { brand } from '~/brand'
 
 const catalog = await usePlans()
 const { t } = useI18n()
+const tagline = brand.tagline[useSiteLocale().value]
+const anchors = useAnchors()
 
 useSeoMeta({
-  title: brand.tagline,
+  title: tagline,
   description: t('home.description', { days: catalog.trialDays }),
-  ogTitle: `${brand.tagline} · ${brand.name}`,
+  ogTitle: `${tagline} · ${brand.name}`,
   ogDescription: t('home.ogDescription', { days: catalog.trialDays }),
   ogType: 'website',
-  ogLocale: 'pt_BR',
 })
 
 // The i18n defaults of nuxt-schema-org drop this link unless the company is the module identity.
@@ -27,7 +28,7 @@ useSchemaOrg([defineWebPage({ about: { '@id': `${brand.siteUrl}/#identity` } })]
         <p class="lead">{{ t('home.lead') }}</p>
         <div class="actions">
           <WhatsAppButton location="hero" />
-          <NuxtLinkLocale to="/#como-funciona" class="secondary">{{
+          <NuxtLinkLocale :to="`/#${anchors.how}`" class="secondary">{{
             t('home.seeHow')
           }}</NuxtLinkLocale>
         </div>
