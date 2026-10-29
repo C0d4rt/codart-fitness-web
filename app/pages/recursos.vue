@@ -2,22 +2,22 @@
 import { brand } from '~/brand'
 
 const catalog = await usePlans()
+const { t } = useI18n()
 
 useSeoMeta({
-  title: 'Recursos',
-  description: `Tudo o que o ${brand.name} faz no WhatsApp, com um exemplo de conversa para cada recurso. ${catalog.trialDays} dias grátis com tudo do Premium.`,
+  title: t('features.title'),
+  description: t('features.description', { name: brand.name, days: catalog.trialDays }),
 })
 
-const planLine = (plan: 'basic' | 'premium') =>
-  plan === 'basic' ? 'No Básico e no Premium' : 'Só no Premium e no teste'
+const planLine = (plan: 'basic' | 'premium') => t(`features.${plan}`)
 </script>
 
 <template>
   <div class="page">
     <SiteNav />
     <header class="intro">
-      <h1 class="title">Recursos</h1>
-      <p class="lead">Tudo o que dá para fazer na conversa, com exemplos de verdade</p>
+      <h1 class="title">{{ t('features.title') }}</h1>
+      <p class="lead">{{ t('features.lead') }}</p>
     </header>
 
     <section

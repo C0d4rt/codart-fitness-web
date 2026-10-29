@@ -7,6 +7,7 @@ const radius = 52
 const circumference = 2 * Math.PI * radius
 const share = computed(() => Math.min(props.eaten / props.goal, 1))
 const thousands = (value: number) => value.toLocaleString('pt-BR')
+const { t } = useI18n()
 </script>
 
 <template>
@@ -24,7 +25,7 @@ const thousands = (value: number) => value.toLocaleString('pt-BR')
     </svg>
     <figcaption>
       <strong>{{ thousands(eaten) }}</strong>
-      <span>de {{ thousands(goal) }} kcal</span>
+      <span>{{ t('ring.ofGoal', { goal: thousands(goal) }) }}</span>
     </figcaption>
   </figure>
 </template>

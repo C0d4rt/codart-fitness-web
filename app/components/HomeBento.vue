@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n()
+
 const WEIGHT = [72.4, 72.3, 72.3, 72.1, 72.2, 72.0, 71.8]
 const WEEK = [1820, 1690, 1760, 0, 1710, 1880, 1700]
 const GOAL = 1800
@@ -22,25 +24,21 @@ const height = (value: number) =>
 <template>
   <section id="do-seu-jeito" class="bento" aria-labelledby="bento-title">
     <div class="intro" data-reveal>
-      <h2 id="bento-title" class="title">Tudo o que importa, numa conversa</h2>
-      <p>Você pergunta, ele responde com os seus números</p>
-      <NuxtLink to="/recursos" class="link">Ver todos os recursos, com exemplos</NuxtLink>
+      <h2 id="bento-title" class="title">{{ t('bento.title') }}</h2>
+      <p>{{ t('bento.lead') }}</p>
+      <NuxtLinkLocale to="/recursos" class="link">{{ t('bento.seeAll') }}</NuxtLinkLocale>
     </div>
 
     <div class="grid">
       <article class="tile day" data-ui>
-        <p class="tile-title">Meta do dia</p>
+        <p class="tile-title">{{ t('bento.day.title') }}</p>
         <CalorieRing :eaten="1240" :goal="1800" :size="150" />
-        <p class="tile-text">Faltam 560 kcal para a meta de hoje</p>
+        <p class="tile-text">{{ t('bento.day.text') }}</p>
       </article>
 
       <article class="tile week" data-ui>
-        <p class="tile-title">Resumo da semana</p>
-        <div
-          class="bars"
-          role="img"
-          aria-label="Calorias de cada dia da semana, perto da meta de 1.800"
-        >
+        <p class="tile-title">{{ t('bento.week.title') }}</p>
+        <div class="bars" role="img" :aria-label="t('bento.week.chartLabel')">
           <span
             v-for="(value, index) in WEEK"
             :key="index"
@@ -50,16 +48,19 @@ const height = (value: number) =>
           />
           <span class="goal-line" :style="{ '--g': height(GOAL) }" />
         </div>
-        <p class="tile-text">Média de 1.760 kcal em 6 de 7 dias, toda segunda</p>
+        <p class="tile-text">{{ t('bento.week.text') }}</p>
       </article>
 
       <article class="tile weight" data-ui>
-        <p class="tile-title">Peso</p>
-        <p class="big">71,8 kg <span class="delta">-0,6 kg</span></p>
+        <p class="tile-title">{{ t('bento.weight.title') }}</p>
+        <p class="big">
+          {{ t('bento.weight.value') }}
+          <span class="delta">{{ t('bento.weight.delta') }}</span>
+        </p>
         <svg viewBox="0 0 300 100" class="line" aria-hidden="true" preserveAspectRatio="none">
           <path :d="weightPath" />
         </svg>
-        <p class="tile-text">A sua evolução desde o primeiro registro</p>
+        <p class="tile-text">{{ t('bento.weight.text') }}</p>
       </article>
     </div>
   </section>

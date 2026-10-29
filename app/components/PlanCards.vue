@@ -4,14 +4,15 @@ import { type Catalog, money, yearlyPerMonth } from '#shared/plans'
 const props = defineProps<{ catalog: Catalog; bare?: boolean }>()
 
 const period = ref<'month' | 'year'>('month')
+const { t } = useI18n()
 
 const plans = computed(() => [
   {
     id: 'premium',
     plan: props.catalog.premium,
-    who: 'Para quem quer a foto do prato e saber o que comer',
+    who: t('pricing.premiumWho'),
     items: [
-      'Tudo do Básico',
+      t('pricing.allOfBasic'),
       ...props.catalog.premium.features
         .filter((feature) => feature.plan === 'premium')
         .slice(0, 5)
@@ -22,7 +23,7 @@ const plans = computed(() => [
   {
     id: 'basic',
     plan: props.catalog.basic,
-    who: 'Para quem quer o diário inteiro, por texto e áudio',
+    who: t('pricing.basicWho'),
     items: props.catalog.basic.features.slice(0, 6).map((feature) => feature.name),
     featured: false,
   },
@@ -32,17 +33,16 @@ const plans = computed(() => [
 <template>
   <section class="pricing" :class="{ bare }" aria-labelledby="pricing-title">
     <div class="head" data-reveal>
-      <h2 id="pricing-title" :class="bare ? 'visually-hidden' : 'title'">Planos simples</h2>
-      <p v-if="!bare">
-        {{ catalog.trialDays }} dias grátis com tudo do Premium, sem cartão. Depois, pague no Pix ou
-        no cartão
-      </p>
-      <div class="period" role="group" aria-label="Período">
+      <h2 id="pricing-title" :class="bare ? 'visually-hidden' : 'title'">
+        {{ t('pricing.title') }}
+      </h2>
+      <p v-if="!bare">{{ t('pricing.lead', { days: catalog.trialDays }) }}</p>
+      <div class="period" role="group" :aria-label="t('pricing.periodLabel')">
         <button type="button" :aria-pressed="period === 'month'" @click="period = 'month'">
-          Mensal
+          {{ t('pricing.monthly') }}
         </button>
         <button type="button" :aria-pressed="period === 'year'" @click="period = 'year'">
-          Anual
+          {{ t('pricing.yearly') }}
         </button>
       </div>
     </div>
@@ -61,13 +61,15 @@ const plans = computed(() => [
           <span class="amount">{{
             money(period === 'month' ? each.plan.monthlyCents : each.plan.yearlyCents)
           }}</span>
-          <span class="per">{{ period === 'month' ? 'por mês' : 'por ano' }}</span>
+          <span class="per">{{
+            period === 'month' ? t('pricing.perMonth') : t('pricing.perYear')
+          }}</span>
         </p>
         <p class="equiv">
           {{
             period === 'month'
-              ? `ou ${money(each.plan.yearlyCents)} por ano`
-              : `equivale a ${yearlyPerMonth(each.plan)} por mês`
+              ? t('pricing.orYearly', { price: money(each.plan.yearlyCents) })
+              : t('pricing.yearlyPerMonth', { price: yearlyPerMonth(each.plan) })
           }}
         </p>
         <ul class="items">
@@ -75,7 +77,9 @@ const plans = computed(() => [
         </ul>
         <WhatsAppButton
           :location="`plans-${each.id}`"
-          :label="each.featured ? `Testar ${catalog.trialDays} dias grátis` : 'Começar pelo teste'"
+          :label="
+            each.featured ? t('cta.tryDays', { days: catalog.trialDays }) : t('cta.startTrial')
+          "
           :inverse="each.featured"
         />
       </article>

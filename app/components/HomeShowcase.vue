@@ -4,21 +4,16 @@ import { SHOWCASE_OUTPUTS, type ShowcaseOutput, showcaseScreen } from '#shared/s
 const selected = useState<ShowcaseOutput>('showcase', () => 'day')
 const screen = computed(() => showcaseScreen(selected.value))
 
-const NOTES: Record<ShowcaseOutput, string> = {
-  day: 'O total do dia e quanto falta, a cada registro ou quando você perguntar',
-  week: 'Toda segunda, o resumo da semana anterior, com um gráfico das calorias e dos macros',
-  weight: 'A evolução desde o primeiro registro, ou dos últimos 30 ou 90 dias',
-  nutrients: 'Sódio, fibra, açúcar e mais, comparados aos valores de referência',
-  file: 'Tudo numa planilha, para abrir no Excel ou levar à consulta, no Premium',
-}
+const { t } = useI18n()
+const note = computed(() => t(`showcase.notes.${selected.value}`))
 </script>
 
 <template>
   <section id="o-que-volta" class="showcase" aria-labelledby="showcase-title">
     <div class="panel">
       <div class="side">
-        <h2 id="showcase-title" class="title">Pergunte, e ele responde</h2>
-        <div class="tabs" role="group" aria-label="Escolha uma resposta para ver">
+        <h2 id="showcase-title" class="title">{{ t('showcase.title') }}</h2>
+        <div class="tabs" role="group" :aria-label="t('showcase.tabsLabel')">
           <button
             v-for="output in SHOWCASE_OUTPUTS"
             :key="output.id"
@@ -30,7 +25,7 @@ const NOTES: Record<ShowcaseOutput, string> = {
             {{ output.name }}
           </button>
         </div>
-        <p class="note" aria-live="polite">{{ NOTES[selected] }}</p>
+        <p class="note" aria-live="polite">{{ note }}</p>
       </div>
       <div class="answer">
         <Transition name="swap" mode="out-in">

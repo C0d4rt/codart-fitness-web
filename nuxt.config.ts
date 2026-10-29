@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/image',
     '@nuxt/scripts',
+    '@nuxtjs/i18n',
     '@nuxtjs/robots',
     '@nuxtjs/sitemap',
     'nuxt-schema-org',
@@ -17,6 +18,13 @@ export default defineNuxtConfig({
   fonts: {
     defaults: { weights: [400, 500, 700], styles: ['normal'], subsets: ['latin', 'latin-ext'] },
     families: [{ name: 'Satoshi', provider: 'fontshare', weights: [400, 500, 700] }],
+  },
+  i18n: {
+    strategy: 'prefix_except_default',
+    defaultLocale: 'pt',
+    baseUrl: brand.siteUrl,
+    detectBrowserLanguage: false,
+    locales: [{ code: 'pt', language: 'pt-BR', name: 'Português', file: 'pt-BR.json' }],
   },
   site: {
     url: brand.siteUrl,
@@ -66,7 +74,8 @@ export default defineNuxtConfig({
       },
     },
   },
-  sitemap: { exclude: ['/404'] },
+  // With one locale, the per-locale sitemap index would only move sitemap.xml to sitemap_index.xml.
+  sitemap: { exclude: ['/404'], autoI18n: false },
   eslint: {
     config: { stylistic: false },
   },

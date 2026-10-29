@@ -1,20 +1,30 @@
 <script setup lang="ts">
 import { brand } from '~/brand'
+
+const { t } = useI18n()
 </script>
 
 <template>
   <header class="site-header">
-    <nav class="nav" aria-label="Principal">
-      <NuxtLink to="/" class="wordmark">
+    <nav class="nav" :aria-label="t('nav.label')">
+      <NuxtLinkLocale to="/" class="wordmark">
         <span class="mark" aria-hidden="true" />{{ brand.name.toLowerCase() }}
-      </NuxtLink>
+      </NuxtLinkLocale>
       <ul class="links">
-        <li><NuxtLink to="/#como-funciona">Como funciona</NuxtLink></li>
-        <li><NuxtLink to="/recursos">Recursos</NuxtLink></li>
-        <li><NuxtLink to="/planos">Planos</NuxtLink></li>
-        <li><NuxtLink to="/#perguntas">Perguntas</NuxtLink></li>
+        <li>
+          <NuxtLinkLocale to="/#como-funciona">{{ t('nav.howItWorks') }}</NuxtLinkLocale>
+        </li>
+        <li>
+          <NuxtLinkLocale to="/recursos">{{ t('nav.features') }}</NuxtLinkLocale>
+        </li>
+        <li>
+          <NuxtLinkLocale to="/planos">{{ t('nav.plans') }}</NuxtLinkLocale>
+        </li>
+        <li>
+          <NuxtLinkLocale to="/#perguntas">{{ t('nav.faq') }}</NuxtLinkLocale>
+        </li>
       </ul>
-      <WhatsAppButton location="nav" label="Testar grátis" class="nav-action" />
+      <WhatsAppButton location="nav" :label="t('cta.try')" class="nav-action" />
     </nav>
   </header>
 </template>

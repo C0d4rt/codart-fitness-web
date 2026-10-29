@@ -3,6 +3,8 @@ import { brand } from '~/brand'
 
 const props = defineProps<{ title: string }>()
 
+const { t } = useI18n()
+
 useSeoMeta({ title: props.title, robots: 'noindex' })
 </script>
 
@@ -11,15 +13,13 @@ useSeoMeta({ title: props.title, robots: 'noindex' })
     <SiteNav />
     <main>
       <h1>{{ title }}</h1>
-      <p>
-        O texto definitivo está em revisão jurídica e entra aqui antes do lançamento. Até lá, vale o
-        que a conversa mostra ao começar.
-      </p>
+      <p>{{ t('legal.pending') }}</p>
       <slot />
-      <p>
-        Dúvidas: <a :href="`mailto:${brand.company.email}`">{{ brand.company.email }}</a
-        >.
-      </p>
+      <i18n-t keypath="legal.questions" tag="p">
+        <template #email>
+          <a :href="`mailto:${brand.company.email}`">{{ brand.company.email }}</a>
+        </template>
+      </i18n-t>
     </main>
     <SiteFooter />
   </div>

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { brand } from '~/brand'
 
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'Contato',
-  description: `Fale com a equipe do ${brand.name} por email.`,
+  title: t('contact.title'),
+  description: t('contact.description', { name: brand.name }),
 })
 </script>
 
@@ -12,23 +14,24 @@ useSeoMeta({
     <SiteNav />
     <main>
       <header class="intro">
-        <h1 class="title">Contato</h1>
-        <p class="lead">Dúvidas, sugestões ou algo com a sua assinatura, escreva para a gente</p>
+        <h1 class="title">{{ t('contact.title') }}</h1>
+        <p class="lead">{{ t('contact.lead') }}</p>
       </header>
 
       <div class="tiles">
         <a class="tile email" :href="`mailto:${brand.company.email}`">
-          <span class="label">Email</span>
+          <span class="label">{{ t('contact.email') }}</span>
           <span class="address">{{ brand.company.email }}</span>
         </a>
-        <NuxtLink class="tile faq" to="/#perguntas">
-          <span class="label">Antes de escrever</span>
-          <span class="address">Perguntas frequentes</span>
-        </NuxtLink>
+        <NuxtLinkLocale class="tile faq" to="/#perguntas">
+          <span class="label">{{ t('contact.beforeWriting') }}</span>
+          <span class="address">{{ t('contact.faq') }}</span>
+        </NuxtLinkLocale>
       </div>
 
       <p class="company">
-        {{ brand.company.name }}, <span class="nowrap">CNPJ {{ brand.company.cnpj }}</span
+        {{ brand.company.name }},
+        <span class="nowrap">{{ t('contact.taxId', { cnpj: brand.company.cnpj }) }}</span
         >, {{ brand.company.city }}
       </p>
     </main>

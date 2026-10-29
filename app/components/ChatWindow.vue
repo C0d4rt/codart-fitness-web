@@ -13,7 +13,7 @@ defineProps<{ screen: ChatScreen; bare?: boolean }>()
       <span class="avatar">{{ brand.name.charAt(0).toLowerCase() }}</span>
       <span class="who">
         <span class="name">{{ brand.name }}</span>
-        <span class="status">online</span>
+        <span class="status">{{ $t('chat.online') }}</span>
       </span>
     </div>
     <Transition name="screen" mode="out-in">

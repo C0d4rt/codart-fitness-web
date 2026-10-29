@@ -5,7 +5,7 @@ const trialDays = useTrialDays()
 </script>
 
 <template>
-  <figure class="compose" data-ui aria-label="O WhatsApp aberto com a primeira mensagem já escrita">
+  <figure class="compose" data-ui :aria-label="$t('compose.label')">
     <span class="field">{{ brand.greeting(trialDays) }}</span>
     <span class="send" aria-hidden="true">
       <svg viewBox="0 0 24 24" width="20" height="20">
