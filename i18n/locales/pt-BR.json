@@ -201,16 +201,13 @@
     }
   },
   "legal": {
-    "pending": "O texto definitivo está em revisão jurídica e entra aqui antes do lançamento. Até lá, vale o que a conversa mostra ao começar.",
-    "questions": "Dúvidas: {email}."
+    "questions": "Dúvidas: {email}.",
+    "version": "Versão {version}, em vigor desde {date}."
   },
   "privacy": {
-    "title": "Privacidade",
-    "site": "Este site não pede nem guarda dado pessoal. Com a sua permissão no aviso de cookies, o Google Analytics e o pixel da Meta contam visitas e medem anúncios; sem ela, nada deles é carregado. A escolha fica só no seu navegador e muda pelo link Cookies no rodapé.",
-    "whatsapp": "No WhatsApp, o que você registra serve só para o seu diário. Diga \"quero apagar minha conta\" e tudo é apagado, como prevê a LGPD."
+    "title": "Privacidade"
   },
   "terms": {
-    "title": "Termos de uso",
-    "scope": "O diário registra, soma e informa: não prescreve dieta nem treino e não substitui nutricionista, médico ou educador físico. Os valores de alimentos vêm da Tabela Brasileira de Composição de Alimentos (TACO, NEPA/Unicamp) e do Open Food Facts, sob a licença ODbL."
+    "title": "Termos de uso"
   }
 }
