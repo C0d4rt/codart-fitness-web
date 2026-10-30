@@ -75,8 +75,7 @@ onBeforeUnmount(() => clearInterval(timer))
 }
 
 .stage .chat {
-  width: min(22.5rem, 100%);
-  max-height: 100%;
+  height: 100%;
 }
 
 .swap-enter-active {

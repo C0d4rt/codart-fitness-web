@@ -68,10 +68,6 @@ const photoScreen: ChatScreen = {
   place-items: center;
 }
 
-.stage .chat {
-  width: min(22.5rem, 100%);
-}
-
 @media (max-width: 63.99rem) {
   .moment {
     grid-template-columns: 1fr;

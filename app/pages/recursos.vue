@@ -130,10 +130,6 @@ const planLine = (plan: 'basic' | 'premium') => t(`features.${plan}`)
   place-items: center start;
 }
 
-.chat {
-  width: min(22.5rem, 100%);
-}
-
 @media (max-width: 63.99rem) {
   .group {
     grid-template-columns: 1fr;
@@ -148,10 +144,7 @@ const planLine = (plan: 'basic' | 'premium') => t(`features.${plan}`)
     gap: 1.5rem;
   }
   .example {
-    place-items: stretch;
-  }
-  .chat {
-    width: 100%;
+    place-items: center;
   }
 }
 </style>
