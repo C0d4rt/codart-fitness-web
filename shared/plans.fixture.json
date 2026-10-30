@@ -89,6 +89,12 @@
       "name": "Registrar até 7 dias atrás"
     },
     {
+      "id": "mealReminders",
+      "plan": "premium",
+      "group": "log",
+      "name": "Lembrete por refeição"
+    },
+    {
       "id": "myFoods",
       "plan": "basic",
       "group": "library",
