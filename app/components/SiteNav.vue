@@ -25,7 +25,10 @@ const anchors = useAnchors()
           <NuxtLinkLocale :to="`/#${anchors.faq}`">{{ t('nav.faq') }}</NuxtLinkLocale>
         </li>
       </ul>
-      <WhatsAppButton location="nav" :label="t('cta.try')" class="nav-action" />
+      <div class="actions">
+        <LanguageSwitch />
+        <WhatsAppButton location="nav" :label="t('cta.try')" class="nav-action" />
+      </div>
     </nav>
   </header>
 </template>
@@ -80,8 +83,14 @@ const anchors = useAnchors()
   }
 }
 
-.nav-action {
+.actions {
+  display: flex;
+  align-items: center;
   justify-self: end;
+  gap: 0.75rem;
+}
+
+.nav-action {
   min-height: 2.75rem;
   padding: 0 1.25rem;
   font-size: var(--step-small);
@@ -93,6 +102,15 @@ const anchors = useAnchors()
   }
   .links {
     display: none;
+  }
+}
+
+@media (max-width: 26rem) {
+  .actions {
+    gap: 0.5rem;
+  }
+  .nav-action {
+    padding: 0 0.875rem;
   }
 }
 </style>
