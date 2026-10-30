@@ -4,14 +4,14 @@ export type LegalSection = { title: string; paragraphs?: string[]; items?: strin
 
 export type LegalDoc = { intro: string; sections: LegalSection[] }
 
-/** Matches FITNESS_TERMS_VERSION in codart-messaging: a new version asks everyone to accept again. */
+/** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
 export const LEGAL_VERSION = '1'
 export const LEGAL_EFFECTIVE = '2026-10-29'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
     intro:
-      'Estes termos valem para o Fitness, o diário de alimentação e treino no WhatsApp da Codart Tecnologia LTDA (CNPJ 65.840.318/0001-26, São Paulo, SP). Ao tocar em "Aceito" na conversa, você concorda com eles e com a Política de Privacidade.',
+      'Estes termos valem para o Fitness, o diário de alimentação e treino no WhatsApp da Codart Tecnologia LTDA (CNPJ 65.840.318/0001-26, São Paulo, SP). A primeira mensagem da conversa traz o link destes termos, e ao usar o diário você concorda com eles e com a Política de Privacidade.',
     sections: [
       {
         title: 'O que o serviço faz',
@@ -78,7 +78,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Mudanças nestes termos',
         paragraphs: [
-          'Quando estes termos mudarem, publicamos a nova versão aqui e pedimos o seu aceite de novo na conversa antes de registrar qualquer coisa. Se não aceitar, você pode cancelar e apagar a conta.',
+          'Quando estes termos mudarem, publicamos a nova versão aqui, e ela passa a valer para o que você mandar depois disso. Se não concordar, você pode cancelar e apagar a conta.',
         ],
       },
       {
@@ -109,7 +109,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'Para que usamos e com que base legal',
         items: [
           'Prestar o serviço que você contratou: registrar, somar, responder, lembrar e cobrar (execução de contrato, LGPD art. 7º, V).',
-          'Guardar e usar os dados de saúde para montar o seu diário, com o seu consentimento específico e destacado, dado ao tocar em "Aceito" (art. 11, I). Você pode revogá-lo apagando a conta.',
+          'Guardar e usar os dados de saúde para montar o seu diário, com o seu consentimento (art. 11, I), dado ao mandar esses dados na conversa depois do aviso da primeira mensagem, que traz o link destes textos. Você pode revogá-lo apagando a conta.',
           'Manter o serviço seguro, evitar abuso e corrigir falhas, com registros técnicos que não trazem o texto das mensagens (legítimo interesse, art. 7º, IX).',
           'Medir visitas e anúncios no site, só com o seu consentimento no aviso de cookies (art. 7º, I).',
         ],
@@ -178,7 +178,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Mudanças nesta política',
         paragraphs: [
-          'Quando esta política mudar, publicamos a nova versão aqui e pedimos o seu aceite de novo na conversa.',
+          'Quando esta política mudar, publicamos a nova versão aqui, e ela passa a valer para os dados que você mandar depois disso.',
         ],
       },
     ],
@@ -188,7 +188,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
 const en: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
     intro:
-      'These terms apply to Fitness, the food and workout diary on WhatsApp by Codart Tecnologia LTDA (Brazilian company number CNPJ 65.840.318/0001-26, São Paulo, Brazil). By tapping "I accept" in the chat, you agree to them and to the Privacy Policy.',
+      'These terms apply to Fitness, the food and workout diary on WhatsApp by Codart Tecnologia LTDA (Brazilian company number CNPJ 65.840.318/0001-26, São Paulo, Brazil). The first message in the chat links these terms, and by using the diary you agree to them and to the Privacy Policy.',
     sections: [
       {
         title: 'What the service does',
@@ -255,7 +255,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Changes to these terms',
         paragraphs: [
-          'When these terms change, we publish the new version here and ask for your acceptance again in the chat before logging anything. If you do not accept, you can cancel and delete your account.',
+          'When these terms change, we publish the new version here, and it applies to what you send after that. If you do not agree, you can cancel and delete your account.',
         ],
       },
       {
@@ -286,7 +286,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'What we use it for, and on what legal basis',
         items: [
           'To provide the service you signed up for: logging, adding up, replying, reminding and billing (performance of a contract, LGPD art. 7, V).',
-          'To keep and use your health data to build your diary, with your specific and highlighted consent, given when you tap "I accept" (art. 11, I). You can withdraw it by deleting your account.',
+          'To keep and use your health data to build your diary, with your consent (art. 11, I), given when you send that data in the chat after the notice in the first message, which links these texts. You can withdraw it by deleting your account.',
           'To keep the service secure, prevent abuse and fix faults, with technical logs that do not contain the text of messages (legitimate interest, art. 7, IX).',
           'To measure visits and ads on the website, only with your consent in the cookie notice (art. 7, I).',
         ],
@@ -355,7 +355,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Changes to this policy',
         paragraphs: [
-          'When this policy changes, we publish the new version here and ask for your acceptance again in the chat.',
+          'When this policy changes, we publish the new version here, and it applies to the data you send after that.',
         ],
       },
     ],
