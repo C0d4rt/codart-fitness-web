@@ -258,6 +258,22 @@ const PT: Record<string, FeatureCopy> = {
       bot('⏱️ Seu jejum de 16 h terminou (começou às 20:00). Pode comer!', '12:00'),
     ],
   },
+  mealReminders: {
+    headline: 'Lembrete na hora de cada refeição',
+    howTo:
+      'Diga a que horas quer ser lembrado, como "me lembra do almoço às 12h30 e do jantar às 20h". O lembrete só chega se aquela refeição ainda não foi registrada no dia.',
+    exchange: [
+      you('me lembra do almoço às 12h30 e do jantar às 20h', '09:15'),
+      bot(
+        '🔔 Combinado: *almoço* às 12:30 e *jantar* às 20:00. Nesses horários eu te lembro, só se a refeição ainda não estiver registrada.',
+        '09:15',
+      ),
+      bot(
+        '🍽️ Hora de registrar: *jantar*. Me conta o que você comeu.\n\nFaltam 640 kcal hoje.\n\nPara não receber lembretes, responda "parar".',
+        '20:00',
+      ),
+    ],
+  },
   compareProducts: {
     headline: 'No mercado, compare antes de levar',
     howTo:
@@ -572,6 +588,22 @@ const EN: Record<string, FeatureCopy> = {
         '19:50',
       ),
       bot('⏱️ Your 16 h fast is over (it started at 08:00 PM). You can eat!', '12:00'),
+    ],
+  },
+  mealReminders: {
+    headline: 'A reminder at the time of each meal',
+    howTo:
+      'Say when you want to be reminded, like "remind me about lunch at 12:30 and dinner at 8 pm". The reminder only comes if that meal is not logged yet that day.',
+    exchange: [
+      you('remind me about lunch at 12:30 and dinner at 8 pm', '09:15'),
+      bot(
+        "🔔 Done: *lunch* at 12:30 PM and *dinner* at 8:00 PM. I'll remind you at those times, only if the meal isn't logged yet.",
+        '09:15',
+      ),
+      bot(
+        '🍽️ Time to log: *dinner*. Tell me what you ate.\n\n640 kcal left for today.\n\nTo stop getting reminders, reply "stop".',
+        '20:00',
+      ),
     ],
   },
   compareProducts: {

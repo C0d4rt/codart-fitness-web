@@ -29,6 +29,7 @@ export const CATALOG_NAMES: Partial<Record<Locale, CatalogNames>> = {
       photos: 'Photo of the plate and the label',
       quickAddMacros: 'Quick add with macros',
       backfill: 'Logging up to 7 days back',
+      mealReminders: 'Reminder per meal',
       myFoods: 'My foods',
       savedMeals: 'Saved meals',
       recipes: 'Recipes, also by link',
