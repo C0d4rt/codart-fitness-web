@@ -66,7 +66,7 @@ test('the English plans page has the plans in English, with prices in reais', as
   )
 })
 
-test('the footer switches to the same page in the other language', async ({ page }) => {
+test('the header switches to the same page in the other language', async ({ page }) => {
   await page.goto('/planos')
   await page.getByRole('link', { name: 'English' }).click()
   await expect(page).toHaveURL(/\/en\/plans$/)

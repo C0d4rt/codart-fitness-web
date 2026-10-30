@@ -2,13 +2,7 @@
 import { brand } from '~/brand'
 
 const consent = useConsent()
-const { t, locale, locales } = useI18n()
-const switchLocalePath = useSwitchLocalePath()
-const other = computed(() => {
-  const found = locales.value.find((each) => each.code !== locale.value)
-  const path = found === undefined ? '' : switchLocalePath(found.code)
-  return found && path ? { path, name: found.name, language: found.language } : undefined
-})
+const { t } = useI18n()
 </script>
 
 <template>
@@ -34,11 +28,6 @@ const other = computed(() => {
           <button type="button" class="link" @click="consent.reopen()">
             {{ t('footer.cookies') }}
           </button>
-        </li>
-        <li v-if="other">
-          <NuxtLink :to="other.path" :hreflang="other.language" :lang="other.language">{{
-            other.name
-          }}</NuxtLink>
         </li>
       </ul>
       <p class="legal">© 2026 {{ brand.company.name }}</p>
