@@ -26,7 +26,7 @@ const anchors = useAnchors()
         </li>
       </ul>
       <div class="actions">
-        <LanguageSwitch />
+        <LanguageMenu />
         <WhatsAppButton location="nav" :label="t('cta.try')" class="nav-action" />
       </div>
     </nav>
