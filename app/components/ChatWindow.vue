@@ -131,8 +131,6 @@ const locale = useSiteLocale()
   position: relative;
   display: flex;
   flex-direction: column;
-  width: min(100%, 22.5rem);
-  max-height: min(44rem, calc(100svh - 6rem));
   padding: 0.5rem;
   border-radius: 3rem;
   background: #111a16;
@@ -147,8 +145,13 @@ const locale = useSiteLocale()
     0 28px 60px -24px rgb(16 36 26 / 0.45); /* taste-skill-ignore: the phone has to sit on the page like an object (data-ui) */
 }
 
+/* A phone's own proportion (71.6 × 147.6 mm): the height is set, the width follows. */
 .chat:not(.bare) {
-  min-height: min(32rem, 70svh - 4rem);
+  width: auto;
+  max-width: 100%;
+  height: min(38rem, 100svh - 8rem);
+  aspect-ratio: 71.6 / 147.6;
+  font-size: 0.875rem;
 }
 
 /* The two side buttons of a phone. */
@@ -210,19 +213,19 @@ const locale = useSiteLocale()
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 2.75rem;
-  padding: 0 1.75rem 0 2rem;
-  font-size: 0.875rem;
+  height: 2.5rem;
+  padding: 0 1.25rem 0 1.625rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
 .island {
   position: absolute;
-  top: 0.625rem;
+  top: 0.5rem;
   left: 50%;
-  width: 6.25rem;
-  height: 1.625rem;
+  width: 4.75rem;
+  height: 1.375rem;
   border-radius: 999px;
   background: #111a16;
   translate: -50% 0;
@@ -231,20 +234,24 @@ const locale = useSiteLocale()
 .signals {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.2rem;
 }
 
 .signals svg {
-  height: 0.75rem;
+  height: 0.625rem;
   fill: currentColor;
 }
 
+.signals svg:first-child {
+  width: 0.875rem;
+}
+
 .signals svg:nth-child(2) {
-  width: 1rem;
+  width: 0.875rem;
 }
 
 .signals svg:last-child {
-  width: 1.6rem;
+  width: 1.375rem;
 }
 
 .line {

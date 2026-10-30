@@ -109,10 +109,6 @@ const anchors = useAnchors()
   min-height: 30rem;
 }
 
-.sheet {
-  width: min(22.5rem, 100%);
-}
-
 .swap-enter-active {
   transition:
     opacity 220ms var(--ease-out),
