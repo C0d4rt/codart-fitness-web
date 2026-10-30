@@ -68,10 +68,12 @@ test('the English plans page has the plans in English, with prices in reais', as
 
 test('the header switches to the same page in the other language', async ({ page }) => {
   await page.goto('/planos')
-  await page.getByRole('link', { name: 'English' }).click()
+  await page.getByRole('button', { name: 'Idioma: Português' }).click()
+  await page.getByRole('link', { name: /English/ }).click()
   await expect(page).toHaveURL(/\/en\/plans$/)
   await expect(page.locator('h1')).toHaveText('Plans')
-  await page.getByRole('link', { name: 'Português' }).click()
+  await page.getByRole('button', { name: 'Language: English' }).click()
+  await page.getByRole('link', { name: /Português/ }).click()
   await expect(page).toHaveURL(/\/planos$/)
   await expect(page.locator('h1')).toHaveText('Planos')
 })
