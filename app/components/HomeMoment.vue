@@ -69,7 +69,7 @@ const photoScreen: ChatScreen = {
 }
 
 .stage .chat {
-  width: min(28rem, 100%);
+  width: min(22.5rem, 100%);
 }
 
 @media (max-width: 63.99rem) {

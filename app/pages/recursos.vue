@@ -131,7 +131,7 @@ const planLine = (plan: 'basic' | 'premium') => t(`features.${plan}`)
 }
 
 .chat {
-  width: min(26rem, 100%);
+  width: min(22.5rem, 100%);
 }
 
 @media (max-width: 63.99rem) {
