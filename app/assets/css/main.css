@@ -24,6 +24,8 @@
   --field-ink: var(--green-ink);
 
   --chat-bg: #e9ede8;
+  --chat-wall: #efeae2;
+  --chat-chrome: #f6f6f6;
   --chat-bot: #ffffff;
   --chat-you: #d9f6d2;
   --chat-ink: #111b21;

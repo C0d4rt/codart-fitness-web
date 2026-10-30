@@ -110,7 +110,7 @@ const anchors = useAnchors()
 }
 
 .sheet {
-  width: min(24rem, 100%);
+  width: min(22.5rem, 100%);
 }
 
 .swap-enter-active {

@@ -33,7 +33,8 @@
     "back": "Voltar ao começo"
   },
   "chat": {
-    "online": "online"
+    "online": "online",
+    "message": "Mensagem"
   },
   "plate": {
     "label": "Desenho de um prato de almoço"
