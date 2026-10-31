@@ -34,7 +34,8 @@
   },
   "chat": {
     "online": "online",
-    "message": "Message"
+    "message": "Message",
+    "today": "Today"
   },
   "plate": {
     "label": "Drawing of a lunch plate"
