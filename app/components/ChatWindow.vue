@@ -9,6 +9,11 @@ const props = defineProps<{ screen: ChatScreen; bare?: boolean }>()
 
 const locale = useSiteLocale()
 
+/* A voice note's waveform: louder bars, and dots where the speaker paused. */
+const WAVE = [
+  1, 3, 5, 7, 6, 8, 5, 7, 8, 4, 1, 1, 6, 8, 7, 5, 8, 4, 2, 1, 7, 8, 6, 8, 5, 3, 7, 8, 7, 4, 1,
+]
+
 const sender = (index: number) => props.screen.messages[index]?.from
 const opensRun = (index: number) => sender(index - 1) !== sender(index)
 const closesRun = (index: number) => sender(index + 1) !== sender(index)
@@ -68,18 +73,26 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
             >
               <div class="body">
                 <div v-if="message.attachment?.kind === 'audio'" class="audio">
-                  <svg class="play" viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg>
-                  <span class="wave">
-                    <span class="knob" />
-                    <i v-for="bar in 22" :key="bar" :style="{ '--h': ((bar * 37) % 11) + 3 }" />
+                  <span class="sender">
+                    <svg class="person" viewBox="0 0 40 40">
+                      <circle cx="20" cy="15.5" r="7" />
+                      <path d="M6.5 35.5c1.6-7.4 7-11 13.5-11s11.9 3.6 13.5 11z" />
+                    </svg>
+                    <svg class="heard" viewBox="0 0 24 24">
+                      <rect x="8.75" y="2" width="6.5" height="12.5" rx="3.25" />
+                      <path class="line" d="M5.5 10.75a6.5 6.5 0 0 0 13 0M12 17.25V22" />
+                    </svg>
                   </span>
-                  <svg v-if="message.from === 'you'" class="heard" viewBox="0 0 24 24">
-                    <rect x="9" y="3.5" width="6" height="11" rx="3" />
-                    <path class="line" d="M6 11.5a6 6 0 0 0 12 0M12 17.5v3" />
-                  </svg>
-                  <span class="length"
-                    >0:{{ String(message.attachment.seconds).padStart(2, '0') }}</span
-                  >
+                  <svg class="play" viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg>
+                  <span class="track">
+                    <span class="wave">
+                      <span class="knob" />
+                      <i v-for="(height, bar) in WAVE" :key="bar" :style="{ '--h': height }" />
+                    </span>
+                    <span class="length"
+                      >0:{{ String(message.attachment.seconds).padStart(2, '0') }}</span
+                    >
+                  </span>
                 </div>
                 <img
                   v-else-if="message.attachment?.kind === 'photo' && message.attachment.src"
@@ -466,6 +479,10 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   padding-bottom: 1.25rem;
 }
 
+.body:has(.audio) {
+  padding-bottom: 0.375rem;
+}
+
 .framed .body {
   padding: 0.1875rem;
 }
@@ -630,17 +647,54 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
 .audio {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  width: 12rem;
+  gap: 0.625rem;
+  width: 13.5rem;
   max-width: 100%;
-  padding: 0.25rem 0.125rem 0;
+  padding: 0.125rem 0.125rem 0;
+}
+
+.sender {
+  position: relative;
+  flex: none;
+  width: 2.375rem;
+  height: 2.375rem;
+}
+
+.person {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #c8ced3;
+  fill: #ffffff;
+}
+
+.heard {
+  position: absolute;
+  right: -0.3rem;
+  bottom: -0.125rem;
+  width: 1rem;
+  height: 1rem;
+  color: var(--chat-voice);
+  fill: currentColor;
+}
+
+.heard .line {
+  fill: none;
+  stroke-width: 2;
 }
 
 .play {
-  width: 0.875rem;
-  height: 1rem;
+  width: 0.8125rem;
+  height: 0.9375rem;
   flex: none;
-  fill: var(--chat-meta);
+  fill: color-mix(in oklab, var(--chat-ink) 70%, transparent);
+}
+
+.track {
+  display: grid;
+  flex: 1;
+  gap: 0.125rem;
+  min-width: 0;
 }
 
 .wave {
@@ -648,10 +702,8 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2px;
-  flex: 1;
-  min-width: 0;
-  height: 1.75rem;
+  gap: 1px;
+  height: 1.5rem;
   overflow: hidden;
 }
 
@@ -659,33 +711,22 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   position: absolute;
   top: 50%;
   left: 0;
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 0.6875rem;
+  height: 0.6875rem;
   border-radius: 50%;
-  background: var(--chat-tick);
+  background: var(--chat-voice);
   translate: 0 -50%;
-}
-
-.heard {
-  width: 1.25rem;
-  height: 1.25rem;
-  flex: none;
-  color: var(--chat-tick);
-  fill: currentColor;
 }
 
 .wave i {
   flex: none;
-  width: 3px;
-  height: calc(var(--h) * 2px);
-  border-radius: 2px;
-  background: var(--chat-meta);
+  width: 2px;
+  height: max(2px, calc(var(--h) * 0.125rem));
+  border-radius: 1px;
+  background: color-mix(in oklab, var(--chat-ink) 30%, transparent);
 }
 
 .length {
-  position: absolute;
-  bottom: 0.25rem;
-  left: 0.625rem;
   color: var(--chat-meta);
   font-size: 0.6875rem;
   font-variant-numeric: tabular-nums;
