@@ -98,7 +98,7 @@ const locale = useSiteLocale()
         <div class="tools">
           <svg class="icon" viewBox="0 0 24 24"><path class="line" d="M12 5v14M5 12h14" /></svg>
           <span class="field">
-            {{ $t('chat.message') }}
+            <span class="hint">{{ $t('chat.message') }}</span>
             <svg class="icon small" viewBox="0 0 24 24">
               <circle class="line" cx="12" cy="12" r="8.5" />
               <path class="line" d="M8.5 14a4.2 4.2 0 0 0 7 0" />
@@ -106,7 +106,7 @@ const locale = useSiteLocale()
               <circle cx="14.7" cy="10" r="1.1" />
             </svg>
           </span>
-          <svg class="icon" viewBox="0 0 24 24">
+          <svg class="icon camera" viewBox="0 0 24 24">
             <path
               class="line"
               d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.4-2h4.6l1.4 2h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"
@@ -147,11 +147,16 @@ const locale = useSiteLocale()
 
 /* A phone's own proportion (71.6 × 147.6 mm): the height is set, the width follows. */
 .chat:not(.bare) {
-  width: auto;
-  max-width: 100%;
-  height: min(38rem, 100svh - 8rem);
+  /* A phone's own proportion (71.6 × 147.6 mm), never stretched by the messages inside. */
+  container-type: inline-size;
+  width: min(100%, min(38rem, 100svh - 8rem) * 71.6 / 147.6);
+  min-width: 0;
+  height: auto;
   aspect-ratio: 71.6 / 147.6;
-  font-size: 0.875rem;
+}
+
+.chat:not(.bare) .screen {
+  font-size: clamp(0.75rem, 4.75cqw, 0.875rem);
 }
 
 /* The two side buttons of a phone. */
@@ -359,6 +364,7 @@ const locale = useSiteLocale()
 
 .composer {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.5rem;
   padding: 0.5rem 0.75rem 0.375rem;
   background: var(--chat-chrome);
@@ -373,6 +379,8 @@ const locale = useSiteLocale()
 .field {
   display: flex;
   flex: 1;
+  gap: 0.375rem;
+  min-width: 0;
   align-items: center;
   justify-content: space-between;
   height: 2.25rem;
@@ -382,6 +390,32 @@ const locale = useSiteLocale()
   color: var(--chat-meta);
   font-size: 0.875rem;
   box-shadow: inset 0 0 0 1px rgb(17 27 33 / 0.08); /* taste-skill-ignore: the outline of WhatsApp's text field (data-ui) */
+}
+
+.hint {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.field .icon {
+  flex: none;
+}
+
+@container (width < 16.5rem) {
+  .camera {
+    display: none;
+  }
+}
+
+@container (width < 14.5rem) {
+  .tools {
+    gap: 0.5rem;
+  }
+
+  .field {
+    padding: 0 0.5rem 0 0.75rem;
+  }
 }
 
 .mic {

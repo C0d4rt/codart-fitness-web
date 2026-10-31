@@ -67,7 +67,7 @@ onBeforeUnmount(() => clearInterval(timer))
   grid-template-columns: 100%;
   grid-template-rows: minmax(0, 100%);
   place-items: center;
-  height: min(70svh, 38rem);
+  height: clamp(34rem, 70svh, 38rem);
   overflow: hidden;
   padding: 2rem;
   border-radius: 2rem;
@@ -75,6 +75,7 @@ onBeforeUnmount(() => clearInterval(timer))
 }
 
 .stage .chat {
+  width: auto;
   height: 100%;
 }
 
@@ -105,7 +106,7 @@ onBeforeUnmount(() => clearInterval(timer))
 
 @media (max-width: 47.99rem) {
   .stage {
-    height: 30rem;
+    height: 36rem;
     padding: 1rem;
   }
 }
