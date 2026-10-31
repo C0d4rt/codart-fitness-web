@@ -40,11 +40,16 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
         </div>
         <div class="bar">
           <span class="back">
-            <svg class="icon" viewBox="0 0 12 20"><path class="line" d="M10 2 2 10l8 8" /></svg>
+            <svg class="icon" viewBox="0 0 12 20">
+              <path class="line" d="M9.5 2.5 2 10l7.5 7.5" />
+            </svg>
             2
           </span>
           <span class="avatar">{{ brand.name.charAt(0).toLowerCase() }}</span>
-          <span class="name">{{ brand.name }}</span>
+          <span class="who">
+            <span class="name">{{ brand.name }}</span>
+            <span class="presence">{{ $t('chat.online') }}</span>
+          </span>
         </div>
       </div>
       <Transition name="screen" mode="out-in">
@@ -106,7 +111,10 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
               </div>
               <span v-if="message.button" class="reply-button">
                 <svg viewBox="0 0 24 24">
-                  <path class="line" d="M10 5 4 11l6 6M4 11h9a7 7 0 0 1 7 7v1" />
+                  <path
+                    class="line"
+                    d="M9.5 4.5 3 11l6.5 6.5v-4c4.6 0 8 1.5 11 5.5-.7-6-4.5-10-11-11z"
+                  />
                 </svg>
                 {{ message.button }}
               </span>
@@ -119,27 +127,29 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
       </Transition>
       <div v-if="!bare" class="composer" aria-hidden="true">
         <div class="tools">
-          <svg class="icon" viewBox="0 0 24 24"><path class="line" d="M12 5v14M5 12h14" /></svg>
+          <svg class="icon plus" viewBox="0 0 24 24">
+            <path class="line" d="M12 3.5v17M3.5 12h17" />
+          </svg>
           <span class="field">
             <svg class="icon small" viewBox="0 0 24 24">
               <path
                 class="line"
-                d="M13.5 20.5H8A4.5 4.5 0 0 1 3.5 16V8A4.5 4.5 0 0 1 8 3.5h8A4.5 4.5 0 0 1 20.5 8v5.5l-7 7z"
+                d="M12.5 20.5H8A4.5 4.5 0 0 1 3.5 16V8A4.5 4.5 0 0 1 8 3.5h8A4.5 4.5 0 0 1 20.5 8v4.5a8 8 0 0 1-8 8z"
               />
-              <path class="line" d="M13.5 20.5V17a3.5 3.5 0 0 1 3.5-3.5h3.5" />
+              <path class="line" d="M12.5 20.5c0-4.6 3.4-8 8-8" />
             </svg>
           </span>
           <svg class="icon" viewBox="0 0 24 24">
             <path
               class="line"
-              d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.4-2h4.6l1.4 2h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"
+              d="M2.75 9A2.75 2.75 0 0 1 5.5 6.25h1.9c.5 0 .95-.28 1.18-.72l.6-1.16c.23-.44.68-.72 1.18-.72h3.28c.5 0 .95.28 1.18.72l.6 1.16c.23.44.68.72 1.18.72h1.9A2.75 2.75 0 0 1 21.25 9v8.25A2.75 2.75 0 0 1 18.5 20h-13a2.75 2.75 0 0 1-2.75-2.75z"
             />
-            <circle class="line" cx="12" cy="12.5" r="3.4" />
+            <circle class="line" cx="12" cy="12.75" r="3.75" />
           </svg>
           <span class="mic">
             <svg viewBox="0 0 24 24">
-              <rect x="9" y="3.5" width="6" height="11" rx="3" />
-              <path class="line" d="M6 11.5a6 6 0 0 0 12 0M12 17.5v3" />
+              <rect x="8.25" y="2" width="7.5" height="13" rx="3.75" />
+              <path class="line" d="M5.25 11a6.75 6.75 0 0 0 13.5 0M12 17.75V21" />
             </svg>
           </span>
         </div>
@@ -321,6 +331,10 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   color: var(--chat-ink);
 }
 
+.back .line {
+  stroke-width: 2.4;
+}
+
 .icon.small {
   width: 1.25rem;
   height: 1.25rem;
@@ -341,13 +355,24 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   font-weight: 700;
 }
 
-.name {
+.who {
+  display: grid;
   flex: 1;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.name {
   overflow: hidden;
   font-size: 1rem;
   font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.presence {
+  color: var(--chat-meta);
+  font-size: 0.75rem;
 }
 
 .thread {
@@ -480,7 +505,18 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
 }
 
 .tools > .icon {
+  width: 1.5rem;
+  height: 1.5rem;
   color: var(--chat-ink);
+}
+
+.tools .line {
+  stroke-width: 1.6;
+}
+
+.tools > .plus {
+  width: 1.625rem;
+  height: 1.625rem;
 }
 
 .mic {
@@ -495,9 +531,14 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
 }
 
 .mic svg {
-  width: 1.125rem;
-  height: 1.125rem;
+  width: 1.25rem;
+  height: 1.25rem;
   fill: currentColor;
+}
+
+.mic .line {
+  fill: none;
+  stroke-width: 2;
 }
 
 @container (width < 14.5rem) {
