@@ -5,9 +5,13 @@ import { clock } from '#shared/locale'
 
 import { brand } from '~/brand'
 
-defineProps<{ screen: ChatScreen; bare?: boolean }>()
+const props = defineProps<{ screen: ChatScreen; bare?: boolean }>()
 
 const locale = useSiteLocale()
+
+const sender = (index: number) => props.screen.messages[index]?.from
+const opensRun = (index: number) => sender(index - 1) !== sender(index)
+const closesRun = (index: number) => sender(index + 1) !== sender(index)
 </script>
 
 <template>
@@ -35,7 +39,10 @@ const locale = useSiteLocale()
           </span>
         </div>
         <div class="bar">
-          <svg class="icon back" viewBox="0 0 12 20"><path class="line" d="M10 2 2 10l8 8" /></svg>
+          <span class="back">
+            <svg class="icon" viewBox="0 0 12 20"><path class="line" d="M10 2 2 10l8 8" /></svg>
+            2
+          </span>
           <span class="avatar">{{ brand.name.charAt(0).toLowerCase() }}</span>
           <span class="who">
             <span class="name">{{ brand.name }}</span>
@@ -55,41 +62,65 @@ const locale = useSiteLocale()
       </div>
       <Transition name="screen" mode="out-in">
         <ol :key="screen.id" class="thread" aria-hidden="true">
+          <li v-if="!bare" class="day">{{ $t('chat.today') }}</li>
           <li
             v-for="(message, index) in screen.messages"
             :key="index"
             class="row"
-            :class="message.from"
+            :class="[message.from, { opens: opensRun(index), closes: closesRun(index) }]"
             :style="{ '--n': index }"
           >
-            <div class="bubble">
-              <div v-if="message.attachment?.kind === 'audio'" class="audio">
-                <span class="play">▶</span>
-                <span class="wave">
-                  <i v-for="bar in 22" :key="bar" :style="{ '--h': ((bar * 37) % 11) + 3 }" />
+            <div
+              class="bubble"
+              :class="{ framed: message.attachment?.kind === 'photo' && !message.text }"
+            >
+              <div class="body">
+                <div v-if="message.attachment?.kind === 'audio'" class="audio">
+                  <svg class="play" viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg>
+                  <span class="wave">
+                    <span class="knob" />
+                    <i v-for="bar in 22" :key="bar" :style="{ '--h': ((bar * 37) % 11) + 3 }" />
+                  </span>
+                  <svg v-if="message.from === 'you'" class="heard" viewBox="0 0 24 24">
+                    <rect x="9" y="3.5" width="6" height="11" rx="3" />
+                    <path class="line" d="M6 11.5a6 6 0 0 0 12 0M12 17.5v3" />
+                  </svg>
+                  <span class="length"
+                    >0:{{ String(message.attachment.seconds).padStart(2, '0') }}</span
+                  >
+                </div>
+                <img
+                  v-else-if="message.attachment?.kind === 'photo' && message.attachment.src"
+                  :src="message.attachment.src"
+                  :alt="message.attachment.label"
+                  width="640"
+                  height="426"
+                  loading="lazy"
+                  class="photo shot"
+                />
+                <PlateDrawing v-else-if="message.attachment?.kind === 'photo'" class="photo" />
+                <div v-else-if="message.attachment?.kind === 'file'" class="file">
+                  <span class="file-icon">CSV</span>
+                  <span>{{ message.attachment.name }}</span>
+                </div>
+                <p v-if="message.text" class="text">
+                  <!-- eslint-disable-next-line vue/no-v-html -- the text is escaped by formatChat before the marks become tags -->
+                  <span v-html="formatChat(message.text)" />
+                  <span class="room"
+                    >{{ clock(message.time, locale) }}<i v-if="message.from === 'you'"
+                  /></span>
+                </p>
+                <span class="meta">
+                  {{ clock(message.time, locale) }}
+                  <svg v-if="message.from === 'you'" class="ticks" viewBox="0 0 16 11">
+                    <path class="line" d="M1.5 6.2 4.4 9l6.1-7M7.4 8.6l.5.4 6.1-7" />
+                  </svg>
                 </span>
-                <span class="length"
-                  >0:{{ String(message.attachment.seconds).padStart(2, '0') }}</span
-                >
               </div>
-              <img
-                v-else-if="message.attachment?.kind === 'photo' && message.attachment.src"
-                :src="message.attachment.src"
-                :alt="message.attachment.label"
-                width="640"
-                height="426"
-                loading="lazy"
-                class="photo shot"
-              />
-              <PlateDrawing v-else-if="message.attachment?.kind === 'photo'" class="photo" />
-              <div v-else-if="message.attachment?.kind === 'file'" class="file">
-                <span class="file-icon">CSV</span>
-                <span>{{ message.attachment.name }}</span>
-              </div>
-              <!-- eslint-disable-next-line vue/no-v-html -- the text is escaped by formatChat before the marks become tags -->
-              <p v-if="message.text" class="text" v-html="formatChat(message.text)" />
-              <span class="time">{{ clock(message.time, locale) }}</span>
               <span v-if="message.button" class="reply-button">{{ message.button }}</span>
+              <svg v-if="closesRun(index)" class="tail" viewBox="0 0 10 16">
+                <path d="M10 0c0 7-2.4 12.6-10 16h10z" />
+              </svg>
             </div>
           </li>
         </ol>
@@ -113,12 +144,10 @@ const locale = useSiteLocale()
             />
             <circle class="line" cx="12" cy="12.5" r="3.4" />
           </svg>
-          <span class="mic">
-            <svg viewBox="0 0 24 24">
-              <rect class="line" x="9" y="3.5" width="6" height="11" rx="3" />
-              <path class="line" d="M6 11.5a6 6 0 0 0 12 0M12 17.5v3" />
-            </svg>
-          </span>
+          <svg class="icon" viewBox="0 0 24 24">
+            <rect class="line" x="9" y="3.5" width="6" height="11" rx="3" />
+            <path class="line" d="M6 11.5a6 6 0 0 0 12 0M12 17.5v3" />
+          </svg>
         </div>
         <span class="home" />
       </div>
@@ -145,7 +174,6 @@ const locale = useSiteLocale()
     0 28px 60px -24px rgb(16 36 26 / 0.45); /* taste-skill-ignore: the phone has to sit on the page like an object (data-ui) */
 }
 
-/* A phone's own proportion (71.6 × 147.6 mm): the height is set, the width follows. */
 .chat:not(.bare) {
   /* A phone's own proportion (71.6 × 147.6 mm), never stretched by the messages inside. */
   container-type: inline-size;
@@ -281,7 +309,16 @@ const locale = useSiteLocale()
   color: var(--green);
 }
 
-.icon.back {
+.back {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--green);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.back .icon {
   width: 0.75rem;
   height: 1.125rem;
 }
@@ -326,10 +363,10 @@ const locale = useSiteLocale()
   flex: 1;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 0.5rem;
+  gap: 0.125rem;
   min-height: 0;
   margin: 0;
-  padding: 0.875rem 0.75rem 1rem;
+  padding: 0.875rem 0.875rem 1rem;
   overflow: hidden;
   list-style: none;
 }
@@ -348,18 +385,72 @@ const locale = useSiteLocale()
   justify-content: flex-end;
 }
 
-.bubble {
-  position: relative;
-  max-width: 86%;
-  padding: 0.5rem 0.75rem 1.25rem;
-  border-radius: 1rem 1rem 1rem 0.375rem;
+.row + .row.opens {
+  margin-top: 0.375rem;
+}
+
+.day {
+  align-self: center;
+  margin-bottom: 0.375rem;
+  padding: 0.1875rem 0.625rem;
+  border-radius: 0.5rem;
   background: var(--chat-bot);
-  box-shadow: 0 1px 0.5px rgb(11 20 26 / 0.13); /* taste-skill-ignore: the hairline shadow WhatsApp gives a bubble (data-ui) */
+  color: var(--chat-meta);
+  font-size: 0.75rem;
+  font-weight: 500;
+  box-shadow: 0 1px 0.5px rgb(11 20 26 / 0.13); /* taste-skill-ignore: the hairline shadow WhatsApp gives its date chip (data-ui) */
+}
+
+.bubble {
+  --fill: var(--chat-bot);
+
+  position: relative;
+  max-width: 84%;
+  border-radius: 1rem;
+  background: var(--fill);
+  /* A drop shadow, not a box shadow, so the tail shares it. */
+  filter: drop-shadow(0 1px 0.5px rgb(11 20 26 / 0.16));
 }
 
 .you .bubble {
-  border-radius: 1rem 1rem 0.375rem 1rem;
-  background: var(--chat-you);
+  --fill: var(--chat-you);
+}
+
+.closes .bubble {
+  border-bottom-left-radius: 0.25rem;
+}
+
+.you.closes .bubble {
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 1rem;
+}
+
+.tail {
+  position: absolute;
+  bottom: 0;
+  left: calc(-0.5rem + 1px);
+  width: 0.5rem;
+  height: 0.8rem;
+  fill: var(--fill);
+}
+
+.you .tail {
+  right: calc(-0.5rem + 1px);
+  left: auto;
+  scale: -1 1;
+}
+
+.body {
+  position: relative;
+  padding: 0.375rem 0.5rem 0.375rem 0.625rem;
+}
+
+.body:not(:has(.text)) {
+  padding-bottom: 1.25rem;
+}
+
+.framed .body {
+  padding: 0.1875rem;
 }
 
 .composer {
@@ -418,22 +509,6 @@ const locale = useSiteLocale()
   }
 }
 
-.mic {
-  display: grid;
-  place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  flex: none;
-  border-radius: 50%;
-  background: var(--green);
-  color: #ffffff;
-}
-
-.mic svg {
-  width: 1.125rem;
-  height: 1.125rem;
-}
-
 .home {
   justify-self: center;
   width: 7.5rem;
@@ -447,18 +522,50 @@ const locale = useSiteLocale()
   overflow-wrap: anywhere;
 }
 
-.time {
+/* An invisible copy of the time, so the last line leaves room for it as WhatsApp's does. */
+.room {
+  display: inline-flex;
+  padding-left: 0.75rem;
+  font-size: 0.6875rem;
+  visibility: hidden;
+}
+
+.room i {
+  width: 1.25rem;
+}
+
+.meta {
   position: absolute;
-  right: 0.625rem;
-  bottom: 0.3rem;
+  right: 0.5rem;
+  bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.1875rem;
   color: var(--chat-meta);
   font-size: 0.6875rem;
   font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.framed .meta {
+  right: 0.625rem;
+  bottom: 0.5rem;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
+}
+
+.ticks {
+  width: 1rem;
+  height: 0.6875rem;
+  color: var(--chat-tick);
+}
+
+.ticks .line {
+  stroke-width: 1.5;
 }
 
 .reply-button {
   display: block;
-  margin: 0.625rem -0.75rem -1.25rem;
   padding: 0.625rem;
   border-top: 1px solid color-mix(in oklab, var(--chat-ink) 14%, transparent); /* taste-skill-ignore: WhatsApp draws this divider above a reply button (data-ui fragment) */
   color: #0b7a5a;
@@ -469,23 +576,52 @@ const locale = useSiteLocale()
 .audio {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  min-width: 13rem;
+  gap: 0.5rem;
+  width: 12rem;
+  max-width: 100%;
+  padding: 0.25rem 0.125rem 0;
 }
 
 .play {
-  font-size: 0.875rem;
+  width: 0.875rem;
+  height: 1rem;
+  flex: none;
+  fill: var(--chat-meta);
 }
 
 .wave {
+  position: relative;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 2px;
   flex: 1;
+  min-width: 0;
   height: 1.75rem;
+  overflow: hidden;
+}
+
+.knob {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--chat-tick);
+  translate: 0 -50%;
+}
+
+.heard {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: none;
+  color: var(--chat-tick);
+  fill: currentColor;
 }
 
 .wave i {
+  flex: none;
   width: 3px;
   height: calc(var(--h) * 2px);
   border-radius: 2px;
@@ -493,13 +629,22 @@ const locale = useSiteLocale()
 }
 
 .length {
+  position: absolute;
+  bottom: 0.25rem;
+  left: 0.625rem;
   color: var(--chat-meta);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
 .photo {
   width: 13rem;
   border-radius: 0.5rem;
+}
+
+.framed .photo {
+  border-radius: 0.8125rem;
 }
 
 .shot {

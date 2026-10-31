@@ -34,7 +34,8 @@
   },
   "chat": {
     "online": "online",
-    "message": "Mensagem"
+    "message": "Mensagem",
+    "today": "Hoje"
   },
   "plate": {
     "label": "Desenho de um prato de almoço"
