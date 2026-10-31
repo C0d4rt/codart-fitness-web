@@ -1,25 +1,9 @@
 <script setup lang="ts">
-import type { ChatScreen } from '#shared/chat'
 import { logModeScreen } from '#shared/screens'
 
 const { t } = useI18n()
 
-const base = logModeScreen('photo', useSiteLocale().value)
-const photoScreen: ChatScreen = {
-  ...base,
-  messages: base.messages.map((message) =>
-    message.attachment?.kind === 'photo'
-      ? {
-          ...message,
-          attachment: {
-            ...message.attachment,
-            label: t('moment.photoLabel'),
-            src: '/images/salada.jpg',
-          },
-        }
-      : message,
-  ),
-}
+const photoScreen = logModeScreen('photo', useSiteLocale().value)
 </script>
 
 <template>

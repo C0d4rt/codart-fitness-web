@@ -79,7 +79,15 @@ const PT: Record<string, FeatureCopy> = {
     howTo:
       'Mande a foto do prato, do rótulo ou do código. Para o prato, você confere num formulário o que foi visto e corrige as gramas antes de registrar.',
     exchange: [
-      { from: 'you', attachment: { kind: 'photo', label: 'Foto do almoço' }, time: '12:58' },
+      {
+        from: 'you',
+        attachment: {
+          kind: 'photo',
+          label: 'Uma salada com rúcula, ovos, cenoura e tomate',
+          src: '/images/salada.jpg',
+        },
+        time: '12:58',
+      },
       bot(
         'Vi isto no seu prato. Confira: desmarque o que não comeu e corrija as gramas antes de registrar. O que vier desmarcado eu não tive certeza.',
         '12:58',
@@ -415,7 +423,15 @@ const EN: Record<string, FeatureCopy> = {
     howTo:
       'Send a photo of the plate, the label or the barcode. For the plate, you check what was seen in a form and fix the grams before logging.',
     exchange: [
-      { from: 'you', attachment: { kind: 'photo', label: 'Photo of lunch' }, time: '12:58' },
+      {
+        from: 'you',
+        attachment: {
+          kind: 'photo',
+          label: 'A salad with arugula, eggs, carrot and tomato',
+          src: '/images/salada.jpg',
+        },
+        time: '12:58',
+      },
       bot(
         "This is what I saw on your plate. Check it: untick what you didn't eat and fix the grams before logging. Anything left unticked is something I wasn't sure about.",
         '12:58',
