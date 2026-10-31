@@ -67,16 +67,11 @@ onBeforeUnmount(() => clearInterval(timer))
   grid-template-columns: 100%;
   grid-template-rows: minmax(0, 100%);
   place-items: center;
-  height: clamp(34rem, 70svh, 38rem);
+  height: calc(min(38rem, 100svh - 8rem) + 4rem);
   overflow: hidden;
   padding: 2rem;
   border-radius: 2rem;
   background: var(--mint);
-}
-
-.stage .chat {
-  width: auto;
-  height: 100%;
 }
 
 .swap-enter-active {
@@ -106,7 +101,7 @@ onBeforeUnmount(() => clearInterval(timer))
 
 @media (max-width: 47.99rem) {
   .stage {
-    height: 36rem;
+    height: calc(min(38rem, 100svh - 8rem) + 2rem);
     padding: 1rem;
   }
 }
