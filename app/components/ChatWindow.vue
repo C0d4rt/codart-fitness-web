@@ -145,11 +145,12 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
               d="M2.75 9A2.75 2.75 0 0 1 5.5 6.25h1.9c.5 0 .95-.28 1.18-.72l.6-1.16c.23-.44.68-.72 1.18-.72h3.28c.5 0 .95.28 1.18.72l.6 1.16c.23.44.68.72 1.18.72h1.9A2.75 2.75 0 0 1 21.25 9v8.25A2.75 2.75 0 0 1 18.5 20h-13a2.75 2.75 0 0 1-2.75-2.75z"
             />
             <circle class="line" cx="12" cy="12.75" r="3.75" />
+            <circle cx="18" cy="9.25" r="0.9" fill="currentColor" />
           </svg>
           <span class="mic">
             <svg viewBox="0 0 24 24">
-              <rect x="8.25" y="2" width="7.5" height="13" rx="3.75" />
-              <path class="line" d="M5.25 11a6.75 6.75 0 0 0 13.5 0M12 17.75V21" />
+              <rect x="9" y="2.5" width="6" height="11.5" rx="3" />
+              <path class="line" d="M6 10.5a6 6 0 0 0 12 0M12 16.5v4.5" />
             </svg>
           </span>
         </div>
@@ -315,29 +316,28 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
 .back {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.375rem;
   height: 2.25rem;
-  padding: 0 0.75rem 0 0.625rem;
+  padding: 0 0.75rem 0 0.75rem;
   border-radius: 999px;
-  background: var(--chat-bot);
-  font-size: 1rem;
+  background: #fbfaf7;
+  font-size: 1.0625rem;
   font-variant-numeric: tabular-nums;
-  box-shadow: 0 1px 2px rgb(11 20 26 / 0.08); /* taste-skill-ignore: iOS's raised back button (data-ui) */
 }
 
 .back .icon {
-  width: 0.625rem;
-  height: 1rem;
+  width: 0.6875rem;
+  height: 1.125rem;
   color: var(--chat-ink);
 }
 
 .back .line {
-  stroke-width: 2.4;
+  stroke-width: 2.6;
 }
 
 .icon.small {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.125rem;
+  height: 1.125rem;
   color: var(--chat-ink);
 }
 
@@ -475,7 +475,7 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   grid-template-columns: minmax(0, 1fr);
   gap: 0.5rem;
   padding: 0.5rem 0.75rem 0.375rem;
-  background: var(--chat-chrome);
+  background: var(--chat-wall);
 }
 
 .tools {
@@ -491,13 +491,13 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   min-width: 0;
   align-items: center;
   justify-content: flex-end;
-  height: 2.25rem;
-  padding: 0 0.625rem 0 0.875rem;
+  height: 1.875rem;
+  padding: 0 0.5rem 0 0.875rem;
   border-radius: 999px;
   background: #ffffff;
   color: var(--chat-meta);
   font-size: 0.875rem;
-  box-shadow: inset 0 0 0 1px rgb(17 27 33 / 0.08); /* taste-skill-ignore: the outline of WhatsApp's text field (data-ui) */
+  box-shadow: inset 0 0 0 1px rgb(17 27 33 / 0.2); /* taste-skill-ignore: the outline of WhatsApp's text field (data-ui) */
 }
 
 .field .icon {
@@ -505,25 +505,29 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
 }
 
 .tools > .icon {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.375rem;
+  height: 1.375rem;
   color: var(--chat-ink);
 }
 
 .tools .line {
-  stroke-width: 1.6;
+  stroke-width: 1.7;
 }
 
 .tools > .plus {
-  width: 1.625rem;
-  height: 1.625rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.tools > .plus .line {
+  stroke-width: 2;
 }
 
 .mic {
   display: grid;
   place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 1.875rem;
+  height: 1.875rem;
   flex: none;
   border-radius: 50%;
   background: var(--chat-send);
@@ -538,7 +542,7 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
 
 .mic .line {
   fill: none;
-  stroke-width: 2;
+  stroke-width: 1.6;
 }
 
 @container (width < 14.5rem) {
