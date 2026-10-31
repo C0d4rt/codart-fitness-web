@@ -44,20 +44,7 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
             2
           </span>
           <span class="avatar">{{ brand.name.charAt(0).toLowerCase() }}</span>
-          <span class="who">
-            <span class="name">{{ brand.name }}</span>
-            <span class="presence">{{ $t('chat.online') }}</span>
-          </span>
-          <svg class="icon" viewBox="0 0 24 24">
-            <rect class="line" x="2" y="6" width="13.5" height="12" rx="2.5" />
-            <path class="line" d="m15.5 10.5 6-3.5v10l-6-3.5" />
-          </svg>
-          <svg class="icon" viewBox="0 0 24 24">
-            <path
-              class="line"
-              d="M5.2 3.5h3.3l1.6 4.2-2.2 1.5a11 11 0 0 0 5 5l1.5-2.2 4.2 1.6v3.3a1.6 1.6 0 0 1-1.7 1.6A16.5 16.5 0 0 1 3.6 5.2a1.6 1.6 0 0 1 1.6-1.7z"
-            />
-          </svg>
+          <span class="name">{{ brand.name }}</span>
         </div>
       </div>
       <Transition name="screen" mode="out-in">
@@ -117,7 +104,12 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
                   </svg>
                 </span>
               </div>
-              <span v-if="message.button" class="reply-button">{{ message.button }}</span>
+              <span v-if="message.button" class="reply-button">
+                <svg viewBox="0 0 24 24">
+                  <path class="line" d="M10 5 4 11l6 6M4 11h9a7 7 0 0 1 7 7v1" />
+                </svg>
+                {{ message.button }}
+              </span>
               <svg v-if="closesRun(index)" class="tail" viewBox="0 0 10 16">
                 <path d="M10 0c0 7-2.4 12.6-10 16h10z" />
               </svg>
@@ -129,25 +121,27 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
         <div class="tools">
           <svg class="icon" viewBox="0 0 24 24"><path class="line" d="M12 5v14M5 12h14" /></svg>
           <span class="field">
-            <span class="hint">{{ $t('chat.message') }}</span>
             <svg class="icon small" viewBox="0 0 24 24">
-              <circle class="line" cx="12" cy="12" r="8.5" />
-              <path class="line" d="M8.5 14a4.2 4.2 0 0 0 7 0" />
-              <circle cx="9.3" cy="10" r="1.1" />
-              <circle cx="14.7" cy="10" r="1.1" />
+              <path
+                class="line"
+                d="M13.5 20.5H8A4.5 4.5 0 0 1 3.5 16V8A4.5 4.5 0 0 1 8 3.5h8A4.5 4.5 0 0 1 20.5 8v5.5l-7 7z"
+              />
+              <path class="line" d="M13.5 20.5V17a3.5 3.5 0 0 1 3.5-3.5h3.5" />
             </svg>
           </span>
-          <svg class="icon camera" viewBox="0 0 24 24">
+          <svg class="icon" viewBox="0 0 24 24">
             <path
               class="line"
               d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.4-2h4.6l1.4 2h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"
             />
             <circle class="line" cx="12" cy="12.5" r="3.4" />
           </svg>
-          <svg class="icon" viewBox="0 0 24 24">
-            <rect class="line" x="9" y="3.5" width="6" height="11" rx="3" />
-            <path class="line" d="M6 11.5a6 6 0 0 0 12 0M12 17.5v3" />
-          </svg>
+          <span class="mic">
+            <svg viewBox="0 0 24 24">
+              <rect x="9" y="3.5" width="6" height="11" rx="3" />
+              <path class="line" d="M6 11.5a6 6 0 0 0 12 0M12 17.5v3" />
+            </svg>
+          </span>
         </div>
         <span class="home" />
       </div>
@@ -237,8 +231,7 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
 }
 
 .top {
-  background: var(--chat-chrome);
-  border-bottom: 1px solid rgb(17 27 33 / 0.08); /* taste-skill-ignore: the hairline under WhatsApp's header (data-ui) */
+  background: var(--chat-wall);
 }
 
 .status {
@@ -299,7 +292,7 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   display: flex;
   align-items: center;
   gap: 0.625rem;
-  padding: 0.25rem 1rem 0.625rem 0.75rem;
+  padding: 0.25rem 1rem 0.5rem 0.625rem;
 }
 
 .icon {
@@ -313,20 +306,25 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  color: var(--green);
+  height: 2.25rem;
+  padding: 0 0.75rem 0 0.625rem;
+  border-radius: 999px;
+  background: var(--chat-bot);
   font-size: 1rem;
   font-variant-numeric: tabular-nums;
+  box-shadow: 0 1px 2px rgb(11 20 26 / 0.08); /* taste-skill-ignore: iOS's raised back button (data-ui) */
 }
 
 .back .icon {
-  width: 0.75rem;
-  height: 1.125rem;
+  width: 0.625rem;
+  height: 1rem;
+  color: var(--chat-ink);
 }
 
 .icon.small {
-  width: 1.125rem;
-  height: 1.125rem;
-  color: var(--chat-meta);
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--chat-ink);
 }
 
 .avatar {
@@ -343,19 +341,13 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   font-weight: 700;
 }
 
-.who {
-  display: grid;
-  flex: 1;
-  line-height: 1.2;
-}
-
 .name {
+  flex: 1;
+  overflow: hidden;
+  font-size: 1rem;
   font-weight: 600;
-}
-
-.presence {
-  color: var(--chat-meta);
-  font-size: 0.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .thread {
@@ -395,9 +387,9 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   padding: 0.1875rem 0.625rem;
   border-radius: 0.5rem;
   background: var(--chat-bot);
-  color: var(--chat-meta);
+  color: var(--chat-ink);
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
   box-shadow: 0 1px 0.5px rgb(11 20 26 / 0.13); /* taste-skill-ignore: the hairline shadow WhatsApp gives its date chip (data-ui) */
 }
 
@@ -473,7 +465,7 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   gap: 0.375rem;
   min-width: 0;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   height: 2.25rem;
   padding: 0 0.625rem 0 0.875rem;
   border-radius: 999px;
@@ -483,20 +475,29 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   box-shadow: inset 0 0 0 1px rgb(17 27 33 / 0.08); /* taste-skill-ignore: the outline of WhatsApp's text field (data-ui) */
 }
 
-.hint {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .field .icon {
   flex: none;
 }
 
-@container (width < 16.5rem) {
-  .camera {
-    display: none;
-  }
+.tools > .icon {
+  color: var(--chat-ink);
+}
+
+.mic {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--chat-send);
+  color: #ffffff;
+}
+
+.mic svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: currentColor;
 }
 
 @container (width < 14.5rem) {
@@ -565,12 +566,20 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
 }
 
 .reply-button {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
   padding: 0.625rem;
   border-top: 1px solid color-mix(in oklab, var(--chat-ink) 14%, transparent); /* taste-skill-ignore: WhatsApp draws this divider above a reply button (data-ui fragment) */
   color: #0b7a5a;
   font-weight: 500;
   text-align: center;
+}
+
+.reply-button svg {
+  width: 1.125rem;
+  height: 1.125rem;
 }
 
 .audio {
