@@ -63,15 +63,22 @@ onBeforeUnmount(() => clearInterval(timer))
 }
 
 .stage {
+  --scale: 0.88;
+
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: minmax(0, 100%);
   place-items: center;
-  height: calc(min(38rem, 100svh - 8rem) + 4rem);
+  height: calc(min(38rem, 100svh - 8rem) * var(--scale) + 4rem);
   overflow: hidden;
   padding: 2rem;
   border-radius: 2rem;
   background: var(--mint);
+}
+
+/* The same phone as the rest of the page, only smaller, status bar included. */
+.stage .chat {
+  zoom: var(--scale);
 }
 
 .swap-enter-active {
@@ -101,7 +108,7 @@ onBeforeUnmount(() => clearInterval(timer))
 
 @media (max-width: 47.99rem) {
   .stage {
-    height: calc(min(38rem, 100svh - 8rem) + 2rem);
+    height: calc(min(38rem, 100svh - 8rem) * var(--scale) + 2rem);
     padding: 1rem;
   }
 }
