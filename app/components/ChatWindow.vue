@@ -48,7 +48,6 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
             <svg class="icon" viewBox="0 0 12 20">
               <path class="line" d="M9.5 2.5 2 10l7.5 7.5" />
             </svg>
-            2
           </span>
           <span class="avatar">{{ brand.name.charAt(0).toLowerCase() }}</span>
           <span class="who">
@@ -327,15 +326,13 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
 }
 
 .back {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
   height: 2.25rem;
-  padding: 0 0.75rem 0 0.75rem;
-  border-radius: 999px;
+  flex: none;
+  border-radius: 50%;
   background: #fbfaf7;
-  font-size: 1.0625rem;
-  font-variant-numeric: tabular-nums;
 }
 
 .back .icon {
