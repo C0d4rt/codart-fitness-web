@@ -5,8 +5,8 @@ export type LegalSection = { title: string; paragraphs?: string[]; items?: strin
 export type LegalDoc = { intro: string; sections: LegalSection[] }
 
 /** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
-export const LEGAL_VERSION = '1'
-export const LEGAL_EFFECTIVE = '2026-10-29'
+export const LEGAL_VERSION = '2'
+export const LEGAL_EFFECTIVE = '2026-11-01'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
@@ -17,7 +17,8 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'O que o serviço faz',
         paragraphs: [
           'Você conta o que comeu, bebeu ou treinou, por texto, áudio ou foto, e o diário registra, soma e responde com os números do seu dia, da sua semana e do seu peso. Também sugere refeições, lê rótulos e compara produtos, conforme o plano.',
-          'O diário informa: não prescreve dieta, treino, suplemento nem remédio, e não substitui nutricionista, médico ou educador físico. Metas, calorias gastas e sugestões são estimativas gerais a partir do que você informa. Perguntas de saúde são encaminhadas a um profissional.',
+          'O diário informa: não prescreve dieta, treino, suplemento nem remédio, e não substitui nutricionista, médico ou educador físico. Metas, calorias gastas e sugestões são estimativas gerais a partir do que você informa.',
+          'O jejum intermitente não é indicado para todo mundo: com alguma condição de saúde, na gestação ou com histórico de transtorno alimentar, converse com um profissional antes de começar. O diário registra o protocolo que você escolhe, mas não avalia se ele é adequado para você.',
           'Os valores dos alimentos vêm da Tabela Brasileira de Composição de Alimentos (TACO, NEPA/Unicamp), do Open Food Facts (licença ODbL), dos rótulos que você envia e de estimativas. Podem ter diferenças em relação ao alimento que você comeu.',
           'Parte das respostas é feita por inteligência artificial, que pode entender algo errado. Confira o que foi registrado; você pode corrigir ou apagar qualquer registro na conversa.',
         ],
@@ -194,7 +195,8 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'What the service does',
         paragraphs: [
           'You tell it what you ate, drank or trained, by text, voice note or photo, and the diary logs it, adds it up and replies with the numbers for your day, your week and your weight. Depending on your plan, it also suggests meals, reads labels and compares products.',
-          'The diary informs: it does not prescribe diets, workouts, supplements or medicine, and it does not replace a dietitian, doctor or fitness professional. Goals, calories burned and suggestions are general estimates based on what you tell it. Health questions are referred to a professional.',
+          'The diary informs: it does not prescribe diets, workouts, supplements or medicine, and it does not replace a dietitian, doctor or fitness professional. Goals, calories burned and suggestions are general estimates based on what you tell it.',
+          'Intermittent fasting is not for everyone: if you have a health condition, are pregnant or have a history of eating disorders, talk to a professional before you start. The diary records the protocol you choose, but does not assess whether it suits you.',
           'Food values come from the Brazilian Food Composition Table (TACO, NEPA/Unicamp), from Open Food Facts (ODbL license), from the labels you send and from estimates. They may differ from the food you actually ate.',
           'Some replies are made by artificial intelligence, which can misunderstand. Check what was logged; you can fix or delete any entry in the chat.',
         ],
