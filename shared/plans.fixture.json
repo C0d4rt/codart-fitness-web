@@ -131,6 +131,12 @@
       "name": "Treinos salvos"
     },
     {
+      "id": "trainingPrograms",
+      "plan": "premium",
+      "group": "workout",
+      "name": "Programas de treino"
+    },
+    {
       "id": "dayGoal",
       "plan": "basic",
       "group": "goals",
