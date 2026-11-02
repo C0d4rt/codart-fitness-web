@@ -183,6 +183,24 @@ const PT: Record<string, FeatureCopy> = {
       ),
     ],
   },
+  trainingPrograms: {
+    headline: 'O treino do dia, com a carga certa e o porquê',
+    howTo:
+      'Diga "quero um treino" e escolha um dos programas assinados por um profissional de educação física (CREF). Na academia, pergunte "qual meu treino hoje?": vem o dia da vez com as séries, as repetições, a carga de cada exercício e o porquê de ela ter subido, com o vídeo a um toque. Faltou um aparelho ou não gosta de um exercício? Ele é trocado por outro. Se algo doer, a carga do que força essa região não sobe por 14 dias.',
+    exchange: [
+      you('qual meu treino hoje?', '18:10'),
+      bot(
+        '🏋️ *Treino A*, semana 3 de 8\n1. Supino reto: 4 séries de 8 a 10 com 62,5 kg\n   ↑ subi para 62,5 kg: você fez 4 séries de 10 com 60 kg\n2. Remada curvada: 3 séries de 8 a 12 com 40 kg\n3. Desenvolvimento com halteres: 3 séries de 10 a 12 com 16 kg',
+        '18:10',
+        'Ver vídeos',
+      ),
+      you('o ombro doeu no supino', '19:05'),
+      bot(
+        'Anotei a dor no ombro. Nos próximos 14 dias a carga dos exercícios que forçam essa região não sobe. No lugar de supino reto, faça supino com halteres.',
+        '19:05',
+      ),
+    ],
+  },
   dayGoal: {
     headline: 'Quanto falta, a qualquer hora',
     howTo:
@@ -522,6 +540,24 @@ const EN: Record<string, FeatureCopy> = {
       bot(
         '🏋️ Workout logged:\nBench press: 3 × 8 at 60 kg\nBent-over row: 3 × 10 at 40 kg\nShoulder press: 3 × 10 at 16 kg\nHow long did the workout last? That way I can add up the burn.',
         '18:55',
+      ),
+    ],
+  },
+  trainingPrograms: {
+    headline: "Today's workout, with the right load and why",
+    howTo:
+      'Say "I want a workout" and pick one of the programs signed by a certified exercise professional (CREF). At the gym, ask "what\'s my workout today?": you get the next day of the rotation with the sets, the reps, the load for each exercise and why it went up, with the video one tap away. Your gym lacks a machine or you dislike an exercise? It gets swapped for another. If something hurts, the load of what works that area doesn\'t go up for 14 days.',
+    exchange: [
+      you("what's my workout today?", '18:10'),
+      bot(
+        '🏋️ *Workout A*, week 3 of 8\n1. Bench press: 4 sets of 8 to 10 with 62.5 kg\n   ↑ up to 62.5 kg: you did 4 sets of 10 with 60 kg\n2. Bent-over row: 3 sets of 8 to 12 with 40 kg\n3. Dumbbell shoulder press: 3 sets of 10 to 12 with 16 kg',
+        '18:10',
+        'See videos',
+      ),
+      you('my shoulder hurt on the bench press', '19:05'),
+      bot(
+        "Noted the shoulder pain. For the next 14 days, the load of the exercises that work that area won't go up. Instead of bench press, do dumbbell bench press.",
+        '19:05',
       ),
     ],
   },
