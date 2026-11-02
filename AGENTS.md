@@ -13,6 +13,9 @@ aqui fica só o que muda o jeito de trabalhar.
   direção sorteada está no PRP-001, decisão 9) e as do Emil Kowalski
   (`emil-design-eng`, `mobile-native`, `animate`). Passe o `inspect.mjs` dela
   nas três larguras antes do PR.
+- A skill `impeccable` revisa a tela pronta (`/impeccable audit`, `critique`,
+  `clarify`). Em movimento, onde ela diverge das do Emil (curva, duração),
+  valem as do Emil.
 
 ## Comandos
 
