@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Catalog, money, yearlyPerMonth } from '#shared/plans'
+import { type Catalog, money, yearlyPerMonth, yearlySaving } from '#shared/plans'
 
 const props = defineProps<{ catalog: Catalog; bare?: boolean }>()
 
@@ -20,6 +20,7 @@ const plans = computed(() => [
         .map((feature) => feature.name),
     ],
     featured: true,
+    saving: yearlySaving(props.catalog.premium),
   },
   {
     id: 'basic',
@@ -27,6 +28,7 @@ const plans = computed(() => [
     who: t('pricing.basicWho'),
     items: props.catalog.basic.features.slice(0, 6).map((feature) => feature.name),
     featured: false,
+    saving: yearlySaving(props.catalog.basic),
   },
 ])
 </script>
@@ -62,7 +64,14 @@ const plans = computed(() => [
         class="card"
         :class="{ featured: each.featured }"
       >
-        <h3 class="name">{{ each.plan.name }}</h3>
+        <div class="name-row">
+          <h3 class="name">{{ each.plan.name }}</h3>
+          <Transition name="saving">
+            <p v-if="period === 'year' && each.saving > 0" class="saving">
+              {{ t('pricing.saving', { percent: each.saving }) }}
+            </p>
+          </Transition>
+        </div>
         <p class="who">{{ each.who }}</p>
         <p class="price" aria-live="polite">
           <span class="amount">{{
@@ -75,7 +84,10 @@ const plans = computed(() => [
         <p class="equiv">
           {{
             period === 'month'
-              ? t('pricing.orYearly', { price: money(each.plan.yearlyCents, locale) })
+              ? t('pricing.orYearly', {
+                  price: money(each.plan.yearlyCents, locale),
+                  percent: each.saving,
+                })
               : t('pricing.yearlyPerMonth', { price: yearlyPerMonth(each.plan, locale) })
           }}
         </p>
@@ -85,7 +97,9 @@ const plans = computed(() => [
         <WhatsAppButton
           :location="`plans-${each.id}`"
           :label="
-            each.featured ? t('cta.tryDays', { days: catalog.trialDays }) : t('cta.startTrial')
+            each.featured
+              ? t('cta.tryDays', { days: catalog.trialDays })
+              : t('cta.tryThenPick', { plan: each.plan.name })
           "
           :inverse="each.featured"
         />
@@ -206,8 +220,52 @@ const plans = computed(() => [
   color: var(--green-ink);
 }
 
+.name-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
 .name {
   font-size: var(--step-lead);
+}
+
+.saving {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: var(--mint);
+  color: var(--green);
+  font-size: var(--step-small);
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.saving-enter-active {
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+}
+
+.saving-leave-active {
+  transition: opacity 120ms var(--ease-out);
+}
+
+.saving-enter-from {
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+.saving-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .saving-enter-from {
+    transform: none;
+  }
 }
 
 .who,
@@ -272,6 +330,10 @@ const plans = computed(() => [
 
 .card :deep(.button) {
   margin-top: 1rem;
+  padding-block: 0.75rem;
+  line-height: 1.25;
+  text-align: center;
+  text-wrap: balance;
 }
 
 @media (max-width: 63.99rem) {

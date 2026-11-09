@@ -2,7 +2,7 @@
   "cta": {
     "try": "Try it free",
     "tryDays": "Try {days} days free",
-    "startTrial": "Start with the trial"
+    "tryThenPick": "Try it free, then pick {plan}"
   },
   "closing": {
     "title": "Start today, on WhatsApp",
@@ -124,8 +124,9 @@
     "yearly": "Yearly",
     "perMonth": "per month",
     "perYear": "per year",
-    "orYearly": "or {price} per year",
+    "orYearly": "{percent, plural, =0 {or {price} per year} other {or {price} per year, {percent}% less}}",
     "yearlyPerMonth": "same as {price} per month",
+    "saving": "Save {percent}%",
     "premiumWho": "For those who want plate photos and to know what to eat",
     "basicWho": "For those who want the whole diary, by text and voice",
     "allOfBasic": "Everything in Basic"

@@ -69,10 +69,15 @@ useSeoMeta({
               <th scope="row">
                 <NuxtLink :to="localePath(`/recursos#${feature.id}`)">{{ feature.name }}</NuxtLink>
               </th>
-              <td>
-                {{ feature.plan === 'basic' ? t('plans.included') : t('plans.premiumOnly') }}
+              <td v-for="(included, column) in [feature.plan === 'basic', true]" :key="column">
+                <svg v-if="included" class="check" viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M4.5 10.5l3.5 3.5 7.5-8" />
+                </svg>
+                <span v-else class="absent" aria-hidden="true" />
+                <span class="visually-hidden">{{
+                  included ? t('plans.included') : t('plans.premiumOnly')
+                }}</span>
               </td>
-              <td>{{ t('plans.included') }}</td>
             </tr>
           </tbody>
         </table>
@@ -130,7 +135,8 @@ useSeoMeta({
 
 .table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: var(--step-small);
 }
 
@@ -142,11 +148,42 @@ useSeoMeta({
 }
 
 .table td {
+  position: relative;
   width: 7.5rem;
+  text-align: center;
 }
 
+/* Right under the site header (its 5rem bar and 1px rule), so the plan names stay in view. */
 .table thead th {
+  position: sticky;
+  top: calc(5rem + 1px);
+  z-index: 1;
+  background: var(--card);
   font-weight: 700;
+}
+
+.table thead th + th {
+  text-align: center;
+}
+
+.check {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-inline: auto;
+  fill: none;
+  stroke: var(--green);
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.absent {
+  display: block;
+  width: 0.75rem;
+  height: 2px;
+  margin-inline: auto;
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--muted) 50%, transparent);
 }
 
 .table tbody th {

@@ -133,3 +133,9 @@ export const money = (cents: number, locale: Locale): string =>
 /** What the yearly plan costs a month, rounded down to the cent. */
 export const yearlyPerMonth = (plan: Pick<Plan, 'yearlyCents'>, locale: Locale): string =>
   money(Math.floor(plan.yearlyCents / 12), locale)
+
+/** How much less a year costs than twelve months, in whole percent, rounded down so it never overstates. */
+export const yearlySaving = (plan: Pick<Plan, 'monthlyCents' | 'yearlyCents'>): number => {
+  const twelveMonths = plan.monthlyCents * 12
+  return Math.max(0, Math.floor((100 * (twelveMonths - plan.yearlyCents)) / twelveMonths))
+}
