@@ -51,6 +51,7 @@ const planLine = (plan: 'basic' | 'premium') => t(`features.${plan}`)
           </article>
         </div>
       </section>
+      <SiteClosing />
     </main>
 
     <SiteFooter />

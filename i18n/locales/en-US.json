@@ -4,6 +4,11 @@
     "tryDays": "Try {days} days free",
     "startTrial": "Start with the trial"
   },
+  "closing": {
+    "title": "Start today, on WhatsApp",
+    "lead": "{days} days free with everything in Premium. No card needed.",
+    "note": "The button opens WhatsApp with the first message ready. Just send it."
+  },
   "nav": {
     "label": "Main",
     "howItWorks": "How it works",
@@ -11,7 +16,8 @@
     "plans": "Plans",
     "faq": "Questions",
     "language": "Language",
-    "skip": "Skip to content"
+    "skip": "Skip to content",
+    "menu": "Menu"
   },
   "footer": {
     "terms": "Terms",

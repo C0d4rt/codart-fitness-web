@@ -77,6 +77,7 @@ useSeoMeta({
           </tbody>
         </table>
       </section>
+      <SiteClosing />
     </main>
 
     <SiteFooter />
