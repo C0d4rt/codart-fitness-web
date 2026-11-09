@@ -181,6 +181,7 @@
     "title": "Features",
     "description": "Everything {name} does on WhatsApp, with a sample chat for each feature. {days} days free with everything in Premium.",
     "lead": "Everything you can do in the chat, with real examples",
+    "groups": "Feature groups",
     "basic": "On Basic and Premium",
     "premium": "Only on Premium and the trial"
   },
