@@ -38,7 +38,13 @@ const plans = computed(() => [
         {{ t('pricing.title') }}
       </h2>
       <p v-if="!bare">{{ t('pricing.lead', { days: catalog.trialDays }) }}</p>
-      <div class="period" role="group" :aria-label="t('pricing.periodLabel')">
+      <div
+        class="period"
+        role="group"
+        :aria-label="t('pricing.periodLabel')"
+        :style="{ '--at': period === 'year' ? 1 : 0 }"
+      >
+        <span class="glide" aria-hidden="true" />
         <button type="button" :aria-pressed="period === 'month'" @click="period = 'month'">
           {{ t('pricing.monthly') }}
         </button>
@@ -119,11 +125,32 @@ const plans = computed(() => [
 }
 
 .period {
+  position: relative;
   display: inline-grid;
   grid-auto-flow: column;
+  grid-auto-columns: 1fr;
   padding: 0.25rem;
   border-radius: 999px;
   background: var(--tone);
+}
+
+/* One highlight under both options, so the switch reads as a move rather than a swap. */
+.glide {
+  position: absolute;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  left: 0.25rem;
+  width: calc(50% - 0.25rem);
+  border-radius: 999px;
+  background: var(--card);
+  transform: translateX(calc(var(--at, 0) * 100%));
+  transition: transform 260ms var(--ease-in-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glide {
+    transition: none;
+  }
 }
 
 .period button {
@@ -142,8 +169,11 @@ const plans = computed(() => [
     transform 160ms var(--ease-out);
 }
 
+.period button {
+  position: relative;
+}
+
 .period button[aria-pressed='true'] {
-  background: var(--card);
   color: var(--ink);
 }
 

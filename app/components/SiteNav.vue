@@ -3,10 +3,25 @@ import { brand } from '~/brand'
 
 const { t } = useI18n()
 const anchors = useAnchors()
+
+const scrolled = ref(false)
+let frame = 0
+const measure = () => {
+  cancelAnimationFrame(frame)
+  frame = requestAnimationFrame(() => (scrolled.value = window.scrollY > 8))
+}
+onMounted(() => {
+  measure()
+  window.addEventListener('scroll', measure, { passive: true })
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', measure)
+  cancelAnimationFrame(frame)
+})
 </script>
 
 <template>
-  <header class="site-header">
+  <header class="site-header" :class="{ scrolled }">
     <nav class="nav" :aria-label="t('nav.label')">
       <NuxtLinkLocale to="/" class="wordmark">
         <span class="mark" aria-hidden="true" />{{ brand.name.toLowerCase() }}
@@ -34,6 +49,30 @@ const anchors = useAnchors()
 </template>
 
 <style scoped>
+/* The header stays within reach; once the page moves under it, it frosts over what passes beneath. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 200ms var(--ease-out),
+    border-color 200ms var(--ease-out),
+    backdrop-filter 200ms var(--ease-out);
+}
+
+.site-header.scrolled {
+  border-bottom-color: var(--tone);
+  background: var(--bg);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  .site-header.scrolled {
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: blur(16px) saturate(1.6);
+  }
+}
+
 .nav {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
