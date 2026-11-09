@@ -11,7 +11,7 @@ useSeoMeta({ title: t('notFound.title'), robots: 'noindex' })
 <template>
   <div class="error">
     <SiteNav />
-    <main>
+    <main id="conteudo">
       <h1>{{ t('notFound.heading') }}</h1>
       <i18n-t keypath="notFound.text" tag="p">
         <template #back>

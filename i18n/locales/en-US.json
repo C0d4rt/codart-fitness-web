@@ -10,7 +10,8 @@
     "features": "Features",
     "plans": "Plans",
     "faq": "Questions",
-    "language": "Language"
+    "language": "Language",
+    "skip": "Skip to content"
   },
   "footer": {
     "terms": "Terms",
@@ -210,5 +211,9 @@
   },
   "terms": {
     "title": "Terms of use"
+  },
+  "hero": {
+    "pause": "Pause the demo",
+    "play": "Play the demo"
   }
 }

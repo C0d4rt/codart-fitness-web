@@ -10,7 +10,8 @@
     "features": "Recursos",
     "plans": "Planos",
     "faq": "Perguntas",
-    "language": "Idioma"
+    "language": "Idioma",
+    "skip": "Pular para o conteúdo"
   },
   "footer": {
     "terms": "Termos",
@@ -210,5 +211,9 @@
   },
   "terms": {
     "title": "Termos de uso"
+  },
+  "hero": {
+    "pause": "Pausar a demonstração",
+    "play": "Continuar a demonstração"
   }
 }

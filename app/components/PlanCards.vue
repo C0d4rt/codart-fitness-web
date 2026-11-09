@@ -64,7 +64,7 @@ const plans = computed(() => [
       >
         <h3 class="name">{{ each.plan.name }}</h3>
         <p class="who">{{ each.who }}</p>
-        <p class="price">
+        <p class="price" aria-live="polite">
           <span class="amount">{{
             money(period === 'month' ? each.plan.monthlyCents : each.plan.yearlyCents, locale)
           }}</span>
@@ -195,6 +195,10 @@ const plans = computed(() => [
   border-radius: var(--radius);
   background: var(--card);
   scroll-margin-top: 2rem;
+}
+
+.featured :focus-visible {
+  outline-color: var(--card);
 }
 
 .featured {

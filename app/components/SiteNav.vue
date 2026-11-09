@@ -22,6 +22,7 @@ onBeforeUnmount(() => {
 
 <template>
   <header class="site-header" :class="{ scrolled }">
+    <a class="skip" href="#conteudo">{{ t('nav.skip') }}</a>
     <nav class="nav" :aria-label="t('nav.label')">
       <NuxtLinkLocale to="/" class="wordmark">
         <span class="mark" aria-hidden="true" />{{ brand.name.toLowerCase() }}
@@ -57,8 +58,7 @@ onBeforeUnmount(() => {
   border-bottom: 1px solid transparent;
   transition:
     background-color 200ms var(--ease-out),
-    border-color 200ms var(--ease-out),
-    backdrop-filter 200ms var(--ease-out);
+    border-color 200ms var(--ease-out);
 }
 
 .site-header.scrolled {
@@ -68,9 +68,27 @@ onBeforeUnmount(() => {
 
 @supports (backdrop-filter: blur(1px)) {
   .site-header.scrolled {
-    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
     backdrop-filter: blur(16px) saturate(1.6);
   }
+}
+
+.skip {
+  position: absolute;
+  top: 0.75rem;
+  left: var(--margin);
+  z-index: 1;
+  padding: 0.625rem 1rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip:focus-visible {
+  transform: none;
 }
 
 .nav {

@@ -22,27 +22,29 @@ useSchemaOrg([defineWebPage({ about: { '@id': `${brand.siteUrl}/#identity` } })]
   <div class="page">
     <SiteNav />
 
-    <header id="hero" class="hero">
-      <div class="copy" data-reveal>
-        <h1 class="headline">{{ t('home.headline') }}</h1>
-        <p class="lead">{{ t('home.lead') }}</p>
-        <div class="actions">
-          <WhatsAppButton location="hero" />
-          <NuxtLinkLocale :to="`/#${anchors.how}`" class="secondary">{{
-            t('home.seeHow')
-          }}</NuxtLinkLocale>
+    <main id="conteudo">
+      <section id="hero" class="hero">
+        <div class="copy">
+          <h1 class="headline">{{ t('home.headline') }}</h1>
+          <p class="lead">{{ t('home.lead') }}</p>
+          <div class="actions">
+            <WhatsAppButton location="hero" />
+            <NuxtLinkLocale :to="`/#${anchors.how}`" class="secondary">{{
+              t('home.seeHow')
+            }}</NuxtLinkLocale>
+          </div>
+          <p class="terms">{{ t('home.terms', { days: catalog.trialDays }) }}</p>
         </div>
-        <p class="terms">{{ t('home.terms', { days: catalog.trialDays }) }}</p>
-      </div>
-      <HeroDemo />
-    </header>
+        <HeroDemo />
+      </section>
 
-    <HomeHow />
-    <HomeBento />
-    <HomeMoment />
-    <HomeShowcase />
-    <PlanCards :catalog="catalog" />
-    <HomeFaq :trial-days="catalog.trialDays" />
+      <HomeHow />
+      <HomeBento />
+      <HomeMoment />
+      <HomeShowcase />
+      <PlanCards :catalog="catalog" />
+      <HomeFaq :trial-days="catalog.trialDays" />
+    </main>
     <SiteFooter />
   </div>
 </template>

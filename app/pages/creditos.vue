@@ -17,7 +17,7 @@ const email = computed(() => brand.email[locale.value].support)
 <template>
   <div class="credits">
     <SiteNav />
-    <main>
+    <main id="conteudo">
       <h1>{{ t('credits.title') }}</h1>
 
       <section :aria-labelledby="anchors.data">

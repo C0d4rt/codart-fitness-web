@@ -15,41 +15,43 @@ const planLine = (plan: 'basic' | 'premium') => t(`features.${plan}`)
 <template>
   <div class="page">
     <SiteNav />
-    <header class="intro">
-      <h1 class="title">{{ t('features.title') }}</h1>
-      <p class="lead">{{ t('features.lead') }}</p>
-    </header>
+    <main id="conteudo">
+      <header class="intro">
+        <h1 class="title">{{ t('features.title') }}</h1>
+        <p class="lead">{{ t('features.lead') }}</p>
+      </header>
 
-    <section
-      v-for="group in catalog.groups"
-      :key="group.id"
-      class="group"
-      :aria-labelledby="`group-${group.id}`"
-    >
-      <h2 :id="`group-${group.id}`" class="group-name">{{ group.name }}</h2>
-      <div class="features">
-        <article
-          v-for="feature in group.features"
-          :id="feature.id"
-          :key="feature.id"
-          class="feature"
-        >
-          <div class="words">
-            <h3 class="headline">{{ feature.headline }}</h3>
-            <p class="plan" :class="feature.plan">
-              {{ feature.name }} · {{ planLine(feature.plan) }}
-            </p>
-            <p class="how-to">{{ feature.howTo }}</p>
-          </div>
-          <div class="example">
-            <ChatWindow
-              :screen="{ id: feature.id, label: feature.headline, messages: feature.exchange }"
-              class="chat"
-            />
-          </div>
-        </article>
-      </div>
-    </section>
+      <section
+        v-for="group in catalog.groups"
+        :key="group.id"
+        class="group"
+        :aria-labelledby="`group-${group.id}`"
+      >
+        <h2 :id="`group-${group.id}`" class="group-name">{{ group.name }}</h2>
+        <div class="features">
+          <article
+            v-for="feature in group.features"
+            :id="feature.id"
+            :key="feature.id"
+            class="feature"
+          >
+            <div class="words">
+              <h3 class="headline">{{ feature.headline }}</h3>
+              <p class="plan" :class="feature.plan">
+                {{ feature.name }} · {{ planLine(feature.plan) }}
+              </p>
+              <p class="how-to">{{ feature.howTo }}</p>
+            </div>
+            <div class="example">
+              <ChatWindow
+                :screen="{ id: feature.id, label: feature.headline, messages: feature.exchange }"
+                class="chat"
+              />
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
 
     <SiteFooter />
   </div>
