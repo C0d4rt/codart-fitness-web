@@ -207,4 +207,11 @@ const close = () => menu.value?.hidePopover()
     transition: none;
   }
 }
+
+@supports (backdrop-filter: blur(1px)) {
+  .menu {
+    background: color-mix(in srgb, var(--card) 80%, transparent);
+    backdrop-filter: blur(18px) saturate(1.6);
+  }
+}
 </style>

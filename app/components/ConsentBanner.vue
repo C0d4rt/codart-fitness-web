@@ -96,4 +96,11 @@ onMounted(() => {
     transform: none;
   }
 }
+
+@supports (backdrop-filter: blur(1px)) {
+  .consent {
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter: blur(18px) saturate(1.6);
+  }
+}
 </style>
