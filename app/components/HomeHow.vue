@@ -123,6 +123,10 @@ const anchors = useAnchors()
   background: transparent;
 }
 
+.steps .field .chat :deep(.screen) {
+  background: transparent;
+}
+
 .steps .field .chat :deep(.thread) {
   padding: 0;
 }

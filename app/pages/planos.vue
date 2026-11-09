@@ -38,44 +38,46 @@ useSeoMeta({
 <template>
   <div class="page">
     <SiteNav />
-    <header class="intro">
-      <h1 class="title">{{ t('plans.title') }}</h1>
-      <p class="lead">{{ t('plans.lead', { days: catalog.trialDays }) }}</p>
-    </header>
+    <main id="conteudo">
+      <header class="intro">
+        <h1 class="title">{{ t('plans.title') }}</h1>
+        <p class="lead">{{ t('plans.lead', { days: catalog.trialDays }) }}</p>
+      </header>
 
-    <PlanCards :catalog="catalog" bare />
+      <PlanCards :catalog="catalog" bare />
 
-    <section class="compare" aria-labelledby="compare-title">
-      <div class="compare-head">
-        <h2 id="compare-title" class="compare-title">{{ t('plans.compareTitle') }}</h2>
-        <NuxtLinkLocale to="/recursos" class="link">{{ t('plans.seeFeatures') }}</NuxtLinkLocale>
-      </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">
-              <span class="visually-hidden">{{ t('plans.featureColumn') }}</span>
-            </th>
-            <th scope="col">{{ catalog.basic.name }}</th>
-            <th scope="col">{{ catalog.premium.name }}</th>
-          </tr>
-        </thead>
-        <tbody v-for="group in catalog.groups" :key="group.id">
-          <tr class="group-row">
-            <th scope="colgroup" colspan="3">{{ group.name }}</th>
-          </tr>
-          <tr v-for="feature in group.features" :key="feature.id">
-            <th scope="row">
-              <NuxtLink :to="localePath(`/recursos#${feature.id}`)">{{ feature.name }}</NuxtLink>
-            </th>
-            <td>
-              {{ feature.plan === 'basic' ? t('plans.included') : t('plans.premiumOnly') }}
-            </td>
-            <td>{{ t('plans.included') }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+      <section class="compare" aria-labelledby="compare-title">
+        <div class="compare-head">
+          <h2 id="compare-title" class="compare-title">{{ t('plans.compareTitle') }}</h2>
+          <NuxtLinkLocale to="/recursos" class="link">{{ t('plans.seeFeatures') }}</NuxtLinkLocale>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">
+                <span class="visually-hidden">{{ t('plans.featureColumn') }}</span>
+              </th>
+              <th scope="col">{{ catalog.basic.name }}</th>
+              <th scope="col">{{ catalog.premium.name }}</th>
+            </tr>
+          </thead>
+          <tbody v-for="group in catalog.groups" :key="group.id">
+            <tr class="group-row">
+              <th scope="colgroup" colspan="3">{{ group.name }}</th>
+            </tr>
+            <tr v-for="feature in group.features" :key="feature.id">
+              <th scope="row">
+                <NuxtLink :to="localePath(`/recursos#${feature.id}`)">{{ feature.name }}</NuxtLink>
+              </th>
+              <td>
+                {{ feature.plan === 'basic' ? t('plans.included') : t('plans.premiumOnly') }}
+              </td>
+              <td>{{ t('plans.included') }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
 
     <SiteFooter />
   </div>

@@ -25,7 +25,7 @@ useSeoMeta({ title: props.title })
 <template>
   <div class="legal">
     <SiteNav />
-    <main>
+    <main id="conteudo">
       <h1>{{ title }}</h1>
       <p class="version">
         {{ t('legal.version', { version: LEGAL_VERSION, date: effective }) }}

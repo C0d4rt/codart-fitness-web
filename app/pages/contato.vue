@@ -15,7 +15,7 @@ const email = computed(() => brand.email[locale.value].support)
 <template>
   <div class="page">
     <SiteNav />
-    <main>
+    <main id="conteudo">
       <header class="intro">
         <h1 class="title">{{ t('contact.title') }}</h1>
         <p class="lead">{{ t('contact.lead') }}</p>

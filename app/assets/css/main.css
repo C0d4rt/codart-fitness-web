@@ -6,7 +6,7 @@
   --muted: #3f4f45;
   --green: #187a4e;
   --green-ink: #ffffff;
-  --mint: #dbf0e3;
+  --mint: #def2e6;
   --sky: #dde9f5;
   --peach: #f6e1e5;
   --sand: #e9f2d4;
@@ -69,7 +69,6 @@
 html {
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
   scroll-padding-top: 6.5rem;
 }
 
@@ -217,9 +216,6 @@ img {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   .js [data-reveal] > * {
     transform: none;
     transition: opacity 200ms ease;
