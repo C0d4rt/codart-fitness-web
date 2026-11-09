@@ -42,6 +42,7 @@ onBeforeUnmount(() => {
         </li>
       </ul>
       <div class="actions">
+        <SiteMenu class="phone-menu" />
         <LanguageMenu />
         <WhatsAppButton location="nav" :label="t('cta.try')" class="nav-action" />
       </div>
@@ -153,12 +154,19 @@ onBeforeUnmount(() => {
   font-size: var(--step-small);
 }
 
+.phone-menu {
+  display: none;
+}
+
 @media (max-width: 63.99rem) {
   .nav {
     grid-template-columns: 1fr auto;
   }
   .links {
     display: none;
+  }
+  .phone-menu {
+    display: block;
   }
 }
 

@@ -44,6 +44,7 @@ useSchemaOrg([defineWebPage({ about: { '@id': `${brand.siteUrl}/#identity` } })]
       <HomeShowcase />
       <PlanCards :catalog="catalog" />
       <HomeFaq :trial-days="catalog.trialDays" />
+      <SiteClosing />
     </main>
     <SiteFooter />
   </div>

@@ -4,6 +4,11 @@
     "tryDays": "Testar {days} dias grátis",
     "startTrial": "Começar pelo teste"
   },
+  "closing": {
+    "title": "Comece hoje, pelo WhatsApp",
+    "lead": "{days} dias grátis com tudo do Premium. Não pedimos cartão.",
+    "note": "O botão abre o WhatsApp com a primeira mensagem pronta. É só enviar."
+  },
   "nav": {
     "label": "Principal",
     "howItWorks": "Como funciona",
@@ -11,7 +16,8 @@
     "plans": "Planos",
     "faq": "Perguntas",
     "language": "Idioma",
-    "skip": "Pular para o conteúdo"
+    "skip": "Pular para o conteúdo",
+    "menu": "Menu"
   },
   "footer": {
     "terms": "Termos",
