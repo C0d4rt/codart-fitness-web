@@ -9,6 +9,10 @@ describe('whatsAppLink', () => {
     )
   })
 
+  it('takes the number as Nuxt reads an all-digit env value: a number', () => {
+    expect(whatsAppLink(5511997658329, 'Oi')).toBe('https://wa.me/5511997658329?text=Oi')
+  })
+
   it('still opens WhatsApp with the text while the number is not configured', () => {
     expect(whatsAppLink('', 'Oi')).toBe('https://wa.me/?text=Oi')
   })
