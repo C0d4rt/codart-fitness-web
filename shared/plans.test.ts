@@ -4,7 +4,7 @@ import { CATALOG_NAMES } from './catalogNames'
 import { FEATURE_COPY } from './featureCopy'
 import { LOCALES } from './locale'
 import fixture from './plans.fixture.json'
-import { buildCatalog, CatalogMismatch, money, yearlyPerMonth } from './plans'
+import { buildCatalog, CatalogMismatch, money, yearlyPerMonth, yearlySaving } from './plans'
 
 const DASHES = /[–—]/
 
@@ -86,5 +86,17 @@ describe('money', () => {
   it('writes reais the English way on English pages', () => {
     expect(money(2990, 'en')).toBe('R$29.90')
     expect(yearlyPerMonth({ yearlyCents: 15900 }, 'en')).toBe('R$13.25')
+  })
+})
+
+describe('yearlySaving', () => {
+  it('rounds down, so the page never promises more than the price gives', () => {
+    expect(yearlySaving({ monthlyCents: 2990, yearlyCents: 15900 })).toBe(55)
+    expect(yearlySaving({ monthlyCents: 1990, yearlyCents: 11900 })).toBe(50)
+  })
+
+  it('is zero when a year costs as much as twelve months or more', () => {
+    expect(yearlySaving({ monthlyCents: 1000, yearlyCents: 12000 })).toBe(0)
+    expect(yearlySaving({ monthlyCents: 1000, yearlyCents: 13000 })).toBe(0)
   })
 })
