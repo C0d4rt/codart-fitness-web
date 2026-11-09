@@ -181,6 +181,7 @@
     "title": "Recursos",
     "description": "Tudo o que o {name} faz no WhatsApp, com um exemplo de conversa para cada recurso. {days} dias grátis com tudo do Premium.",
     "lead": "Tudo o que dá para fazer na conversa, com exemplos de verdade",
+    "groups": "Grupos de recursos",
     "basic": "No Básico e no Premium",
     "premium": "Só no Premium e no teste"
   },

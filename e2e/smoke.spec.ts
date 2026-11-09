@@ -25,6 +25,25 @@ test('the features page has an anchor for each feature', async ({ page }) => {
   await expect(page.locator('article[id]')).toHaveCount(fixture.features.length)
 })
 
+test('the features page index takes you to each group, clear of the sticky bars', async ({
+  page,
+}) => {
+  await page.goto('/recursos')
+  const index = page.getByRole('navigation', { name: 'Grupos de recursos' })
+  await expect(index.getByRole('link')).toHaveCount(fixture.groups.length)
+  const group = fixture.groups[2]!
+  await index.getByRole('link', { name: group.name }).click()
+  await expect(page).toHaveURL(new RegExp(`#group-${group.id}$`))
+  const heading = page.locator(`#group-${group.id}-name`)
+  await expect
+    .poll(async () => {
+      const bar = (await index.boundingBox())!
+      const gap = (await heading.boundingBox())!.y - bar.y - bar.height
+      return gap >= 0 && gap < 48
+    })
+    .toBe(true)
+})
+
 test('no third party script loads before consent', async ({ page }) => {
   const thirdParty: string[] = []
   page.on('request', (request) => {
