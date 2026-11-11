@@ -127,9 +127,19 @@
     "orYearly": "{percent, plural, =0 {or {price} per year} other {or {price} per year, {percent}% less}}",
     "yearlyPerMonth": "same as {price} per month",
     "saving": "Save {percent}%",
-    "premiumWho": "For those who want plate photos and to know what to eat",
-    "basicWho": "For those who want the whole diary, by text and voice",
-    "allOfBasic": "Everything in Basic"
+    "premiumWho": "To log everything in the chat, with plate photos, goals and suggestions of what to eat",
+    "coachingWho": "Diet and training built for you and reviewed by a dietitian and a personal trainer",
+    "allOfPremium": "Everything in Premium",
+    "packageLabel": "Program length",
+    "months": "{months} months",
+    "installmentsOf": "{installments}x",
+    "packageTotal": "{total} for {months} months, upfront by Pix or in installments by card",
+    "perMonthAnchor": "Same as {price}/month",
+    "soon": "Coming soon",
+    "soonNote": "It isn't open yet. Ask to be told and we'll message you on WhatsApp when it opens",
+    "notifyMe": "Tell me when it opens",
+    "wantPlan": "I want {plan}",
+    "coachingTerms": "One payment, no renewal. 7 day guarantee, no free trial"
   },
   "faq": {
     "title": "Frequently asked questions",
@@ -141,23 +151,27 @@
       },
       {
         "q": "How does the free trial work?",
-        "a": "You get {days} days with everything in Premium, counted from your first message. No card needed."
+        "a": "You get {days} days with everything in Premium, counted from your first message. No card needed. Premium Pro has no trial: it has a 7 day guarantee."
       },
       {
         "q": "What happens when the trial ends?",
-        "a": "The diary stops logging until you choose a plan. Everything you logged stays saved and comes back in full when you subscribe."
+        "a": "The diary stops logging until you subscribe. Everything you logged stays saved and comes back in full when you subscribe."
       },
       {
         "q": "How do I pay and cancel?",
-        "a": "Right in the chat: reply \"subscribe\", choose your plan and pay by Pix or card. Cancel whenever you like; your access lasts until the end of the period you paid for."
+        "a": "Right in the chat: reply \"subscribe\", choose monthly or yearly and pay by Pix or card. Cancel whenever you like; your access lasts until the end of the period you paid for. Premium Pro is a program you pay for once, upfront by Pix or in installments by card, with no renewal."
       },
       {
         "q": "What if I change my mind?",
-        "a": "Within 7 days of paying, ask for a refund in the chat and it goes through on its own, as the Brazilian Consumer Protection Code provides."
+        "a": "Within 7 days of paying, for Premium or Premium Pro, ask for a refund in the chat and it goes through on its own, as the Brazilian Consumer Protection Code provides."
       },
       {
-        "q": "Does it replace a nutritionist?",
-        "a": "No. The diary logs, adds up and informs; it doesn't prescribe diets or workouts. Its suggestions are general, based on your goal."
+        "q": "What does \"reviewed by professionals\" mean on Premium Pro?",
+        "a": "You do a full assessment and get a diet and training built for you. Before they reach you, the diet is reviewed by a registered dietitian (CRN) and the training by a certified trainer (CREF), who follow you through the check-ins and the monthly reassessment and answer your questions in the chat within 24 hours."
+      },
+      {
+        "q": "Is the assistant a nutritionist?",
+        "a": "No. The chat assistant logs, adds up and informs; it doesn't prescribe diets or workouts. On Premium Pro, your diet and training are reviewed by licensed professionals."
       },
       {
         "q": "What about my data?",
@@ -167,23 +181,24 @@
   },
   "plans": {
     "title": "Plans",
-    "description": "{name} Premium and Basic, with prices and what each one includes. {days} days free with everything in Premium.",
-    "lead": "Start with {days} days free with everything in Premium, no card needed. Then choose your plan right in the chat",
+    "description": "{name} Premium and Premium Pro, with prices and what each one includes. {days} days free with everything in Premium.",
+    "lead": "Start with {days} days free with everything in Premium, no card needed. Then subscribe right in the chat",
     "compareTitle": "What each plan includes",
     "seeFeatures": "See each feature with an example",
     "featureColumn": "Feature",
     "included": "Included",
-    "premiumOnly": "Premium only",
     "offerMonthly": "{plan} monthly",
-    "offerYearly": "{plan} yearly"
+    "offerYearly": "{plan} yearly",
+    "coachingOnly": "Premium Pro only",
+    "offerPackage": "{plan} for {months} months"
   },
   "features": {
     "title": "Features",
     "description": "Everything {name} does on WhatsApp, with a sample chat for each feature. {days} days free with everything in Premium.",
     "lead": "Everything you can do in the chat, with real examples",
     "groups": "Feature groups",
-    "basic": "On Basic and Premium",
-    "premium": "Only on Premium and the trial"
+    "premium": "On Premium, Premium Pro and the trial",
+    "coaching": "Only on Premium Pro"
   },
   "contact": {
     "title": "Contact",

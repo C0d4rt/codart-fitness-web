@@ -15,8 +15,10 @@ test('the home page says what this is and opens the conversation', async ({ page
 test('the plans page has an anchor for each plan', async ({ page }) => {
   await page.goto('/planos')
   await expect(page.locator('#premium')).toHaveCount(1)
-  await expect(page.locator('#basic')).toHaveCount(1)
+  await expect(page.locator('#coaching h3')).toHaveText('Premium Pro')
   await expect(page.getByText('R$ 29,90').first()).toBeVisible()
+  const coaching = page.locator('#coaching').getByRole('link')
+  await expect(coaching).toHaveAttribute('href', /\?text=Quero%20o%20Premium%20Pro$/)
 })
 
 test('the features page has an anchor for each feature', async ({ page }) => {
@@ -77,7 +79,7 @@ test('the English home page speaks English and opens the chat in English', async
 test('the English plans page has the plans in English, with prices in reais', async ({ page }) => {
   await page.goto('/en/plans')
   await expect(page.locator('#premium')).toHaveCount(1)
-  await expect(page.locator('#basic h3')).toHaveText('Basic')
+  await expect(page.locator('#coaching h3')).toHaveText('Premium Pro')
   await expect(page.getByText('R$29.90').first()).toBeVisible()
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
