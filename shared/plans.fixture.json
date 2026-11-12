@@ -134,6 +134,12 @@
       "name": "Treinos salvos"
     },
     {
+      "id": "readyPrograms",
+      "plan": "premium",
+      "group": "workout",
+      "name": "Treinos prontos"
+    },
+    {
       "id": "dayGoal",
       "plan": "premium",
       "group": "goals",

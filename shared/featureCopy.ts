@@ -183,6 +183,21 @@ const PT: Record<string, FeatureCopy> = {
       ),
     ],
   },
+  readyPrograms: {
+    headline: 'Um programa de treino pronto, assinado por educador físico',
+    howTo:
+      'Do iniciante ao avançado. Se faltar um aparelho ou doer alguma coisa, o exercício é trocado.',
+    exchange: [
+      you('treinos', '07:10'),
+      bot(
+        'Escolha um treino pronto: ele começa hoje, com os exercícios trocados se faltar um aparelho ou se algo doer.',
+        '07:10',
+        'Treinos prontos',
+      ),
+      you('minha academia não tem leg press', '07:40'),
+      bot('Troquei leg press por agachamento no smith no seu plano.', '07:40'),
+    ],
+  },
   dayGoal: {
     headline: 'Quanto falta, a qualquer hora',
     howTo:
@@ -624,6 +639,21 @@ const EN: Record<string, FeatureCopy> = {
         '🏋️ Workout logged:\nBench press: 3 × 8 at 60 kg\nBent-over row: 3 × 10 at 40 kg\nShoulder press: 3 × 10 at 16 kg\nHow long did the workout last? That way I can add up the burn.',
         '18:55',
       ),
+    ],
+  },
+  readyPrograms: {
+    headline: 'A ready workout program, signed by a certified trainer',
+    howTo:
+      'From beginner to advanced. If a machine is missing or something hurts, the exercise gets swapped.',
+    exchange: [
+      you('workouts', '07:10'),
+      bot(
+        'Pick a ready workout program: it starts today, with exercises swapped if your gym lacks a machine or something hurts.',
+        '07:10',
+        'Ready programs',
+      ),
+      you("my gym doesn't have a leg press", '07:40'),
+      bot('I swapped leg press for Smith machine squat in your plan.', '07:40'),
     ],
   },
   dayGoal: {
