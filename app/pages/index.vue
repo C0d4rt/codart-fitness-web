@@ -43,6 +43,7 @@ const features = computed(() => catalog.groups.flatMap((group) => group.features
         <HeroDemo />
       </section>
 
+      <HomeAssistant :features="features" />
       <HomeHow :features="features" />
       <HomeBento :features="features" />
       <HomeDay :features="features" />

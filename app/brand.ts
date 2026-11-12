@@ -7,8 +7,8 @@ export const brand = {
   name,
   siteUrl: 'https://fitness.codart.dev',
   tagline: {
-    pt: 'Seu diário de dieta e treino no WhatsApp',
-    en: 'Your diet and workout diary on WhatsApp',
+    pt: 'Seu assistente fitness no WhatsApp',
+    en: 'Your fitness assistant on WhatsApp',
   } satisfies Record<Locale, string>,
   /** The first message of the chat: the app answers in the language it is written in. */
   greeting: {

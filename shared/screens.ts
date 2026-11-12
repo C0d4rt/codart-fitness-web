@@ -8,17 +8,17 @@ const exchange = (id: string, locale: Locale): ChatMessage[] =>
 const HERO = {
   pt: {
     label:
-      'Uma conversa em que a pessoa conta o almoço e o diário responde com as calorias e o que falta da meta.',
+      'Uma conversa em que a pessoa conta o almoço e o assistente responde com as calorias e o que falta da meta.',
     hello: 'oi',
     welcome:
-      'Oi! 👋 Eu anoto o que você come e te digo o total do dia. É só me contar, por texto ou áudio.',
+      'Oi! 👋 Eu sou o seu assistente fitness. Te ajudo com refeições, treinos, metas e peso, e te respondo na hora.',
   },
   en: {
     label:
-      'A chat where someone tells the diary about their lunch and it replies with the calories and what is left of the goal.',
+      'A chat where someone tells the assistant about their lunch and it replies with the calories and what is left of the goal.',
     hello: 'hi',
     welcome:
-      "Hi! 👋 I keep track of what you eat and tell you your day's total. Just tell me, by text or voice note.",
+      "Hi! 👋 I'm your fitness assistant. I help you with meals, workouts, goals and weight, and answer you right away.",
   },
 } satisfies Record<Locale, { label: string; hello: string; welcome: string }>
 

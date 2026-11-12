@@ -5,13 +5,13 @@ export type LegalSection = { title: string; paragraphs?: string[]; items?: strin
 export type LegalDoc = { intro: string; sections: LegalSection[] }
 
 /** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
-export const LEGAL_VERSION = '5'
+export const LEGAL_VERSION = '6'
 export const LEGAL_EFFECTIVE = '2026-11-12'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
     intro:
-      'Estes termos valem para o Fitness, o diário de alimentação e treino no WhatsApp da Codart Tecnologia LTDA (CNPJ 65.840.318/0001-26, São Paulo, SP). A primeira mensagem da conversa traz o link destes termos, e ao usar o diário você concorda com eles e com a Política de Privacidade.',
+      'Estes termos valem para o Fitness, o assistente de alimentação e treino no WhatsApp da Codart Tecnologia LTDA (CNPJ 65.840.318/0001-26, São Paulo, SP). A primeira mensagem da conversa traz o link destes termos, e ao usar o diário você concorda com eles e com a Política de Privacidade.',
     sections: [
       {
         title: 'O que o serviço faz',
@@ -34,7 +34,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Teste grátis e Premium',
         items: [
-          'São dois planos: o Premium, o diário inteiro com o assistente, por mês ou por ano, e o Premium Pro, o programa com profissionais da seção seguinte. O que cada um inclui, os limites de uso diário e os preços estão na página Planos e são os mesmos mostrados na conversa.',
+          'São dois planos: o Premium, o assistente completo, por mês ou por ano, e o Premium Pro, o programa com profissionais da seção seguinte. O que cada um inclui, os limites de uso diário e os preços estão na página Planos e são os mesmos mostrados na conversa.',
           'Todo número novo tem um período de teste gratuito do Premium, uma vez só, sem cartão, com a duração mostrada na página Planos. Quando o teste acaba, o diário para de registrar até você assinar. Nada do que você registrou é apagado por isso.',
           'O pagamento é feito na página da Pagar.me (Stone). Os dados do cartão são digitados lá e não chegam até nós.',
           'Premium mensal no cartão: renova sozinho todo mês, pelo mesmo preço contratado, até você cancelar. Se uma cobrança for recusada, o acesso continua por 7 dias para você acertar o pagamento; depois disso, a assinatura é cancelada.',
@@ -209,7 +209,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
 const en: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
     intro:
-      'These terms apply to Fitness, the food and workout diary on WhatsApp by Codart Tecnologia LTDA (Brazilian company number CNPJ 65.840.318/0001-26, São Paulo, Brazil). The first message in the chat links these terms, and by using the diary you agree to them and to the Privacy Policy.',
+      'These terms apply to Fitness, the food and workout assistant on WhatsApp by Codart Tecnologia LTDA (Brazilian company number CNPJ 65.840.318/0001-26, São Paulo, Brazil). The first message in the chat links these terms, and by using the diary you agree to them and to the Privacy Policy.',
     sections: [
       {
         title: 'What the service does',
@@ -232,7 +232,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Free trial and Premium',
         items: [
-          'There are two plans: Premium, the whole diary with the assistant, monthly or yearly, and Premium Pro, the program with professionals described in the next section. What each one includes, the daily usage limits and the prices are on the Plans page and are the same ones shown in the chat.',
+          'There are two plans: Premium, the full assistant, monthly or yearly, and Premium Pro, the program with professionals described in the next section. What each one includes, the daily usage limits and the prices are on the Plans page and are the same ones shown in the chat.',
           'Every new number gets one free trial of Premium, with no card, for the length shown on the Plans page. When the trial ends, the diary stops logging until you subscribe. Nothing you logged is deleted because of that.',
           'Payment is made on the Pagar.me (Stone) page. Card details are entered there and never reach us.',
           'Premium monthly by card: renews automatically every month, at the price you subscribed to, until you cancel. If a charge is declined, access continues for 7 days so you can sort out the payment; after that, the subscription is cancelled.',

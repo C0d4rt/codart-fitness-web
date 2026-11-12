@@ -53,12 +53,40 @@
     "ofGoal": "of {goal} kcal"
   },
   "home": {
-    "description": "Meals, workouts, goals and weight in a WhatsApp chat, with instant answers. {days} days free, no card needed.",
-    "ogDescription": "Diet and workouts in a chat. {days} days free.",
-    "headline": "Diet and workouts. On your WhatsApp.",
-    "lead": "A diary that logs what you eat and train, by text, voice or photo, and tells you right away how much is left for your goal",
+    "description": "Your fitness assistant on WhatsApp: it logs meals and workouts, suggests what to eat, compares products and answers with your numbers. {days} days free, no card.",
+    "ogDescription": "Diet, workouts and much more in one chat. {days} days free.",
+    "headline": "Your fitness assistant. On WhatsApp.",
+    "lead": "It logs what you eat and train, suggests what to eat from what you have at home, compares products at the store and gives you today's workout. By text, voice or photo.",
     "seeHow": "See how it works",
     "terms": "{days} days free with everything in Premium. No card needed"
+  },
+  "assistant": {
+    "title": "It knows you. And names its source.",
+    "lead": "It remembers your goal, what you don't eat and what you have at home. Ask about your numbers, or ask why: it answers with the source.",
+    "label": "A chat where someone asks what the assistant knows about them, how much protein they ate this week and whether creatine harms the kidneys, and it answers with the source.",
+    "pointsLabel": "What the assistant does",
+    "points": {
+      "memory": {
+        "name": "Memory",
+        "text": "It remembers your goal, your restrictions and your pantry."
+      },
+      "numbers": {
+        "name": "Your numbers",
+        "text": "It answers about your day, your week and your weight."
+      },
+      "source": {
+        "name": "With the source",
+        "text": "It explains from a knowledge base signed by professionals, and says where it got it."
+      }
+    },
+    "chat": {
+      "memoryQuestion": "what do you know about me?",
+      "memoryAnswer": "What I know about you:\n*Profile*\n• Daily goal: {goal} kcal\n*Preferences*\n• Foods you avoid: shrimp",
+      "weekQuestion": "how much protein did I eat this week?",
+      "weekAnswer": "*{total} g of protein* over {logged} of {days} days logged: an average of {average} g a day, for a goal of {goal} g.",
+      "creatineQuestion": "is creatine bad for the kidneys?",
+      "creatineAnswer": "At 3 to 5 g a day, creatine monohydrate is safe for people without kidney disease.\nThat comes from Kreider RB et al., ISSN (2017)."
+    }
   },
   "how": {
     "title": "You tell it. It adds it up.",
@@ -156,7 +184,7 @@
     "orYearly": "{percent, plural, =0 {or {price} per year} other {or {price} per year, {percent}% less}}",
     "yearlyPerMonth": "same as {price} per month",
     "saving": "Save {percent}%",
-    "premiumWho": "To log everything in the chat, with plate photos, goals and suggestions of what to eat",
+    "premiumWho": "The full assistant: logging by photo and voice, goals, meal suggestions and ready workouts",
     "coachingWho": "Diet and training built for you, under the responsibility of a dietitian and a personal trainer",
     "allOfPremium": "Everything in Premium",
     "packageLabel": "Program length",
@@ -200,7 +228,7 @@
       },
       {
         "q": "Is the assistant a nutritionist?",
-        "a": "No. The chat assistant logs, adds up and informs; it doesn't prescribe diets or workouts. The ready workout programs on Premium are general programs, signed by a certified trainer (CREF), that you pick yourself. On Premium Pro, your diet and training are under the responsibility of licensed professionals."
+        "a": "No. The assistant is artificial intelligence: it logs, adds up, informs and suggests within rules signed by professionals, but it doesn't prescribe diets or workouts. On Premium Pro, your diet and training are under the responsibility of licensed professionals."
       },
       {
         "q": "What about my data?",
@@ -265,7 +293,7 @@
     "title": "Terms of use"
   },
   "hero": {
-    "placeholder": "Tell it what you ate or trained",
+    "placeholder": "Ask, or tell it what you ate",
     "chipsLabel": "Pick a chat to see",
     "chips": {
       "lunch": "Log my lunch",

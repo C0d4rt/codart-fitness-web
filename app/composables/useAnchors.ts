@@ -2,6 +2,7 @@ import type { Locale } from '#shared/locale'
 
 const ANCHORS = {
   pt: {
+    assistant: 'o-assistente',
     how: 'como-funciona',
     faq: 'perguntas',
     bento: 'seus-numeros',
@@ -12,6 +13,7 @@ const ANCHORS = {
     company: 'empresa',
   },
   en: {
+    assistant: 'the-assistant',
     how: 'how-it-works',
     faq: 'questions',
     bento: 'your-numbers',
