@@ -5,8 +5,8 @@ export type LegalSection = { title: string; paragraphs?: string[]; items?: strin
 export type LegalDoc = { intro: string; sections: LegalSection[] }
 
 /** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
-export const LEGAL_VERSION = '2'
-export const LEGAL_EFFECTIVE = '2026-11-01'
+export const LEGAL_VERSION = '3'
+export const LEGAL_EFFECTIVE = '2026-11-12'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
@@ -17,10 +17,11 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'O que o serviço faz',
         paragraphs: [
           'Você conta o que comeu, bebeu ou treinou, por texto, áudio ou foto, e o diário registra, soma e responde com os números do seu dia, da sua semana e do seu peso. Também sugere refeições, lê rótulos e compara produtos, conforme o plano.',
-          'O diário informa: não prescreve dieta, treino, suplemento nem remédio, e não substitui nutricionista, médico ou educador físico. Metas, calorias gastas e sugestões são estimativas gerais a partir do que você informa.',
+          'No teste e no Premium, o diário informa: não prescreve dieta, treino, suplemento nem remédio, e não substitui nutricionista, médico ou educador físico. Metas, calorias gastas e sugestões são estimativas gerais a partir do que você informa.',
+          'No Premium Pro, a dieta e o treino feitos para você são revisados e assinados por profissionais com registro no conselho, como explica a seção Premium Pro. Em nenhum plano o serviço receita, dosa ou orienta o uso de remédio ou hormônio, nem interpreta exames.',
           'O jejum intermitente não é indicado para todo mundo: com alguma condição de saúde, na gestação ou com histórico de transtorno alimentar, converse com um profissional antes de começar. O diário registra o protocolo que você escolhe, mas não avalia se ele é adequado para você.',
           'Os valores dos alimentos vêm da Tabela Brasileira de Composição de Alimentos (TACO, NEPA/Unicamp), do Open Food Facts (licença ODbL), dos rótulos que você envia e de estimativas. Podem ter diferenças em relação ao alimento que você comeu.',
-          'Parte das respostas é feita por inteligência artificial, que pode entender algo errado. Confira o que foi registrado; você pode corrigir ou apagar qualquer registro na conversa.',
+          'O assistente da conversa é uma inteligência artificial, não um nutricionista nem um educador físico, e pode entender algo errado. Confira o que foi registrado; você pode corrigir ou apagar qualquer registro na conversa.',
         ],
       },
       {
@@ -31,25 +32,38 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         ],
       },
       {
-        title: 'Teste grátis e planos',
+        title: 'Teste grátis e Premium',
         items: [
-          'Todo número novo tem um período de teste gratuito, uma vez só, sem cartão. A duração, os planos, o que cada um inclui, os limites de uso diário e os preços estão na página Planos e são os mesmos mostrados na conversa.',
-          'Quando o teste acaba, o diário para de registrar até você assinar. Nada do que você registrou é apagado por isso.',
+          'São dois planos: o Premium, o diário inteiro com o assistente, por mês ou por ano, e o Premium Pro, o programa com profissionais da seção seguinte. O que cada um inclui, os limites de uso diário e os preços estão na página Planos e são os mesmos mostrados na conversa.',
+          'Todo número novo tem um período de teste gratuito do Premium, uma vez só, sem cartão, com a duração mostrada na página Planos. Quando o teste acaba, o diário para de registrar até você assinar. Nada do que você registrou é apagado por isso.',
           'O pagamento é feito na página da Pagar.me (Stone). Os dados do cartão são digitados lá e não chegam até nós.',
-          'Mensal no cartão: renova sozinho todo mês, pelo mesmo preço contratado, até você cancelar. Se uma cobrança for recusada, o acesso continua por 7 dias para você acertar o pagamento; depois disso, a assinatura é cancelada.',
-          'Mensal no Pix e anual: são pagos de uma vez por período, sem renovação automática. Pagamentos antecipados somam períodos.',
+          'Premium mensal no cartão: renova sozinho todo mês, pelo mesmo preço contratado, até você cancelar. Se uma cobrança for recusada, o acesso continua por 7 dias para você acertar o pagamento; depois disso, a assinatura é cancelada.',
+          'Premium mensal no Pix e anual: são pagos de uma vez por período, sem renovação automática. Pagamentos antecipados somam períodos.',
           'Mudança de preço não vale para o período já pago. Avisamos na conversa antes que um preço novo valha para você.',
-          'Passar do Básico para o Premium vale na hora, pagando a diferença proporcional. Voltar para o Básico ou trocar de mensal para anual vale no fim do período pago.',
+          'Trocar o Premium mensal pelo anual vale no fim do período pago.',
+        ],
+      },
+      {
+        title: 'Premium Pro',
+        items: [
+          'O Premium Pro é um programa de acompanhamento vendido por pacote de meses, com tudo do Premium. Você faz uma avaliação completa e recebe uma dieta e um treino montados para você, revisados e assinados por um nutricionista (CRN) e por um educador físico (CREF), com check-ins e uma reavaliação por mês. Os pacotes, os preços e a disponibilidade estão na página Planos.',
+          'Os profissionais são contratados pela Codart, e a conversa mostra o nome e o registro de cada um. As dúvidas do seu caso vão para eles, e a resposta chega na própria conversa em até 24 horas corridas, todos os dias da semana.',
+          'O assistente aplica o que os profissionais assinaram, como a progressão de carga do treino e as trocas equivalentes de exercício ou de alimento, e eles veem o que foi feito. Mudanças na estrutura do plano, como frequência, divisão ou calorias, passam por eles.',
+          'O pacote é pago uma vez só, à vista no Pix ou parcelado no cartão sem juros. Não tem teste grátis nem renovação automática: o programa termina no fim do pacote.',
+          'Durante o programa, uma assinatura do Premium mensal no cartão fica pausada, sem cobrança, e volta no fim. Um Premium já pago de uma vez (mensal no Pix ou anual) vira desconto no pacote, proporcional aos dias em que ele e o programa correm juntos, e continua valendo até a data em que já terminaria.',
+          'No fim do programa, você volta ao plano que tinha, e o último plano fica na conversa para consulta, sem ajustes, check-ins nem chat com os profissionais. Sem um plano pago, o acesso volta a ser o de quem terminou o teste.',
+          'O que você contar sobre remédios e hormônios que usa, e os exames que mandar, fica registrado só para os profissionais levarem em conta no treino e na dieta. Nem o assistente nem os profissionais do programa receitam, dosam ou orientam o uso de remédio ou hormônio.',
         ],
       },
       {
         title: 'Cancelamento e reembolso',
         items: [
-          'Você cancela a qualquer momento dizendo "cancelar" na conversa. A renovação para e o acesso continua até o fim do período pago.',
-          'Direito de arrependimento: em até 7 dias da primeira contratação, você pode desistir e receber o valor integral de volta, como prevê o Código de Defesa do Consumidor (art. 49). Peça na conversa; o acesso pago termina com o reembolso.',
-          'Fora desse prazo, o período já pago não é reembolsado, salvo nos casos previstos em lei. Pedidos especiais são analisados pela equipe.',
+          'Premium: você cancela a qualquer momento dizendo "cancelar" na conversa. A renovação para e o acesso continua até o fim do período pago.',
+          'Direito de arrependimento: em até 7 dias da primeira contratação do Premium, ou da primeira do Premium Pro, você pode desistir e receber de volta o valor integral pago, como prevê o Código de Defesa do Consumidor (art. 49). Peça na conversa; o acesso pago daquele plano termina com o reembolso.',
+          'O reembolso do Premium Pro devolve o que foi pago pelo pacote e retoma a assinatura do Premium que estava pausada. Um Premium já pago continua como estava.',
+          'Fora desse prazo, o período já pago e o pacote do Premium Pro não são reembolsados, salvo nos casos previstos em lei. Pedidos especiais são analisados pela equipe.',
           'Contestar uma cobrança com o banco ou o cartão (chargeback) suspende o acesso pago enquanto a contestação estiver aberta.',
-          'Apagar a conta cancela a assinatura, sem reembolso automático do período em curso.',
+          'Apagar a conta cancela a assinatura e encerra o Premium Pro, sem reembolso automático do período em curso.',
         ],
       },
       {
@@ -100,7 +114,9 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'Da conta: o seu número de WhatsApp, o nome que você disser na conversa, o idioma e o fuso horário.',
           'Das conversas: as mensagens que você envia e as respostas, e os áudios e fotos que você manda (pratos, rótulos, códigos de barras).',
           'Do diário: refeições, alimentos, receitas, despensa, treinos e jejum.',
-          'Dados de saúde: peso, altura, idade, sexo, nível de atividade, metas e pesagens. A LGPD trata esses dados como sensíveis.',
+          'Dados de saúde: peso, altura, idade, sexo, nível de atividade, metas, pesagens, dores contadas nos treinos e os itens de saúde abaixo. A LGPD trata esses dados como sensíveis.',
+          'Do que você conta ao assistente: notas e preferências (rotina, gostos, o que evita) e, só depois do seu "sim", as condições de saúde que mudam dieta ou treino e os suplementos que você usa. "O que você sabe sobre mim?" mostra tudo, e "esquece" apaga.',
+          'Do Premium Pro: as respostas da avaliação e dos check-ins (medidas, histórico de saúde, rotina e alimentação), o registro de remédios e hormônios que você usa, as fotos do físico, os exames e as dietas e treinos anteriores que você mandar, e as mensagens com os profissionais.',
           'Do aceite: a versão dos termos aceita e quando.',
           'De pagamento: o plano, as cobranças e a situação da assinatura. Nome, documento e cartão de quem paga ficam com a Pagar.me, não conosco.',
           'De origem: quando você chega por um anúncio da Meta, o identificador do anúncio.',
@@ -111,6 +127,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         items: [
           'Prestar o serviço que você contratou: registrar, somar, responder, lembrar e cobrar (execução de contrato, LGPD art. 7º, V).',
           'Guardar e usar os dados de saúde para montar o seu diário, com o seu consentimento (art. 11, I), dado ao mandar esses dados na conversa depois do aviso da primeira mensagem, que traz o link destes textos. Você pode revogá-lo apagando a conta.',
+          'No Premium Pro, usar a avaliação, os check-ins, as fotos, os exames e o registro de remédios e hormônios para os profissionais montarem e ajustarem o seu plano, com o consentimento específico que você dá na avaliação (art. 11, I). As fotos do físico, os exames e os remédios e hormônios ficam só com os profissionais e nunca vão ao modelo de inteligência artificial.',
           'Manter o serviço seguro, evitar abuso e corrigir falhas, com registros técnicos que não trazem o texto das mensagens (legítimo interesse, art. 7º, IX).',
           'Medir visitas e anúncios no site, só com o seu consentimento no aviso de cookies (art. 7º, I).',
         ],
@@ -122,7 +139,8 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'Com quem compartilhamos',
         items: [
           'Meta (WhatsApp): leva as mensagens entre você e o diário.',
-          'OpenAI, pela Portkey: lê as mensagens, transcreve os áudios e interpreta as fotos para registrar o que você contou. Pela política da OpenAI para a sua API, o que enviamos não é usado para treinar modelos.',
+          'OpenAI, pela Portkey: lê as mensagens, transcreve os áudios e interpreta as fotos de refeições e rótulos para registrar o que você contou. Pela política da OpenAI para a sua API, o que enviamos não é usado para treinar modelos.',
+          'Os profissionais do Premium Pro (nutricionista e educador físico contratados pela Codart): veem, num painel de acesso restrito, os dados de quem está no programa com eles. Cada abertura das fotos do físico fica registrada.',
           'Amazon Web Services (AWS): hospeda o servidor, os bancos de dados e os arquivos.',
           'Pagar.me (Stone): processa os pagamentos.',
           'Open Food Facts: recebe só o código de barras consultado, sem nenhum dado seu.',
@@ -141,6 +159,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         items: [
           'Os dados do diário ficam enquanto a conta existir.',
           'Áudios e fotos são apagados automaticamente 90 dias depois de enviados; o que foi registrado a partir deles continua no diário.',
+          'No Premium Pro, as fotos do físico, os exames e as dietas e treinos anteriores ficam enquanto durar o programa e são apagados 90 dias depois do fim, ou antes, se você apagar a conta. O que a avaliação registrou no seu perfil fica enquanto a conta existir, para um próximo programa não perguntar de novo.',
           'Registros técnicos ficam 30 dias. Cópias de segurança ficam até 7 dias.',
           'Os registros fiscais dos pagamentos ficam com a Pagar.me pelo prazo que a lei exige.',
         ],
@@ -148,7 +167,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Como apagar tudo',
         paragraphs: [
-          'Diga "quero apagar minha conta" na conversa e confirme. Você tem 7 dias para desistir; nesse tempo, nada novo é registrado. Depois disso, apagamos a conta, o diário, as mensagens, os áudios, as fotos e os registros de pagamento. As cópias de segurança somem em até 7 dias. No total, em até 15 dias não sobra dado seu conosco.',
+          'Diga "quero apagar minha conta" na conversa e confirme. Você tem 7 dias para desistir; nesse tempo, nada novo é registrado. Depois disso, apagamos a conta, o diário, o que o assistente guardou, as mensagens, inclusive com os profissionais, os áudios, as fotos, os exames e os registros de pagamento. As cópias de segurança somem em até 7 dias. No total, em até 15 dias não sobra dado seu conosco.',
           'Guardamos só o registro de que houve um pedido de exclusão e quando foi cumprido, sem o seu número. A cópia das conversas no seu WhatsApp e nos servidores da Meta segue as regras da Meta.',
         ],
       },
@@ -195,10 +214,11 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'What the service does',
         paragraphs: [
           'You tell it what you ate, drank or trained, by text, voice note or photo, and the diary logs it, adds it up and replies with the numbers for your day, your week and your weight. Depending on your plan, it also suggests meals, reads labels and compares products.',
-          'The diary informs: it does not prescribe diets, workouts, supplements or medicine, and it does not replace a dietitian, doctor or fitness professional. Goals, calories burned and suggestions are general estimates based on what you tell it.',
+          'On the trial and on Premium, the diary informs: it does not prescribe diets, workouts, supplements or medicine, and it does not replace a dietitian, doctor or fitness professional. Goals, calories burned and suggestions are general estimates based on what you tell it.',
+          'On Premium Pro, the diet and the training made for you are reviewed and signed by licensed professionals, as the Premium Pro section explains. On no plan does the service prescribe, dose or advise on the use of medicine or hormones, nor does it interpret lab tests.',
           'Intermittent fasting is not for everyone: if you have a health condition, are pregnant or have a history of eating disorders, talk to a professional before you start. The diary records the protocol you choose, but does not assess whether it suits you.',
           'Food values come from the Brazilian Food Composition Table (TACO, NEPA/Unicamp), from Open Food Facts (ODbL license), from the labels you send and from estimates. They may differ from the food you actually ate.',
-          'Some replies are made by artificial intelligence, which can misunderstand. Check what was logged; you can fix or delete any entry in the chat.',
+          'The chat assistant is artificial intelligence, not a dietitian or a fitness professional, and it can misunderstand. Check what was logged; you can fix or delete any entry in the chat.',
         ],
       },
       {
@@ -209,25 +229,38 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         ],
       },
       {
-        title: 'Free trial and plans',
+        title: 'Free trial and Premium',
         items: [
-          'Every new number gets one free trial, with no card. The trial length, the plans, what each one includes, the daily usage limits and the prices are on the Plans page and are the same ones shown in the chat.',
-          'When the trial ends, the diary stops logging until you subscribe. Nothing you logged is deleted because of that.',
+          'There are two plans: Premium, the whole diary with the assistant, monthly or yearly, and Premium Pro, the program with professionals described in the next section. What each one includes, the daily usage limits and the prices are on the Plans page and are the same ones shown in the chat.',
+          'Every new number gets one free trial of Premium, with no card, for the length shown on the Plans page. When the trial ends, the diary stops logging until you subscribe. Nothing you logged is deleted because of that.',
           'Payment is made on the Pagar.me (Stone) page. Card details are entered there and never reach us.',
-          'Monthly by card: renews automatically every month, at the price you subscribed to, until you cancel. If a charge is declined, access continues for 7 days so you can sort out the payment; after that, the subscription is cancelled.',
-          'Monthly by Pix and yearly: paid once per period, with no automatic renewal. Paying ahead adds up periods.',
+          'Premium monthly by card: renews automatically every month, at the price you subscribed to, until you cancel. If a charge is declined, access continues for 7 days so you can sort out the payment; after that, the subscription is cancelled.',
+          'Premium monthly by Pix and yearly: paid once per period, with no automatic renewal. Paying ahead adds up periods.',
           'A price change does not apply to a period already paid. We tell you in the chat before a new price applies to you.',
-          'Moving from Basic to Premium takes effect right away, paying the prorated difference. Moving back to Basic or from monthly to yearly takes effect at the end of the paid period.',
+          'Moving from Premium monthly to yearly takes effect at the end of the paid period.',
+        ],
+      },
+      {
+        title: 'Premium Pro',
+        items: [
+          'Premium Pro is a coaching program sold in packages of months, with everything in Premium. You fill in a full assessment and get a diet and a training plan made for you, reviewed and signed by a registered dietitian (CRN) and a certified trainer (CREF), with check-ins and a reassessment every month. The packages, the prices and whether it is on sale are on the Plans page.',
+          'The professionals are hired by Codart, and the chat shows each one’s name and registration. Questions about your case go to them, and the answer arrives in the chat within 24 hours, every day of the week.',
+          'The assistant applies what the professionals signed, such as the load progression of your training and equivalent swaps of exercises or foods, and they see what was done. Changes to the structure of the plan, such as frequency, split or calories, go through them.',
+          'The package is paid once, upfront by Pix or in interest-free installments by card. There is no free trial and no automatic renewal: the program ends when the package ends.',
+          'During the program, a Premium monthly card subscription is paused, with no charges, and resumes at the end. Premium already paid in one go (monthly by Pix or yearly) becomes a discount on the package, in proportion to the days it overlaps with the program, and stays valid until the date it would have ended anyway.',
+          'When the program ends, you go back to the plan you had, and the last plan stays in the chat for reference, with no adjustments, check-ins or chat with the professionals. Without a paid plan, your access goes back to that of someone whose trial has ended.',
+          'What you tell us about medicine and hormones you use, and the lab tests you send, is recorded only for the professionals to take into account in your training and diet. Neither the assistant nor the program’s professionals prescribe, dose or advise on the use of medicine or hormones.',
         ],
       },
       {
         title: 'Cancellation and refunds',
         items: [
-          'You can cancel at any time by saying "cancel" in the chat. Renewal stops and access continues until the end of the paid period.',
-          'Right of withdrawal: within 7 days of your first purchase, you can withdraw and get the full amount back, as the Brazilian Consumer Protection Code provides (art. 49). Ask in the chat; paid access ends with the refund.',
-          'After that period, the time already paid is not refunded, except where the law requires. Special requests are reviewed by the team.',
+          'Premium: you can cancel at any time by saying "cancel" in the chat. Renewal stops and access continues until the end of the paid period.',
+          'Right of withdrawal: within 7 days of your first Premium purchase, or of your first Premium Pro purchase, you can withdraw and get the full amount paid back, as the Brazilian Consumer Protection Code provides (art. 49). Ask in the chat; paid access to that plan ends with the refund.',
+          'A Premium Pro refund returns what was paid for the package and resumes the Premium subscription that was paused. Premium already paid stays as it was.',
+          'After that period, the time already paid and the Premium Pro package are not refunded, except where the law requires. Special requests are reviewed by the team.',
           'Disputing a charge with your bank or card issuer (chargeback) suspends paid access while the dispute is open.',
-          'Deleting your account cancels the subscription, with no automatic refund of the current period.',
+          'Deleting your account cancels the subscription and ends Premium Pro, with no automatic refund of the current period.',
         ],
       },
       {
@@ -278,7 +311,9 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'Account: your WhatsApp number, the name you tell the chat, your language and time zone.',
           'Conversations: the messages you send and the replies, and the voice notes and photos you send (plates, labels, barcodes).',
           'Diary: meals, foods, recipes, pantry, workouts and fasting.',
-          'Health data: weight, height, age, sex, activity level, goals and weigh-ins. Brazil’s data protection law (LGPD) treats this data as sensitive.',
+          'Health data: weight, height, age, sex, activity level, goals, weigh-ins, pain you mention in workouts and the health items below. Brazil’s data protection law (LGPD) treats this data as sensitive.',
+          'What you tell the assistant: notes and preferences (routine, tastes, what you avoid) and, only after your "yes", the health conditions that change diet or training and the supplements you take. "What do you know about me?" shows all of it, and "forget" deletes it.',
+          'Premium Pro: the answers to the assessment and the check-ins (measurements, health history, routine and eating), the record of medicine and hormones you use, the physique photos, the lab tests and the previous diets and training plans you send, and the messages with the professionals.',
           'Acceptance: which version of the terms you accepted and when.',
           'Payment: the plan, the charges and the subscription status. The payer’s name, ID document and card stay with Pagar.me, not with us.',
           'Origin: when you arrive from a Meta ad, the ad identifier.',
@@ -289,6 +324,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         items: [
           'To provide the service you signed up for: logging, adding up, replying, reminding and billing (performance of a contract, LGPD art. 7, V).',
           'To keep and use your health data to build your diary, with your consent (art. 11, I), given when you send that data in the chat after the notice in the first message, which links these texts. You can withdraw it by deleting your account.',
+          'On Premium Pro, to use the assessment, the check-ins, the photos, the lab tests and the record of medicine and hormones so the professionals can build and adjust your plan, with the specific consent you give in the assessment (art. 11, I). Physique photos, lab tests and medicine and hormones stay with the professionals only and are never sent to the artificial intelligence model.',
           'To keep the service secure, prevent abuse and fix faults, with technical logs that do not contain the text of messages (legitimate interest, art. 7, IX).',
           'To measure visits and ads on the website, only with your consent in the cookie notice (art. 7, I).',
         ],
@@ -300,7 +336,8 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'Who we share it with',
         items: [
           'Meta (WhatsApp): carries the messages between you and the diary.',
-          'OpenAI, through Portkey: reads the messages, transcribes voice notes and interprets photos to log what you said. Under OpenAI’s policy for its API, what we send is not used to train models.',
+          'OpenAI, through Portkey: reads the messages, transcribes voice notes and interprets photos of meals and labels to log what you said. Under OpenAI’s policy for its API, what we send is not used to train models.',
+          'The Premium Pro professionals (a dietitian and a trainer hired by Codart): see, in a restricted-access panel, the data of the people in the program with them. Every opening of the physique photos is logged.',
           'Amazon Web Services (AWS): hosts the server, the databases and the files.',
           'Pagar.me (Stone): processes payments.',
           'Open Food Facts: receives only the barcode looked up, with no data about you.',
@@ -319,6 +356,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         items: [
           'Diary data is kept for as long as the account exists.',
           'Voice notes and photos are deleted automatically 90 days after they are sent; what was logged from them stays in the diary.',
+          'On Premium Pro, physique photos, lab tests and previous diets and training plans are kept while the program lasts and deleted 90 days after it ends, or sooner if you delete your account. What the assessment recorded in your profile stays for as long as the account exists, so a later program does not ask again.',
           'Technical logs are kept for 30 days. Backups are kept for up to 7 days.',
           'Payment tax records stay with Pagar.me for as long as the law requires.',
         ],
@@ -326,7 +364,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'How to delete everything',
         paragraphs: [
-          'Say "delete my data" in the chat and confirm. You have 7 days to change your mind; during that time, nothing new is logged. After that, we delete the account, the diary, the messages, voice notes, photos and payment records. Backups are gone within 7 days. In total, within 15 days no data of yours remains with us.',
+          'Say "delete my data" in the chat and confirm. You have 7 days to change your mind; during that time, nothing new is logged. After that, we delete the account, the diary, what the assistant kept, the messages, including those with the professionals, voice notes, photos, lab tests and payment records. Backups are gone within 7 days. In total, within 15 days no data of yours remains with us.',
           'We only keep a record that a deletion was requested and when it was carried out, without your number. The copy of the conversation in your WhatsApp and on Meta’s servers follows Meta’s rules.',
         ],
       },
