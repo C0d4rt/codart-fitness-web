@@ -183,6 +183,21 @@ const PT: Record<string, FeatureCopy> = {
       ),
     ],
   },
+  readyPrograms: {
+    headline: 'Um programa de treino pronto, assinado por educador físico',
+    howTo:
+      'Do iniciante ao avançado. Se faltar um aparelho ou doer alguma coisa, o exercício é trocado.',
+    exchange: [
+      you('quero um treino pronto', '07:10'),
+      bot(
+        '🏋️ *Treinos prontos*, assinados por um educador físico (CREF). Escolha o seu:\n1. Iniciante: corpo todo, 3 dias por semana\n2. Intermediário: ABC, 4 dias por semana\n3. Avançado: ABCD, 5 dias por semana',
+        '07:10',
+        'Ver treinos',
+      ),
+      you('minha academia não tem leg press', '07:40'),
+      bot('Trocado: no lugar do leg press, agachamento no smith, 3 séries de 10 a 12.', '07:40'),
+    ],
+  },
   dayGoal: {
     headline: 'Quanto falta, a qualquer hora',
     howTo:
@@ -624,6 +639,21 @@ const EN: Record<string, FeatureCopy> = {
         '🏋️ Workout logged:\nBench press: 3 × 8 at 60 kg\nBent-over row: 3 × 10 at 40 kg\nShoulder press: 3 × 10 at 16 kg\nHow long did the workout last? That way I can add up the burn.',
         '18:55',
       ),
+    ],
+  },
+  readyPrograms: {
+    headline: 'A ready workout program, signed by a certified trainer',
+    howTo:
+      'From beginner to advanced. If a machine is missing or something hurts, the exercise gets swapped.',
+    exchange: [
+      you('I want a ready workout', '07:10'),
+      bot(
+        '🏋️ *Ready workout programs*, signed by a certified trainer (CREF). Pick yours:\n1. Beginner: full body, 3 days a week\n2. Intermediate: ABC split, 4 days a week\n3. Advanced: ABCD split, 5 days a week',
+        '07:10',
+        'See programs',
+      ),
+      you("my gym doesn't have a leg press", '07:40'),
+      bot('Swapped: instead of the leg press, Smith machine squats, 3 sets of 10 to 12.', '07:40'),
     ],
   },
   dayGoal: {

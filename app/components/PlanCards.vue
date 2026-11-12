@@ -16,6 +16,7 @@ const PREMIUM_HIGHLIGHTS = [
   'photos',
   'mealSuggestion',
   'workouts',
+  'readyPrograms',
   'weekSummary',
   'csvExport',
 ]

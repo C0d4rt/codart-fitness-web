@@ -81,17 +81,18 @@ const namingProblems = (facts: PlansFacts, names: CatalogNames, locale: Locale):
     ['feature', facts.features.map((each) => each.id), names.features],
     ['group', facts.groups.map((each) => each.id), names.groups],
   ] as const
-  return sides.flatMap(([kind, ids, named]) => [
-    ...ids
+  return sides.flatMap(([kind, ids, named]) =>
+    ids
       .filter((id) => named[id] === undefined)
       .map((id) => `no ${locale} name for the ${kind} "${id}"`),
-    ...Object.keys(named)
-      .filter((id) => !ids.includes(id))
-      .map((id) => `${locale} name for the ${kind} "${id}", which the plans no longer have`),
-  ])
+  )
 }
 
-/** Fails loudly on any disagreement, so a build never ships a feature without its copy or the other way round. */
+/**
+ * Fails loudly on a feature the site cannot describe, so a build never ships one without its copy.
+ * Copy for an id the plans do not list yet is left out, so the site can merge it before
+ * codart-messaging deploys the feature; the fixture tests keep both sides equal.
+ */
 export const buildCatalog = (
   raw: unknown,
   locale: Locale = DEFAULT_LOCALE,
@@ -100,14 +101,10 @@ export const buildCatalog = (
 ): Catalog => {
   const facts = plansSchema.parse(raw)
   const groupIds = new Set(facts.groups.map((group) => group.id))
-  const factIds = new Set(facts.features.map((feature) => feature.id))
   const problems = [
     ...facts.features
       .filter((feature) => copy[feature.id] === undefined)
       .map((feature) => `no ${locale} copy for the feature "${feature.id}"`),
-    ...Object.keys(copy)
-      .filter((id) => !factIds.has(id))
-      .map((id) => `${locale} copy for "${id}", which the plans no longer have`),
     ...facts.features
       .filter((feature) => !groupIds.has(feature.group))
       .map((feature) => `"${feature.id}" is in the unknown group "${feature.group}"`),
