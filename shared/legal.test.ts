@@ -35,8 +35,15 @@ describe('the legal texts (PRP-040)', () => {
   })
 
   it('carries the version the app asks to accept', () => {
-    expect(LEGAL_VERSION).toBe('2')
+    expect(LEGAL_VERSION).toBe('3')
     expect(LEGAL_EFFECTIVE).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+  })
+
+  it.each(['pt', 'en'] as const)('names only the plans on sale in %s', (locale) => {
+    const texts = [...textsOf(LEGAL[locale].terms), ...textsOf(LEGAL[locale].privacy)]
+
+    expect(texts.filter((text) => /Básico|Basic/.test(text))).toEqual([])
+    expect(texts.some((text) => text.includes('Premium Pro'))).toBe(true)
   })
 
   it('gives each language its own mailbox for privacy', () => {
