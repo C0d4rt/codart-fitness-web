@@ -4,8 +4,9 @@ const ANCHORS = {
   pt: {
     how: 'como-funciona',
     faq: 'perguntas',
-    showcase: 'o-que-volta',
-    bento: 'do-seu-jeito',
+    bento: 'seus-numeros',
+    day: 'um-dia-normal',
+    everything: 'tudo-o-que-faz',
     data: 'dados',
     photos: 'fotos',
     company: 'empresa',
@@ -13,8 +14,9 @@ const ANCHORS = {
   en: {
     how: 'how-it-works',
     faq: 'questions',
-    showcase: 'answers',
-    bento: 'your-way',
+    bento: 'your-numbers',
+    day: 'a-normal-day',
+    everything: 'everything-it-does',
     data: 'data',
     photos: 'photos',
     company: 'company',

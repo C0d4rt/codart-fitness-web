@@ -100,16 +100,17 @@ useSeoMeta({
 <style scoped>
 .intro {
   display: grid;
-  gap: 1.25rem;
-  padding: 4rem var(--margin) 0;
+  gap: 1.75rem;
+  padding: clamp(3rem, 1.5rem + 5vw, 6.5rem) var(--margin) 0;
 }
 
 .title {
   font-size: var(--step-display);
+  line-height: 0.98;
 }
 
 .lead {
-  max-width: 44ch;
+  max-width: 40ch;
   color: var(--muted);
   font-size: var(--step-lead);
   line-height: 1.4;
@@ -118,8 +119,8 @@ useSeoMeta({
 .compare {
   display: grid;
   gap: 1.5rem;
-  margin: 5rem var(--margin) 0;
-  padding: 2rem;
+  margin: var(--gap-section) var(--margin) 0;
+  padding: clamp(1.25rem, 0.5rem + 2.5vw, 3rem);
   border-radius: var(--radius);
   background: var(--card);
 }
@@ -133,7 +134,7 @@ useSeoMeta({
 }
 
 .compare-title {
-  font-size: var(--step-lead);
+  font-size: var(--step-head);
 }
 
 .link {
@@ -153,6 +154,7 @@ useSeoMeta({
   padding: 0.75rem 0.5rem;
   border-bottom: 1px solid var(--tone);
   text-align: left;
+  vertical-align: middle;
 }
 
 .table td {
@@ -161,10 +163,10 @@ useSeoMeta({
   text-align: center;
 }
 
-/* Right under the site header (its 5rem bar and 1px rule), so the plan names stay in view. */
+/* Right under the floating header, so the plan names stay in view. */
 .table thead th {
   position: sticky;
-  top: calc(5rem + 1px);
+  top: var(--header);
   z-index: 1;
   background: var(--card);
   font-weight: 700;
@@ -209,9 +211,10 @@ useSeoMeta({
 }
 
 .group-row th {
-  padding-top: 1.5rem;
-  color: var(--green);
-  font-weight: 700;
+  padding-top: 2rem;
+  font-size: var(--step-title);
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }
 
 @media (max-width: 47.99rem) {

@@ -5,7 +5,7 @@
     "tryThenPick": "Try it free, then pick {plan}"
   },
   "closing": {
-    "title": "Start today, on WhatsApp",
+    "title": "Start today. On WhatsApp.",
     "lead": "{days} days free with everything in Premium. No card needed.",
     "note": "The button opens WhatsApp with the first message ready. Just send it."
   },
@@ -20,6 +20,9 @@
     "menu": "Menu"
   },
   "footer": {
+    "label": "Footer",
+    "product": "Product",
+    "company": "Company",
     "terms": "Terms",
     "privacy": "Privacy",
     "credits": "Credits",
@@ -52,13 +55,14 @@
   "home": {
     "description": "Meals, workouts, goals and weight in a WhatsApp chat, with instant answers. {days} days free, no card needed.",
     "ogDescription": "Diet and workouts in a chat. {days} days free.",
-    "headline": "Diet and workouts on WhatsApp",
-    "lead": "A diary that logs what you ate or trained, by text, voice or photo, and instantly replies with the day total and how much is left for your goal",
+    "headline": "Diet and workouts. On your WhatsApp.",
+    "lead": "A diary that logs what you eat and train, by text, voice or photo, and tells you right away how much is left for your goal",
     "seeHow": "See how it works",
     "terms": "{days} days free with everything in Premium. No card needed"
   },
   "how": {
-    "title": "How it works",
+    "title": "You tell it. It adds it up.",
+    "lead": "It's a WhatsApp chat, which you already use all day. By text, voice or photo",
     "tell": {
       "clause": "You say what you ate",
       "label": "Someone tells the diary about their lunch in one message.",
@@ -82,8 +86,8 @@
     }
   },
   "bento": {
-    "title": "Everything that matters, in one chat",
-    "lead": "You ask, it answers with your numbers",
+    "title": "Your numbers. When you ask.",
+    "lead": "Today's goal, your week and your weight, in reply to one message. Every Monday, the week summary arrives on its own",
     "seeAll": "See all features, with examples",
     "day": {
       "title": "Daily goal",
@@ -101,24 +105,49 @@
       "text": "Your progress since your first weigh-in"
     }
   },
-  "moment": {
-    "title": "From your plate to the chat",
-    "text": "Take a photo of your plate and send it. It's easy because it's on WhatsApp, which you already use all day"
-  },
-  "showcase": {
-    "title": "Ask, and it answers",
-    "tabsLabel": "Pick an answer to see",
-    "notes": {
-      "day": "The day total and how much is left, with every entry or whenever you ask",
-      "week": "Every Monday, a summary of the week before, with a chart of calories and macros",
-      "weight": "Your progress since the first weigh-in, or over the last 30 or 90 days",
-      "nutrients": "Sodium, fiber, sugar and more, compared with the reference values",
-      "file": "Everything in a spreadsheet, to open in Excel or take to your appointment, on Premium"
+  "day": {
+    "title": "A normal day. All in one chat.",
+    "lead": "Pick a moment of the day and see the chat",
+    "label": "Moments of the day",
+    "moments": {
+      "breakfast": {
+        "name": "Breakfast by voice",
+        "note": "A short voice note becomes an entry, with the day total"
+      },
+      "reminder": {
+        "name": "One reminder, just one",
+        "note": "If you go quiet, a short message helps you pick up again"
+      },
+      "left": {
+        "name": "How much is left",
+        "note": "The day total and how much is left, with every entry or whenever you ask"
+      },
+      "workout": {
+        "name": "The workout",
+        "note": "Exercises, sets and weights, with the estimated burn"
+      },
+      "nutrients": {
+        "name": "Sodium and fiber",
+        "note": "Sodium, fiber, sugar and more, compared with the reference values"
+      }
     }
   },
+  "everything": {
+    "title": "All it does. With examples.",
+    "lead": "Tap a feature to see a sample chat",
+    "label": "All features"
+  },
+  "chips": {
+    "label": "Related features"
+  },
   "pricing": {
-    "title": "Simple plans",
-    "lead": "{days} days free with everything in Premium, no card needed. After that, pay by Pix or card",
+    "title": "Simple plans. Try it free.",
+    "promises": {
+      "trial": "{days} days free with everything in Premium",
+      "noCard": "No card needed to try",
+      "pay": "Pay by Pix or card",
+      "cancel": "Cancel whenever you like"
+    },
     "periodLabel": "Billing period",
     "monthly": "Monthly",
     "yearly": "Yearly",
@@ -236,7 +265,14 @@
     "title": "Terms of use"
   },
   "hero": {
-    "pause": "Pause the demo",
-    "play": "Play the demo"
+    "placeholder": "Tell it what you ate or trained",
+    "chipsLabel": "Pick a chat to see",
+    "chips": {
+      "lunch": "Log my lunch",
+      "photo": "Photo of the plate",
+      "barcode": "Barcode",
+      "dinner": "What's for dinner?",
+      "recipe": "Home recipe"
+    }
   }
 }

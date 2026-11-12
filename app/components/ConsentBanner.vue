@@ -42,8 +42,9 @@ onMounted(() => {
   display: grid;
   gap: 0.75rem;
   width: min(26rem, calc(100vw - 2 * var(--margin)));
-  padding: 1.25rem;
-  background: var(--bg);
+  padding: 1.5rem;
+  border-radius: var(--radius-small);
+  background: var(--card);
   color: var(--ink);
   font-size: 0.9375rem;
   box-shadow: /* taste-skill-ignore: a dialog that floats over the page */
@@ -65,11 +66,6 @@ onMounted(() => {
   min-height: 2.75rem;
   padding: 0 1rem;
   font-size: 0.9375rem;
-}
-
-.button--quiet {
-  background: var(--surface);
-  color: var(--ink);
 }
 
 .consent-enter-active {
@@ -99,7 +95,7 @@ onMounted(() => {
 
 @supports (backdrop-filter: blur(1px)) {
   .consent {
-    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    background: color-mix(in srgb, var(--card) 84%, transparent);
     backdrop-filter: blur(18px) saturate(1.6);
   }
 }

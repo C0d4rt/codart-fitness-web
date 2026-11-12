@@ -47,19 +47,30 @@ const coachingItems = computed(() => [
     .map((feature) => feature.name),
 ])
 const wantCoaching = computed(() => t('pricing.wantPlan', { plan: coaching.value.name }))
+const promises = computed(() => [
+  t('pricing.promises.trial', { days: props.catalog.trialDays }),
+  t('pricing.promises.noCard'),
+  t('pricing.promises.pay'),
+  t('pricing.promises.cancel'),
+])
 </script>
 
 <template>
   <section class="pricing" :class="{ bare }" aria-labelledby="pricing-title">
     <div class="head" data-reveal>
       <h2 id="pricing-title" :class="bare ? 'visually-hidden' : 'title'">
-        {{ t('pricing.title') }}
+        <TextLines :text="t('pricing.title')" />
       </h2>
-      <p v-if="!bare">{{ t('pricing.lead', { days: catalog.trialDays }) }}</p>
+      <ul v-if="!bare" class="promises">
+        <li v-for="promise in promises" :key="promise">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.5 10.5l3.5 3.5 7.5-8" /></svg>
+          {{ promise }}
+        </li>
+      </ul>
     </div>
 
     <div class="cards">
-      <article id="premium" class="card featured">
+      <article id="premium" class="card">
         <div class="name-row">
           <h3 class="name">{{ premium.name }}</h3>
           <Transition name="chip">
@@ -108,7 +119,6 @@ const wantCoaching = computed(() => t('pricing.wantPlan', { plan: coaching.value
           <WhatsAppButton
             location="plans-premium"
             :label="t('cta.tryDays', { days: catalog.trialDays })"
-            inverse
           />
         </div>
       </article>
@@ -171,6 +181,7 @@ const wantCoaching = computed(() => t('pricing.wantPlan', { plan: coaching.value
             location="plans-coaching"
             :text="wantCoaching"
             :label="chosen ? wantCoaching : t('pricing.notifyMe')"
+            quiet
           />
           <p v-if="chosen" class="terms">{{ t('pricing.coachingTerms') }}</p>
         </div>
@@ -182,8 +193,9 @@ const wantCoaching = computed(() => t('pricing.wantPlan', { plan: coaching.value
 <style scoped>
 .pricing {
   display: grid;
-  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-  gap: 3rem;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: center;
+  gap: 3rem clamp(3rem, 1rem + 5vw, 6rem);
   padding: var(--gap-section) var(--margin) 0;
 }
 
@@ -197,16 +209,36 @@ const wantCoaching = computed(() => t('pricing.wantPlan', { plan: coaching.value
   display: grid;
   align-content: start;
   justify-items: start;
-  gap: 1.5rem;
+  gap: 2.5rem;
 }
 
 .title {
   font-size: var(--step-head);
 }
 
-.head p {
-  max-width: 36ch;
-  color: var(--muted);
+.promises {
+  display: grid;
+  gap: 0.875rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.promises li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.promises svg {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: var(--green);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .switch {
@@ -264,18 +296,6 @@ const wantCoaching = computed(() => t('pricing.wantPlan', { plan: coaching.value
   transform: scale(0.97);
 }
 
-.featured .switch {
-  background: rgb(255 255 255 / 0.16);
-}
-
-.featured .switch button {
-  color: #eef8f2;
-}
-
-.featured .switch button[aria-pressed='true'] {
-  color: var(--green);
-}
-
 .cards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -286,19 +306,9 @@ const wantCoaching = computed(() => t('pricing.wantPlan', { plan: coaching.value
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
-  padding: 2rem;
+  padding: 2.25rem 2rem 2rem;
   border-radius: var(--radius);
   background: var(--card);
-  scroll-margin-top: 2rem;
-}
-
-.featured :focus-visible {
-  outline-color: var(--card);
-}
-
-.featured {
-  background: var(--green);
-  color: var(--green-ink);
 }
 
 .name-row {
@@ -357,11 +367,6 @@ const wantCoaching = computed(() => t('pricing.wantPlan', { plan: coaching.value
   font-size: var(--step-small);
 }
 
-.featured .who,
-.featured .equiv {
-  color: #eef8f2;
-}
-
 .price {
   display: flex;
   flex-wrap: wrap;
@@ -371,15 +376,15 @@ const wantCoaching = computed(() => t('pricing.wantPlan', { plan: coaching.value
 }
 
 .amount {
-  font-size: clamp(2.25rem, 1.5rem + 2vw, 3.5rem);
-  font-weight: 700;
-  letter-spacing: -0.035em;
+  font-size: var(--step-figure);
+  font-weight: 500;
+  letter-spacing: -0.045em;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
 }
 
 .soon .amount {
-  color: var(--green);
+  color: var(--muted);
 }
 
 .per {
@@ -412,10 +417,6 @@ const wantCoaching = computed(() => t('pricing.wantPlan', { plan: coaching.value
   height: 0.5rem;
   border-radius: 50%;
   background: var(--green);
-}
-
-.featured .items li::before {
-  background: var(--mint);
 }
 
 .action {

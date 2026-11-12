@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = withDefaults(
-  defineProps<{ location: string; text?: string; inverse?: boolean; label?: string }>(),
-  { text: undefined, inverse: false, label: undefined },
+  defineProps<{ location: string; text?: string; quiet?: boolean; label?: string }>(),
+  { text: undefined, quiet: false, label: undefined },
 )
 
 const trialDays = useTrialDays()
@@ -17,7 +17,7 @@ const { $analytics } = useNuxtApp()
 <template>
   <a
     class="button"
-    :class="{ 'button--inverse': inverse }"
+    :class="{ 'button--quiet': quiet }"
     :href="href"
     target="_blank"
     rel="noopener"
