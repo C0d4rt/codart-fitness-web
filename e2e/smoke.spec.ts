@@ -6,7 +6,7 @@ test.use({ colorScheme: 'light' })
 
 test('the home page says what this is and opens the conversation', async ({ page }) => {
   await page.goto('/')
-  await expect(page.locator('h1')).toContainText('Dieta e treino no WhatsApp')
+  await expect(page.locator('h1')).toHaveText('Dieta e treino. No seu WhatsApp.')
   const cta = page.getByRole('link', { name: 'Testar 7 dias grátis' }).first()
   await expect(cta).toHaveAttribute('href', /^https:\/\/wa\.me\/.*\?text=Oi!/)
   await expect(page.getByText('R$ 29,90').first()).toBeVisible()
@@ -57,23 +57,31 @@ test('no third party script loads before consent', async ({ page }) => {
   expect(thirdParty).toEqual([])
 })
 
-test('the showcase swaps the answer the visitor picks', async ({ page }) => {
+test('a suggestion in the hero plays its conversation in the phone', async ({ page }) => {
   await page.goto('/')
-  await page.getByRole('button', { name: 'A semana' }).click()
-  await expect(
-    page.locator('#o-que-volta').getByText('Resumo da semana', { exact: true }),
-  ).toBeVisible()
+  const chip = page.getByRole('button', { name: 'Foto do prato' })
+  await chip.click()
+  await expect(chip).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('#hero').getByText('Conferir prato')).toBeVisible()
+})
+
+test('a moment of the day swaps the conversation the visitor picks', async ({ page }) => {
+  await page.goto('/')
+  const moment = page.getByRole('button', { name: /Quanto falta/ })
+  await moment.click()
+  await expect(moment).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('#um-dia-normal').getByText(/Faltam 560 kcal/)).toBeVisible()
 })
 
 test('the English home page speaks English and opens the chat in English', async ({ page }) => {
   await page.goto('/en')
   await expect(page.locator('html')).toHaveAttribute('lang', 'en-US')
-  await expect(page.locator('h1')).toContainText('Diet and workouts on WhatsApp')
+  await expect(page.locator('h1')).toHaveText('Diet and workouts. On your WhatsApp.')
   const cta = page.getByRole('link', { name: 'Try 7 days free' }).first()
   await expect(cta).toHaveAttribute('href', /^https:\/\/wa\.me\/.*\?text=Hi!%20I%20want/)
   await expect(page.getByText('R$29.90').first()).toBeVisible()
-  await page.getByRole('button', { name: 'The week' }).click()
-  await expect(page.locator('#answers').getByText('Week summary', { exact: true })).toBeVisible()
+  await page.getByRole('button', { name: /How much is left/ }).click()
+  await expect(page.locator('#a-normal-day').getByText(/560 kcal left/)).toBeVisible()
 })
 
 test('the English plans page has the plans in English, with prices in reais', async ({ page }) => {

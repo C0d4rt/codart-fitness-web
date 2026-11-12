@@ -9,7 +9,7 @@ useHead({
   titleTemplate: (title) =>
     title && title !== brand.name ? `${title} · ${brand.name}` : brand.name,
   meta: [
-    { name: 'theme-color', media: '(prefers-color-scheme: light)', content: '#f7f9f8' },
+    { name: 'theme-color', media: '(prefers-color-scheme: light)', content: '#f4f5f7' },
     { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#042a30' },
   ],
   link: [{ rel: 'icon', type: 'image/svg+xml', href: '/icon.svg' }],

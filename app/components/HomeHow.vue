@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import type { ChatScreen } from '#shared/chat'
 import { thousands } from '#shared/locale'
+import type { Feature } from '#shared/plans'
+
+defineProps<{ features: Feature[] }>()
 
 const { t } = useI18n()
 const locale = useSiteLocale().value
 
-const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
+const STEPS: { id: string; clause: string; screen: ChatScreen }[] = [
   {
-    tone: 'mint',
+    id: 'tell',
     clause: t('how.tell.clause'),
     screen: {
       id: 'how-tell',
@@ -16,7 +19,7 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
     },
   },
   {
-    tone: 'sky',
+    id: 'log',
     clause: t('how.log.clause'),
     screen: {
       id: 'how-log',
@@ -25,7 +28,7 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
     },
   },
   {
-    tone: 'peach',
+    id: 'left',
     clause: t('how.left.clause'),
     screen: {
       id: 'how-left',
@@ -44,7 +47,7 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
     },
   },
   {
-    tone: 'sand',
+    id: 'remind',
     clause: t('how.remind.clause'),
     screen: {
       id: 'how-remind',
@@ -53,93 +56,110 @@ const STEPS: { tone: string; clause: string; screen: ChatScreen }[] = [
     },
   },
 ]
+
+const RELATED = ['diary', 'photos', 'barcode', 'quickAdd', 'backfill', 'reminders'] as const
 const anchors = useAnchors()
 </script>
 
 <template>
   <section :id="anchors.how" class="how" aria-labelledby="how-title">
-    <h2 id="how-title" class="title">{{ t('how.title') }}</h2>
-    <ol class="steps">
-      <li v-for="step in STEPS" :key="step.tone" class="field" :class="step.tone">
+    <div class="head" data-reveal>
+      <h2 id="how-title" class="title"><TextLines :text="t('how.title')" /></h2>
+      <p class="lead">{{ t('how.lead') }}</p>
+    </div>
+    <ol class="steps" data-reveal>
+      <li v-for="step in STEPS" :key="step.id" class="step">
         <p class="clause">{{ step.clause }}</p>
         <ChatWindow :screen="step.screen" bare class="chat" />
       </li>
     </ol>
+    <FeatureChips :features="features" :ids="RELATED" :label="t('chips.label')" />
   </section>
 </template>
 
 <style scoped>
 .how {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2.5rem;
   padding: var(--gap-section) var(--margin) 0;
+}
+
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: end;
+  gap: 1.5rem 3rem;
 }
 
 .title {
   font-size: var(--step-head);
 }
 
+.lead {
+  max-width: 34ch;
+  color: var(--muted);
+  font-size: var(--step-lead);
+  line-height: 1.4;
+}
+
 .steps {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2.5rem;
   margin: 0;
-  padding: 0;
+  padding: clamp(1.75rem, 1rem + 2vw, 2.75rem);
+  border-radius: var(--radius);
+  background: var(--card);
   list-style: none;
 }
 
-.field {
+.step {
   display: grid;
-  align-content: start;
-  gap: 1.25rem;
-  padding: 1.75rem 1.5rem;
-  border-radius: var(--radius);
-}
-
-.mint {
-  background: var(--mint);
-}
-
-.sky {
-  background: var(--sky);
-}
-
-.peach {
-  background: var(--peach);
-}
-
-.sand {
-  background: var(--sand);
+  grid-template-rows: auto 1fr;
+  gap: 1.5rem;
+  min-height: 11rem;
 }
 
 .clause {
-  font-size: var(--step-lead);
-  font-weight: 700;
+  font-size: var(--step-title);
+  font-weight: 500;
   letter-spacing: -0.025em;
   line-height: 1.15;
 }
 
-.steps .field .chat {
+.step .chat {
+  align-self: end;
+}
+
+.step .chat :deep(.screen) {
   background: transparent;
 }
 
-.steps .field .chat :deep(.screen) {
-  background: transparent;
-}
-
-.steps .field .chat :deep(.thread) {
+.step .chat :deep(.thread) {
   padding: 0;
 }
 
+.step .chat :deep(.bot .bubble) {
+  --fill: var(--ground);
+}
+
 @media (max-width: 63.99rem) {
+  .head {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .steps {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 47.99rem) {
   .steps {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+  .step {
+    min-height: 0;
   }
 }
 </style>

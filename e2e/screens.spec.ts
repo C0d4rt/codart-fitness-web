@@ -3,7 +3,15 @@ import { test } from '@playwright/test'
 test.use({ colorScheme: 'light' })
 
 const SCREENS = {
-  '/': ['hero', 'como-funciona', 'o-que-volta', 'do-seu-jeito', 'premium', 'perguntas'],
+  '/': [
+    'hero',
+    'como-funciona',
+    'seus-numeros',
+    'um-dia-normal',
+    'tudo-o-que-faz',
+    'premium',
+    'perguntas',
+  ],
   '/planos': ['premium'],
   '/recursos': ['photos'],
 }

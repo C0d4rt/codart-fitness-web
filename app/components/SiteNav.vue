@@ -51,27 +51,13 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-/* The header stays within reach; once the page moves under it, it frosts over what passes beneath. */
+/* The header floats as a pill over the page, and only casts a shadow once something passes under it. */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 30;
-  border-bottom: 1px solid transparent;
-  transition:
-    background-color 200ms var(--ease-out),
-    border-color 200ms var(--ease-out);
-}
-
-.site-header.scrolled {
-  border-bottom-color: var(--tone);
-  background: var(--bg);
-}
-
-@supports (backdrop-filter: blur(1px)) {
-  .site-header.scrolled {
-    background: color-mix(in srgb, var(--bg) 82%, transparent);
-    backdrop-filter: blur(16px) saturate(1.6);
-  }
+  padding: 0.75rem var(--margin) 0;
+  pointer-events: none;
 }
 
 .skip {
@@ -82,10 +68,11 @@ onBeforeUnmount(() => {
   padding: 0.625rem 1rem;
   border-radius: 999px;
   background: var(--ink);
-  color: var(--bg);
+  color: var(--card);
   font-weight: 500;
   text-decoration: none;
   transform: translateY(-200%);
+  pointer-events: auto;
 }
 
 .skip:focus-visible {
@@ -96,9 +83,19 @@ onBeforeUnmount(() => {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  min-height: 5rem;
-  padding: 0 var(--margin);
+  min-height: 4rem;
+  padding: 0 0.625rem 0 1.5rem;
+  border-radius: 999px;
+  background: var(--card);
   font-size: var(--step-small);
+  pointer-events: auto;
+  transition: box-shadow 240ms var(--ease-out);
+}
+
+.scrolled .nav {
+  box-shadow: /* taste-skill-ignore: the owner's floating header, lifted only while content passes under it */
+    0 1px 2px rgb(16 36 26 / 0.06),
+    0 10px 30px -12px rgb(16 36 26 / 0.18);
 }
 
 .wordmark {
@@ -106,7 +103,7 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 0.5rem;
   justify-self: start;
-  font-size: 1.25rem;
+  font-size: var(--step-body);
   font-weight: 700;
   letter-spacing: -0.04em;
   text-decoration: none;
@@ -145,7 +142,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-self: end;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .nav-action {
@@ -171,11 +168,29 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 26rem) {
+  .site-header {
+    padding-inline: 0.75rem;
+  }
+  .nav {
+    padding: 0 0.375rem 0 1.125rem;
+  }
   .actions {
-    gap: 0.5rem;
+    gap: 0.375rem;
   }
   .nav-action {
     padding: 0 0.875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .nav {
+    border: 1px solid CanvasText;
   }
 }
 </style>
