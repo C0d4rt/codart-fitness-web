@@ -407,12 +407,12 @@ const PT: Record<string, FeatureCopy> = {
     ],
   },
   professionalReview: {
-    headline: 'Um nutricionista e um educador físico revisam o seu plano',
+    headline: 'Um nutricionista e um educador físico responsáveis pelo seu plano',
     howTo:
-      'Antes de chegar a você, a dieta é revisada por um nutricionista (CRN) e o treino por um educador físico (CREF), que acompanham você o programa todo. O assistente da conversa anota, soma e explica; quem decide o seu plano são eles.',
+      'A dieta fica sob a responsabilidade de um nutricionista (CRN) e o treino de um educador físico (CREF), que acompanham você o programa todo e respondem às suas dúvidas. O assistente da conversa anota, soma e explica.',
     exchange: [
       bot(
-        'Seu plano chegou, revisado pelos seus profissionais! Seu treino é acompanhado pelo Lucas (CREF) e a sua dieta pela Marina (CRN). Quando for treinar, me pergunte "qual meu treino hoje?".',
+        'Seu plano chegou! Quando for treinar, me pergunte "qual meu treino hoje?". Para comer, siga sua meta do dia, e qualquer dúvida do seu caso eu passo para os seus profissionais.',
         '09:30',
       ),
     ],
@@ -849,12 +849,12 @@ const EN: Record<string, FeatureCopy> = {
     ],
   },
   professionalReview: {
-    headline: 'A dietitian and a trainer review your plan',
+    headline: 'A dietitian and a trainer responsible for your plan',
     howTo:
-      'Before it reaches you, your diet is reviewed by a registered dietitian (CRN) and your training by a certified trainer (CREF), who stay with you through the whole program. The chat assistant logs, adds up and explains; they are the ones who decide your plan.',
+      'Your diet is under the responsibility of a registered dietitian (CRN) and your training of a certified trainer (CREF), who stay with you through the whole program and answer your questions. The chat assistant logs, adds up and explains.',
     exchange: [
       bot(
-        'Your plan is here, reviewed by your professionals! Your training is followed by Lucas (CREF) and your diet by Marina (CRN). When you train, ask me "what\'s my workout today?".',
+        'Your plan is here! When you train, ask me "what\'s my workout today?". To eat, follow your goal for the day, and I pass any question about your case on to your professionals.',
         '09:30',
       ),
     ],

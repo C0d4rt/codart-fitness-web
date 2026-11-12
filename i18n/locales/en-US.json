@@ -128,7 +128,7 @@
     "yearlyPerMonth": "same as {price} per month",
     "saving": "Save {percent}%",
     "premiumWho": "To log everything in the chat, with plate photos, goals and suggestions of what to eat",
-    "coachingWho": "Diet and training built for you and reviewed by a dietitian and a personal trainer",
+    "coachingWho": "Diet and training built for you, under the responsibility of a dietitian and a personal trainer",
     "allOfPremium": "Everything in Premium",
     "packageLabel": "Program length",
     "months": "{months} months",
@@ -166,12 +166,12 @@
         "a": "Within 7 days of paying, for Premium or Premium Pro, ask for a refund in the chat and it goes through on its own, as the Brazilian Consumer Protection Code provides."
       },
       {
-        "q": "What does \"reviewed by professionals\" mean on Premium Pro?",
-        "a": "You do a full assessment and get a diet and training built for you. Before they reach you, the diet is reviewed by a registered dietitian (CRN) and the training by a certified trainer (CREF), who follow you through the check-ins and the monthly reassessment and answer your questions in the chat within 24 hours."
+        "q": "Who looks after my plan on Premium Pro?",
+        "a": "You do a full assessment and get a diet and training built for you, under the responsibility of a registered dietitian (CRN) and a certified trainer (CREF). They follow you through the check-ins and the monthly reassessment and answer your questions in the chat within 24 hours."
       },
       {
         "q": "Is the assistant a nutritionist?",
-        "a": "No. The chat assistant logs, adds up and informs; it doesn't prescribe diets or workouts. On Premium Pro, your diet and training are reviewed by licensed professionals."
+        "a": "No. The chat assistant logs, adds up and informs; it doesn't prescribe diets or workouts. On Premium Pro, your diet and training are under the responsibility of licensed professionals."
       },
       {
         "q": "What about my data?",
