@@ -74,23 +74,24 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
 <style scoped>
 .intro {
   display: grid;
-  gap: 1.25rem;
-  padding: 4rem var(--margin) 0;
+  gap: 1.75rem;
+  padding: clamp(3rem, 1.5rem + 5vw, 6.5rem) var(--margin) 0;
 }
 
 .title {
   font-size: var(--step-display);
+  line-height: 0.98;
 }
 
 .lead {
-  max-width: 44ch;
+  max-width: 40ch;
   color: var(--muted);
   font-size: var(--step-lead);
   line-height: 1.4;
 }
 
 .catalog {
-  --below-header: calc(5rem + 1px);
+  --below-header: var(--header);
   --index: 3.5rem;
 }
 
@@ -98,7 +99,7 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
   position: sticky;
   top: var(--below-header);
   z-index: 20;
-  margin-top: 2.5rem;
+  margin-top: 3rem;
   background: var(--ground);
 }
 
@@ -124,7 +125,7 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
   min-height: 2.5rem;
   padding: 0 1.125rem;
   border-radius: 999px;
-  background: var(--tone);
+  background: var(--card);
   font-size: var(--step-small);
   font-weight: 500;
   text-decoration: none;
@@ -140,7 +141,7 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
 
 @media (hover: hover) and (pointer: fine) {
   .group-index a:hover {
-    background: var(--mint);
+    background: var(--tone);
   }
 }
 
@@ -156,7 +157,7 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
   position: sticky;
   top: calc(var(--below-header) + var(--index) + 1.5rem);
   align-self: start;
-  font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.75rem);
+  font-size: clamp(2rem, 1.3rem + 2vw, 3.25rem);
 }
 
 .features {
@@ -180,6 +181,7 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
 
 .headline {
   font-size: var(--step-lead);
+  letter-spacing: -0.03em;
   line-height: 1.15;
 }
 
@@ -199,7 +201,10 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
 
 .example {
   display: grid;
-  place-items: center start;
+  place-items: center;
+  padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  border-radius: var(--radius);
+  background: var(--tone);
 }
 
 @media (max-width: 63.99rem) {
@@ -214,9 +219,6 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
   .feature {
     grid-template-columns: 1fr;
     gap: 1.5rem;
-  }
-  .example {
-    place-items: center;
   }
 }
 </style>

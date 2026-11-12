@@ -15,7 +15,7 @@ const anchors = useAnchors()
 <template>
   <section :id="anchors.faq" class="faq" aria-labelledby="faq-title">
     <div class="head">
-      <h2 id="faq-title" class="title">{{ t('faq.title') }}</h2>
+      <h2 id="faq-title" class="title"><TextLines :text="t('faq.title')" /></h2>
       <p>{{ t('faq.lead') }}</p>
     </div>
     <div class="list">
@@ -38,41 +38,34 @@ const anchors = useAnchors()
 <style scoped>
 .faq {
   display: grid;
-  grid-template-columns: 4fr 8fr;
-  gap: 3rem;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 3rem clamp(3rem, 1rem + 5vw, 6rem);
   align-items: start;
   padding: var(--gap-section) var(--margin) 0;
 }
 
 .head {
   position: sticky;
-  top: 6rem;
+  top: calc(var(--header) + 2rem);
   display: grid;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .title {
-  max-width: 10ch;
   font-size: var(--step-head);
 }
 
 .head p {
+  max-width: 30ch;
   color: var(--muted);
 }
 
 .list {
-  display: grid;
-  gap: 0.5rem;
+  border-top: 1px solid var(--line); /* taste-skill-ignore: the owner chose hairline dividers for the questions */
 }
 
 details {
-  border-radius: 1.125rem;
-  background: var(--card);
-  transition: background-color 220ms ease;
-}
-
-details[open] {
-  background: var(--mint);
+  border-bottom: 1px solid var(--line); /* taste-skill-ignore: the owner chose hairline dividers for the questions */
 }
 
 summary {
@@ -80,11 +73,12 @@ summary {
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  min-height: 4.5rem;
-  padding: 0 1.5rem;
-  font-size: var(--step-body);
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  min-height: 4.75rem;
+  padding: 1rem 0;
+  font-size: var(--step-title);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
   list-style: none;
   cursor: pointer;
 }
@@ -98,6 +92,7 @@ summary::-webkit-details-marker {
   flex: none;
   width: 1rem;
   height: 1rem;
+  color: var(--muted);
 }
 
 .plus::before,
@@ -107,9 +102,9 @@ summary::-webkit-details-marker {
   top: 50%;
   left: 0;
   width: 100%;
-  height: 3px;
-  margin-top: -1.5px;
-  border-radius: 2px;
+  height: 1.5px;
+  margin-top: -0.75px;
+  border-radius: 1px;
   background: currentColor;
   transition: transform 220ms var(--ease-out);
 }
@@ -123,13 +118,12 @@ details[open] .plus::after {
 }
 
 details p {
-  max-width: 56ch;
-  padding: 0 1.5rem 1.5rem;
-  color: var(--ink);
+  max-width: 58ch;
+  padding: 0 2.5rem 1.75rem 0;
 }
 
 details[open] p {
-  animation: open 320ms var(--ease-out);
+  animation: open 280ms var(--ease-out);
 }
 
 @keyframes open {
@@ -140,8 +134,11 @@ details[open] p {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  details:not([open]):hover {
-    background: color-mix(in oklab, var(--card) 70%, var(--mint));
+  summary span:first-child {
+    transition: color 160ms ease;
+  }
+  details:not([open]) summary:hover span:first-child {
+    color: var(--green);
   }
 }
 
@@ -149,17 +146,18 @@ details[open] p {
   details[open] p {
     animation: none;
   }
+  .plus::before,
+  .plus::after {
+    transition: none;
+  }
 }
 
 @media (max-width: 63.99rem) {
   .faq {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .head {
     position: static;
-  }
-  .title {
-    max-width: none;
   }
 }
 </style>

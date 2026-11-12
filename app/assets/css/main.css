@@ -1,9 +1,10 @@
 :root {
-  --ground: #f1f4f1;
+  --ground: #f4f5f7;
   --card: #ffffff;
-  --tone: #e6ece7;
+  --tone: #e9ebee;
+  --line: #d8dbdf;
   --ink: #10241a;
-  --muted: #3f4f45;
+  --muted: #4b5550;
   --green: #187a4e;
   --green-ink: #ffffff;
   --mint: #def2e6;
@@ -43,16 +44,17 @@
   --step-small: 0.9375rem;
   --step-body: clamp(1.0625rem, 1rem + 0.2vw, 1.1875rem);
   --step-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
-  --step-head: clamp(2.25rem, 1.2rem + 3.4vw, 4.25rem);
-  --step-display: clamp(2.75rem, 1rem + 5vw, 5.5rem);
+  --step-title: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  --step-figure: clamp(2.5rem, 1.6rem + 2.2vw, 3.75rem);
+  --step-head: clamp(2.375rem, 1.3rem + 3.6vw, 4.5rem);
+  --step-display: clamp(2.5rem, 0.9rem + 5.6vw, 5.75rem);
 
   --margin: clamp(1.25rem, 0.6rem + 3vw, 4rem);
   --gutter: 1.5rem;
-  --gap-section: clamp(6rem, 3rem + 7vw, 10rem);
-  --header: 0rem;
-  --measure: 42ch;
-  --radius: 1.5rem;
-  --radius-small: 0.875rem;
+  --gap-section: clamp(6rem, 3rem + 7vw, 11rem);
+  --header: 4.75rem;
+  --radius: 2rem;
+  --radius-small: 1rem;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -69,7 +71,7 @@
 html {
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
-  scroll-padding-top: 6.5rem;
+  scroll-padding-top: calc(var(--header) + 1.5rem);
 }
 
 body {
@@ -99,15 +101,21 @@ dd {
 h1,
 h2,
 h3 {
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
   text-wrap: balance;
 }
 
-.display {
-  font-weight: 700;
-  letter-spacing: -0.035em;
+h1,
+h2 {
+  letter-spacing: -0.05em;
+  line-height: 1.02;
+}
+
+/* Headings are written as two short sentences, one per line. */
+.sentence {
+  display: block;
 }
 
 p {
@@ -186,17 +194,17 @@ img {
   transform: scale(0.97);
 }
 
-.button--inverse {
-  background: var(--card);
-  color: var(--green);
+.button--quiet {
+  background: var(--tone);
+  color: var(--ink);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
     background: #12663f;
   }
-  .button--inverse:hover {
-    background: var(--mint);
+  .button--quiet:hover {
+    background: color-mix(in oklab, var(--tone) 88%, var(--ink));
   }
 }
 

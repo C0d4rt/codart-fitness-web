@@ -45,17 +45,18 @@ const email = computed(() => brand.email[locale.value].support)
 <style scoped>
 main {
   display: grid;
-  gap: 2.5rem;
-  padding: 4rem var(--margin) 0;
+  gap: 3rem;
+  padding: clamp(3rem, 1.5rem + 5vw, 6.5rem) var(--margin) 0;
 }
 
 .intro {
   display: grid;
-  gap: 1.25rem;
+  gap: 1.75rem;
 }
 
 .title {
   font-size: var(--step-display);
+  line-height: 0.98;
 }
 
 .lead {
@@ -77,21 +78,14 @@ main {
   gap: 3rem;
   min-height: 10rem;
   padding: 2rem;
-  border-radius: 2rem;
+  border-radius: var(--radius);
+  background: var(--card);
   text-decoration: none;
   transition: transform 160ms var(--ease-out);
 }
 
 .tile:active {
   transform: scale(0.97);
-}
-
-.email {
-  background: var(--mint);
-}
-
-.faq {
-  background: var(--card);
 }
 
 .label {
@@ -101,8 +95,8 @@ main {
 
 .address {
   font-size: var(--step-lead);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: 500;
+  letter-spacing: -0.03em;
   overflow-wrap: anywhere;
 }
 

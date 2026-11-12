@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { decimal, thousands } from '#shared/locale'
+import type { Feature } from '#shared/plans'
+
+defineProps<{ features: Feature[] }>()
 
 const { t } = useI18n()
 
@@ -35,20 +38,24 @@ const figures = computed(() => ({
   weight: decimal(WEIGHT.at(-1)!, locale.value),
   delta: decimal(WEIGHT.at(-1)! - WEIGHT[0]!, locale.value),
 }))
+
+const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', 'csvExport'] as const
 </script>
 
 <template>
   <section :id="anchors.bento" class="bento" aria-labelledby="bento-title">
-    <div class="intro" data-reveal>
-      <h2 id="bento-title" class="title">{{ t('bento.title') }}</h2>
-      <p>{{ t('bento.lead') }}</p>
-      <NuxtLinkLocale to="/recursos" class="link">{{ t('bento.seeAll') }}</NuxtLinkLocale>
+    <div class="words">
+      <div class="intro" data-reveal>
+        <h2 id="bento-title" class="title"><TextLines :text="t('bento.title')" /></h2>
+        <p class="lead">{{ t('bento.lead') }}</p>
+        <NuxtLinkLocale to="/recursos" class="link">{{ t('bento.seeAll') }}</NuxtLinkLocale>
+      </div>
+      <FeatureChips :features="features" :ids="RELATED" :label="t('chips.label')" />
     </div>
-
     <div class="grid">
       <article class="tile day" data-ui>
         <p class="tile-title">{{ t('bento.day.title') }}</p>
-        <CalorieRing :eaten="EATEN_TODAY" :goal="GOAL" :size="150" />
+        <CalorieRing :eaten="EATEN_TODAY" :goal="GOAL" :size="208" />
         <p class="tile-text">{{ t('bento.day.text', figures) }}</p>
       </article>
 
@@ -85,34 +92,42 @@ const figures = computed(() => ({
 <style scoped>
 .bento {
   display: grid;
-  gap: 2.5rem;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: center;
+  gap: 3rem clamp(3rem, 1rem + 5vw, 6rem);
   padding: var(--gap-section) var(--margin) 0;
+}
+
+.words {
+  display: grid;
+  gap: 2rem;
 }
 
 .intro {
   display: grid;
-  gap: 1rem;
+  justify-items: start;
+  gap: 1.5rem;
 }
 
 .title {
-  max-width: 16ch;
   font-size: var(--step-head);
 }
 
-.intro p {
+.lead {
+  max-width: 36ch;
   color: var(--muted);
-  font-size: var(--step-lead);
 }
 
 .link {
-  justify-self: start;
   color: var(--green);
   font-weight: 500;
 }
 
 .grid {
+  order: -1;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto auto;
   gap: 0.75rem;
 }
 
@@ -120,14 +135,14 @@ const figures = computed(() => ({
   display: grid;
   grid-template-rows: auto 1fr auto;
   gap: 1.25rem;
-  min-height: 21rem;
-  padding: 1.5rem;
+  min-height: 16rem;
+  padding: 1.75rem;
   border-radius: var(--radius);
   background: var(--card);
 }
 
 .tile-title {
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .tile-text {
@@ -136,8 +151,8 @@ const figures = computed(() => ({
 }
 
 .day {
+  grid-row: span 2;
   justify-items: center;
-  background: var(--mint);
 }
 
 .day .tile-title,
@@ -149,10 +164,6 @@ const figures = computed(() => ({
   align-self: center;
 }
 
-.weight {
-  background: var(--sky);
-}
-
 .bars {
   position: relative;
   display: grid;
@@ -160,7 +171,7 @@ const figures = computed(() => ({
   align-items: end;
   align-self: center;
   gap: 0.5rem;
-  height: 8.5rem;
+  height: 7rem;
 }
 
 .bar {
@@ -185,11 +196,15 @@ const figures = computed(() => ({
   opacity: 0.35;
 }
 
+.weight {
+  grid-template-rows: auto auto 1fr auto;
+}
+
 .big {
   align-self: center;
-  font-size: var(--step-head);
-  font-weight: 700;
-  letter-spacing: -0.035em;
+  font-size: var(--step-figure);
+  font-weight: 500;
+  letter-spacing: -0.04em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -203,12 +218,8 @@ const figures = computed(() => ({
 
 .line {
   width: 100%;
-  height: 4rem;
+  height: 3.5rem;
   overflow: visible;
-}
-
-.weight {
-  grid-template-rows: auto auto 1fr auto;
 }
 
 .line path {
@@ -221,8 +232,20 @@ const figures = computed(() => ({
 }
 
 @media (max-width: 63.99rem) {
+  .bento {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .grid {
-    grid-template-columns: 1fr;
+    order: 0;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .day {
+    grid-row: auto;
   }
   .tile {
     min-height: 0;

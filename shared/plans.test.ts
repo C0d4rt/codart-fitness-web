@@ -42,6 +42,15 @@ describe('buildCatalog', () => {
     )
   })
 
+  it.each(LOCALES)('has %s names for exactly the features and groups of the plans', (locale) => {
+    const names = CATALOG_NAMES[locale]
+    if (names === undefined) return
+    expect(Object.keys(names.features).sort()).toEqual(
+      fixture.features.map((feature) => feature.id).sort(),
+    )
+    expect(Object.keys(names.groups).sort()).toEqual(fixture.groups.map((group) => group.id).sort())
+  })
+
   it('keeps the names of the plans in Portuguese and takes the app wording in English', () => {
     expect(buildCatalog(fixture, 'pt').coaching.name).toBe('Premium Pro')
     const english = buildCatalog(fixture, 'en')
@@ -79,9 +88,14 @@ describe('buildCatalog', () => {
     expect(() => buildCatalog(plans)).toThrow(/no pt copy for the feature "sleepLog"/)
   })
 
-  it('refuses copy for a feature the plans no longer have', () => {
-    const plans = { ...fixture, features: fixture.features.filter((each) => each.id !== 'pantry') }
-    expect(() => buildCatalog(plans, 'en')).toThrow(/en copy for "pantry"/)
+  it.each(LOCALES)('leaves out %s copy for a feature the plans do not have yet', (locale) => {
+    const plans = {
+      ...fixture,
+      features: fixture.features.filter((each) => each.id !== 'readyPrograms'),
+    }
+    const catalog = buildCatalog(plans, locale)
+    expect(catalog.coaching.features.map((feature) => feature.id)).not.toContain('readyPrograms')
+    expect(catalog.coaching.features).toHaveLength(fixture.features.length - 1)
   })
 
   it('refuses a feature or group with no name in a translated locale', () => {

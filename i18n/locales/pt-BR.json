@@ -5,7 +5,7 @@
     "tryThenPick": "Testar grátis e escolher o {plan} depois"
   },
   "closing": {
-    "title": "Comece hoje, pelo WhatsApp",
+    "title": "Comece hoje. Pelo WhatsApp.",
     "lead": "{days} dias grátis com tudo do Premium. Não pedimos cartão.",
     "note": "O botão abre o WhatsApp com a primeira mensagem pronta. É só enviar."
   },
@@ -20,6 +20,9 @@
     "menu": "Menu"
   },
   "footer": {
+    "label": "Rodapé",
+    "product": "O produto",
+    "company": "A empresa",
     "terms": "Termos",
     "privacy": "Privacidade",
     "credits": "Créditos",
@@ -52,13 +55,14 @@
   "home": {
     "description": "Refeições, treinos, metas e peso numa conversa no WhatsApp, com respostas na hora. {days} dias grátis, sem cartão.",
     "ogDescription": "Dieta e treino numa conversa. {days} dias grátis.",
-    "headline": "Dieta e treino no WhatsApp",
-    "lead": "Um diário que anota o que você comeu ou treinou, por texto, áudio ou foto, e responde na hora com o total do dia e quanto falta para a meta",
+    "headline": "Dieta e treino. No seu WhatsApp.",
+    "lead": "Um diário que anota o que você come e treina, por texto, áudio ou foto, e responde na hora quanto falta para a meta",
     "seeHow": "Ver como funciona",
     "terms": "{days} dias grátis com tudo do Premium. Não pedimos cartão"
   },
   "how": {
-    "title": "Como funciona",
+    "title": "Você conta. Ele anota e soma.",
+    "lead": "É uma conversa no WhatsApp, que você já usa o dia todo. Por texto, áudio ou foto",
     "tell": {
       "clause": "Você conta o que comeu",
       "label": "A pessoa conta o almoço numa mensagem.",
@@ -82,8 +86,8 @@
     }
   },
   "bento": {
-    "title": "Tudo o que importa, numa conversa",
-    "lead": "Você pergunta, ele responde com os seus números",
+    "title": "Seus números. Quando pedir.",
+    "lead": "A meta do dia, a semana e o peso, em resposta a uma mensagem. Toda segunda, o resumo da semana chega sozinho",
     "seeAll": "Ver todos os recursos, com exemplos",
     "day": {
       "title": "Meta do dia",
@@ -101,24 +105,49 @@
       "text": "A sua evolução desde o primeiro registro"
     }
   },
-  "moment": {
-    "title": "Do prato à conversa",
-    "text": "Tire uma foto do prato e mande. É fácil porque é no WhatsApp, que você já usa o dia todo"
-  },
-  "showcase": {
-    "title": "Pergunte, e ele responde",
-    "tabsLabel": "Escolha uma resposta para ver",
-    "notes": {
-      "day": "O total do dia e quanto falta, a cada registro ou quando você perguntar",
-      "week": "Toda segunda, o resumo da semana anterior, com um gráfico das calorias e dos macros",
-      "weight": "A evolução desde o primeiro registro, ou dos últimos 30 ou 90 dias",
-      "nutrients": "Sódio, fibra, açúcar e mais, comparados aos valores de referência",
-      "file": "Tudo numa planilha, para abrir no Excel ou levar à consulta, no Premium"
+  "day": {
+    "title": "Um dia normal. Tudo numa conversa.",
+    "lead": "Escolha um momento do dia e veja a conversa",
+    "label": "Momentos do dia",
+    "moments": {
+      "breakfast": {
+        "name": "Café por áudio",
+        "note": "Um áudio curto vira registro, com o total do dia"
+      },
+      "reminder": {
+        "name": "Um lembrete, e só um",
+        "note": "Se você some, chega uma mensagem curta para retomar"
+      },
+      "left": {
+        "name": "Quanto falta",
+        "note": "O total do dia e quanto falta, a cada registro ou quando você perguntar"
+      },
+      "workout": {
+        "name": "O treino",
+        "note": "Exercícios, séries e cargas, com o gasto estimado"
+      },
+      "nutrients": {
+        "name": "Sódio e fibra",
+        "note": "Sódio, fibra, açúcar e mais, comparados aos valores de referência"
+      }
     }
   },
+  "everything": {
+    "title": "Tudo o que faz. Com exemplos.",
+    "lead": "Toque em um recurso para ver a conversa de exemplo",
+    "label": "Todos os recursos"
+  },
+  "chips": {
+    "label": "Recursos relacionados"
+  },
   "pricing": {
-    "title": "Planos simples",
-    "lead": "{days} dias grátis com tudo do Premium, sem cartão. Depois, pague no Pix ou no cartão",
+    "title": "Planos simples. Teste grátis.",
+    "promises": {
+      "trial": "{days} dias grátis com tudo do Premium",
+      "noCard": "Não pedimos cartão para testar",
+      "pay": "Pague no Pix ou no cartão",
+      "cancel": "Cancele quando quiser"
+    },
     "periodLabel": "Período",
     "monthly": "Mensal",
     "yearly": "Anual",
@@ -171,7 +200,7 @@
       },
       {
         "q": "O assistente é um nutricionista?",
-        "a": "Não. O assistente da conversa registra, soma e informa; não prescreve dieta nem treino. No Premium Pro, a sua dieta e o seu treino ficam sob a responsabilidade de profissionais com registro no conselho."
+        "a": "Não. O assistente da conversa registra, soma e informa; não prescreve dieta nem treino. Os treinos prontos do Premium são programas gerais, assinados por um educador físico (CREF), que você escolhe. No Premium Pro, a sua dieta e o seu treino ficam sob a responsabilidade de profissionais com registro no conselho."
       },
       {
         "q": "E os meus dados?",
@@ -236,7 +265,14 @@
     "title": "Termos de uso"
   },
   "hero": {
-    "pause": "Pausar a demonstração",
-    "play": "Continuar a demonstração"
+    "placeholder": "Conte o que comeu ou treinou",
+    "chipsLabel": "Escolha uma conversa para ver",
+    "chips": {
+      "lunch": "Registrar o almoço",
+      "photo": "Foto do prato",
+      "barcode": "Código de barras",
+      "dinner": "O que eu janto?",
+      "recipe": "Receita da casa"
+    }
   }
 }

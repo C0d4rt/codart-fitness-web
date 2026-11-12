@@ -5,7 +5,7 @@ export type LegalSection = { title: string; paragraphs?: string[]; items?: strin
 export type LegalDoc = { intro: string; sections: LegalSection[] }
 
 /** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
-export const LEGAL_VERSION = '4'
+export const LEGAL_VERSION = '5'
 export const LEGAL_EFFECTIVE = '2026-11-12'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
@@ -17,7 +17,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'O que o serviço faz',
         paragraphs: [
           'Você conta o que comeu, bebeu ou treinou, por texto, áudio ou foto, e o diário registra, soma e responde com os números do seu dia, da sua semana e do seu peso. Também sugere refeições, lê rótulos e compara produtos, conforme o plano.',
-          'No teste e no Premium, o diário informa: não prescreve dieta, treino, suplemento nem remédio, e não substitui nutricionista, médico ou educador físico. Metas, calorias gastas e sugestões são estimativas gerais a partir do que você informa.',
+          'No teste e no Premium, o diário informa: não prescreve dieta, treino, suplemento nem remédio, e não substitui nutricionista, médico ou educador físico. Os treinos prontos são programas gerais, assinados por um educador físico (CREF), que você mesmo escolhe; não são montados para você. Metas, calorias gastas e sugestões são estimativas gerais a partir do que você informa.',
           'No Premium Pro, a dieta e o treino feitos para você são assinados por profissionais com registro no conselho, como explica a seção Premium Pro. Em nenhum plano o serviço receita, dosa ou orienta o uso de remédio ou hormônio, nem interpreta exames.',
           'O jejum intermitente não é indicado para todo mundo: com alguma condição de saúde, na gestação ou com histórico de transtorno alimentar, converse com um profissional antes de começar. O diário registra o protocolo que você escolhe, mas não avalia se ele é adequado para você.',
           'Os valores dos alimentos vêm da Tabela Brasileira de Composição de Alimentos (TACO, NEPA/Unicamp), do Open Food Facts (licença ODbL), dos rótulos que você envia e de estimativas. Podem ter diferenças em relação ao alimento que você comeu.',
@@ -215,7 +215,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'What the service does',
         paragraphs: [
           'You tell it what you ate, drank or trained, by text, voice note or photo, and the diary logs it, adds it up and replies with the numbers for your day, your week and your weight. Depending on your plan, it also suggests meals, reads labels and compares products.',
-          'On the trial and on Premium, the diary informs: it does not prescribe diets, workouts, supplements or medicine, and it does not replace a dietitian, doctor or fitness professional. Goals, calories burned and suggestions are general estimates based on what you tell it.',
+          'On the trial and on Premium, the diary informs: it does not prescribe diets, workouts, supplements or medicine, and it does not replace a dietitian, doctor or fitness professional. The ready workout programs are general programs, signed by a certified trainer (CREF), that you pick yourself; they are not built for you. Goals, calories burned and suggestions are general estimates based on what you tell it.',
           'On Premium Pro, the diet and the training made for you are signed by licensed professionals, as the Premium Pro section explains. On no plan does the service prescribe, dose or advise on the use of medicine or hormones, nor does it interpret lab tests.',
           'Intermittent fasting is not for everyone: if you have a health condition, are pregnant or have a history of eating disorders, talk to a professional before you start. The diary records the protocol you choose, but does not assess whether it suits you.',
           'Food values come from the Brazilian Food Composition Table (TACO, NEPA/Unicamp), from Open Food Facts (ODbL license), from the labels you send and from estimates. They may differ from the food you actually ate.',
