@@ -6,7 +6,7 @@ test.use({ colorScheme: 'light' })
 
 test('the home page says what this is and opens the conversation', async ({ page }) => {
   await page.goto('/')
-  await expect(page.locator('h1')).toHaveText('Dieta e treino. No seu WhatsApp.')
+  await expect(page.locator('h1')).toHaveText('Seu assistente fitness. No WhatsApp.')
   const cta = page.getByRole('link', { name: 'Testar 7 dias grátis' }).first()
   await expect(cta).toHaveAttribute('href', /^https:\/\/wa\.me\/.*\?text=Oi!/)
   await expect(page.getByText('R$ 29,90').first()).toBeVisible()
@@ -76,7 +76,7 @@ test('a moment of the day swaps the conversation the visitor picks', async ({ pa
 test('the English home page speaks English and opens the chat in English', async ({ page }) => {
   await page.goto('/en')
   await expect(page.locator('html')).toHaveAttribute('lang', 'en-US')
-  await expect(page.locator('h1')).toHaveText('Diet and workouts. On your WhatsApp.')
+  await expect(page.locator('h1')).toHaveText('Your fitness assistant. On WhatsApp.')
   const cta = page.getByRole('link', { name: 'Try 7 days free' }).first()
   await expect(cta).toHaveAttribute('href', /^https:\/\/wa\.me\/.*\?text=Hi!%20I%20want/)
   await expect(page.getByText('R$29.90').first()).toBeVisible()

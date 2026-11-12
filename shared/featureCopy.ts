@@ -300,7 +300,7 @@ const PT: Record<string, FeatureCopy> = {
   compareProducts: {
     headline: 'No mercado, compare antes de levar',
     howTo:
-      'Diga "quero comparar" e mande o código de barras ou a foto do rótulo de cada produto, um por vez, até 5. O diário põe lado a lado os números, os selos "alto em", os primeiros ingredientes e quanto cada um cabe no seu dia, sem dizer qual é "o melhor".',
+      'Diga "quero comparar" e mande o código de barras ou a foto do rótulo de cada produto, um por vez, até 5. O assistente põe lado a lado os números, os selos "alto em", os primeiros ingredientes e quanto cada um cabe no seu dia, sem dizer qual é "o melhor".',
     exchange: [
       you('quero comparar esses dois iogurtes', '17:40'),
       bot(
@@ -756,7 +756,7 @@ const EN: Record<string, FeatureCopy> = {
   compareProducts: {
     headline: 'At the store, compare before you buy',
     howTo:
-      'Say "I want to compare" and send the barcode or a photo of the label of each product, one at a time, up to 5. The diary puts the numbers side by side, with the "high in" seals, the first ingredients and how much of each fits your day, without saying which one is "the best".',
+      'Say "I want to compare" and send the barcode or a photo of the label of each product, one at a time, up to 5. The assistant puts the numbers side by side, with the "high in" seals, the first ingredients and how much of each fits your day, without saying which one is "the best".',
     exchange: [
       you('I want to compare these two yogurts', '17:40'),
       bot(

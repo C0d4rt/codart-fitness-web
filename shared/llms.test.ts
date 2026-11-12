@@ -4,7 +4,7 @@ import { llmsText } from './llms'
 import { buildCatalog, money } from './plans'
 import fixture from './plans.fixture.json'
 
-const site = { name: 'Fitness', url: 'https://fitness.codart.dev', tagline: 'Seu diário' }
+const site = { name: 'Fitness', url: 'https://fitness.codart.dev', tagline: 'Seu assistente' }
 const catalog = buildCatalog(fixture)
 const text = llmsText(site, catalog, '26/10/2026')
 

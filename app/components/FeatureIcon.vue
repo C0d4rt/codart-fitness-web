@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{ feature: string }>()
+const props = defineProps<{ feature?: string; shape?: string }>()
 
 const SHAPES = {
   chat: 'M4.5 6.5A2.5 2.5 0 0 1 7 4h10a2.5 2.5 0 0 1 2.5 2.5v7A2.5 2.5 0 0 1 17 16h-6l-4.5 3.5V16a2 2 0 0 1-2-2z',
@@ -71,7 +71,9 @@ const FEATURE_SHAPE: Record<string, Shape> = {
   unlimitedReplies: 'infinity',
 }
 
-const path = computed(() => SHAPES[FEATURE_SHAPE[props.feature] ?? 'chat'])
+const path = computed(
+  () => SHAPES[(props.shape as Shape | undefined) ?? FEATURE_SHAPE[props.feature ?? ''] ?? 'chat'],
+)
 </script>
 
 <template>

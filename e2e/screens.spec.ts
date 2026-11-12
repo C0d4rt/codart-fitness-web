@@ -5,6 +5,7 @@ test.use({ colorScheme: 'light' })
 const SCREENS = {
   '/': [
     'hero',
+    'o-assistente',
     'como-funciona',
     'seus-numeros',
     'um-dia-normal',

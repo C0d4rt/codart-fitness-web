@@ -53,12 +53,40 @@
     "ofGoal": "de {goal} kcal"
   },
   "home": {
-    "description": "Refeições, treinos, metas e peso numa conversa no WhatsApp, com respostas na hora. {days} dias grátis, sem cartão.",
-    "ogDescription": "Dieta e treino numa conversa. {days} dias grátis.",
-    "headline": "Dieta e treino. No seu WhatsApp.",
-    "lead": "Um diário que anota o que você come e treina, por texto, áudio ou foto, e responde na hora quanto falta para a meta",
+    "description": "Seu assistente fitness no WhatsApp: anota refeições e treinos, sugere o que comer, compara produtos e responde com os seus números. {days} dias grátis, sem cartão.",
+    "ogDescription": "Dieta, treino e muito mais numa conversa. {days} dias grátis.",
+    "headline": "Seu assistente fitness. No WhatsApp.",
+    "lead": "Anota o que você come e treina, sugere o que comer com o que tem em casa, compara produtos no mercado e te passa o treino do dia. Por texto, áudio ou foto.",
     "seeHow": "Ver como funciona",
     "terms": "{days} dias grátis com tudo do Premium. Não pedimos cartão"
+  },
+  "assistant": {
+    "title": "Ele conhece você. E diz de onde tirou.",
+    "lead": "Lembra da sua meta, do que você não come e do que tem em casa. Pergunte sobre os seus números, ou peça uma explicação: ele responde com a fonte.",
+    "label": "Uma conversa em que a pessoa pergunta o que o assistente sabe sobre ela, quanta proteína comeu na semana e se creatina faz mal aos rins, e ele responde com a fonte.",
+    "pointsLabel": "O que o assistente faz",
+    "points": {
+      "memory": {
+        "name": "Memória",
+        "text": "Lembra da sua meta, das suas restrições e da sua despensa."
+      },
+      "numbers": {
+        "name": "Seus números",
+        "text": "Responde sobre o seu dia, a semana e o peso."
+      },
+      "source": {
+        "name": "Com fonte",
+        "text": "Explica a partir de uma base assinada por profissionais, e diz de onde tirou."
+      }
+    },
+    "chat": {
+      "memoryQuestion": "o que você sabe sobre mim?",
+      "memoryAnswer": "O que eu sei sobre você:\n*Perfil*\n• Meta do dia: {goal} kcal\n*Preferências*\n• Alimentos que evita: camarão",
+      "weekQuestion": "quanta proteína comi essa semana?",
+      "weekAnswer": "*{total} g de proteína* em {logged} de {days} dias registrados: média de {average} g por dia, para a meta de {goal} g.",
+      "creatineQuestion": "creatina faz mal pros rins?",
+      "creatineAnswer": "De 3 a 5 g por dia, a creatina monohidratada é segura para quem não tem doença renal.\nIsso vem de Kreider RB et al., ISSN (2017)."
+    }
   },
   "how": {
     "title": "Você conta. Ele anota e soma.",
@@ -156,7 +184,7 @@
     "orYearly": "{percent, plural, =0 {ou {price} por ano} other {ou {price} por ano, {percent}% a menos}}",
     "yearlyPerMonth": "equivale a {price} por mês",
     "saving": "Economize {percent}%",
-    "premiumWho": "Para anotar tudo pela conversa, com foto do prato, metas e sugestão do que comer",
+    "premiumWho": "O assistente completo: registro por foto e áudio, metas, sugestão do que comer e treinos prontos",
     "coachingWho": "Dieta e treino montados para você, sob a responsabilidade de nutricionista e educador físico",
     "allOfPremium": "Tudo do Premium",
     "packageLabel": "Duração do programa",
@@ -200,7 +228,7 @@
       },
       {
         "q": "O assistente é um nutricionista?",
-        "a": "Não. O assistente da conversa registra, soma e informa; não prescreve dieta nem treino. Os treinos prontos do Premium são programas gerais, assinados por um educador físico (CREF), que você escolhe. No Premium Pro, a sua dieta e o seu treino ficam sob a responsabilidade de profissionais com registro no conselho."
+        "a": "Não. O assistente é uma inteligência artificial: registra, soma, informa e sugere dentro de regras assinadas por profissionais, mas não prescreve dieta nem treino. No Premium Pro, a sua dieta e o seu treino ficam sob a responsabilidade de profissionais com registro no conselho."
       },
       {
         "q": "E os meus dados?",
@@ -265,7 +293,7 @@
     "title": "Termos de uso"
   },
   "hero": {
-    "placeholder": "Conte o que comeu ou treinou",
+    "placeholder": "Pergunte ou conte o que comeu",
     "chipsLabel": "Escolha uma conversa para ver",
     "chips": {
       "lunch": "Registrar o almoço",
