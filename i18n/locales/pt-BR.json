@@ -127,9 +127,19 @@
     "orYearly": "{percent, plural, =0 {ou {price} por ano} other {ou {price} por ano, {percent}% a menos}}",
     "yearlyPerMonth": "equivale a {price} por mês",
     "saving": "Economize {percent}%",
-    "premiumWho": "Para quem quer a foto do prato e saber o que comer",
-    "basicWho": "Para quem quer o diário inteiro, por texto e áudio",
-    "allOfBasic": "Tudo do Básico"
+    "premiumWho": "Para anotar tudo pela conversa, com foto do prato, metas e sugestão do que comer",
+    "coachingWho": "Dieta e treino montados para você e revisados por nutricionista e educador físico",
+    "allOfPremium": "Tudo do Premium",
+    "packageLabel": "Duração do programa",
+    "months": "{months} meses",
+    "installmentsOf": "{installments}x de",
+    "packageTotal": "{total} por {months} meses, à vista no Pix ou parcelado no cartão",
+    "perMonthAnchor": "Equivale a {price}/mês",
+    "soon": "Em breve",
+    "soonNote": "Ainda não abrimos. Peça para ser avisado e a gente te chama no WhatsApp quando abrir",
+    "notifyMe": "Quero ser avisado",
+    "wantPlan": "Quero o {plan}",
+    "coachingTerms": "Pagamento único, sem renovação. 7 dias de garantia, sem teste grátis"
   },
   "faq": {
     "title": "Perguntas frequentes",
@@ -141,23 +151,27 @@
       },
       {
         "q": "Como funciona o teste grátis?",
-        "a": "São {days} dias com tudo do Premium, contados da primeira mensagem. Não pedimos cartão."
+        "a": "São {days} dias com tudo do Premium, contados da primeira mensagem. Não pedimos cartão. O Premium Pro não tem teste: tem 7 dias de garantia."
       },
       {
         "q": "E quando o teste acaba?",
-        "a": "O diário para de anotar até você escolher um plano. Tudo o que você registrou fica guardado e volta inteiro ao assinar."
+        "a": "O diário para de anotar até você assinar. Tudo o que você registrou fica guardado e volta inteiro ao assinar."
       },
       {
         "q": "Como eu pago e cancelo?",
-        "a": "Na própria conversa: responda \"assinar\", escolha o plano e pague no Pix ou no cartão. Cancele quando quiser; o acesso continua até o fim do período pago."
+        "a": "Na própria conversa: responda \"assinar\", escolha mensal ou anual e pague no Pix ou no cartão. Cancele quando quiser; o acesso continua até o fim do período pago. O Premium Pro é um programa pago uma vez só, à vista no Pix ou parcelado no cartão, sem renovação."
       },
       {
         "q": "E se eu me arrepender?",
-        "a": "Nos 7 dias depois do pagamento, peça o reembolso na conversa e ele sai sozinho, como prevê o Código de Defesa do Consumidor."
+        "a": "Nos 7 dias depois do pagamento, do Premium ou do Premium Pro, peça o reembolso na conversa e ele sai sozinho, como prevê o Código de Defesa do Consumidor."
       },
       {
-        "q": "Ele substitui um nutricionista?",
-        "a": "Não. O diário registra, soma e informa; não prescreve dieta nem treino. As sugestões são gerais, a partir da sua meta."
+        "q": "O que quer dizer \"revisado por profissionais\" no Premium Pro?",
+        "a": "Você faz uma avaliação completa e recebe dieta e treino montados para você. Antes de chegar, a dieta é revisada por um nutricionista (CRN) e o treino por um educador físico (CREF), que acompanham você nos check-ins e na reavaliação mensal e respondem às suas dúvidas na conversa em até 24 horas."
+      },
+      {
+        "q": "O assistente é um nutricionista?",
+        "a": "Não. O assistente da conversa registra, soma e informa; não prescreve dieta nem treino. No Premium Pro, quem revisa a sua dieta e o seu treino são profissionais com registro no conselho."
       },
       {
         "q": "E os meus dados?",
@@ -167,23 +181,24 @@
   },
   "plans": {
     "title": "Planos",
-    "description": "O Premium e o Básico do {name}, com preços e o que cada um inclui. {days} dias grátis com tudo do Premium.",
-    "lead": "Comece com {days} dias grátis com tudo do Premium, sem cartão. Depois, escolha o plano na própria conversa",
+    "description": "O Premium e o Premium Pro do {name}, com preços e o que cada um inclui. {days} dias grátis com tudo do Premium.",
+    "lead": "Comece com {days} dias grátis com tudo do Premium, sem cartão. Depois, assine na própria conversa",
     "compareTitle": "O que cada plano inclui",
     "seeFeatures": "Ver cada recurso com um exemplo",
     "featureColumn": "Recurso",
     "included": "Incluso",
-    "premiumOnly": "Só no Premium",
     "offerMonthly": "{plan} mensal",
-    "offerYearly": "{plan} anual"
+    "offerYearly": "{plan} anual",
+    "coachingOnly": "Só no Premium Pro",
+    "offerPackage": "{plan} por {months} meses"
   },
   "features": {
     "title": "Recursos",
     "description": "Tudo o que o {name} faz no WhatsApp, com um exemplo de conversa para cada recurso. {days} dias grátis com tudo do Premium.",
     "lead": "Tudo o que dá para fazer na conversa, com exemplos de verdade",
     "groups": "Grupos de recursos",
-    "basic": "No Básico e no Premium",
-    "premium": "Só no Premium e no teste"
+    "premium": "No Premium, no Premium Pro e no teste",
+    "coaching": "Só no Premium Pro"
   },
   "contact": {
     "title": "Contato",

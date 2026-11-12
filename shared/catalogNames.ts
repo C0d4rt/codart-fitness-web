@@ -1,7 +1,7 @@
 import type { Locale } from './locale'
 
 export type CatalogNames = {
-  plans: Record<'basic' | 'premium', string>
+  plans: Record<'premium' | 'coaching', string>
   groups: Record<string, string>
   features: Record<string, string>
 }
@@ -12,13 +12,14 @@ export type CatalogNames = {
  */
 export const CATALOG_NAMES: Partial<Record<Locale, CatalogNames>> = {
   en: {
-    plans: { premium: 'Premium', basic: 'Basic' },
+    plans: { premium: 'Premium', coaching: 'Premium Pro' },
     groups: {
       log: 'Logging',
       library: 'Your library',
       workout: 'Workouts',
       goals: 'Goals',
       reports: 'Reports',
+      coaching: 'Coaching',
     },
     features: {
       diary: 'Diary by text and voice',
@@ -36,7 +37,6 @@ export const CATALOG_NAMES: Partial<Record<Locale, CatalogNames>> = {
       pantry: 'Pantry',
       workouts: 'Workouts with calories burned',
       savedWorkouts: 'Saved workouts',
-      trainingPrograms: 'Training programs',
       dayGoal: 'Daily goal and how much is left',
       goalPercent: 'Goal macros in %',
       mealGoals: 'Goal per meal',
@@ -50,6 +50,13 @@ export const CATALOG_NAMES: Partial<Record<Locale, CatalogNames>> = {
       nutrients: 'Nutrients beyond macros',
       foodRanking: 'Foods that weighed most',
       csvExport: 'Diary spreadsheet (CSV)',
+      anamnesis: 'Full intake assessment',
+      swapDiet: 'Exchange-based diet built for you',
+      periodizedTraining: 'Periodized training',
+      professionalReview: 'Review by a dietitian (CRN) and a trainer (CREF)',
+      checkIns: 'Check-ins and monthly reassessment',
+      coachChat: 'Chat with the professionals, answered within 24 h',
+      unlimitedReplies: 'No reply limit',
     },
   },
 }

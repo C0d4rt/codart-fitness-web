@@ -183,24 +183,6 @@ const PT: Record<string, FeatureCopy> = {
       ),
     ],
   },
-  trainingPrograms: {
-    headline: 'O treino do dia, com a carga certa e o porquê',
-    howTo:
-      'Diga "quero um treino" e escolha um dos programas assinados por um profissional de educação física (CREF). Na academia, pergunte "qual meu treino hoje?": vem o dia da vez com as séries, as repetições, a carga de cada exercício e o porquê de ela ter subido, com o vídeo a um toque. Faltou um aparelho ou não gosta de um exercício? Ele é trocado por outro. Se algo doer, a carga do que força essa região não sobe por 14 dias.',
-    exchange: [
-      you('qual meu treino hoje?', '18:10'),
-      bot(
-        '🏋️ *Treino A*, semana 3 de 8\n1. Supino reto: 4 séries de 8 a 10 com 62,5 kg\n   ↑ subi para 62,5 kg: você fez 4 séries de 10 com 60 kg\n2. Remada curvada: 3 séries de 8 a 12 com 40 kg\n3. Desenvolvimento com halteres: 3 séries de 10 a 12 com 16 kg',
-        '18:10',
-        'Ver vídeos',
-      ),
-      you('o ombro doeu no supino', '19:05'),
-      bot(
-        'Anotei a dor no ombro. Nos próximos 14 dias a carga dos exercícios que forçam essa região não sobe. No lugar de supino reto, faça supino com halteres.',
-        '19:05',
-      ),
-    ],
-  },
   dayGoal: {
     headline: 'Quanto falta, a qualquer hora',
     howTo:
@@ -378,6 +360,107 @@ const PT: Record<string, FeatureCopy> = {
       },
     ],
   },
+  anamnesis: {
+    headline: 'Uma avaliação completa antes do plano',
+    howTo:
+      'Na própria conversa, você responde sobre objetivo, rotina, treino, alimentação, preferências e saúde, e manda três fotos que só os seus profissionais veem. O seu plano é montado a partir disso.',
+    exchange: [
+      bot(
+        'Seu Premium Pro começou! O primeiro passo é a sua avaliação: são 4 telas rápidas sobre objetivo, rotina, alimentação e saúde.',
+        '10:02',
+        'Fazer avaliação',
+      ),
+      bot(
+        'Recebi sua avaliação, obrigado! Agora preciso de 3 fotos do corpo, com roupa de treino, uma por vez. Elas ficam guardadas só para os seus profissionais.',
+        '10:09',
+      ),
+    ],
+  },
+  swapDiet: {
+    headline: 'Uma dieta montada para você, com trocas',
+    howTo:
+      'O cardápio sai da sua meta e do que você gosta de comer, em porções que se trocam entre si. Pergunte o que comer em cada refeição e troque um alimento por outro equivalente quando quiser.',
+    exchange: [
+      you('o que eu como no almoço?', '11:50'),
+      bot(
+        '🍽️ *Almoço do seu plano*\n1. 120 g de arroz ou 150 g de batata\n2. 1 concha de feijão ou 3 colheres de lentilha\n3. 120 g de frango ou 120 g de patinho\n4. Salada à vontade\nMeta da refeição: 420 kcal (P 45 g · C 48 g · G 5 g)',
+        '11:50',
+      ),
+      you('troca o frango por peixe', '11:52'),
+      bot(
+        'Trocado: 120 g de frango por 150 g de tilápia, com as mesmas calorias e proteína.',
+        '11:52',
+      ),
+    ],
+  },
+  periodizedTraining: {
+    headline: 'Treino em fases, com a carga que sobe',
+    howTo:
+      'O treino é montado para os seus dias, a sua academia e o seu objetivo, em fases que mudam o estímulo ao longo do programa. Na academia, pergunte "qual meu treino hoje?": vem o dia da vez com as séries, as repetições e a carga de cada exercício, com o vídeo a um toque.',
+    exchange: [
+      you('qual meu treino hoje?', '18:10'),
+      bot(
+        '🏋️ *Treino A*, fase de força, semana 3 de 4\n1. Agachamento livre: 4 séries de 6 a 8 com 70 kg\n   ↑ subi para 70 kg: você fez 4 séries de 8 com 67,5 kg\n2. Leg press: 3 séries de 8 a 10 com 160 kg\n3. Cadeira flexora: 3 séries de 10 a 12 com 35 kg',
+        '18:10',
+        'Ver vídeos',
+      ),
+    ],
+  },
+  professionalReview: {
+    headline: 'Um nutricionista e um educador físico revisam o seu plano',
+    howTo:
+      'Antes de chegar a você, a dieta é revisada por um nutricionista (CRN) e o treino por um educador físico (CREF), que acompanham você o programa todo. O assistente da conversa anota, soma e explica; quem decide o seu plano são eles.',
+    exchange: [
+      bot(
+        'Seu plano chegou, revisado pelos seus profissionais! Seu treino é acompanhado pelo Lucas (CREF) e a sua dieta pela Marina (CRN). Quando for treinar, me pergunte "qual meu treino hoje?".',
+        '09:30',
+      ),
+    ],
+  },
+  checkIns: {
+    headline: 'Check-in a cada 14 dias, reavaliação todo mês',
+    howTo:
+      'A cada 14 dias, um check-in rápido: peso, energia, sono, fome e o que ficou difícil. Todo mês, a reavaliação, com fotos para comparar. Os seus profissionais respondem o que muda no plano e por quê, ou que ele segue igual.',
+    exchange: [
+      bot(
+        'Hora do seu check-in! Leva um minuto e ajuda seus profissionais a ajustar o plano.',
+        '08:00',
+        'Fazer check-in',
+      ),
+      bot(
+        '💬 *Marina, profissional de nutrição:*\nVocê perdeu 0,8 kg em duas semanas, no ritmo certo. Como a fome à noite apertou, passei 150 kcal do almoço para o jantar.',
+        '17:40',
+      ),
+    ],
+  },
+  coachChat: {
+    headline: 'Pergunte aos seus profissionais, na mesma conversa',
+    howTo:
+      'A dúvida do seu caso vai para os seus profissionais, e a resposta chega na própria conversa em até 24 horas, com o nome de quem respondeu.',
+    exchange: [
+      you('posso fazer o treino de quinta no sábado?', '07:15'),
+      bot(
+        'Essa é para os seus profissionais: passei sua pergunta para eles, e a resposta chega aqui em até 24 horas.',
+        '07:15',
+      ),
+      bot(
+        '💬 *Lucas, profissional de treino:*\nPode, sim. Faça o treino C no sábado e descanse no domingo, antes do treino A.',
+        '13:20',
+      ),
+    ],
+  },
+  unlimitedReplies: {
+    headline: 'Pergunte quanto quiser',
+    howTo:
+      'No Premium Pro, as respostas do assistente não têm limite por dia: pergunte, registre e peça sugestões quantas vezes precisar.',
+    exchange: [
+      you('o que eu como no lanche para bater a proteína?', '16:10'),
+      bot(
+        'Faltam 30 g de proteína para a meta de hoje. Do seu plano, o lanche que mais ajuda é 170 g de iogurte natural com 1 dose de whey (30 g): 30 g de proteína.',
+        '16:10',
+      ),
+    ],
+  },
 }
 
 const EN: Record<string, FeatureCopy> = {
@@ -540,24 +623,6 @@ const EN: Record<string, FeatureCopy> = {
       bot(
         '🏋️ Workout logged:\nBench press: 3 × 8 at 60 kg\nBent-over row: 3 × 10 at 40 kg\nShoulder press: 3 × 10 at 16 kg\nHow long did the workout last? That way I can add up the burn.',
         '18:55',
-      ),
-    ],
-  },
-  trainingPrograms: {
-    headline: "Today's workout, with the right load and why",
-    howTo:
-      'Say "I want a workout" and pick one of the programs signed by a certified exercise professional (CREF). At the gym, ask "what\'s my workout today?": you get the next day of the rotation with the sets, the reps, the load for each exercise and why it went up, with the video one tap away. Your gym lacks a machine or you dislike an exercise? It gets swapped for another. If something hurts, the load of what works that area doesn\'t go up for 14 days.',
-    exchange: [
-      you("what's my workout today?", '18:10'),
-      bot(
-        '🏋️ *Workout A*, week 3 of 8\n1. Bench press: 4 sets of 8 to 10 with 62.5 kg\n   ↑ up to 62.5 kg: you did 4 sets of 10 with 60 kg\n2. Bent-over row: 3 sets of 8 to 12 with 40 kg\n3. Dumbbell shoulder press: 3 sets of 10 to 12 with 16 kg',
-        '18:10',
-        'See videos',
-      ),
-      you('my shoulder hurt on the bench press', '19:05'),
-      bot(
-        "Noted the shoulder pain. For the next 14 days, the load of the exercises that work that area won't go up. Instead of bench press, do dumbbell bench press.",
-        '19:05',
       ),
     ],
   },
@@ -735,6 +800,107 @@ const EN: Record<string, FeatureCopy> = {
         text: '📄 Your diary from 09/01 to 10/24, as CSV: what you ate, your workouts and your weight. It opens in Excel or Google Sheets.',
         time: '21:20',
       },
+    ],
+  },
+  anamnesis: {
+    headline: 'A full assessment before the plan',
+    howTo:
+      'Right in the chat, you answer about your goal, routine, training, eating, preferences and health, and send three photos only your professionals see. Your plan is built from that.',
+    exchange: [
+      bot(
+        'Your Premium Pro has started! The first step is your assessment: 4 quick screens about your goal, routine, eating and health.',
+        '10:02',
+        'Start assessment',
+      ),
+      bot(
+        'Got your assessment, thank you! Now I need 3 body photos, in workout clothes, one at a time. They are kept for your professionals only.',
+        '10:09',
+      ),
+    ],
+  },
+  swapDiet: {
+    headline: 'A diet built for you, with swaps',
+    howTo:
+      'The menu comes from your goal and the foods you like, in portions that swap for one another. Ask what to eat at each meal and swap a food for an equivalent one whenever you like.',
+    exchange: [
+      you('what do I eat for lunch?', '11:50'),
+      bot(
+        '🍽️ *Lunch in your plan*\n1. 120 g of rice or 150 g of potato\n2. 1 ladle of beans or 3 spoons of lentils\n3. 120 g of chicken or 120 g of lean beef\n4. Salad as you like\nMeal goal: 420 kcal (P 45 g · C 48 g · F 5 g)',
+        '11:50',
+      ),
+      you('swap the chicken for fish', '11:52'),
+      bot(
+        'Swapped: 120 g of chicken for 150 g of tilapia, with the same calories and protein.',
+        '11:52',
+      ),
+    ],
+  },
+  periodizedTraining: {
+    headline: 'Training in phases, with loads that go up',
+    howTo:
+      'Your training is built for your days, your gym and your goal, in phases that change the stimulus over the program. At the gym, ask "what\'s my workout today?": you get the next day with the sets, the reps and the load for each exercise, with the video one tap away.',
+    exchange: [
+      you("what's my workout today?", '18:10'),
+      bot(
+        '🏋️ *Workout A*, strength phase, week 3 of 4\n1. Back squat: 4 sets of 6 to 8 with 70 kg\n   ↑ up to 70 kg: you did 4 sets of 8 with 67.5 kg\n2. Leg press: 3 sets of 8 to 10 with 160 kg\n3. Seated leg curl: 3 sets of 10 to 12 with 35 kg',
+        '18:10',
+        'See videos',
+      ),
+    ],
+  },
+  professionalReview: {
+    headline: 'A dietitian and a trainer review your plan',
+    howTo:
+      'Before it reaches you, your diet is reviewed by a registered dietitian (CRN) and your training by a certified trainer (CREF), who stay with you through the whole program. The chat assistant logs, adds up and explains; they are the ones who decide your plan.',
+    exchange: [
+      bot(
+        'Your plan is here, reviewed by your professionals! Your training is followed by Lucas (CREF) and your diet by Marina (CRN). When you train, ask me "what\'s my workout today?".',
+        '09:30',
+      ),
+    ],
+  },
+  checkIns: {
+    headline: 'A check-in every 14 days, a reassessment every month',
+    howTo:
+      'Every 14 days, a quick check-in: weight, energy, sleep, hunger and what was hard. Every month, the reassessment, with photos to compare. Your professionals answer with what changes in the plan and why, or that it stays the same.',
+    exchange: [
+      bot(
+        'Time for your check-in! It takes a minute and helps your professionals adjust the plan.',
+        '08:00',
+        'Do check-in',
+      ),
+      bot(
+        '💬 *Marina, nutrition professional:*\nYou lost 0.8 kg in two weeks, right on pace. Since hunger got tight at night, I moved 150 kcal from lunch to dinner.',
+        '17:40',
+      ),
+    ],
+  },
+  coachChat: {
+    headline: 'Ask your professionals, in the same chat',
+    howTo:
+      'A question about your case goes to your professionals, and the answer arrives in the chat within 24 hours, with the name of who answered.',
+    exchange: [
+      you("can I do Thursday's workout on Saturday?", '07:15'),
+      bot(
+        'That one is for your professionals: I passed your question on, and the answer arrives here within 24 hours.',
+        '07:15',
+      ),
+      bot(
+        '💬 *Lucas, training professional:*\nYes, you can. Do workout C on Saturday and rest on Sunday, before workout A.',
+        '13:20',
+      ),
+    ],
+  },
+  unlimitedReplies: {
+    headline: 'Ask as much as you like',
+    howTo:
+      "On Premium Pro, the assistant's replies have no daily limit: ask, log and get suggestions as often as you need.",
+    exchange: [
+      you('what can I eat as a snack to hit my protein?', '16:10'),
+      bot(
+        "You're 30 g of protein short of today's goal. From your plan, the snack that helps most is 170 g of plain yogurt with 1 scoop of whey (30 g): 30 g of protein.",
+        '16:10',
+      ),
     ],
   },
 }

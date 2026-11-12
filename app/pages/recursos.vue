@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { PlanId } from '#shared/plans'
+
 import { brand } from '~/brand'
 
 const catalog = await usePlans()
@@ -9,7 +11,7 @@ useSeoMeta({
   description: t('features.description', { name: brand.name, days: catalog.trialDays }),
 })
 
-const planLine = (plan: 'basic' | 'premium') => t(`features.${plan}`)
+const planLine = (plan: PlanId) => t(`features.${plan}`)
 </script>
 
 <template>
@@ -187,7 +189,7 @@ const planLine = (plan: 'basic' | 'premium') => t(`features.${plan}`)
   font-weight: 500;
 }
 
-.plan.premium {
+.plan.coaching {
   color: var(--green);
 }
 

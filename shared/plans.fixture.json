@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "currency": "BRL",
   "trialDays": 7,
   "trialPlan": "premium",
@@ -8,13 +8,12 @@
       "id": "premium",
       "name": "Premium",
       "monthlyCents": 2990,
-      "yearlyCents": 15900
+      "yearlyCents": 19990
     },
     {
-      "id": "basic",
-      "name": "Básico",
-      "monthlyCents": 1990,
-      "yearlyCents": 11900
+      "id": "coaching",
+      "name": "Premium Pro",
+      "available": false
     }
   ],
   "groups": [
@@ -37,36 +36,40 @@
     {
       "id": "reports",
       "name": "Relatórios"
+    },
+    {
+      "id": "coaching",
+      "name": "Acompanhamento"
     }
   ],
   "features": [
     {
       "id": "diary",
-      "plan": "basic",
+      "plan": "premium",
       "group": "log",
       "name": "Diário por texto e áudio"
     },
     {
       "id": "namedMeals",
-      "plan": "basic",
+      "plan": "premium",
       "group": "log",
       "name": "Refeições do dia com nome"
     },
     {
       "id": "barcode",
-      "plan": "basic",
+      "plan": "premium",
       "group": "log",
       "name": "Código de barras digitado"
     },
     {
       "id": "quickAdd",
-      "plan": "basic",
+      "plan": "premium",
       "group": "log",
       "name": "Registro rápido de calorias"
     },
     {
       "id": "reminders",
-      "plan": "basic",
+      "plan": "premium",
       "group": "log",
       "name": "Lembrete para anotar"
     },
@@ -96,55 +99,49 @@
     },
     {
       "id": "myFoods",
-      "plan": "basic",
+      "plan": "premium",
       "group": "library",
       "name": "Meus alimentos"
     },
     {
       "id": "savedMeals",
-      "plan": "basic",
+      "plan": "premium",
       "group": "library",
       "name": "Refeições salvas"
     },
     {
       "id": "recipes",
-      "plan": "basic",
+      "plan": "premium",
       "group": "library",
       "name": "Receitas, também por link"
     },
     {
       "id": "pantry",
-      "plan": "basic",
+      "plan": "premium",
       "group": "library",
       "name": "Despensa"
     },
     {
       "id": "workouts",
-      "plan": "basic",
+      "plan": "premium",
       "group": "workout",
       "name": "Treino com gasto calórico"
     },
     {
       "id": "savedWorkouts",
-      "plan": "basic",
+      "plan": "premium",
       "group": "workout",
       "name": "Treinos salvos"
     },
     {
-      "id": "trainingPrograms",
-      "plan": "premium",
-      "group": "workout",
-      "name": "Programas de treino"
-    },
-    {
       "id": "dayGoal",
-      "plan": "basic",
+      "plan": "premium",
       "group": "goals",
       "name": "Meta do dia e quanto falta"
     },
     {
       "id": "goalPercent",
-      "plan": "basic",
+      "plan": "premium",
       "group": "goals",
       "name": "Macros da meta em %"
     },
@@ -186,19 +183,19 @@
     },
     {
       "id": "weekSummary",
-      "plan": "basic",
+      "plan": "premium",
       "group": "reports",
       "name": "Resumo da semana"
     },
     {
       "id": "weight",
-      "plan": "basic",
+      "plan": "premium",
       "group": "reports",
       "name": "Peso e evolução"
     },
     {
       "id": "nutrients",
-      "plan": "basic",
+      "plan": "premium",
       "group": "reports",
       "name": "Nutrientes além dos macros"
     },
@@ -213,6 +210,48 @@
       "plan": "premium",
       "group": "reports",
       "name": "Planilha do diário (CSV)"
+    },
+    {
+      "id": "anamnesis",
+      "plan": "coaching",
+      "group": "coaching",
+      "name": "Anamnese completa"
+    },
+    {
+      "id": "swapDiet",
+      "plan": "coaching",
+      "group": "coaching",
+      "name": "Dieta por trocas montada para você"
+    },
+    {
+      "id": "periodizedTraining",
+      "plan": "coaching",
+      "group": "coaching",
+      "name": "Treino periodizado"
+    },
+    {
+      "id": "professionalReview",
+      "plan": "coaching",
+      "group": "coaching",
+      "name": "Revisão por nutricionista (CRN) e educador físico (CREF)"
+    },
+    {
+      "id": "checkIns",
+      "plan": "coaching",
+      "group": "coaching",
+      "name": "Check-ins e reavaliação mensal"
+    },
+    {
+      "id": "coachChat",
+      "plan": "coaching",
+      "group": "coaching",
+      "name": "Chat com os profissionais, resposta em até 24 h"
+    },
+    {
+      "id": "unlimitedReplies",
+      "plan": "coaching",
+      "group": "coaching",
+      "name": "Sem limite de respostas"
     }
   ]
 }

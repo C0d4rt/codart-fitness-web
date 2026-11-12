@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import type { Plan } from '#shared/plans'
-
 import { brand } from '~/brand'
 
 const catalog = await usePlans()
 const { t } = useI18n()
 const localePath = useLocalePath()
 
-const offer = (plan: Plan, cents: number, name: string) => ({
+const offer = (cents: number, name: string) => ({
   '@type': 'Offer',
   name,
   price: (cents / 100).toFixed(2),
@@ -16,16 +14,26 @@ const offer = (plan: Plan, cents: number, name: string) => ({
   url: brand.siteUrl + localePath('/planos'),
 })
 
+const { premium, coaching } = catalog
+
 useSchemaOrg([
   defineProduct({
     name: brand.name,
     description: brand.tagline[useSiteLocale().value],
     image: `${brand.siteUrl}/og.png`,
     brand: { '@type': 'Brand', name: brand.name },
-    offers: [catalog.premium, catalog.basic].flatMap((plan) => [
-      offer(plan, plan.monthlyCents, t('plans.offerMonthly', { plan: plan.name })),
-      offer(plan, plan.yearlyCents, t('plans.offerYearly', { plan: plan.name })),
-    ]),
+    offers: [
+      offer(premium.monthlyCents, t('plans.offerMonthly', { plan: premium.name })),
+      offer(premium.yearlyCents, t('plans.offerYearly', { plan: premium.name })),
+      ...(coaching.available
+        ? coaching.packages.map((pack) =>
+            offer(
+              pack.totalCents,
+              t('plans.offerPackage', { plan: coaching.name, months: pack.months }),
+            ),
+          )
+        : []),
+    ],
   }),
 ])
 
@@ -57,8 +65,8 @@ useSeoMeta({
               <th scope="col">
                 <span class="visually-hidden">{{ t('plans.featureColumn') }}</span>
               </th>
-              <th scope="col">{{ catalog.basic.name }}</th>
-              <th scope="col">{{ catalog.premium.name }}</th>
+              <th scope="col">{{ premium.name }}</th>
+              <th scope="col">{{ coaching.name }}</th>
             </tr>
           </thead>
           <tbody v-for="group in catalog.groups" :key="group.id">
@@ -69,13 +77,13 @@ useSeoMeta({
               <th scope="row">
                 <NuxtLink :to="localePath(`/recursos#${feature.id}`)">{{ feature.name }}</NuxtLink>
               </th>
-              <td v-for="(included, column) in [feature.plan === 'basic', true]" :key="column">
+              <td v-for="(included, column) in [feature.plan === 'premium', true]" :key="column">
                 <svg v-if="included" class="check" viewBox="0 0 20 20" aria-hidden="true">
                   <path d="M4.5 10.5l3.5 3.5 7.5-8" />
                 </svg>
                 <span v-else class="absent" aria-hidden="true" />
                 <span class="visually-hidden">{{
-                  included ? t('plans.included') : t('plans.premiumOnly')
+                  included ? t('plans.included') : t('plans.coachingOnly')
                 }}</span>
               </td>
             </tr>

@@ -24,11 +24,13 @@ produto em si vive no [`codart-messaging`](https://github.com/C0d4rt/codart-mess
 - **Como funciona:** toque no botão, mande o que comeu, acompanhe a meta.
 - **O que dá para fazer:** cada função com o plano dela, como usar e um
   exemplo de conversa com o texto que o diário manda de verdade.
-- **Os planos:** Premium e Básico, mensal e anual, com o teste de 7 dias com
-  tudo do Premium, sem cartão.
+- **Os planos:** o Premium, mensal ou anual, com o teste de 7 dias com tudo
+  dele, sem cartão; e o Premium Pro, um programa de 3 ou 6 meses pago uma vez,
+  com dieta e treino revisados por nutricionista e educador físico e 7 dias de
+  garantia. Enquanto a venda do Premium Pro não abre, o card diz "Em breve".
 - **Em que se apoia:** a tabela TACO (Unicamp), o Open Food Facts e o
   Compendium of Physical Activities; exclusão dos dados pela conversa (LGPD);
-  não substitui nutricionista.
+  o assistente não é nutricionista.
 - **Perguntas frequentes:** app, pagamento, cancelamento, arrependimento,
   privacidade, áudio e foto, o fim do teste.
 

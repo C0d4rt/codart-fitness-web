@@ -4,15 +4,35 @@ import { CATALOG_NAMES } from './catalogNames'
 import { FEATURE_COPY } from './featureCopy'
 import { LOCALES } from './locale'
 import fixture from './plans.fixture.json'
-import { buildCatalog, CatalogMismatch, money, yearlyPerMonth, yearlySaving } from './plans'
+import {
+  bestPackage,
+  buildCatalog,
+  CatalogMismatch,
+  installmentCents,
+  money,
+  wholeMoney,
+  yearlyPerMonth,
+  yearlySaving,
+} from './plans'
 
 const DASHES = /[–—]/
+
+const packages = [
+  { months: 3, totalCents: 29990, installments: 3, perMonthCents: 9997 },
+  { months: 6, totalCents: 49990, installments: 6, perMonthCents: 8332 },
+]
+
+const onSale = {
+  ...fixture,
+  plans: [fixture.plans[0], { id: 'coaching', name: 'Premium Pro', available: true, packages }],
+}
 
 describe('buildCatalog', () => {
   it.each(LOCALES)('gives every feature of the plans its %s copy', (locale) => {
     const catalog = buildCatalog(fixture, locale)
-    expect(catalog.premium.features).toHaveLength(fixture.features.length)
-    expect(catalog.basic.features.every((feature) => feature.plan === 'basic')).toBe(true)
+    expect(catalog.coaching.features).toHaveLength(fixture.features.length)
+    expect(catalog.premium.features.every((feature) => feature.plan === 'premium')).toBe(true)
+    expect(catalog.premium.features.length).toBeLessThan(fixture.features.length)
     expect(catalog.groups.flatMap((group) => group.features)).toHaveLength(fixture.features.length)
   })
 
@@ -23,11 +43,28 @@ describe('buildCatalog', () => {
   })
 
   it('keeps the names of the plans in Portuguese and takes the app wording in English', () => {
-    expect(buildCatalog(fixture, 'pt').basic.name).toBe('Básico')
+    expect(buildCatalog(fixture, 'pt').coaching.name).toBe('Premium Pro')
     const english = buildCatalog(fixture, 'en')
-    expect(english.basic.name).toBe('Basic')
+    expect(english.coaching.name).toBe('Premium Pro')
     expect(english.groups.map((group) => group.name)).not.toContain('Registrar')
     expect(english.premium.features.find((feature) => feature.id === 'pantry')?.name).toBe('Pantry')
+  })
+
+  it('has Premium Pro without prices while its sale is off', () => {
+    const { coaching } = buildCatalog(fixture)
+    expect(coaching.available).toBe(false)
+    expect('packages' in coaching).toBe(false)
+  })
+
+  it('has the Premium Pro packages, longest first, once its sale is on', () => {
+    const { coaching } = buildCatalog(onSale)
+    expect(coaching.available).toBe(true)
+    expect(coaching.available && coaching.packages.map((pack) => pack.months)).toEqual([6, 3])
+  })
+
+  it('refuses Premium Pro on sale with no package to sell', () => {
+    const plans = [fixture.plans[0], { id: 'coaching', name: 'Premium Pro', available: true }]
+    expect(() => buildCatalog({ ...fixture, plans })).toThrow()
   })
 
   it('refuses a feature the site has no copy for', () => {
@@ -61,8 +98,10 @@ describe('buildCatalog', () => {
   })
 
   it('refuses an answer that is not the agreed contract', () => {
-    expect(() => buildCatalog({ ...fixture, version: 2 })).toThrow()
+    expect(() => buildCatalog({ ...fixture, version: 1 })).toThrow()
     expect(() => buildCatalog({ ...fixture, plans: fixture.plans.slice(0, 1) })).toThrow()
+    const basic = { id: 'basic', name: 'Básico', monthlyCents: 1990, yearlyCents: 11900 }
+    expect(() => buildCatalog({ ...fixture, plans: [...fixture.plans, basic] })).toThrow()
   })
 })
 
@@ -79,19 +118,36 @@ describe('feature copy', () => {
 
 describe('money', () => {
   it('formats cents as reais with a space that never breaks', () => {
-    expect(money(2990, 'pt')).toBe('R$ 29,90')
-    expect(yearlyPerMonth({ yearlyCents: 15900 }, 'pt')).toBe('R$ 13,25')
+    expect(money(2990, 'pt')).toBe('R$ 29,90')
+    expect(yearlyPerMonth({ yearlyCents: 19990 }, 'pt')).toBe('R$ 16,65')
   })
 
   it('writes reais the English way on English pages', () => {
     expect(money(2990, 'en')).toBe('R$29.90')
-    expect(yearlyPerMonth({ yearlyCents: 15900 }, 'en')).toBe('R$13.25')
+    expect(yearlyPerMonth({ yearlyCents: 19990 }, 'en')).toBe('R$16.65')
+  })
+
+  it('cuts the cents of an anchor price', () => {
+    expect(wholeMoney(8332, 'pt')).toBe('R$ 83')
+    expect(wholeMoney(8399, 'en')).toBe('R$83')
+  })
+})
+
+describe('the Premium Pro packages', () => {
+  it('charges each installment rounded up to the cent', () => {
+    expect(installmentCents({ totalCents: 29990, installments: 3 })).toBe(9997)
+    expect(installmentCents({ totalCents: 49990, installments: 6 })).toBe(8332)
+  })
+
+  it('leads with the package that costs least a month', () => {
+    expect(bestPackage(packages)?.months).toBe(6)
+    expect(bestPackage([])).toBeUndefined()
   })
 })
 
 describe('yearlySaving', () => {
   it('rounds down, so the page never promises more than the price gives', () => {
-    expect(yearlySaving({ monthlyCents: 2990, yearlyCents: 15900 })).toBe(55)
+    expect(yearlySaving({ monthlyCents: 2990, yearlyCents: 19990 })).toBe(44)
     expect(yearlySaving({ monthlyCents: 1990, yearlyCents: 11900 })).toBe(50)
   })
 
