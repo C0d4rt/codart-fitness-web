@@ -128,7 +128,7 @@
     "yearlyPerMonth": "equivale a {price} por mês",
     "saving": "Economize {percent}%",
     "premiumWho": "Para anotar tudo pela conversa, com foto do prato, metas e sugestão do que comer",
-    "coachingWho": "Dieta e treino montados para você e revisados por nutricionista e educador físico",
+    "coachingWho": "Dieta e treino montados para você, sob a responsabilidade de nutricionista e educador físico",
     "allOfPremium": "Tudo do Premium",
     "packageLabel": "Duração do programa",
     "months": "{months} meses",
@@ -166,12 +166,12 @@
         "a": "Nos 7 dias depois do pagamento, do Premium ou do Premium Pro, peça o reembolso na conversa e ele sai sozinho, como prevê o Código de Defesa do Consumidor."
       },
       {
-        "q": "O que quer dizer \"revisado por profissionais\" no Premium Pro?",
-        "a": "Você faz uma avaliação completa e recebe dieta e treino montados para você. Antes de chegar, a dieta é revisada por um nutricionista (CRN) e o treino por um educador físico (CREF), que acompanham você nos check-ins e na reavaliação mensal e respondem às suas dúvidas na conversa em até 24 horas."
+        "q": "Quem cuida do meu plano no Premium Pro?",
+        "a": "Você faz uma avaliação completa e recebe dieta e treino montados para você, sob a responsabilidade de um nutricionista (CRN) e de um educador físico (CREF). Eles acompanham você nos check-ins e na reavaliação mensal e respondem às suas dúvidas na conversa em até 24 horas."
       },
       {
         "q": "O assistente é um nutricionista?",
-        "a": "Não. O assistente da conversa registra, soma e informa; não prescreve dieta nem treino. No Premium Pro, quem revisa a sua dieta e o seu treino são profissionais com registro no conselho."
+        "a": "Não. O assistente da conversa registra, soma e informa; não prescreve dieta nem treino. No Premium Pro, a sua dieta e o seu treino ficam sob a responsabilidade de profissionais com registro no conselho."
       },
       {
         "q": "E os meus dados?",

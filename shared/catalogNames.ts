@@ -53,7 +53,7 @@ export const CATALOG_NAMES: Partial<Record<Locale, CatalogNames>> = {
       anamnesis: 'Full intake assessment',
       swapDiet: 'Exchange-based diet built for you',
       periodizedTraining: 'Periodized training',
-      professionalReview: 'Review by a dietitian (CRN) and a trainer (CREF)',
+      professionalReview: 'Plan under the responsibility of a dietitian (CRN) and a trainer (CREF)',
       checkIns: 'Check-ins and monthly reassessment',
       coachChat: 'Chat with the professionals, answered within 24 h',
       unlimitedReplies: 'No reply limit',
