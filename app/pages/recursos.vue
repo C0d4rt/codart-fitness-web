@@ -157,7 +157,7 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
   position: sticky;
   top: calc(var(--below-header) + var(--index) + 1.5rem);
   align-self: start;
-  font-size: clamp(2rem, 1.3rem + 2vw, 3.25rem);
+  font-size: var(--step-head);
 }
 
 .features {

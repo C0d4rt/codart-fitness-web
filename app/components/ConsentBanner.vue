@@ -53,6 +53,7 @@ onMounted(() => {
 }
 
 .title {
+  font-family: var(--font);
   font-size: 1.375rem;
 }
 

@@ -165,9 +165,6 @@
     "lead": "Toque em um recurso para ver a conversa de exemplo",
     "label": "Todos os recursos"
   },
-  "chips": {
-    "label": "Recursos relacionados"
-  },
   "pricing": {
     "title": "Planos simples. Teste grátis.",
     "promises": {
@@ -293,7 +290,6 @@
     "title": "Termos de uso"
   },
   "hero": {
-    "placeholder": "Pergunte ou conte o que comeu",
     "chipsLabel": "Escolha uma conversa para ver",
     "chips": {
       "lunch": "Registrar o almoço",

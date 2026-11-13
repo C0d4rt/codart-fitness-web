@@ -2,10 +2,7 @@
 import type { ChatScreen } from '#shared/chat'
 import { FEATURE_COPY } from '#shared/featureCopy'
 import { clock } from '#shared/locale'
-import type { Feature } from '#shared/plans'
 import { logModeScreen } from '#shared/screens'
-
-defineProps<{ features: Feature[] }>()
 
 const locale = useSiteLocale().value
 const { t } = useI18n()
@@ -29,14 +26,6 @@ const current = computed(
   () => (MOMENTS.find((each) => each.id === selected.value) ?? MOMENTS[0]!).screen,
 )
 
-const RELATED = [
-  'reminders',
-  'mealReminders',
-  'workouts',
-  'savedWorkouts',
-  'fasting',
-  'foodRanking',
-] as const
 const anchors = useAnchors()
 </script>
 
@@ -71,7 +60,6 @@ const anchors = useAnchors()
       <div class="answer">
         <ChatWindow :screen="current" class="chat" />
       </div>
-      <FeatureChips :features="features" :ids="RELATED" :label="t('chips.label')" class="related" />
       <p class="visually-hidden" aria-live="polite">{{ current.label }}</p>
     </div>
   </section>
@@ -104,10 +92,8 @@ const anchors = useAnchors()
 .body {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  grid-template-areas:
-    'moments answer'
-    'related answer';
-  grid-template-rows: auto 1fr;
+  grid-template-areas: 'moments answer';
+  align-items: start;
   gap: 2.5rem clamp(2rem, 1rem + 3vw, 4rem);
 }
 
@@ -121,11 +107,6 @@ const anchors = useAnchors()
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.related {
-  grid-area: related;
-  align-self: start;
 }
 
 .picked {
@@ -214,15 +195,14 @@ const anchors = useAnchors()
 @media (max-width: 63.99rem) {
   .body {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: 'moments' 'answer' 'related';
-    grid-template-rows: auto;
+    grid-template-areas: 'moments' 'answer';
   }
 }
 
 /* On a phone the moments wrap as short pills, so the conversation stays right under them. */
 @media (max-width: 47.99rem) {
   .body {
-    grid-template-areas: 'moments' 'picked' 'answer' 'related';
+    grid-template-areas: 'moments' 'picked' 'answer';
     gap: 1.25rem;
   }
   .moments ul {
@@ -257,9 +237,6 @@ const anchors = useAnchors()
   }
   .picked {
     display: block;
-  }
-  .related {
-    margin-top: 1.25rem;
   }
   .answer {
     --scale: 0.84;

@@ -165,9 +165,6 @@
     "lead": "Tap a feature to see a sample chat",
     "label": "All features"
   },
-  "chips": {
-    "label": "Related features"
-  },
   "pricing": {
     "title": "Simple plans. Try it free.",
     "promises": {
@@ -293,7 +290,6 @@
     "title": "Terms of use"
   },
   "hero": {
-    "placeholder": "Ask, or tell it what you ate",
     "chipsLabel": "Pick a chat to see",
     "chips": {
       "lunch": "Log my lunch",

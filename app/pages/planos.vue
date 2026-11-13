@@ -47,12 +47,13 @@ useSeoMeta({
   <div class="page">
     <SiteNav />
     <main id="conteudo">
-      <header class="intro">
-        <h1 class="title">{{ t('plans.title') }}</h1>
-        <p class="lead">{{ t('plans.lead', { days: catalog.trialDays }) }}</p>
-      </header>
-
-      <PlanCards :catalog="catalog" bare />
+      <div class="top">
+        <header class="intro">
+          <h1 class="title">{{ t('plans.title') }}</h1>
+          <p class="lead">{{ t('plans.lead', { days: catalog.trialDays }) }}</p>
+        </header>
+        <PlanCards :catalog="catalog" bare />
+      </div>
 
       <section class="compare" aria-labelledby="compare-title">
         <div class="compare-head">
@@ -98,10 +99,17 @@ useSeoMeta({
 </template>
 
 <style scoped>
+.top {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  align-items: start;
+  gap: 2.5rem clamp(2rem, 1rem + 3vw, 4rem);
+  padding: clamp(3rem, 1.5rem + 5vw, 6.5rem) var(--margin) 0;
+}
+
 .intro {
   display: grid;
   gap: 1.75rem;
-  padding: clamp(3rem, 1.5rem + 5vw, 6.5rem) var(--margin) 0;
 }
 
 .title {
@@ -110,18 +118,19 @@ useSeoMeta({
 }
 
 .lead {
-  max-width: 40ch;
+  max-width: 30ch;
   color: var(--muted);
   font-size: var(--step-lead);
   line-height: 1.4;
 }
 
+/* The same rules as the plan labels: an ink box, a heavy rule under the plan names and between groups. */
 .compare {
   display: grid;
   gap: 1.5rem;
   margin: var(--gap-section) var(--margin) 0;
   padding: clamp(1.25rem, 0.5rem + 2.5vw, 3rem);
-  border-radius: var(--radius);
+  border: 2px solid var(--ink);
   background: var(--card);
 }
 
@@ -152,7 +161,7 @@ useSeoMeta({
 .table th,
 .table td {
   padding: 0.75rem 0.5rem;
-  border-bottom: 1px solid var(--tone);
+  border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: middle;
 }
@@ -168,6 +177,7 @@ useSeoMeta({
   position: sticky;
   top: var(--header);
   z-index: 1;
+  border-bottom: 0.5rem solid var(--ink);
   background: var(--card);
   font-weight: 700;
 }
@@ -212,9 +222,20 @@ useSeoMeta({
 
 .group-row th {
   padding-top: 2rem;
+  border-bottom: 0.25rem solid var(--ink);
   font-size: var(--step-title);
   font-weight: 500;
   letter-spacing: -0.02em;
+}
+
+.table tbody:first-of-type .group-row th {
+  padding-top: 1rem;
+}
+
+@media (max-width: 63.99rem) {
+  .top {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media (max-width: 47.99rem) {

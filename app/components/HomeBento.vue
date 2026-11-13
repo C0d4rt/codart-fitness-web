@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { decimal, thousands } from '#shared/locale'
-import type { Feature } from '#shared/plans'
-
-defineProps<{ features: Feature[] }>()
 
 const { t } = useI18n()
 
@@ -38,19 +35,14 @@ const figures = computed(() => ({
   weight: decimal(WEIGHT.at(-1)!, locale.value),
   delta: decimal(WEIGHT.at(-1)! - WEIGHT[0]!, locale.value),
 }))
-
-const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', 'csvExport'] as const
 </script>
 
 <template>
   <section :id="anchors.bento" class="bento" aria-labelledby="bento-title">
-    <div class="words">
-      <div class="intro" data-reveal>
-        <h2 id="bento-title" class="title"><TextLines :text="t('bento.title')" /></h2>
-        <p class="lead">{{ t('bento.lead') }}</p>
-        <NuxtLinkLocale to="/recursos" class="link">{{ t('bento.seeAll') }}</NuxtLinkLocale>
-      </div>
-      <FeatureChips :features="features" :ids="RELATED" :label="t('chips.label')" />
+    <div class="intro" data-reveal>
+      <h2 id="bento-title" class="title"><TextLines :text="t('bento.title')" /></h2>
+      <p class="lead">{{ t('bento.lead') }}</p>
+      <NuxtLinkLocale to="/recursos" class="link">{{ t('bento.seeAll') }}</NuxtLinkLocale>
     </div>
     <div class="grid">
       <article class="tile day" data-ui>
@@ -96,11 +88,6 @@ const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', '
   align-items: center;
   gap: 3rem clamp(3rem, 1rem + 5vw, 6rem);
   padding: var(--gap-section) var(--margin) 0;
-}
-
-.words {
-  display: grid;
-  gap: 2rem;
 }
 
 .intro {
