@@ -16,6 +16,8 @@ useSeoMeta({
 
 // The i18n defaults of nuxt-schema-org drop this link unless the company is the module identity.
 useSchemaOrg([defineWebPage({ about: { '@id': `${brand.siteUrl}/#identity` } })])
+
+const features = computed(() => catalog.groups.flatMap((group) => group.features))
 </script>
 
 <template>
@@ -41,11 +43,11 @@ useSchemaOrg([defineWebPage({ about: { '@id': `${brand.siteUrl}/#identity` } })]
         <HeroDemo />
       </section>
 
-      <HomeAssistant />
-      <HomeHow />
-      <HomeBento />
-      <HomeDay />
-      <HomeEverything :groups="catalog.groups" />
+      <HomeAssistant :features="features" />
+      <HomeHow :features="features" />
+      <HomeBento :features="features" />
+      <HomeDay :features="features" />
+      <HomeEverything :features="features" />
       <PlanCards :catalog="catalog" />
       <HomeFaq :trial-days="catalog.trialDays" />
       <SiteClosing />
@@ -57,26 +59,25 @@ useSchemaOrg([defineWebPage({ about: { '@id': `${brand.siteUrl}/#identity` } })]
 <style scoped>
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(2.5rem, 1.5rem + 3vw, 4.5rem) clamp(2rem, 1rem + 3vw, 4rem);
-  padding: clamp(2rem, 1rem + 3vw, 3.5rem) var(--margin) 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+  padding: clamp(3rem, 1.5rem + 5vw, 6.5rem) var(--margin) 0;
 }
 
 .copy {
   display: grid;
-  justify-items: start;
-  container-type: inline-size;
+  justify-items: center;
+  text-align: center;
 }
 
-/* Sized to the column, so the longer sentence always holds one line in either language. */
 .headline {
-  font-size: min(var(--step-display), 9.2cqi);
-  line-height: 1;
+  font-size: var(--step-display);
+  line-height: 0.98;
 }
 
 .lead {
-  max-width: 34ch;
+  text-wrap: balance;
+  max-width: 40ch;
   margin-top: clamp(1.5rem, 1rem + 1vw, 2rem);
   color: var(--muted);
   font-size: var(--step-lead);
@@ -87,6 +88,7 @@ useSchemaOrg([defineWebPage({ about: { '@id': `${brand.siteUrl}/#identity` } })]
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 1rem 2rem;
   margin-top: 2.25rem;
 }
@@ -123,25 +125,10 @@ useSchemaOrg([defineWebPage({ about: { '@id': `${brand.siteUrl}/#identity` } })]
   font-size: var(--step-small);
 }
 
-/* Side by side only where the headline keeps its size next to the ring. */
-@media (max-width: 84.99rem) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-  }
-  .copy {
-    justify-self: stretch;
-  }
-}
-
 /* A thumb reaches a full-width button anywhere along the bottom of the screen. */
 @media (max-width: 47.99rem) {
   .actions,
   .actions :deep(.button) {
-    width: 100%;
-  }
-  .secondary {
-    justify-content: center;
     width: 100%;
   }
 }

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { ChatScreen } from '#shared/chat'
 import { thousands } from '#shared/locale'
+import type { Feature } from '#shared/plans'
+
+defineProps<{ features: Feature[] }>()
 
 const { t } = useI18n()
 const locale = useSiteLocale().value
@@ -37,6 +40,8 @@ const POINTS = [
   { id: 'numbers', shape: 'chart' },
   { id: 'source', shape: 'book' },
 ] as const
+
+const RELATED = ['pantry', 'mealSuggestion', 'weekSummary', 'foodRanking', 'nutrients'] as const
 </script>
 
 <template>
@@ -57,6 +62,8 @@ const POINTS = [
         <p class="text">{{ t(`assistant.points.${point.id}.text`) }}</p>
       </li>
     </ul>
+
+    <FeatureChips :features="features" :ids="RELATED" :label="t('chips.label')" class="related" />
   </section>
 </template>
 
@@ -68,8 +75,9 @@ const POINTS = [
     'phone .'
     'phone intro'
     'phone points'
+    'phone related'
     'phone .';
-  grid-template-rows: 1fr auto auto 1fr;
+  grid-template-rows: 1fr auto auto auto 1fr;
   gap: 2.5rem clamp(3rem, 1rem + 5vw, 7rem);
   padding: var(--gap-section) var(--margin) 0;
 }
@@ -162,10 +170,15 @@ const POINTS = [
   color: var(--muted);
 }
 
+.related {
+  grid-area: related;
+  align-self: start;
+}
+
 @media (max-width: 63.99rem) {
   .assistant {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: 'intro' 'phone' 'points';
+    grid-template-areas: 'intro' 'phone' 'points' 'related';
     grid-template-rows: auto;
   }
 }

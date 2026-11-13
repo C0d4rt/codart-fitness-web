@@ -71,73 +71,51 @@ const promises = computed(() => [
     </div>
 
     <div class="cards">
-      <article id="premium" class="plan">
-        <div class="label" data-ui>
-          <div class="band">
-            <h3 class="name">{{ premium.name }}</h3>
-            <Transition name="tag">
-              <p v-if="period === 'year' && saving > 0" class="tag">
-                {{ t('pricing.saving', { percent: saving }) }}
-              </p>
-            </Transition>
-          </div>
-          <p class="who">{{ t('pricing.premiumWho') }}</p>
-          <div
-            class="switch"
-            role="group"
-            :aria-label="t('pricing.periodLabel')"
-            :style="{ '--at': period === 'year' ? 1 : 0, '--n': 2 }"
-          >
-            <span class="glide" aria-hidden="true" />
-            <button type="button" :aria-pressed="period === 'month'" @click="period = 'month'">
-              {{ t('pricing.monthly') }}
-            </button>
-            <button type="button" :aria-pressed="period === 'year'" @click="period = 'year'">
-              {{ t('pricing.yearly') }}
-            </button>
-          </div>
-          <p class="price" aria-live="polite">
-            <span class="amount"
-              >{{ money(period === 'month' ? premium.monthlyCents : premium.yearlyCents, locale)
-              }}<span class="mark" aria-hidden="true">*</span></span
-            >
-            <span class="per">{{
-              period === 'month' ? t('pricing.perMonth') : t('pricing.perYear')
-            }}</span>
-          </p>
-          <p class="equiv">
-            {{
-              period === 'month'
-                ? t('pricing.orYearly', {
-                    price: money(premium.yearlyCents, locale),
-                    percent: saving,
-                  })
-                : t('pricing.yearlyPerMonth', { price: yearlyPerMonth(premium, locale) })
-            }}
-          </p>
-          <table class="items">
-            <thead>
-              <tr>
-                <th scope="col">{{ t('plans.featureColumn') }}</th>
-                <th scope="col">{{ t('plans.included') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in premiumItems" :key="item">
-                <th scope="row">{{ item }}</th>
-                <td>
-                  <svg viewBox="0 0 20 20" aria-hidden="true">
-                    <path d="M4.5 10.5l3.5 3.5 7.5-8" />
-                  </svg>
-                  <span class="visually-hidden">{{ t('plans.included') }}</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <p class="note">
-            <span aria-hidden="true">* </span>{{ t('home.terms', { days: catalog.trialDays }) }}
-          </p>
+      <article id="premium" class="card">
+        <div class="name-row">
+          <h3 class="name">{{ premium.name }}</h3>
+          <Transition name="chip">
+            <p v-if="period === 'year' && saving > 0" class="chip">
+              {{ t('pricing.saving', { percent: saving }) }}
+            </p>
+          </Transition>
         </div>
+        <p class="who">{{ t('pricing.premiumWho') }}</p>
+        <div
+          class="switch"
+          role="group"
+          :aria-label="t('pricing.periodLabel')"
+          :style="{ '--at': period === 'year' ? 1 : 0, '--n': 2 }"
+        >
+          <span class="glide" aria-hidden="true" />
+          <button type="button" :aria-pressed="period === 'month'" @click="period = 'month'">
+            {{ t('pricing.monthly') }}
+          </button>
+          <button type="button" :aria-pressed="period === 'year'" @click="period = 'year'">
+            {{ t('pricing.yearly') }}
+          </button>
+        </div>
+        <p class="price" aria-live="polite">
+          <span class="amount">{{
+            money(period === 'month' ? premium.monthlyCents : premium.yearlyCents, locale)
+          }}</span>
+          <span class="per">{{
+            period === 'month' ? t('pricing.perMonth') : t('pricing.perYear')
+          }}</span>
+        </p>
+        <p class="equiv">
+          {{
+            period === 'month'
+              ? t('pricing.orYearly', {
+                  price: money(premium.yearlyCents, locale),
+                  percent: saving,
+                })
+              : t('pricing.yearlyPerMonth', { price: yearlyPerMonth(premium, locale) })
+          }}
+        </p>
+        <ul class="items">
+          <li v-for="item in premiumItems" :key="item">{{ item }}</li>
+        </ul>
         <div class="action">
           <WhatsAppButton
             location="plans-premium"
@@ -146,79 +124,59 @@ const promises = computed(() => [
         </div>
       </article>
 
-      <article id="coaching" class="plan">
-        <div class="label" data-ui>
-          <div class="band">
-            <h3 class="name">{{ coaching.name }}</h3>
-            <Transition name="tag">
-              <p v-if="chosen && chosen === best && packages.length > 1" class="tag">
-                {{
-                  t('pricing.perMonthAnchor', { price: wholeMoney(chosen.perMonthCents, locale) })
-                }}
-              </p>
-            </Transition>
-          </div>
-          <p class="who">{{ t('pricing.coachingWho') }}</p>
-          <template v-if="chosen">
-            <div
-              v-if="packages.length > 1"
-              class="switch"
-              role="group"
-              :aria-label="t('pricing.packageLabel')"
-              :style="{ '--at': packages.indexOf(chosen), '--n': packages.length }"
+      <article id="coaching" class="card">
+        <div class="name-row">
+          <h3 class="name">{{ coaching.name }}</h3>
+          <Transition name="chip">
+            <p v-if="chosen && chosen === best && packages.length > 1" class="chip">
+              {{ t('pricing.perMonthAnchor', { price: wholeMoney(chosen.perMonthCents, locale) }) }}
+            </p>
+          </Transition>
+        </div>
+        <p class="who">{{ t('pricing.coachingWho') }}</p>
+        <template v-if="chosen">
+          <div
+            v-if="packages.length > 1"
+            class="switch"
+            role="group"
+            :aria-label="t('pricing.packageLabel')"
+            :style="{ '--at': packages.indexOf(chosen), '--n': packages.length }"
+          >
+            <span class="glide" aria-hidden="true" />
+            <button
+              v-for="pack in packages"
+              :key="pack.months"
+              type="button"
+              :aria-pressed="pack === chosen"
+              @click="months = pack.months"
             >
-              <span class="glide" aria-hidden="true" />
-              <button
-                v-for="pack in packages"
-                :key="pack.months"
-                type="button"
-                :aria-pressed="pack === chosen"
-                @click="months = pack.months"
-              >
-                {{ t('pricing.months', { months: pack.months }) }}
-              </button>
-            </div>
-            <p class="price" aria-live="polite">
-              <span class="amount">
-                <span v-if="chosen.installments > 1" class="times">{{
-                  t('pricing.installmentsOf', { installments: chosen.installments })
-                }}</span>
-                {{ money(installmentCents(chosen), locale) }}
-              </span>
-            </p>
-            <p class="equiv">
-              {{
-                t('pricing.packageTotal', {
-                  total: money(chosen.totalCents, locale),
-                  months: chosen.months,
-                })
-              }}
-            </p>
-          </template>
-          <p v-else class="price soon">
+              {{ t('pricing.months', { months: pack.months }) }}
+            </button>
+          </div>
+          <p class="price" aria-live="polite">
+            <span v-if="chosen.installments > 1" class="per">{{
+              t('pricing.installmentsOf', { installments: chosen.installments })
+            }}</span>
+            <span class="amount">{{ money(installmentCents(chosen), locale) }}</span>
+          </p>
+          <p class="equiv">
+            {{
+              t('pricing.packageTotal', {
+                total: money(chosen.totalCents, locale),
+                months: chosen.months,
+              })
+            }}
+          </p>
+        </template>
+        <template v-else>
+          <p class="price soon">
             <span class="amount">{{ t('pricing.soon') }}</span>
           </p>
-          <table class="items">
-            <thead>
-              <tr>
-                <th scope="col">{{ t('plans.featureColumn') }}</th>
-                <th scope="col">{{ t('plans.included') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in coachingItems" :key="item">
-                <th scope="row">{{ item }}</th>
-                <td>
-                  <svg viewBox="0 0 20 20" aria-hidden="true">
-                    <path d="M4.5 10.5l3.5 3.5 7.5-8" />
-                  </svg>
-                  <span class="visually-hidden">{{ t('plans.included') }}</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <p class="note">{{ chosen ? t('pricing.coachingTerms') : t('pricing.soonNote') }}</p>
-        </div>
+          <p class="equiv">{{ t('pricing.soonNote') }}</p>
+        </template>
+        <ul class="items">
+          <li v-for="item in coachingItems" :key="item">{{ item }}</li>
+        </ul>
         <div class="action">
           <WhatsAppButton
             location="plans-coaching"
@@ -226,6 +184,7 @@ const promises = computed(() => [
             :label="chosen ? wantCoaching : t('pricing.notifyMe')"
             quiet
           />
+          <p v-if="chosen" class="terms">{{ t('pricing.coachingTerms') }}</p>
         </div>
       </article>
     </div>
@@ -244,7 +203,7 @@ const promises = computed(() => [
 .pricing.bare {
   grid-template-columns: 1fr;
   gap: 0;
-  padding: 0;
+  padding-top: 2.5rem;
 }
 
 .head {
@@ -283,92 +242,13 @@ const promises = computed(() => [
   stroke-linejoin: round;
 }
 
-.cards {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1rem, 0.5rem + 1.5vw, 2rem);
-}
-
-.plan {
-  display: grid;
-  grid-template-rows: 1fr auto;
-  gap: 1rem;
-}
-
-/* Set like the nutrition facts on a package: an ink box, heavy and light rules, figures to the right. */
-.label {
-  --rule: 1px solid var(--ink);
-  --heavy: 0.5rem solid var(--ink);
-
-  display: flex;
-  container-type: inline-size;
-  flex-direction: column;
-  padding: 0.75rem 1.125rem 1rem;
-  border: 2px solid var(--ink);
-  background: var(--card);
-  color: var(--ink);
-}
-
-.band {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.25rem 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: var(--rule);
-}
-
-.name {
-  font-size: var(--step-title);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-
-.tag {
-  padding: 0.125rem 0.5rem;
-  border-radius: 0.25rem;
-  background: var(--mint);
-  color: var(--green);
-  font-size: var(--step-small);
-  font-weight: 700;
-  line-height: 1.4;
-  white-space: nowrap;
-}
-
-.tag-enter-active {
-  transition:
-    opacity 200ms var(--ease-out),
-    transform 200ms var(--ease-out);
-}
-
-.tag-leave-active {
-  transition: opacity 120ms var(--ease-out);
-}
-
-.tag-enter-from {
-  opacity: 0;
-  transform: scale(0.94);
-}
-
-.tag-leave-to {
-  opacity: 0;
-}
-
-.who {
-  padding: 0.625rem 0;
-  font-size: var(--step-small);
-  line-height: 1.45;
-}
-
 .switch {
   position: relative;
   display: inline-grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
   align-self: flex-start;
-  margin-bottom: 0.75rem;
+  margin-top: 0.25rem;
   padding: 0.25rem;
   border-radius: 999px;
   background: var(--tone);
@@ -385,6 +265,12 @@ const promises = computed(() => [
   background: var(--card);
   transform: translateX(calc(var(--at, 0) * 100%));
   transition: transform 260ms var(--ease-in-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glide {
+    transition: none;
+  }
 }
 
 .switch button {
@@ -411,32 +297,91 @@ const promises = computed(() => [
   transform: scale(0.97);
 }
 
-/* The price is the label's energy line: the figure large, the portion it covers at its right. */
-.price {
+.cards {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 2.25rem 2rem 2rem;
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.name-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  min-height: 2rem;
+}
+
+.name {
+  font-size: var(--step-lead);
+}
+
+.chip {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: var(--mint);
+  color: var(--green);
+  font-size: var(--step-small);
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.chip-enter-active {
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+}
+
+.chip-leave-active {
+  transition: opacity 120ms var(--ease-out);
+}
+
+.chip-enter-from {
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+.chip-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip-enter-from {
+    transform: none;
+  }
+}
+
+.who,
+.equiv,
+.terms {
+  color: var(--muted);
+  font-size: var(--step-small);
+}
+
+.price {
+  display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: 1rem;
-  padding: 0.5rem 0 0.375rem;
-  border-top: var(--heavy);
+  gap: 0 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .amount {
-  font-size: min(var(--step-figure), 16cqi);
-  font-weight: 700;
-  letter-spacing: -0.035em;
+  font-size: var(--step-figure);
+  font-weight: 500;
+  letter-spacing: -0.045em;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
-}
-
-.mark {
-  font-size: 0.5em;
-  vertical-align: 0.8em;
-}
-
-.times {
-  font-size: var(--step-body);
-  letter-spacing: 0;
 }
 
 .soon .amount {
@@ -444,75 +389,41 @@ const promises = computed(() => [
 }
 
 .per {
-  font-weight: 700;
+  font-weight: 500;
   white-space: nowrap;
-}
-
-.equiv {
-  padding: 0.5rem 0;
-  border-top: var(--rule);
-  font-size: var(--step-small);
 }
 
 .items {
-  width: 100%;
-  margin-top: 0.25rem;
-  border-collapse: collapse;
-  border-top: var(--heavy);
+  display: grid;
+  flex: 1;
+  align-content: start;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
   font-size: var(--step-small);
 }
 
-.items tbody {
-  vertical-align: top;
+.items li {
+  position: relative;
+  padding-left: 1.5rem;
 }
 
-.items th,
-.items td {
-  padding: 0.4375rem 0;
-  border-bottom: var(--rule);
-  font-weight: 400;
-  text-align: left;
-  text-wrap: pretty;
-}
-
-.items thead th {
-  font-weight: 700;
-}
-
-.items th + th,
-.items td {
-  width: 1%;
-  padding-left: 1rem;
-  text-align: right;
-  white-space: nowrap;
-}
-
-.items tbody tr:last-child > * {
-  border-bottom: 0;
-}
-
-.items svg {
-  display: inline-block;
-  width: 1.125rem;
-  height: 1.125rem;
-  vertical-align: -0.2em;
-  fill: none;
-  stroke: var(--green);
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.note {
-  margin-top: auto;
-  padding-top: 0.5rem;
-  border-top: 0.25rem solid var(--ink);
-  font-size: 0.8125rem;
-  line-height: 1.45;
+.items li::before {
+  content: '';
+  position: absolute;
+  top: 0.5em;
+  left: 0.125rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--green);
 }
 
 .action {
   display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
 }
 
 .action :deep(.button) {
@@ -522,13 +433,8 @@ const promises = computed(() => [
   text-wrap: balance;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .glide {
-    transition: none;
-  }
-  .tag-enter-from {
-    transform: none;
-  }
+.terms {
+  text-align: center;
 }
 
 @media (max-width: 63.99rem) {
@@ -541,17 +447,8 @@ const promises = computed(() => [
   .cards {
     grid-template-columns: 1fr;
   }
-  .label {
-    padding-inline: 0.875rem;
-  }
-}
-
-@media (forced-colors: active) {
-  .glide {
-    background: Highlight;
-  }
-  .switch button[aria-pressed='true'] {
-    color: HighlightText;
+  .card {
+    padding: 1.5rem;
   }
 }
 </style>
