@@ -173,7 +173,7 @@
     "promises": {
       "trial": "{days} days free with everything in Premium",
       "noCard": "No card needed to try",
-      "pay": "Pay by Pix or card",
+      "pay": "Monthly by Pix or card, yearly in up to 12 installments",
       "cancel": "Cancel whenever you like"
     },
     "periodLabel": "Billing period",
@@ -216,7 +216,7 @@
       },
       {
         "q": "How do I pay and cancel?",
-        "a": "Right in the chat: reply \"subscribe\", choose monthly or yearly and pay by Pix or card. Cancel whenever you like; your access lasts until the end of the period you paid for. Premium Pro is a program you pay for once, upfront by Pix or in installments by card, with no renewal."
+        "a": "Right in the chat: reply \"subscribe\" and choose the plan. Monthly is by Pix or card, and by card it renews on its own every month until you cancel. Yearly is by card, in up to 12 interest-free installments. Cancel whenever you like; your access lasts until the end of the period you paid for. Premium Pro is a program you pay for once, upfront by Pix or in installments by card, with no renewal."
       },
       {
         "q": "What if I change my mind?",

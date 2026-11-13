@@ -36,7 +36,7 @@ export const llmsText = (site: Site, catalog: Catalog, builtOn: string): string 
     `Preços em reais, válidos em ${builtOn}.`,
     '',
     `- Teste grátis: ${catalog.trialDays} dias com tudo do ${premium.name}, contados da primeira mensagem, sem cartão.`,
-    `- ${premium.name}: ${money(premium.monthlyCents, 'pt')} por mês ou ${money(premium.yearlyCents, 'pt')} por ano. Pagamento no Pix ou no cartão, pela conversa, e cancelamento a qualquer hora.`,
+    `- ${premium.name}: ${money(premium.monthlyCents, 'pt')} por mês ou ${money(premium.yearlyCents, 'pt')} por ano. O mensal é no Pix ou no cartão, e no cartão renova sozinho até o cancelamento; o anual é no cartão, em até 12x sem juros. Pagamento pela conversa e cancelamento a qualquer hora.`,
     `${coachingLine} Tudo do ${premium.name}, mais dieta e treino montados para a pessoa, sob a responsabilidade de nutricionista e educador físico.`,
     '',
     '## Recursos',
