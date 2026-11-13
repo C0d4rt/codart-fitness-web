@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "currency": "BRL",
   "trialDays": 7,
   "trialPlan": "premium",
@@ -8,7 +8,8 @@
       "id": "premium",
       "name": "Premium",
       "monthlyCents": 2990,
-      "yearlyCents": 19990
+      "yearlyCents": 19990,
+      "yearlyInstallments": 12
     },
     {
       "id": "coaching",
@@ -39,7 +40,7 @@
     },
     {
       "id": "coaching",
-      "name": "Acompanhamento"
+      "name": "Premium Pro"
     }
   ],
   "features": [
@@ -239,7 +240,7 @@
       "id": "professionalReview",
       "plan": "coaching",
       "group": "coaching",
-      "name": "Plano sob a responsabilidade de nutricionista e educador físico (CRN e CREF)"
+      "name": "Plano ajustado à sua evolução"
     },
     {
       "id": "checkIns",
@@ -251,7 +252,7 @@
       "id": "coachChat",
       "plan": "coaching",
       "group": "coaching",
-      "name": "Chat com os profissionais, resposta em até 24 h"
+      "name": "Dúvidas respondidas pela nossa equipe em até 24 h"
     },
     {
       "id": "unlimitedReplies",

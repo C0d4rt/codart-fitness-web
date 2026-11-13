@@ -65,7 +65,7 @@ const FEATURE_SHAPE: Record<string, Shape> = {
   anamnesis: 'clipboard',
   swapDiet: 'swap',
   periodizedTraining: 'dumbbell',
-  professionalReview: 'person',
+  professionalReview: 'trend',
   checkIns: 'calendar',
   coachChat: 'chat',
   unlimitedReplies: 'infinity',

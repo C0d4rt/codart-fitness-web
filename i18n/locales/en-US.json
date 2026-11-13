@@ -76,7 +76,7 @@
       },
       "source": {
         "name": "With the source",
-        "text": "It explains from a knowledge base signed by professionals, and says where it got it."
+        "text": "It explains from reference content, and says where it got it."
       }
     },
     "chat": {
@@ -183,20 +183,22 @@
     "perYear": "per year",
     "orYearly": "{percent, plural, =0 {or {price} per year} other {or {price} per year, {percent}% less}}",
     "yearlyPerMonth": "same as {price} per month",
+    "yearlyInstallments": "in up to {installments} interest-free installments of {price}",
     "saving": "Save {percent}%",
     "premiumWho": "The full assistant: logging by photo and voice, goals, meal suggestions and ready workouts",
-    "coachingWho": "Diet and training built for you, under the responsibility of a dietitian and a personal trainer",
+    "coachingWho": "Diet and training built for you from your assessment and adjusted to your progress, with questions answered by our team",
     "allOfPremium": "Everything in Premium",
     "packageLabel": "Program length",
     "months": "{months} months",
-    "installmentsOf": "{installments}x",
-    "packageTotal": "{total} for {months} months, upfront by Pix or in installments by card",
+    "forMonths": "for {months} months",
+    "orInstallments": "or {installments} interest-free installments of {price}, by card only",
+    "byCard": "Upfront, by card only",
     "perMonthAnchor": "Same as {price}/month",
     "soon": "Coming soon",
     "soonNote": "It isn't open yet. Ask to be told and we'll message you on WhatsApp when it opens",
     "notifyMe": "Tell me when it opens",
     "wantPlan": "I want {plan}",
-    "coachingTerms": "One payment, no renewal. 7 day guarantee, no free trial"
+    "coachingTerms": "No renewal. 7 day guarantee with a full refund, no free trial"
   },
   "faq": {
     "title": "Frequently asked questions",
@@ -216,19 +218,19 @@
       },
       {
         "q": "How do I pay and cancel?",
-        "a": "Right in the chat: reply \"subscribe\" and choose the plan. Monthly is by Pix or card, and by card it renews on its own every month until you cancel. Yearly is by card, in up to 12 interest-free installments. Cancel whenever you like; your access lasts until the end of the period you paid for. Premium Pro is a program you pay for once, upfront by Pix or in installments by card, with no renewal."
+        "a": "Right in the chat: reply \"subscribe\" and choose the plan. Monthly is by Pix or card, and by card it renews on its own every month until you cancel. Yearly is by card, in up to 12 interest-free installments. Cancel whenever you like; your access lasts until the end of the period you paid for. Pix is for monthly only. Premium Pro is a 12-month program, by card only, upfront or in up to 12 interest-free installments, with no renewal. Buying Premium Pro cancels your monthly card subscription, and the Premium days you already paid for are discounted from the price."
       },
       {
         "q": "What if I change my mind?",
-        "a": "Within 7 days of paying, for Premium or Premium Pro, ask for a refund in the chat and it goes through on its own, as the Brazilian Consumer Protection Code provides."
+        "a": "Within 7 days of paying, for Premium or Premium Pro, ask for a refund in the chat and it goes through on its own, in full, as the Brazilian Consumer Protection Code provides. After that, what you paid is not refunded."
       },
       {
         "q": "Who looks after my plan on Premium Pro?",
-        "a": "You do a full assessment and get a diet and training built for you, under the responsibility of a registered dietitian (CRN) and a certified trainer (CREF). They follow you through the check-ins and the monthly reassessment and answer your questions in the chat within 24 hours."
+        "a": "You do a full assessment and get a diet and training built for you from it, with evidence-based methods and reference content. The assistant adjusts the plan to your progress through the check-ins and the monthly reassessment, and your questions go to our team, who answer in the chat within 24 hours."
       },
       {
         "q": "Is the assistant a nutritionist?",
-        "a": "No. The assistant is artificial intelligence: it logs, adds up, informs and suggests within rules signed by professionals, but it doesn't prescribe diets or workouts. On Premium Pro, your diet and training are under the responsibility of licensed professionals."
+        "a": "No. The assistant is artificial intelligence: it logs, adds up, informs and suggests from reference content, and says where it got it. On Premium, it doesn't prescribe diets or workouts. On Premium Pro, it builds your diet and training from your assessment, and questions about your case go to our team."
       },
       {
         "q": "What about my data?",

@@ -13,6 +13,8 @@ const premiumPlan = z.object({
   yearlyCents: z.int().positive(),
 })
 
+const premiumPlanV3 = premiumPlan.extend({ yearlyInstallments: z.int().positive() })
+
 const coachingPackage = z.object({
   months: z.int().positive(),
   totalCents: z.int().positive(),
@@ -35,13 +37,10 @@ const coachingPlan = z.discriminatedUnion('available', [
   }),
 ])
 
-/** What `GET /fitness/plans` of codart-messaging answers: the facts, never the marketing. */
-export const plansSchema = z.object({
-  version: z.literal(2),
+const catalogFacts = {
   currency: z.literal('BRL'),
   trialDays: z.int().positive(),
   trialPlan: z.literal('premium'),
-  plans: z.tuple([premiumPlan, coachingPlan]),
   groups: z.array(z.object({ id: z.string().min(1), name: z.string().min(1) })).min(1),
   features: z
     .array(
@@ -53,14 +52,31 @@ export const plansSchema = z.object({
       }),
     )
     .min(1),
-})
+}
+
+/**
+ * What `GET /fitness/plans` of codart-messaging answers: the facts, never the marketing.
+ * Version 2 stays accepted because the site deploys before codart-messaging serves version 3,
+ * which adds the yearly installments and sells Premium Pro as one 12-month package (PRP-058).
+ */
+export const plansSchema = z.discriminatedUnion('version', [
+  z.object({ version: z.literal(2), ...catalogFacts, plans: z.tuple([premiumPlan, coachingPlan]) }),
+  z.object({
+    version: z.literal(3),
+    ...catalogFacts,
+    plans: z.tuple([premiumPlanV3, coachingPlan]),
+  }),
+])
 
 export type PlansFacts = z.infer<typeof plansSchema>
 export type PlanId = z.infer<typeof planId>
 export type CoachingPackage = z.infer<typeof coachingPackage>
 
 export type Feature = PlansFacts['features'][number] & FeatureCopy
-export type PremiumPlan = z.infer<typeof premiumPlan> & { features: Feature[] }
+export type PremiumPlan = z.infer<typeof premiumPlan> & {
+  yearlyInstallments?: number
+  features: Feature[]
+}
 export type CoachingPlan = z.infer<typeof coachingPlan> & { features: Feature[] }
 
 export type Catalog = {
@@ -158,9 +174,9 @@ export const wholeMoney = (cents: number, locale: Locale): string =>
     .format(Math.floor(cents / 100))
     .replace(/\s/g, ' ')
 
-/** What each card installment charges, rounded up to the cent ("3x de R$ 99,97" for R$ 299,90). */
-export const installmentCents = (pack: Pick<CoachingPackage, 'totalCents' | 'installments'>) =>
-  Math.ceil(pack.totalCents / pack.installments)
+/** What each card installment charges, rounded up to the cent ("12x de R$ 16,66" for R$ 199,90). */
+export const installmentCents = (charge: { totalCents: number; installments: number }) =>
+  Math.ceil(charge.totalCents / charge.installments)
 
 /** The package that costs least a month: the card opens on it and anchors its price. */
 export const bestPackage = (packages: readonly CoachingPackage[]): CoachingPackage | undefined =>

@@ -34,16 +34,20 @@ describe('the legal texts (PRP-040)', () => {
     expect(texts.filter((text) => text.trim() === '')).toEqual([])
   })
 
-  it.each(['pt', 'en'] as const)('promises no professional review of the plan in %s', (locale) => {
-    const texts = textsOf(LEGAL[locale].terms)
+  it.each(['pt', 'en'] as const)('names no professional behind Premium Pro in %s', (locale) => {
+    const texts = [...textsOf(LEGAL[locale].terms), ...textsOf(LEGAL[locale].privacy)]
 
     expect(
-      texts.filter((text) => /revisad[oa]s? e assinad|reviewed and signed/.test(text)),
+      texts.filter((text) =>
+        /\bCRN\b|\bCREF\b|profissionais|professionals|assinad[oa]s? por|signed by|nome de quem|name of who/.test(
+          text,
+        ),
+      ),
     ).toEqual([])
   })
 
   it('carries the version the app asks to accept', () => {
-    expect(LEGAL_VERSION).toBe('7')
+    expect(LEGAL_VERSION).toBe('8')
     expect(LEGAL_EFFECTIVE).toMatch(/^\d{4}-\d{2}-\d{2}$/)
   })
 
