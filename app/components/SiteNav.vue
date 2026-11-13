@@ -51,13 +51,19 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-/* The header floats as a pill over the page, and only casts a shadow once something passes under it. */
+/* A bar across the page in its own colour; the line under it appears once something passes beneath. */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 30;
-  padding: 0.75rem var(--margin) 0;
-  pointer-events: none;
+  height: var(--header);
+  border-bottom: 1px solid transparent;
+  background: var(--ground);
+  transition: border-color 200ms ease;
+}
+
+.scrolled {
+  border-bottom-color: var(--line);
 }
 
 .skip {
@@ -72,7 +78,6 @@ onBeforeUnmount(() => {
   font-weight: 500;
   text-decoration: none;
   transform: translateY(-200%);
-  pointer-events: auto;
 }
 
 .skip:focus-visible {
@@ -83,19 +88,9 @@ onBeforeUnmount(() => {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  min-height: 4rem;
-  padding: 0 0.625rem 0 1.5rem;
-  border-radius: 999px;
-  background: var(--card);
+  height: 100%;
+  padding: 0 var(--margin);
   font-size: var(--step-small);
-  pointer-events: auto;
-  transition: box-shadow 240ms var(--ease-out);
-}
-
-.scrolled .nav {
-  box-shadow: /* taste-skill-ignore: the owner's floating header, lifted only while content passes under it */
-    0 1px 2px rgb(16 36 26 / 0.06),
-    0 10px 30px -12px rgb(16 36 26 / 0.18);
 }
 
 .wordmark {
@@ -168,12 +163,6 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 26rem) {
-  .site-header {
-    padding-inline: 0.75rem;
-  }
-  .nav {
-    padding: 0 0.375rem 0 1.125rem;
-  }
   .actions {
     gap: 0.375rem;
   }
@@ -183,14 +172,14 @@ onBeforeUnmount(() => {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav {
+  .site-header {
     transition: none;
   }
 }
 
 @media (forced-colors: active) {
-  .nav {
-    border: 1px solid CanvasText;
+  .site-header {
+    border-bottom-color: CanvasText;
   }
 }
 </style>

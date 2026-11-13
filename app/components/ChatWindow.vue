@@ -360,7 +360,7 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   border-radius: 50%;
   background: var(--mint);
   color: var(--green);
-  font-family: var(--font-display);
+  font-family: var(--font);
   font-size: 1.125rem;
   font-weight: 700;
 }
