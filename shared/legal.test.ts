@@ -43,7 +43,7 @@ describe('the legal texts (PRP-040)', () => {
   })
 
   it('carries the version the app asks to accept', () => {
-    expect(LEGAL_VERSION).toBe('6')
+    expect(LEGAL_VERSION).toBe('7')
     expect(LEGAL_EFFECTIVE).toMatch(/^\d{4}-\d{2}-\d{2}$/)
   })
 
