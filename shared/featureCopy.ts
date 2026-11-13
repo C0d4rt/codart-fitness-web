@@ -184,9 +184,9 @@ const PT: Record<string, FeatureCopy> = {
     ],
   },
   readyPrograms: {
-    headline: 'Um programa de treino pronto, assinado por educador físico',
+    headline: 'Um programa de treino pronto, do iniciante ao avançado',
     howTo:
-      'Do iniciante ao avançado. Se faltar um aparelho ou doer alguma coisa, o exercício é trocado.',
+      'São programas gerais, que você escolhe: não são montados para você. Se faltar um aparelho ou doer alguma coisa, o exercício é trocado.',
     exchange: [
       you('treinos', '07:10'),
       bot(
@@ -378,7 +378,7 @@ const PT: Record<string, FeatureCopy> = {
   anamnesis: {
     headline: 'Uma avaliação completa antes do plano',
     howTo:
-      'Na própria conversa, você responde sobre objetivo, rotina, treino, alimentação, preferências e saúde, e manda três fotos que só os seus profissionais veem. O seu plano é montado a partir disso.',
+      'Na própria conversa, você responde sobre objetivo, rotina, treino, alimentação, preferências e saúde, e manda três fotos para acompanhar a sua evolução. O seu plano é montado a partir disso.',
     exchange: [
       bot(
         'Seu Premium Pro começou! O primeiro passo é a sua avaliação: são 4 telas rápidas sobre objetivo, rotina, alimentação e saúde.',
@@ -386,7 +386,7 @@ const PT: Record<string, FeatureCopy> = {
         'Fazer avaliação',
       ),
       bot(
-        'Recebi sua avaliação, obrigado! Agora preciso de 3 fotos do corpo, com roupa de treino, uma por vez. Elas ficam guardadas só para os seus profissionais.',
+        'Recebi sua avaliação, obrigado! Agora preciso de 3 fotos do corpo, com roupa de treino, uma por vez. Elas ficam guardadas só para o seu plano.',
         '10:09',
       ),
     ],
@@ -422,12 +422,12 @@ const PT: Record<string, FeatureCopy> = {
     ],
   },
   professionalReview: {
-    headline: 'Um nutricionista e um educador físico responsáveis pelo seu plano',
+    headline: 'Um plano que acompanha a sua evolução',
     howTo:
-      'A dieta fica sob a responsabilidade de um nutricionista (CRN) e o treino de um educador físico (CREF), que acompanham você o programa todo e respondem às suas dúvidas. O assistente da conversa anota, soma e explica.',
+      'A dieta e o treino são montados a partir da sua avaliação, com métodos baseados em evidência e conteúdo de referência, e se ajustam ao seu progresso durante o programa. O assistente da conversa anota, soma e explica.',
     exchange: [
       bot(
-        'Seu plano chegou! Quando for treinar, me pergunte "qual meu treino hoje?". Para comer, siga sua meta do dia, e qualquer dúvida do seu caso eu passo para os seus profissionais.',
+        'Seu plano chegou! Quando for treinar, me pergunte "qual meu treino hoje?". Para comer, siga sua meta do dia, e qualquer dúvida do seu caso eu passo para a nossa equipe.',
         '09:30',
       ),
     ],
@@ -435,31 +435,31 @@ const PT: Record<string, FeatureCopy> = {
   checkIns: {
     headline: 'Check-in a cada 14 dias, reavaliação todo mês',
     howTo:
-      'A cada 14 dias, um check-in rápido: peso, energia, sono, fome e o que ficou difícil. Todo mês, a reavaliação, com fotos para comparar. Os seus profissionais respondem o que muda no plano e por quê, ou que ele segue igual.',
+      'A cada 14 dias, um check-in rápido: peso, energia, sono, fome e o que ficou difícil. Todo mês, a reavaliação, com fotos para comparar. O plano se ajusta ao que você conta, e você recebe o que mudou e por quê, ou que ele segue igual.',
     exchange: [
       bot(
-        'Hora do seu check-in! Leva um minuto e ajuda seus profissionais a ajustar o plano.',
+        'Hora do seu check-in! Leva um minuto e ajuda a ajustar o seu plano.',
         '08:00',
         'Fazer check-in',
       ),
       bot(
-        '💬 *Marina, profissional de nutrição:*\nVocê perdeu 0,8 kg em duas semanas, no ritmo certo. Como a fome à noite apertou, passei 150 kcal do almoço para o jantar.',
+        '📋 *Seu plano foi ajustado*\nVocê perdeu 0,8 kg em duas semanas, no ritmo certo. Como a fome à noite apertou, passei 150 kcal do almoço para o jantar.',
         '17:40',
       ),
     ],
   },
   coachChat: {
-    headline: 'Pergunte aos seus profissionais, na mesma conversa',
+    headline: 'Pergunte à nossa equipe, na mesma conversa',
     howTo:
-      'A dúvida do seu caso vai para os seus profissionais, e a resposta chega na própria conversa em até 24 horas, com o nome de quem respondeu.',
+      'A dúvida do seu caso vai para a nossa equipe, e a resposta chega na própria conversa em até 24 horas.',
     exchange: [
       you('posso fazer o treino de quinta no sábado?', '07:15'),
       bot(
-        'Essa é para os seus profissionais: passei sua pergunta para eles, e a resposta chega aqui em até 24 horas.',
+        'Essa é para a nossa equipe: passei sua pergunta, e a resposta chega aqui em até 24 horas.',
         '07:15',
       ),
       bot(
-        '💬 *Lucas, profissional de treino:*\nPode, sim. Faça o treino C no sábado e descanse no domingo, antes do treino A.',
+        '💬 *Resposta da nossa equipe:*\nPode, sim. Faça o treino C no sábado e descanse no domingo, antes do treino A.',
         '13:20',
       ),
     ],
@@ -642,9 +642,9 @@ const EN: Record<string, FeatureCopy> = {
     ],
   },
   readyPrograms: {
-    headline: 'A ready workout program, signed by a certified trainer',
+    headline: 'A ready workout program, from beginner to advanced',
     howTo:
-      'From beginner to advanced. If a machine is missing or something hurts, the exercise gets swapped.',
+      'These are general programs that you pick: they are not built for you. If a machine is missing or something hurts, the exercise gets swapped.',
     exchange: [
       you('workouts', '07:10'),
       bot(
@@ -835,7 +835,7 @@ const EN: Record<string, FeatureCopy> = {
   anamnesis: {
     headline: 'A full assessment before the plan',
     howTo:
-      'Right in the chat, you answer about your goal, routine, training, eating, preferences and health, and send three photos only your professionals see. Your plan is built from that.',
+      'Right in the chat, you answer about your goal, routine, training, eating, preferences and health, and send three photos to track your progress. Your plan is built from that.',
     exchange: [
       bot(
         'Your Premium Pro has started! The first step is your assessment: 4 quick screens about your goal, routine, eating and health.',
@@ -843,7 +843,7 @@ const EN: Record<string, FeatureCopy> = {
         'Start assessment',
       ),
       bot(
-        'Got your assessment, thank you! Now I need 3 body photos, in workout clothes, one at a time. They are kept for your professionals only.',
+        'Got your assessment, thank you! Now I need 3 body photos, in workout clothes, one at a time. They are kept for your plan only.',
         '10:09',
       ),
     ],
@@ -879,12 +879,12 @@ const EN: Record<string, FeatureCopy> = {
     ],
   },
   professionalReview: {
-    headline: 'A dietitian and a trainer responsible for your plan',
+    headline: 'A plan that keeps up with your progress',
     howTo:
-      'Your diet is under the responsibility of a registered dietitian (CRN) and your training of a certified trainer (CREF), who stay with you through the whole program and answer your questions. The chat assistant logs, adds up and explains.',
+      'Your diet and training are built from your assessment, with evidence-based methods and reference content, and adjust to your progress through the program. The chat assistant logs, adds up and explains.',
     exchange: [
       bot(
-        'Your plan is here! When you train, ask me "what\'s my workout today?". To eat, follow your goal for the day, and I pass any question about your case on to your professionals.',
+        'Your plan is here! When you train, ask me "what\'s my workout today?". To eat, follow your goal for the day, and I pass any question about your case on to our team.',
         '09:30',
       ),
     ],
@@ -892,31 +892,31 @@ const EN: Record<string, FeatureCopy> = {
   checkIns: {
     headline: 'A check-in every 14 days, a reassessment every month',
     howTo:
-      'Every 14 days, a quick check-in: weight, energy, sleep, hunger and what was hard. Every month, the reassessment, with photos to compare. Your professionals answer with what changes in the plan and why, or that it stays the same.',
+      'Every 14 days, a quick check-in: weight, energy, sleep, hunger and what was hard. Every month, the reassessment, with photos to compare. Your plan adjusts to what you report, and you get what changed and why, or that it stays the same.',
     exchange: [
       bot(
-        'Time for your check-in! It takes a minute and helps your professionals adjust the plan.',
+        'Time for your check-in! It takes a minute and helps adjust your plan.',
         '08:00',
         'Do check-in',
       ),
       bot(
-        '💬 *Marina, nutrition professional:*\nYou lost 0.8 kg in two weeks, right on pace. Since hunger got tight at night, I moved 150 kcal from lunch to dinner.',
+        '📋 *Your plan was adjusted*\nYou lost 0.8 kg in two weeks, right on pace. Since hunger got tight at night, I moved 150 kcal from lunch to dinner.',
         '17:40',
       ),
     ],
   },
   coachChat: {
-    headline: 'Ask your professionals, in the same chat',
+    headline: 'Ask our team, in the same chat',
     howTo:
-      'A question about your case goes to your professionals, and the answer arrives in the chat within 24 hours, with the name of who answered.',
+      'A question about your case goes to our team, and the answer arrives in the chat within 24 hours.',
     exchange: [
       you("can I do Thursday's workout on Saturday?", '07:15'),
       bot(
-        'That one is for your professionals: I passed your question on, and the answer arrives here within 24 hours.',
+        'That one is for our team: I passed your question on, and the answer arrives here within 24 hours.',
         '07:15',
       ),
       bot(
-        '💬 *Lucas, training professional:*\nYes, you can. Do workout C on Saturday and rest on Sunday, before workout A.',
+        '💬 *Our team answered:*\nYes, you can. Do workout C on Saturday and rest on Sunday, before workout A.',
         '13:20',
       ),
     ],

@@ -76,7 +76,7 @@
       },
       "source": {
         "name": "Com fonte",
-        "text": "Explica a partir de uma base assinada por profissionais, e diz de onde tirou."
+        "text": "Explica a partir de conteúdo de referência, e diz de onde tirou."
       }
     },
     "chat": {
@@ -183,20 +183,22 @@
     "perYear": "por ano",
     "orYearly": "{percent, plural, =0 {ou {price} por ano} other {ou {price} por ano, {percent}% a menos}}",
     "yearlyPerMonth": "equivale a {price} por mês",
+    "yearlyInstallments": "em até {installments}x de {price} sem juros",
     "saving": "Economize {percent}%",
     "premiumWho": "O assistente completo: registro por foto e áudio, metas, sugestão do que comer e treinos prontos",
-    "coachingWho": "Dieta e treino montados para você, sob a responsabilidade de nutricionista e educador físico",
+    "coachingWho": "Dieta e treino montados para você a partir da sua avaliação e ajustados à sua evolução, com dúvidas respondidas pela nossa equipe",
     "allOfPremium": "Tudo do Premium",
     "packageLabel": "Duração do programa",
     "months": "{months} meses",
-    "installmentsOf": "{installments}x de",
-    "packageTotal": "{total} por {months} meses, à vista no Pix ou parcelado no cartão",
+    "forMonths": "por {months} meses",
+    "orInstallments": "ou {installments}x de {price} sem juros, só no cartão",
+    "byCard": "À vista, só no cartão",
     "perMonthAnchor": "Equivale a {price}/mês",
     "soon": "Em breve",
     "soonNote": "Ainda não abrimos. Peça para ser avisado e a gente te chama no WhatsApp quando abrir",
     "notifyMe": "Quero ser avisado",
     "wantPlan": "Quero o {plan}",
-    "coachingTerms": "Pagamento único, sem renovação. 7 dias de garantia, sem teste grátis"
+    "coachingTerms": "Sem renovação. 7 dias de garantia com reembolso integral, sem teste grátis"
   },
   "faq": {
     "title": "Perguntas frequentes",
@@ -216,19 +218,19 @@
       },
       {
         "q": "Como eu pago e cancelo?",
-        "a": "Na própria conversa: responda \"assinar\" e escolha o plano. O mensal é no Pix ou no cartão, e no cartão renova sozinho todo mês até você cancelar. O anual é no cartão, em até 12x sem juros. Cancele quando quiser; o acesso continua até o fim do período pago. O Premium Pro é um programa pago uma vez só, à vista no Pix ou parcelado no cartão, sem renovação."
+        "a": "Na própria conversa: responda \"assinar\" e escolha o plano. O mensal é no Pix ou no cartão, e no cartão renova sozinho todo mês até você cancelar. O anual é no cartão, em até 12x sem juros. Cancele quando quiser; o acesso continua até o fim do período pago. O Pix vale só para o mensal. O Premium Pro é um programa de 12 meses, só no cartão, à vista ou em até 12x sem juros, sem renovação. Comprar o Premium Pro cancela a assinatura mensal no cartão, e os dias já pagos do Premium são descontados do preço."
       },
       {
         "q": "E se eu me arrepender?",
-        "a": "Nos 7 dias depois do pagamento, do Premium ou do Premium Pro, peça o reembolso na conversa e ele sai sozinho, como prevê o Código de Defesa do Consumidor."
+        "a": "Nos 7 dias depois do pagamento, do Premium ou do Premium Pro, peça o reembolso na conversa e ele sai sozinho, com o valor integral, como prevê o Código de Defesa do Consumidor. Depois desse prazo, o valor pago não é devolvido."
       },
       {
         "q": "Quem cuida do meu plano no Premium Pro?",
-        "a": "Você faz uma avaliação completa e recebe dieta e treino montados para você, sob a responsabilidade de um nutricionista (CRN) e de um educador físico (CREF). Eles acompanham você nos check-ins e na reavaliação mensal e respondem às suas dúvidas na conversa em até 24 horas."
+        "a": "Você faz uma avaliação completa e recebe dieta e treino montados para você a partir dela, com métodos baseados em evidência e conteúdo de referência. O assistente ajusta o plano à sua evolução nos check-ins e na reavaliação mensal, e as suas dúvidas vão para a nossa equipe, que responde na conversa em até 24 horas."
       },
       {
         "q": "O assistente é um nutricionista?",
-        "a": "Não. O assistente é uma inteligência artificial: registra, soma, informa e sugere dentro de regras assinadas por profissionais, mas não prescreve dieta nem treino. No Premium Pro, a sua dieta e o seu treino ficam sob a responsabilidade de profissionais com registro no conselho."
+        "a": "Não. O assistente é uma inteligência artificial: registra, soma, informa e sugere a partir de conteúdo de referência, e diz de onde tirou. No Premium, ele não prescreve dieta nem treino. No Premium Pro, ele monta a dieta e o treino a partir da sua avaliação, e as dúvidas do seu caso vão para a nossa equipe."
       },
       {
         "q": "E os meus dados?",

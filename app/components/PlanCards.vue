@@ -29,6 +29,18 @@ const coaching = computed(() => props.catalog.coaching)
 
 const period = ref<'month' | 'year'>('month')
 const saving = computed(() => yearlySaving(premium.value))
+const yearlyEquiv = computed(() => {
+  const installments = premium.value.yearlyInstallments ?? 1
+  return installments > 1
+    ? t('pricing.yearlyInstallments', {
+        installments,
+        price: money(
+          installmentCents({ totalCents: premium.value.yearlyCents, installments }),
+          locale.value,
+        ),
+      })
+    : t('pricing.yearlyPerMonth', { price: yearlyPerMonth(premium.value, locale.value) })
+})
 const premiumItems = computed(() =>
   PREMIUM_HIGHLIGHTS.flatMap((id) =>
     premium.value.features.filter((each) => each.id === id).map((each) => each.name),
@@ -110,7 +122,7 @@ const promises = computed(() => [
                   price: money(premium.yearlyCents, locale),
                   percent: saving,
                 })
-              : t('pricing.yearlyPerMonth', { price: yearlyPerMonth(premium, locale) })
+              : yearlyEquiv
           }}
         </p>
         <ul class="items">
@@ -154,17 +166,17 @@ const promises = computed(() => [
             </button>
           </div>
           <p class="price" aria-live="polite">
-            <span v-if="chosen.installments > 1" class="per">{{
-              t('pricing.installmentsOf', { installments: chosen.installments })
-            }}</span>
-            <span class="amount">{{ money(installmentCents(chosen), locale) }}</span>
+            <span class="amount">{{ money(chosen.totalCents, locale) }}</span>
+            <span class="per">{{ t('pricing.forMonths', { months: chosen.months }) }}</span>
           </p>
           <p class="equiv">
             {{
-              t('pricing.packageTotal', {
-                total: money(chosen.totalCents, locale),
-                months: chosen.months,
-              })
+              chosen.installments > 1
+                ? t('pricing.orInstallments', {
+                    installments: chosen.installments,
+                    price: money(installmentCents(chosen), locale),
+                  })
+                : t('pricing.byCard')
             }}
           </p>
         </template>

@@ -22,10 +22,30 @@ const packages = [
   { months: 6, totalCents: 49990, installments: 6, perMonthCents: 8332 },
 ]
 
+const program = { months: 12, totalCents: 47880, installments: 12, perMonthCents: 3990 }
+
 const onSale = {
   ...fixture,
-  plans: [fixture.plans[0], { id: 'coaching', name: 'Premium Pro', available: true, packages }],
+  plans: [
+    fixture.plans[0],
+    { id: 'coaching', name: 'Premium Pro', available: true, packages: [program] },
+  ],
 }
+
+const { yearlyInstallments: _, ...premiumV2 } = fixture.plans[0]!
+
+const versionTwo = {
+  ...fixture,
+  version: 2,
+  plans: [premiumV2, fixture.plans[1]],
+}
+
+const versionTwoOnSale = {
+  ...versionTwo,
+  plans: [premiumV2, { id: 'coaching', name: 'Premium Pro', available: true, packages }],
+}
+
+const PROFESSIONALS = /nutricionista|educador|profissiona|CRN|CREF|dietitian|trainer|professional/
 
 describe('buildCatalog', () => {
   it.each(LOCALES)('gives every feature of the plans its %s copy', (locale) => {
@@ -65,11 +85,49 @@ describe('buildCatalog', () => {
     expect('packages' in coaching).toBe(false)
   })
 
-  it('has the Premium Pro packages, longest first, once its sale is on', () => {
+  it('has Premium Pro as one 12-month program once its sale is on', () => {
     const { coaching } = buildCatalog(onSale)
     expect(coaching.available).toBe(true)
+    expect(coaching.available && coaching.packages).toEqual([program])
+  })
+
+  it('takes the yearly installments from version 3', () => {
+    expect(buildCatalog(fixture).premium.yearlyInstallments).toBe(12)
+  })
+
+  it('refuses version 3 without the yearly installments', () => {
+    const plans = { ...fixture, plans: [premiumV2, fixture.plans[1]] }
+    expect(() => buildCatalog(plans)).toThrow()
+  })
+
+  it('still reads version 2, which the API serves until codart-messaging deploys version 3', () => {
+    const catalog = buildCatalog(versionTwo)
+    expect(catalog.premium.yearlyCents).toBe(19990)
+    expect(catalog.premium.yearlyInstallments).toBeUndefined()
+    expect(catalog.coaching.available).toBe(false)
+  })
+
+  it('has the version 2 Premium Pro packages, longest first', () => {
+    const { coaching } = buildCatalog(versionTwoOnSale)
     expect(coaching.available && coaching.packages.map((pack) => pack.months)).toEqual([6, 3])
   })
+
+  it.each(LOCALES)(
+    'names no professional behind Premium Pro in %s, whatever the API calls its features',
+    (locale) => {
+      const features = fixture.features.map((feature) =>
+        feature.id === 'professionalReview'
+          ? {
+              ...feature,
+              name: 'Plano sob a responsabilidade de nutricionista e educador físico (CRN e CREF)',
+            }
+          : feature,
+      )
+      const catalog = buildCatalog({ ...versionTwo, features }, locale)
+      const names = catalog.coaching.features.map((feature) => feature.name)
+      expect(names.filter((name) => PROFESSIONALS.test(name))).toEqual([])
+    },
+  )
 
   it('refuses Premium Pro on sale with no package to sell', () => {
     const plans = [fixture.plans[0], { id: 'coaching', name: 'Premium Pro', available: true }]
@@ -120,6 +178,18 @@ describe('buildCatalog', () => {
 })
 
 describe('feature copy', () => {
+  it.each(LOCALES)('promises no professional behind Premium Pro in %s', (locale) => {
+    const coaching = fixture.features
+      .filter((feature) => feature.plan === 'coaching')
+      .map((feature) => FEATURE_COPY[locale][feature.id]!)
+    const texts = coaching.flatMap((copy) => [
+      copy.headline,
+      copy.howTo,
+      ...copy.exchange.map((message) => message.text ?? ''),
+    ])
+    expect(texts.filter((text) => PROFESSIONALS.test(text))).toEqual([])
+  })
+
   it.each(LOCALES)('has no dashes in anything a visitor reads in %s', (locale) => {
     const texts = Object.values(FEATURE_COPY[locale]).flatMap((copy) => [
       copy.headline,
@@ -151,6 +221,8 @@ describe('the Premium Pro packages', () => {
   it('charges each installment rounded up to the cent', () => {
     expect(installmentCents({ totalCents: 29990, installments: 3 })).toBe(9997)
     expect(installmentCents({ totalCents: 49990, installments: 6 })).toBe(8332)
+    expect(installmentCents(program)).toBe(3990)
+    expect(installmentCents({ totalCents: 19990, installments: 12 })).toBe(1666)
   })
 
   it('leads with the package that costs least a month', () => {
