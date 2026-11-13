@@ -173,7 +173,7 @@
     "promises": {
       "trial": "{days} dias grátis com tudo do Premium",
       "noCard": "Não pedimos cartão para testar",
-      "pay": "Pague no Pix ou no cartão",
+      "pay": "Mensal no Pix ou no cartão, anual em até 12x",
       "cancel": "Cancele quando quiser"
     },
     "periodLabel": "Período",
@@ -216,7 +216,7 @@
       },
       {
         "q": "Como eu pago e cancelo?",
-        "a": "Na própria conversa: responda \"assinar\", escolha mensal ou anual e pague no Pix ou no cartão. Cancele quando quiser; o acesso continua até o fim do período pago. O Premium Pro é um programa pago uma vez só, à vista no Pix ou parcelado no cartão, sem renovação."
+        "a": "Na própria conversa: responda \"assinar\" e escolha o plano. O mensal é no Pix ou no cartão, e no cartão renova sozinho todo mês até você cancelar. O anual é no cartão, em até 12x sem juros. Cancele quando quiser; o acesso continua até o fim do período pago. O Premium Pro é um programa pago uma vez só, à vista no Pix ou parcelado no cartão, sem renovação."
       },
       {
         "q": "E se eu me arrepender?",
