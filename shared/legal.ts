@@ -5,8 +5,8 @@ export type LegalSection = { title: string; paragraphs?: string[]; items?: strin
 export type LegalDoc = { intro: string; sections: LegalSection[] }
 
 /** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
-export const LEGAL_VERSION = '6'
-export const LEGAL_EFFECTIVE = '2026-11-12'
+export const LEGAL_VERSION = '7'
+export const LEGAL_EFFECTIVE = '2026-11-13'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
@@ -47,10 +47,12 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'Premium Pro',
         items: [
           'O Premium Pro é um programa de acompanhamento vendido por pacote de meses, com tudo do Premium. Você faz uma avaliação completa e recebe uma dieta e um treino montados para você, assinados por um nutricionista (CRN) e por um educador físico (CREF), com check-ins e uma reavaliação por mês. Os pacotes, os preços e a disponibilidade estão na página Planos.',
+          'A dieta e o treino chegam em até 24 horas corridas, todos os dias da semana, depois que você termina a avaliação e manda as fotos pedidas. O prazo conta a partir do que você fizer por último.',
           'Os profissionais são contratados pela Codart. As dúvidas do seu caso vão para eles, e a resposta chega na própria conversa, com o nome de quem respondeu, em até 24 horas corridas, todos os dias da semana.',
           'A assinatura do plano e das mudanças nele pode ser automática: sai no nome do profissional, com a autorização dele, sem que ele revise cada versão antes de chegar a você. O plano de quem usa hormônio, e uma dieta que mantém um alimento que piora alguma condição sua, continuam esperando o profissional.',
           'O assistente aplica o que os profissionais assinaram, como a progressão de carga do treino e as trocas equivalentes de exercício ou de alimento, e eles veem o que foi feito. Mudanças na estrutura do plano, como frequência, divisão ou calorias, saem com a assinatura deles.',
           'O pacote é pago uma vez só, à vista no Pix ou parcelado no cartão sem juros. Não tem teste grátis nem renovação automática: o programa termina no fim do pacote.',
+          'Os meses do pacote contam a partir da confirmação do pagamento, e não da entrega do plano: o tempo até o plano chegar faz parte do pacote.',
           'Durante o programa, uma assinatura do Premium mensal no cartão fica pausada, sem cobrança, e volta no fim. Um Premium já pago de uma vez (mensal no Pix ou anual) vira desconto no pacote, proporcional aos dias em que ele e o programa correm juntos, e continua valendo até a data em que já terminaria.',
           'No fim do programa, você volta ao plano que tinha, e o último plano fica na conversa para consulta, sem ajustes, check-ins nem chat com os profissionais. Sem um plano pago, o acesso volta a ser o de quem terminou o teste.',
           'O que você contar sobre remédios e hormônios que usa, e os exames que mandar, fica registrado só para os profissionais levarem em conta no treino e na dieta. Nem o assistente nem os profissionais do programa receitam, dosam ou orientam o uso de remédio ou hormônio.',
@@ -245,10 +247,12 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'Premium Pro',
         items: [
           'Premium Pro is a coaching program sold in packages of months, with everything in Premium. You fill in a full assessment and get a diet and a training plan made for you, signed by a registered dietitian (CRN) and a certified trainer (CREF), with check-ins and a reassessment every month. The packages, the prices and whether it is on sale are on the Plans page.',
+          'The diet and the training plan arrive within 24 hours, every day of the week, after you finish the assessment and send the photos we ask for. The time counts from whichever of the two you do last.',
           'The professionals are hired by Codart. Questions about your case go to them, and the answer arrives in the chat, with the name of who answered, within 24 hours, every day of the week.',
           'Signing the plan and its changes can be automatic: it goes out in the professional’s name, with their authorisation, without them reviewing each version before it reaches you. The plan of someone who uses hormones, and a diet that keeps a food that worsens one of your conditions, still wait for the professional.',
           'The assistant applies what the professionals signed, such as the load progression of your training and equivalent swaps of exercises or foods, and they see what was done. Changes to the structure of the plan, such as frequency, split or calories, go out with their signature.',
           'The package is paid once, upfront by Pix or in interest-free installments by card. There is no free trial and no automatic renewal: the program ends when the package ends.',
+          'The months of the package count from the payment confirmation, not from the delivery of the plan: the time until the plan arrives is part of the package.',
           'During the program, a Premium monthly card subscription is paused, with no charges, and resumes at the end. Premium already paid in one go (monthly by Pix or yearly) becomes a discount on the package, in proportion to the days it overlaps with the program, and stays valid until the date it would have ended anyway.',
           'When the program ends, you go back to the plan you had, and the last plan stays in the chat for reference, with no adjustments, check-ins or chat with the professionals. Without a paid plan, your access goes back to that of someone whose trial has ended.',
           'What you tell us about medicine and hormones you use, and the lab tests you send, is recorded only for the professionals to take into account in your training and diet. Neither the assistant nor the program’s professionals prescribe, dose or advise on the use of medicine or hormones.',
