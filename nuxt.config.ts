@@ -17,16 +17,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   fonts: {
     defaults: { weights: [400, 500, 700], styles: ['normal'], subsets: ['latin', 'latin-ext'] },
-    families: [
-      { name: 'Satoshi', provider: 'fontshare', weights: [400, 500, 700] },
-      {
-        name: 'Bodoni Moda',
-        provider: 'google',
-        weights: [500],
-        variableAxis: { opsz: [[6, 96]] },
-        preload: { subsets: ['latin'], weights: [500] },
-      },
-    ],
+    families: [{ name: 'Satoshi', provider: 'fontshare', weights: [400, 500, 700] }],
   },
   i18n: {
     strategy: 'prefix_except_default',

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { ChatScreen } from '#shared/chat'
 import { thousands } from '#shared/locale'
+import type { Feature } from '#shared/plans'
+
+defineProps<{ features: Feature[] }>()
 
 const { t } = useI18n()
 const locale = useSiteLocale().value
@@ -54,6 +57,7 @@ const STEPS: { id: string; clause: string; screen: ChatScreen }[] = [
   },
 ]
 
+const RELATED = ['diary', 'photos', 'barcode', 'quickAdd', 'backfill', 'reminders'] as const
 const anchors = useAnchors()
 </script>
 
@@ -69,6 +73,7 @@ const anchors = useAnchors()
         <ChatWindow :screen="step.screen" bare class="chat" />
       </li>
     </ol>
+    <FeatureChips :features="features" :ids="RELATED" :label="t('chips.label')" />
   </section>
 </template>
 
