@@ -6,7 +6,7 @@ export type LegalDoc = { intro: string; sections: LegalSection[] }
 
 /** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
 export const LEGAL_VERSION = '9'
-export const LEGAL_EFFECTIVE = '2026-11-13'
+export const LEGAL_EFFECTIVE = '2026-11-14'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
