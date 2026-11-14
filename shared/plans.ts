@@ -163,6 +163,22 @@ export const money = (cents: number, locale: Locale): string =>
     .format(cents / 100)
     .replace(/\s/g, ' ')
 
+/** `money` cut in two ("R$ " and "39,90"), so a price can set the symbol smaller and read the same. */
+export const moneyParts = (cents: number, locale: Locale): { currency: string; amount: string } => {
+  const parts = new Intl.NumberFormat(LANGUAGE[locale], {
+    style: 'currency',
+    currency: 'BRL',
+  }).formatToParts(cents / 100)
+  const isSymbol = (type: string) => type === 'currency' || type === 'literal'
+  const join = (keep: boolean) =>
+    parts
+      .filter((part) => isSymbol(part.type) === keep)
+      .map((part) => part.value)
+      .join('')
+      .replace(/\s/g, ' ')
+  return { currency: join(true), amount: join(false) }
+}
+
 /** Whole reais for an anchor ("R$ 83"), the cents cut: the exact price always sits next to it. */
 export const wholeMoney = (cents: number, locale: Locale): string =>
   new Intl.NumberFormat(LANGUAGE[locale], {

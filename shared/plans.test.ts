@@ -10,6 +10,7 @@ import {
   CatalogMismatch,
   installmentCents,
   money,
+  moneyParts,
   wholeMoney,
   yearlyPerMonth,
   yearlySaving,
@@ -214,6 +215,15 @@ describe('money', () => {
   it('cuts the cents of an anchor price', () => {
     expect(wholeMoney(8332, 'pt')).toBe('R$ 83')
     expect(wholeMoney(8399, 'en')).toBe('R$83')
+  })
+
+  it('splits the symbol from the figure, reading the same as the whole price', () => {
+    expect(moneyParts(3990, 'pt')).toEqual({ currency: 'R$ ', amount: '39,90' })
+    expect(moneyParts(123456, 'en')).toEqual({ currency: 'R$', amount: '1,234.56' })
+    for (const locale of ['pt', 'en'] as const) {
+      const { currency, amount } = moneyParts(123456, locale)
+      expect(currency + amount).toBe(money(123456, locale))
+    }
   })
 })
 
