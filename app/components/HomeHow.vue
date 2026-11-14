@@ -132,12 +132,15 @@ const anchors = useAnchors()
   align-self: end;
 }
 
+/* Without the thread's padding, clipping would cut the bubble tails and the last bubble's shadow. */
 .step .chat :deep(.screen) {
+  overflow: visible;
   background: transparent;
 }
 
 .step .chat :deep(.thread) {
   padding: 0;
+  overflow: visible;
 }
 
 .step .chat :deep(.bot .bubble) {
