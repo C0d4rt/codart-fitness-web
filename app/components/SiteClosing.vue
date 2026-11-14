@@ -8,7 +8,6 @@ const trialDays = useTrialDays()
     <h2 id="closing-title" class="heading"><TextLines :text="t('closing.title')" /></h2>
     <p class="lead">{{ t('closing.lead', { days: trialDays }) }}</p>
     <WhatsAppButton location="closing" :label="t('cta.try')" class="action" />
-    <p class="note">{{ t('closing.note') }}</p>
   </section>
 </template>
 
@@ -41,12 +40,5 @@ const trialDays = useTrialDays()
   .action {
     width: 100%;
   }
-}
-
-.note {
-  max-width: 40ch;
-  margin-top: 1.25rem;
-  color: var(--muted);
-  font-size: var(--step-small);
 }
 </style>

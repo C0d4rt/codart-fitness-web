@@ -6,8 +6,7 @@
   },
   "closing": {
     "title": "Comece hoje. Pelo WhatsApp.",
-    "lead": "{days} dias grátis com tudo do Premium. Não pedimos cartão.",
-    "note": "O botão abre o WhatsApp com a primeira mensagem pronta. É só enviar."
+    "lead": "{days} dias grátis com tudo do Premium, sem cartão."
   },
   "nav": {
     "label": "Principal",
@@ -58,12 +57,12 @@
     "headline": "Seu assistente fitness. No WhatsApp.",
     "lead": "Anota o que você come e treina, sugere o que comer com o que tem em casa, compara produtos no mercado e te passa o treino do dia. Por texto, áudio ou foto.",
     "seeHow": "Ver como funciona",
-    "terms": "{days} dias grátis com tudo do Premium. Não pedimos cartão"
+    "terms": "{days} dias grátis com tudo do Premium, sem cartão."
   },
   "assistant": {
-    "title": "Ele conhece você. E diz de onde tirou.",
-    "lead": "Lembra da sua meta, do que você não come e do que tem em casa. Pergunte sobre os seus números, ou peça uma explicação: ele responde com a fonte.",
-    "label": "Uma conversa em que a pessoa pergunta o que o assistente sabe sobre ela, quanta proteína comeu na semana e se creatina faz mal aos rins, e ele responde com a fonte.",
+    "title": "Ele conhece você. E sabe de onde tirou.",
+    "lead": "Lembra da sua meta, do que você não come e do que tem em casa. Pergunte sobre os seus números, ou peça uma explicação e, se quiser, a fonte",
+    "label": "Uma conversa em que a pessoa pergunta o que o assistente sabe sobre ela, quanta proteína comeu na semana e se creatina faz mal aos rins, e depois pergunta a fonte.",
     "pointsLabel": "O que o assistente faz",
     "points": {
       "memory": {
@@ -76,7 +75,7 @@
       },
       "source": {
         "name": "Com fonte",
-        "text": "Explica a partir de conteúdo de referência, e diz de onde tirou."
+        "text": "Explica a partir de conteúdo de referência, e mostra a fonte quando você pergunta."
       }
     },
     "chat": {
@@ -85,7 +84,9 @@
       "weekQuestion": "quanta proteína comi essa semana?",
       "weekAnswer": "*{total} g de proteína* em {logged} de {days} dias registrados: média de {average} g por dia, para a meta de {goal} g.",
       "creatineQuestion": "creatina faz mal pros rins?",
-      "creatineAnswer": "De 3 a 5 g por dia, a creatina monohidratada é segura para quem não tem doença renal.\nIsso vem de Kreider RB et al., ISSN (2017)."
+      "creatineAnswer": "De 3 a 5 g por dia, a creatina monohidratada é segura para quem não tem doença renal.",
+      "sourceQuestion": "qual a fonte?",
+      "sourceAnswer": "Kreider RB et al., ISSN (2017)."
     }
   },
   "how": {
@@ -115,7 +116,7 @@
   },
   "bento": {
     "title": "Seus números. Quando pedir.",
-    "lead": "A meta do dia, a semana e o peso, em resposta a uma mensagem. Toda segunda, o resumo da semana chega sozinho",
+    "lead": "A meta do dia, a semana e o peso, em resposta a uma mensagem. No dia que você escolher (segunda, se não disser nada), o resumo da semana chega sozinho",
     "seeAll": "Ver todos os recursos, com exemplos",
     "day": {
       "title": "Meta do dia",
@@ -124,7 +125,7 @@
     "week": {
       "title": "Resumo da semana",
       "chartLabel": "Calorias de cada dia da semana, perto da meta de {goal}",
-      "text": "Média de {average} kcal em {logged} de {days} dias, toda segunda"
+      "text": "Média de {average} kcal em {logged} de {days} dias, toda semana"
     },
     "weight": {
       "title": "Peso",
@@ -172,7 +173,7 @@
     "title": "Planos simples. Teste grátis.",
     "promises": {
       "trial": "{days} dias grátis com tudo do Premium",
-      "noCard": "Não pedimos cartão para testar",
+      "noCard": "Sem cartão para testar",
       "pay": "Mensal no Pix ou no cartão, anual em até 12x",
       "cancel": "Cancele quando quiser"
     },
@@ -212,7 +213,7 @@
       },
       {
         "q": "Como funciona o teste grátis?",
-        "a": "São {days} dias com tudo do Premium, contados da primeira mensagem. Não pedimos cartão. O Premium Pro não tem teste: tem 7 dias de garantia."
+        "a": "São {days} dias com tudo do Premium, contados da primeira mensagem, sem cartão. O Premium Pro não tem teste: tem 7 dias de garantia."
       },
       {
         "q": "E quando o teste acaba?",
@@ -224,19 +225,19 @@
       },
       {
         "q": "E se eu me arrepender?",
-        "a": "Nos 7 dias depois do pagamento, do Premium ou do Premium Pro, peça o reembolso na conversa e ele sai sozinho, com o valor integral, como prevê o Código de Defesa do Consumidor. Depois desse prazo, o valor pago não é devolvido."
+        "a": "Nos 7 dias depois do pagamento, do Premium ou do Premium Pro, peça o reembolso na conversa e ele sai sozinho, com o valor integral."
       },
       {
         "q": "Quem cuida do meu plano no Premium Pro?",
-        "a": "Você faz uma avaliação completa e recebe dieta e treino montados para você a partir dela, com métodos baseados em evidência e conteúdo de referência. O assistente ajusta o plano à sua evolução nos check-ins e na reavaliação mensal, e as suas dúvidas vão para a nossa equipe, que responde na conversa em até 24 horas."
+        "a": "O assistente. Você faz uma avaliação completa, e ele monta a dieta e o treino a partir dela, com métodos baseados em evidência e conteúdo de referência. Nos check-ins e na reavaliação mensal, ele ajusta o plano à sua evolução, e as suas dúvidas vão para a nossa equipe, que responde na conversa em até 24 horas."
       },
       {
         "q": "O assistente é um nutricionista?",
-        "a": "Não. O assistente é uma inteligência artificial: registra, soma, informa e sugere a partir de conteúdo de referência, e diz de onde tirou. No Premium, ele não prescreve dieta nem treino. No Premium Pro, ele monta a dieta e o treino a partir da sua avaliação, e as dúvidas do seu caso vão para a nossa equipe."
+        "a": "Não. O assistente é uma inteligência artificial: registra, soma, informa e sugere a partir de conteúdo de referência, e mostra a fonte quando você pergunta. No Premium, ele não prescreve dieta nem treino. No Premium Pro, ele monta a dieta e o treino a partir da sua avaliação, e as suas dúvidas vão para a nossa equipe."
       },
       {
         "q": "E os meus dados?",
-        "a": "Servem só para o seu diário. Diga \"quero apagar minha conta\" e tudo é apagado, como prevê a LGPD."
+        "a": "Servem só para o seu diário e são tratados conforme a LGPD."
       }
     ]
   },

@@ -6,8 +6,7 @@
   },
   "closing": {
     "title": "Start today. On WhatsApp.",
-    "lead": "{days} days free with everything in Premium. No card needed.",
-    "note": "The button opens WhatsApp with the first message ready. Just send it."
+    "lead": "{days} days free with everything in Premium, no card needed."
   },
   "nav": {
     "label": "Main",
@@ -58,12 +57,12 @@
     "headline": "Your fitness assistant. On WhatsApp.",
     "lead": "It logs what you eat and train, suggests what to eat from what you have at home, compares products at the store and gives you today's workout. By text, voice or photo.",
     "seeHow": "See how it works",
-    "terms": "{days} days free with everything in Premium. No card needed"
+    "terms": "{days} days free with everything in Premium, no card needed."
   },
   "assistant": {
-    "title": "It knows you. And names its source.",
-    "lead": "It remembers your goal, what you don't eat and what you have at home. Ask about your numbers, or ask why: it answers with the source.",
-    "label": "A chat where someone asks what the assistant knows about them, how much protein they ate this week and whether creatine harms the kidneys, and it answers with the source.",
+    "title": "It knows you. And knows its sources.",
+    "lead": "It remembers your goal, what you don't eat and what you have at home. Ask about your numbers, or ask why and, if you like, for the source",
+    "label": "A chat where someone asks what the assistant knows about them, how much protein they ate this week and whether creatine harms the kidneys, and then asks for the source.",
     "pointsLabel": "What the assistant does",
     "points": {
       "memory": {
@@ -76,7 +75,7 @@
       },
       "source": {
         "name": "With the source",
-        "text": "It explains from reference content, and says where it got it."
+        "text": "It explains from reference content, and shows the source when you ask."
       }
     },
     "chat": {
@@ -85,7 +84,9 @@
       "weekQuestion": "how much protein did I eat this week?",
       "weekAnswer": "*{total} g of protein* over {logged} of {days} days logged: an average of {average} g a day, for a goal of {goal} g.",
       "creatineQuestion": "is creatine bad for the kidneys?",
-      "creatineAnswer": "At 3 to 5 g a day, creatine monohydrate is safe for people without kidney disease.\nThat comes from Kreider RB et al., ISSN (2017)."
+      "creatineAnswer": "At 3 to 5 g a day, creatine monohydrate is safe for people without kidney disease.",
+      "sourceQuestion": "what's the source?",
+      "sourceAnswer": "Kreider RB et al., ISSN (2017)."
     }
   },
   "how": {
@@ -115,7 +116,7 @@
   },
   "bento": {
     "title": "Your numbers. When you ask.",
-    "lead": "Today's goal, your week and your weight, in reply to one message. Every Monday, the week summary arrives on its own",
+    "lead": "Today's goal, your week and your weight, in reply to one message. On the day you choose (Monday, unless you say otherwise), the week summary arrives on its own",
     "seeAll": "See all features, with examples",
     "day": {
       "title": "Daily goal",
@@ -124,7 +125,7 @@
     "week": {
       "title": "Week summary",
       "chartLabel": "Calories for each day of the week, close to the goal of {goal}",
-      "text": "An average of {average} kcal on {logged} of {days} days, every Monday"
+      "text": "An average of {average} kcal on {logged} of {days} days, every week"
     },
     "weight": {
       "title": "Weight",
@@ -212,7 +213,7 @@
       },
       {
         "q": "How does the free trial work?",
-        "a": "You get {days} days with everything in Premium, counted from your first message. No card needed. Premium Pro has no trial: it has a 7 day guarantee."
+        "a": "You get {days} days with everything in Premium, counted from your first message, no card needed. Premium Pro has no trial: it has a 7 day guarantee."
       },
       {
         "q": "What happens when the trial ends?",
@@ -224,19 +225,19 @@
       },
       {
         "q": "What if I change my mind?",
-        "a": "Within 7 days of paying, for Premium or Premium Pro, ask for a refund in the chat and it goes through on its own, in full, as the Brazilian Consumer Protection Code provides. After that, what you paid is not refunded."
+        "a": "Within 7 days of paying, for Premium or Premium Pro, ask for a refund in the chat and it goes through on its own, in full."
       },
       {
         "q": "Who looks after my plan on Premium Pro?",
-        "a": "You do a full assessment and get a diet and training built for you from it, with evidence-based methods and reference content. The assistant adjusts the plan to your progress through the check-ins and the monthly reassessment, and your questions go to our team, who answer in the chat within 24 hours."
+        "a": "The assistant. You do a full assessment, and it builds your diet and training from it, with evidence-based methods and reference content. Through the check-ins and the monthly reassessment, it adjusts the plan to your progress, and your questions go to our team, who answer in the chat within 24 hours."
       },
       {
         "q": "Is the assistant a nutritionist?",
-        "a": "No. The assistant is artificial intelligence: it logs, adds up, informs and suggests from reference content, and says where it got it. On Premium, it doesn't prescribe diets or workouts. On Premium Pro, it builds your diet and training from your assessment, and questions about your case go to our team."
+        "a": "No. The assistant is artificial intelligence: it logs, adds up, informs and suggests from reference content, and shows the source when you ask. On Premium, it doesn't prescribe diets or workouts. On Premium Pro, it builds your diet and training from your assessment, and your questions go to our team."
       },
       {
         "q": "What about my data?",
-        "a": "It's used only for your diary. Say \"delete my data\" and everything is deleted, as Brazil's data protection law (LGPD) provides."
+        "a": "It's used only for your diary and handled under Brazil's data protection law (LGPD)."
       }
     ]
   },
