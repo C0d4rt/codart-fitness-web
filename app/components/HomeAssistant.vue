@@ -32,6 +32,8 @@ const screen: ChatScreen = {
     },
     { from: 'you', text: t('assistant.chat.creatineQuestion'), time: '20:16' },
     { from: 'bot', text: t('assistant.chat.creatineAnswer'), time: '20:16' },
+    { from: 'you', text: t('assistant.chat.sourceQuestion'), time: '20:17' },
+    { from: 'bot', text: t('assistant.chat.sourceAnswer'), time: '20:17' },
   ],
 }
 

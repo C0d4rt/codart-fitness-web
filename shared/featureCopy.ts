@@ -317,7 +317,7 @@ const PT: Record<string, FeatureCopy> = {
   weekSummary: {
     headline: 'A semana num resumo e num gráfico',
     howTo:
-      'Toda segunda chega o resumo da semana anterior, com o gráfico das calorias e dos macros. Peça quando quiser: "como foi minha semana?".',
+      'No dia que você escolher (segunda, se não disser nada), chega o resumo da semana, com o gráfico das calorias e dos macros. Peça quando quiser: "como foi minha semana?".',
     exchange: [
       you('como foi minha semana?', '08:30'),
       bot(
@@ -773,7 +773,7 @@ const EN: Record<string, FeatureCopy> = {
   weekSummary: {
     headline: 'Your week in a summary and a chart',
     howTo:
-      'Every Monday, the summary of the week before arrives, with a chart of your calories and macros. Ask whenever you like: "how was my week?".',
+      'On the day you choose (Monday, unless you say otherwise), the week summary arrives, with a chart of your calories and macros. Ask whenever you like: "how was my week?".',
     exchange: [
       you('how was my week?', '08:30'),
       bot(
