@@ -1,3 +1,4 @@
+import { brand } from '../app/brand'
 import type { ChatMessage } from './chat'
 import type { Locale } from './locale'
 
@@ -26,7 +27,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('almocei 150 g de arroz, uma concha de feijão e um filé de frango'),
       bot(
-        '✅ Registrado:\n*Almoço*\n1. 150 g de arroz branco cozido: 192 kcal\n2. ~86 g de feijão carioca cozido (1 concha): 65 kcal\n3. ~100 g de filé de frango grelhado (1 filé): 159 kcal\nTotal do dia: 416 kcal (P 40 g · C 54 g · G 3 g)\nFaltam 1.384 kcal para a meta de 1.800.',
+        '✅ *Almoço* registrado\n\n• 150 g de arroz: 192 kcal\n• 1 concha de feijão (~86 g): 65 kcal\n• ~100 g de filé de frango: 159 kcal\n\n• Proteína: 40 g\n• Carboidratos: 54 g\n• Gordura: 3 g\n*Total do dia:* 416 kcal\n*Faltam 1.384 kcal* para a meta de 1.800.',
       ),
     ],
   },
@@ -36,7 +37,7 @@ const PT: Record<string, FeatureCopy> = {
       'O diário põe cada registro em café, almoço, lanche ou jantar pelo horário, e pergunta quando fica em dúvida. As refeições são as suas: diga quais faz.',
     exchange: [
       you('minhas refeições são café, almoço, lanche e jantar', '08:02'),
-      bot('Anotado: suas refeições são café, almoço, lanche e jantar.', '08:02'),
+      bot('🍽️ Suas refeições agora são: café, almoço, lanche, jantar.', '08:02'),
     ],
   },
   barcode: {
@@ -46,7 +47,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('7891000100103 comi 2 colheres', '16:20'),
       bot(
-        '✅ Registrado:\n*Lanche*\n1. ~30 g de Leite Condensado Moça (2 colheres): 98 kcal\nTotal do dia: 1.212 kcal (P 61 g · C 160 g · G 33 g)',
+        '✅ *Lanches* registrado\n\n• 30 g de Leite Condensado Moça: 98 kcal\n\n• Proteína: 61 g\n• Carboidratos: 160 g\n• Gordura: 33 g\n*Total do dia:* 1.212 kcal\n*Faltam 588 kcal* para a meta de 1.800.',
         '16:20',
       ),
     ],
@@ -57,7 +58,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('registra 300 kcal no lanche', '16:05'),
       bot(
-        '✅ Registrado:\n*Lanche*\n1. registro rápido: 300 kcal\nTotal do dia: 1.420 kcal (P 72 g · C 168 g · G 41 g)',
+        '✅ *Lanches* registrado\n\n• registro rápido: 300 kcal\n\n• Proteína: 72 g\n• Carboidratos: 168 g\n• Gordura: 41 g\n*Total do dia:* 1.420 kcal\n*Faltam 380 kcal* para a meta de 1.800.',
         '16:05',
       ),
     ],
@@ -68,7 +69,7 @@ const PT: Record<string, FeatureCopy> = {
       'Se você some por um dia, o diário manda uma mensagem curta para retomar. Responda "parar" e ele não manda mais.',
     exchange: [
       bot(
-        'Oi! 👋 Ontem você registrou 1.760 kcal. O que você já comeu hoje? Me conta que eu anoto.',
+        'Oi! 👋 Ontem você registrou 1.760 kcal. O que você já comeu hoje? Me conta que eu anoto.\n\nPara não receber lembretes, responda "parar".',
         '11:30',
       ),
       you('café com leite e um pão na chapa', '11:34'),
@@ -101,7 +102,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('registra 450 kcal no almoço, 30 g de proteína, 40 g de carbo e 18 g de gordura'),
       bot(
-        '✅ Registrado:\n*Almoço*\n1. registro rápido: 450 kcal (P 30 g · C 40 g · G 18 g)\nTotal do dia: 980 kcal (P 62 g · C 104 g · G 33 g)',
+        '✅ *Almoço* registrado\n\n• registro rápido: 450 kcal\n\n• Proteína: 62 g\n• Carboidratos: 104 g\n• Gordura: 33 g\n*Total do dia:* 980 kcal\n*Faltam 820 kcal* para a meta de 1.800.',
       ),
     ],
   },
@@ -112,7 +113,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('anteontem jantei 2 fatias de pizza de muçarela', '09:15'),
       bot(
-        '📅 quinta, 23/10\n✅ Registrado:\n*Jantar*\n1. ~200 g de pizza de muçarela (2 fatias): 520 kcal',
+        '📅 anteontem\n\n✅ *Jantar* registrado\n\n• 2 fatias de pizza de muçarela (~200 g): 520 kcal\n\n• Proteína: 86 g\n• Carboidratos: 215 g\n• Gordura: 55 g\n*Total do dia:* 1.690 kcal\n*Faltam 110 kcal* para a meta de 1.800.',
         '09:15',
       ),
     ],
@@ -123,7 +124,9 @@ const PT: Record<string, FeatureCopy> = {
       'Cadastre o que não está na tabela, como o seu whey ou o pão da padaria, com os valores do rótulo. Daí em diante é só dizer o nome.',
     exchange: [
       you('meu whey: 30 g têm 120 kcal, 24 g de proteína, 3 g de carboidrato e 1 g de gordura'),
-      bot('✅ Guardei *whey* nos seus alimentos: 30 g têm 120 kcal (P 24 g · C 3 g · G 1 g).'),
+      bot(
+        '✅ Guardei *whey* nos seus alimentos: 120 kcal na porção de 30 g · 400 kcal em 100 g (Proteína 80 g · Carboidratos 10 g · Gordura 3,3 g).',
+      ),
     ],
   },
   savedMeals: {
@@ -133,7 +136,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('salva isso como café padrão', '07:48'),
       bot(
-        '⭐ Guardei *café padrão* nas suas refeições salvas: pão francês, ovo mexido e café com leite. Para registrar de novo, é só dizer "café padrão".',
+        '⭐ Guardei *café padrão* nas suas refeições salvas: 50 g de pão francês, 100 g de ovo mexido, 200 g de café com leite. Para registrar de novo, é só dizer "café padrão".',
         '07:48',
       ),
     ],
@@ -143,11 +146,11 @@ const PT: Record<string, FeatureCopy> = {
     howTo:
       'Mande os ingredientes e quantas porções rende, ou o link da receita. Depois, registre "1 porção" e o diário faz a conta.',
     exchange: [
-      you(
-        'receita strogonoff: 500 g de frango, 1 caixa de creme de leite, 1 cebola, rende 4 porções',
-      ),
+      you('receita strogonoff: 500 g de frango e 200 g de creme de leite, rende 4 porções'),
       bot(
-        '📖 Guardei a receita *strogonoff*: 1 porção tem 274 kcal (P 28 g · C 6 g · G 14 g). Para registrar, diga por exemplo: "comi 1 porção do strogonoff".',
+        '📖 *Receita strogonoff*, confira a conta\n\n• 500 g de frango: 595 kcal\n• 200 g de creme de leite: 442 kcal\n\n*Total:* 1.037 kcal, com 700 g de ingredientes crus\nProteína 111 g · Carboidratos 9 g · Gordura 60 g\n259 kcal por porção (rende 4)\n\nGuardo a receita *strogonoff* assim?',
+        '12:41',
+        'Guardar',
       ),
     ],
   },
@@ -167,7 +170,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('supino reto, 3 séries de 8 com 60 kg, e corri 30 min', '18:40'),
       bot(
-        '🏋️ Treino registrado:\nSupino reto: 3 × 8 com 60 kg\nCorrida: 30 min\n🔥 Gasto do treino: cerca de 410 kcal (estimativa).',
+        '✅ *Treino* registrado\n\n1. Supino reto: 3×8 com 60 kg\n2. Corrida: 30 min (357 kcal)\n\n🔥 cerca de 357 kcal (estimativa)',
         '18:40',
       ),
     ],
@@ -178,7 +181,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('fiz o treino A', '18:55'),
       bot(
-        '🏋️ Treino registrado:\nSupino reto: 3 × 8 com 60 kg\nRemada curvada: 3 × 10 com 40 kg\nDesenvolvimento: 3 × 10 com 16 kg\nQuanto tempo durou o treino? Assim somo o gasto.',
+        '✅ *Treino* registrado\n\n1. Supino reto: 3×8 com 60 kg\n2. Remada curvada: 3×10 com 40 kg\n3. Desenvolvimento: 3×10 com 16 kg\n\n*Faltam 640 kcal* para a meta de 1.800.\n\nQuanto tempo durou o treino? Assim somo o gasto.',
         '18:55',
       ),
     ],
@@ -205,7 +208,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('quanto falta pra minha meta?', '17:10'),
       bot(
-        'Total do dia: 1.240 kcal (P 78 g · C 140 g · G 38 g)\nFaltam 560 kcal para a meta de 1.800.',
+        '📊 *Hoje: 1.240 kcal*\n• Proteína: 78 g\n• Carboidratos: 140 g\n• Gordura: 38 g\n*Faltam 560 kcal* para a meta de 1.800.',
         '17:10',
       ),
     ],
@@ -216,7 +219,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('50% carbo, 25% proteína, 25% gordura', '10:20'),
       bot(
-        '🎯 Meta ajustada: 1.800 kcal por dia (carboidrato 50% · 225 g, proteína 25% · 113 g, gordura 25% · 50 g).\nEla não muda com o seu peso; para voltar à calculada, diga "recalcular minha meta".',
+        '🎯 *Meta ajustada: 1.800 kcal por dia*\n• Proteína: 113 g (25%)\n• Carboidratos: 225 g (50%)\n• Gordura: 50 g (25%)\n\nEla não muda com o seu peso; para voltar à calculada, diga "recalcular minha meta".',
         '10:20',
       ),
     ],
@@ -228,7 +231,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('40% no jantar', '10:31'),
       bot(
-        '🍽️ Sua meta por refeição: café 20%, almoço 30%, lanche 10% e jantar 40%.\nPara mudar, diga por exemplo "40% no jantar".',
+        '🍽️ Sua meta por refeição: café da manhã 21% (378 kcal) · almoço 30% (540 kcal) · jantar 40% (720 kcal) · lanches 9% (162 kcal).\nPara mudar, diga por exemplo "40% no jantar".',
         '10:31',
       ),
     ],
@@ -240,7 +243,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('minha meta é 200 g de carbo, 150 g de proteína e 60 g de gordura', '10:40'),
       bot(
-        '🎯 Meta ajustada: 1.940 kcal por dia, a soma dos macros (carboidrato 200 g, proteína 150 g, gordura 60 g).\nEla não muda com o seu peso; para voltar à calculada, diga "recalcular minha meta".',
+        '🎯 *Meta ajustada: 1.940 kcal por dia*, a soma dos macros\n• Proteína: 150 g\n• Carboidratos: 200 g\n• Gordura: 60 g\n\nEla não muda com o seu peso; para voltar à calculada, diga "recalcular minha meta".',
         '10:40',
       ),
     ],
@@ -251,7 +254,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('no sábado e domingo minha meta é 2.200 kcal', '10:52'),
       bot(
-        '🎯 Meta de sábado e domingo: 2.200 kcal. Nos outros dias, vale a sua meta de sempre.',
+        '🎯 *Meta de sábado e domingo: 2.200 kcal*\n• Proteína: 143 g\n• Carboidratos: 270 g\n• Gordura: 61 g\n\nNos outros dias, vale a sua meta de sempre.',
         '10:52',
       ),
     ],
@@ -263,7 +266,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('o que eu janto hoje?', '19:30'),
       bot(
-        '*Jantar*: faltam 620 kcal (P 35 g). Algumas ideias:\n1. Omelete de 3 ovos com espinafre e 1 pão francês\n2. 120 g de frango grelhado com salada e 4 colheres de arroz\n3. Crepioca com queijo branco e tomate\nSe comer uma delas, me diga, por exemplo: "comi a opção 2".\n_Sugestão geral, a partir da sua meta. Não substitui nutricionista nem médico._',
+        '💡 *Ideias: Jantar*\nFaltam 450 kcal e 29 g de proteína.\n\n1. 3 ovos cozidos, 1 pão francês, salada de alface à vontade: 380 kcal\n2. 120 g de frango grelhado, 100 g de arroz branco cozido, salada de alface à vontade: 330 kcal\n3. 120 g de arroz branco cozido, 140 g de feijão carioca, 2 ovos cozidos: 406 kcal\n\nSe comer uma delas, me diga, por exemplo: "comi a opção 2".',
         '19:30',
       ),
     ],
@@ -275,7 +278,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('faço jejum 16:8', '19:50'),
       bot(
-        'Anotado: jejum 16:8. Ele começa na sua última refeição, ou quando você disser "comecei o jejum", e eu aviso quando a janela terminar. O jejum não é indicado para todos: com alguma condição de saúde, na gestação ou com histórico de transtorno alimentar, fale antes com um profissional.',
+        '⏱️ Jejum 16:8 ativado. Ele começa na sua última refeição registrada, ou quando você disser *comecei o jejum*, e eu aviso quando a janela terminar.',
         '19:50',
       ),
       bot('⏱️ Seu jejum de 16 h terminou (começou às 20:00). Pode comer!', '12:00'),
@@ -292,7 +295,7 @@ const PT: Record<string, FeatureCopy> = {
         '09:15',
       ),
       bot(
-        '🍽️ Hora de registrar: *jantar*. Me conta o que você comeu.\n\nFaltam 640 kcal hoje.\n\nPara não receber lembretes, responda "parar".',
+        '🍽️ Hora de registrar: *jantar*. Me conta o que você comeu. Faltam 640 kcal hoje.\n\nPara não receber lembretes, responda "parar".',
         '20:00',
       ),
     ],
@@ -321,7 +324,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('como foi minha semana?', '08:30'),
       bot(
-        '📊 *Resumo da semana* (13/10 a 19/10)\n📅 6 de 7 dias registrados\n🍽️ Média de 1.760 kcal por dia registrado, para uma meta de 1.800\n🏋️ Dias de treino: 3 · 1.150 kcal gastas\n⚖️ Peso: 72,4 → 71,8 kg (-0,6 kg)',
+        '📊 *Resumo da semana* (13/10 a 19/10)\n\n📅 6 de 7 dias registrados\n🍽️ Média de 1.760 kcal por dia registrado (meta 1.800)\nProteína 110 de 122 g · Carboidratos 200 de 216 g · Gordura 55 de 50 g\n\n🏋️ 3 dias de treino · 1.150 kcal gastas\n⚖️ Peso: 72,4 → 71,8 kg (−0,6 kg)\n🍽️ Almoço: 36% das kcal',
         '08:30',
       ),
     ],
@@ -332,7 +335,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('como está meu peso?', '07:05'),
       bot(
-        '⚖️ *Evolução do peso* (desde 01/09)\nInício: 74,2 kg (01/09)\nAtual: 71,8 kg (19/10)\nVariação: -2,4 kg (-3,2%)\nQuer só os últimos 30 ou 90 dias? É só pedir.',
+        '⚖️ *Evolução do peso* (desde 01/09)\n\n• Início: 74,2 kg (01/09)\n• Atual: 71,8 kg (19/10)\n• *Variação: −2,4 kg (−3,2%)*\n\nQuer só os últimos 30 ou 90 dias? É só pedir.',
         '07:05',
       ),
     ],
@@ -344,7 +347,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('quanto de sódio comi hoje?', '20:15'),
       bot(
-        '🥗 Nutrientes de hoje:\nSódio: 1.480 de 2.000 mg · faltam 520\nAs metas são as de referência da rotulagem (ANVISA). Para ver de onde veio um deles, pergunte, por exemplo: "de onde veio o sódio?"',
+        '🥗 *Nutrientes de hoje*\n\n• Sódio: 1.480 mg de 2.000 mg, faltam 520 mg\n\nDe onde veio:\n• 60 g de presunto: 613 mg (41%)\n• 50 g de pão francês: 324 mg (22%)\n• 30 g de queijo minas: 207 mg (14%)',
         '20:15',
       ),
     ],
@@ -356,7 +359,7 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('o que mais me deu calorias essa semana?', '21:00'),
       bot(
-        '🏆 *O que mais te deu calorias nesta semana*\n1. Arroz branco cozido: 2.310 kcal (19%), em 1.805 g\n2. Pão francês: 1.500 kcal (12%), em 500 g\n3. Frango grelhado: 1.272 kcal (10%), em 800 g\nTotal no período: 12.320 kcal',
+        '🏆 *O que mais te deu calorias nesta semana*\n\n1. Arroz branco cozido (1.805 g): 2.310 kcal, 19%\n2. Pão francês (500 g): 1.500 kcal, 12%\n3. Frango grelhado (800 g): 1.272 kcal, 10%\n\n*Total:* 12.320 kcal',
         '21:00',
       ),
     ],
@@ -381,12 +384,12 @@ const PT: Record<string, FeatureCopy> = {
       'Na própria conversa, você responde sobre objetivo, rotina, treino, alimentação, preferências e saúde, e manda três fotos para acompanhar a sua evolução. O seu plano é montado a partir disso.',
     exchange: [
       bot(
-        'Seu Premium Pro começou! O primeiro passo é a sua avaliação: são 4 telas rápidas sobre objetivo, rotina, alimentação e saúde.',
+        'Seu Premium Pro começou! O primeiro passo é a sua avaliação: telas rápidas sobre você, seu objetivo, rotina, treino, alimentação e saúde.',
         '10:02',
         'Fazer avaliação',
       ),
       bot(
-        'Recebi sua avaliação, obrigado! Agora preciso de 3 fotos do corpo, com roupa de treino, uma por vez. Elas ficam guardadas só para o seu plano.',
+        'Recebi sua avaliação, obrigado! Agora preciso de 3 fotos do corpo, com roupa de treino, uma por vez. Elas ficam guardadas só para acompanhar sua evolução.',
         '10:09',
       ),
     ],
@@ -398,12 +401,13 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('o que eu como no almoço?', '11:50'),
       bot(
-        '🍽️ *Almoço do seu plano*\n1. 120 g de arroz ou 150 g de batata\n2. 1 concha de feijão ou 3 colheres de lentilha\n3. 120 g de frango ou 120 g de patinho\n4. Salada à vontade\nMeta da refeição: 420 kcal (P 45 g · C 48 g · G 5 g)',
+        'Pelo seu plano, no almoço:\n• 120 g de arroz tipo 1 cozido (ou 150 g de batata cozida)\n• 86 g de feijão carioca cozido\n• 120 g de frango grelhado (ou 150 g de tilápia grelhada)',
         '11:50',
+        'Comi como no plano',
       ),
-      you('troca o frango por peixe', '11:52'),
+      you('Ver trocas', '11:52'),
       bot(
-        'Trocado: 120 g de frango por 150 g de tilápia, com as mesmas calorias e proteína.',
+        'Trocas do almoço:\n*35 g de carboidrato*: arroz tipo 1 cozido 120 g, batata cozida 150 g, macarrão cozido 110 g\n*38 g de proteína*: frango grelhado 120 g, tilápia grelhada 150 g, patinho grelhado 110 g',
         '11:52',
       ),
     ],
@@ -415,9 +419,9 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('qual meu treino hoje?', '18:10'),
       bot(
-        '🏋️ *Treino A*, fase de força, semana 3 de 4\n1. Agachamento livre: 4 séries de 6 a 8 com 70 kg\n   ↑ subi para 70 kg: você fez 4 séries de 8 com 67,5 kg\n2. Leg press: 3 séries de 8 a 10 com 160 kg\n3. Cadeira flexora: 3 séries de 10 a 12 com 35 kg',
+        '🏋️ *Treino A*, semana 3 de 4\nFase da semana: *força*\nGrupo do dia: Pernas\n1. Agachamento livre: 4 séries de 6 a 8 com 70 kg\n   ↑ subi para 70 kg: você fez 4 séries de 8 com 67,5 kg\n2. Leg press: 3 séries de 8 a 10 com 160 kg\n3. Cadeira flexora: 3 séries de 10 a 12 com 35 kg',
         '18:10',
-        'Ver vídeos',
+        'Como fazer',
       ),
     ],
   },
@@ -427,7 +431,7 @@ const PT: Record<string, FeatureCopy> = {
       'A dieta e o treino são montados a partir da sua avaliação, com métodos baseados em evidência e conteúdo de referência, e se ajustam ao seu progresso durante o programa. O assistente da conversa anota, soma e explica.',
     exchange: [
       bot(
-        'Seu plano chegou! Quando for treinar, me pergunte "qual meu treino hoje?". Para comer, siga sua meta do dia, e qualquer dúvida do seu caso eu passo para a nossa equipe.',
+        'Seu plano chegou! Quando for treinar, me pergunte "qual meu treino hoje?". Para comer, siga sua meta do dia, e qualquer dúvida do seu caso eu mando para a nossa equipe.',
         '09:30',
       ),
     ],
@@ -438,12 +442,12 @@ const PT: Record<string, FeatureCopy> = {
       'A cada 14 dias, um check-in rápido: peso, energia, sono, fome e o que ficou difícil. Todo mês, a reavaliação, com fotos para comparar. O plano se ajusta ao que você conta, e você recebe o que mudou e por quê, ou que ele segue igual.',
     exchange: [
       bot(
-        'Hora do seu check-in! Leva um minuto e ajuda a ajustar o seu plano.',
+        'Hora do seu check-in! Leva um minuto e ajuda a ajustar seu plano.',
         '08:00',
         'Fazer check-in',
       ),
       bot(
-        '📋 *Seu plano foi ajustado*\nVocê perdeu 0,8 kg em duas semanas, no ritmo certo. Como a fome à noite apertou, passei 150 kcal do almoço para o jantar.',
+        `💬 Equipe ${brand.name}: Você perdeu 0,8 kg em duas semanas, no ritmo certo. Como a fome à noite apertou, passamos 150 kcal do almoço para o jantar.`,
         '17:40',
       ),
     ],
@@ -455,11 +459,11 @@ const PT: Record<string, FeatureCopy> = {
     exchange: [
       you('posso fazer o treino de quinta no sábado?', '07:15'),
       bot(
-        'Essa é para a nossa equipe: passei sua pergunta, e a resposta chega aqui em até 24 horas.',
+        'Essa é para a nossa equipe: mandei sua pergunta, e a resposta chega aqui em até 24 horas.',
         '07:15',
       ),
       bot(
-        '💬 *Resposta da nossa equipe:*\nPode, sim. Faça o treino C no sábado e descanse no domingo, antes do treino A.',
+        `💬 Equipe ${brand.name}: Pode, sim. Faça o treino C no sábado e descanse no domingo, antes do treino A.`,
         '13:20',
       ),
     ],
@@ -486,7 +490,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('for lunch I had 150 g of rice, a ladle of beans and a chicken fillet'),
       bot(
-        '✅ Logged:\n*Lunch*\n1. 150 g of cooked white rice: 192 kcal\n2. ~86 g of cooked pinto beans (1 ladle): 65 kcal\n3. ~100 g of grilled chicken fillet (1 fillet): 159 kcal\nDay total: 416 kcal (P 40 g · C 54 g · F 3 g)\n1,384 kcal left for the goal of 1,800.',
+        '✅ *Lunch* logged\n\n• 150 g of rice: 192 kcal\n• 1 ladle of beans (~86 g): 65 kcal\n• ~100 g of chicken fillet: 159 kcal\n\n• Protein: 40 g\n• Carbs: 54 g\n• Fat: 3 g\n*Day total:* 416 kcal\n*1,384 kcal left* for the goal of 1,800.',
       ),
     ],
   },
@@ -496,7 +500,7 @@ const EN: Record<string, FeatureCopy> = {
       'The diary puts each entry in breakfast, lunch, snack or dinner by the time of day, and asks when it is not sure. The meals are yours: tell it which ones you have.',
     exchange: [
       you('my meals are breakfast, lunch, snack and dinner', '08:02'),
-      bot('🍽️ Your meals are now: breakfast, lunch, snack, and dinner.', '08:02'),
+      bot('🍽️ Your meals are now: breakfast, lunch, snack, dinner.', '08:02'),
     ],
   },
   barcode: {
@@ -506,7 +510,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('7891000100103 I had 2 tablespoons', '16:20'),
       bot(
-        '✅ Logged:\n*Snack*\n1. ~30 g of Moça sweetened condensed milk (2 tablespoons): 98 kcal\nDay total: 1,212 kcal (P 61 g · C 160 g · F 33 g)',
+        '✅ *Snacks* logged\n\n• 30 g of Leite Condensado Moça: 98 kcal\n\n• Protein: 61 g\n• Carbs: 160 g\n• Fat: 33 g\n*Day total:* 1,212 kcal\n*588 kcal left* for the goal of 1,800.',
         '16:20',
       ),
     ],
@@ -517,7 +521,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('log 300 kcal at snack', '16:05'),
       bot(
-        '✅ Logged:\n*Snack*\n1. quick add: 300 kcal\nDay total: 1,420 kcal (P 72 g · C 168 g · F 41 g)',
+        '✅ *Snacks* logged\n\n• quick add: 300 kcal\n\n• Protein: 72 g\n• Carbs: 168 g\n• Fat: 41 g\n*Day total:* 1,420 kcal\n*380 kcal left* for the goal of 1,800.',
         '16:05',
       ),
     ],
@@ -528,7 +532,7 @@ const EN: Record<string, FeatureCopy> = {
       'If you go quiet for a day, the diary sends a short message to help you pick it back up. Reply "stop" and it sends no more.',
     exchange: [
       bot(
-        "Hi! 👋 Yesterday you logged 1,760 kcal. What have you eaten today? Tell me and I'll log it.",
+        'Hi! 👋 Yesterday you logged 1,760 kcal. What have you eaten today? Tell me and I\'ll log it.\n\nTo stop getting reminders, reply "stop".',
         '11:30',
       ),
       you('coffee with milk and a toasted buttered roll', '11:34'),
@@ -561,7 +565,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('log 450 kcal at lunch, 30 g of protein, 40 g of carbs and 18 g of fat'),
       bot(
-        '✅ Logged:\n*Lunch*\n1. quick add: 450 kcal (P 30 g · C 40 g · F 18 g)\nDay total: 980 kcal (P 62 g · C 104 g · F 33 g)',
+        '✅ *Lunch* logged\n\n• quick add: 450 kcal\n\n• Protein: 62 g\n• Carbs: 104 g\n• Fat: 33 g\n*Day total:* 980 kcal\n*820 kcal left* for the goal of 1,800.',
       ),
     ],
   },
@@ -572,7 +576,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('the day before yesterday I had 2 slices of mozzarella pizza for dinner', '09:15'),
       bot(
-        '📅 Thursday (10/23)\n✅ Logged:\n*Dinner*\n1. ~200 g of mozzarella pizza (2 slices): 520 kcal',
+        '📅 the day before yesterday\n\n✅ *Dinner* logged\n\n• 2 slices of mozzarella pizza (~200 g): 520 kcal\n\n• Protein: 86 g\n• Carbs: 215 g\n• Fat: 55 g\n*Day total:* 1,690 kcal\n*110 kcal left* for the goal of 1,800.',
         '09:15',
       ),
     ],
@@ -583,7 +587,9 @@ const EN: Record<string, FeatureCopy> = {
       'Add what is not in the table, like your whey or the bread from your bakery, with the values on the label. From then on, just say its name.',
     exchange: [
       you('my whey: 30 g has 120 kcal, 24 g of protein, 3 g of carbs and 1 g of fat'),
-      bot('✅ I saved *whey* in your foods: 30 g has 120 kcal (P 24 g · C 3 g · F 1 g).'),
+      bot(
+        '✅ I saved *whey* in your foods: 120 kcal per 30 g serving · 400 kcal per 100 g (Protein 80 g · Carbs 10 g · Fat 3.3 g).',
+      ),
     ],
   },
   savedMeals: {
@@ -593,7 +599,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('save this as usual breakfast', '07:48'),
       bot(
-        '⭐ I saved *usual breakfast* in your saved meals: bread roll, scrambled eggs, and coffee with milk. To log it again, just say "usual breakfast".',
+        '⭐ I saved *usual breakfast* in your saved meals: 50 g of bread roll, 100 g of scrambled eggs, 200 g of coffee with milk. To log it again, just say "usual breakfast".',
         '07:48',
       ),
     ],
@@ -603,9 +609,11 @@ const EN: Record<string, FeatureCopy> = {
     howTo:
       'Send the ingredients and how many servings it makes, or the link to the recipe. Then log "1 serving" and the diary does the math.',
     exchange: [
-      you('stroganoff recipe: 500 g of chicken, 1 carton of cream, 1 onion, makes 4 servings'),
+      you('stroganoff recipe: 500 g of chicken and 200 g of cream, makes 4 servings'),
       bot(
-        '📖 I saved the recipe *stroganoff*: 1 serving has 274 kcal (P 28 g · C 6 g · F 14 g). To log it, say for example: "I had 1 serving of stroganoff".',
+        '📖 *Recipe stroganoff*, check the numbers\n\n• 500 g of chicken: 595 kcal\n• 200 g of cream: 442 kcal\n\n*Total:* 1,037 kcal, with 700 g of raw ingredients\nProtein 111 g · Carbs 9 g · Fat 60 g\n259 kcal per serving (makes 4)\n\nShould I save the recipe *stroganoff* like this?',
+        '12:41',
+        'Save',
       ),
     ],
   },
@@ -625,7 +633,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('bench press, 3 sets of 8 at 60 kg, and I ran 30 min', '18:40'),
       bot(
-        '🏋️ Workout logged:\nBench press: 3 × 8 at 60 kg\nRunning: 30 min\n🔥 Workout burn: about 410 kcal (estimate).',
+        '✅ *Workout* logged\n\n1. Bench press: 3×8 at 60 kg\n2. Running: 30 min (357 kcal)\n\n🔥 about 357 kcal (estimate)',
         '18:40',
       ),
     ],
@@ -636,7 +644,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('I did workout A', '18:55'),
       bot(
-        '🏋️ Workout logged:\nBench press: 3 × 8 at 60 kg\nBent-over row: 3 × 10 at 40 kg\nShoulder press: 3 × 10 at 16 kg\nHow long did the workout last? That way I can add up the burn.',
+        '✅ *Workout* logged\n\n1. Bench press: 3×8 at 60 kg\n2. Bent-over row: 3×10 at 40 kg\n3. Shoulder press: 3×10 at 16 kg\n\n*640 kcal left* for the goal of 1,800.\n\nHow long did the workout last? That way I can add up the burn.',
         '18:55',
       ),
     ],
@@ -663,7 +671,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('how much is left for my goal?', '17:10'),
       bot(
-        'Day total: 1,240 kcal (P 78 g · C 140 g · F 38 g)\n560 kcal left for the goal of 1,800.',
+        '📊 *Today: 1,240 kcal*\n• Protein: 78 g\n• Carbs: 140 g\n• Fat: 38 g\n*560 kcal left* for the goal of 1,800.',
         '17:10',
       ),
     ],
@@ -674,7 +682,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('50% carbs, 25% protein, 25% fat', '10:20'),
       bot(
-        '🎯 Goal set: 1,800 kcal per day (carbs 50% · 225 g, protein 25% · 113 g, fat 25% · 50 g).\nIt doesn\'t change with your weight; to go back to the calculated one, say "recalculate my goal".',
+        '🎯 *Goal set: 1,800 kcal per day*\n• Protein: 113 g (25%)\n• Carbs: 225 g (50%)\n• Fat: 50 g (25%)\n\nIt doesn\'t change with your weight; to go back to the calculated one, say "recalculate my goal".',
         '10:20',
       ),
     ],
@@ -685,7 +693,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('40% at dinner', '10:31'),
       bot(
-        '🍽️ Your goal per meal: breakfast 20%, lunch 30%, snack 10%, and dinner 40%.\nTo change it, say for example "40% at dinner".',
+        '🍽️ Your goal per meal: breakfast 21% (378 kcal) · lunch 30% (540 kcal) · dinner 40% (720 kcal) · snacks 9% (162 kcal).\nTo change it, say for example "40% at dinner".',
         '10:31',
       ),
     ],
@@ -696,7 +704,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('my goal is 200 g of carbs, 150 g of protein and 60 g of fat', '10:40'),
       bot(
-        '🎯 Goal set: 1,940 kcal per day, the sum of the macros (carbs 200 g, protein 150 g, fat 60 g).\nIt doesn\'t change with your weight; to go back to the calculated one, say "recalculate my goal".',
+        '🎯 *Goal set: 1,940 kcal per day*, the sum of the macros\n• Protein: 150 g\n• Carbs: 200 g\n• Fat: 60 g\n\nIt doesn\'t change with your weight; to go back to the calculated one, say "recalculate my goal".',
         '10:40',
       ),
     ],
@@ -707,7 +715,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('on Saturday and Sunday my goal is 2,200 kcal', '10:52'),
       bot(
-        '🎯 Goal for Saturday and Sunday: 2,200 kcal. On other days, your usual goal applies.',
+        '🎯 *Goal for Saturday and Sunday: 2,200 kcal*\n• Protein: 143 g\n• Carbs: 270 g\n• Fat: 61 g\n\nOn other days, your usual goal applies.',
         '10:52',
       ),
     ],
@@ -719,7 +727,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('what should I have for dinner tonight?', '19:30'),
       bot(
-        '*Dinner*: 620 kcal left (P 35 g). Some ideas:\n1. 3-egg omelet with spinach and 1 bread roll\n2. 120 g of grilled chicken with salad and 4 tablespoons of rice\n3. Tapioca and egg crepe with fresh cheese and tomato\nIf you eat one of them, tell me, for example: "I had option 2".\n_A general suggestion based on your goal. It doesn\'t replace a nutritionist or a doctor._',
+        '💡 *Ideas: Dinner*\n450 kcal and 29 g of protein left.\n\n1. 3 boiled eggs, 1 bread roll, lettuce salad as much as you like: 380 kcal\n2. 120 g of grilled chicken, 100 g of cooked white rice, lettuce salad as much as you like: 330 kcal\n3. 120 g of cooked white rice, 140 g of pinto beans, 2 boiled eggs: 406 kcal\n\nIf you eat one of them, tell me, for example: "I had option 2".',
         '19:30',
       ),
     ],
@@ -731,7 +739,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('I do 16:8 fasting', '19:50'),
       bot(
-        "⏱️ 16:8 fasting on. It starts at your last logged meal, or when you say *I started fasting*, and I'll let you know when the window ends. Fasting isn't for everyone: if you have a health condition, are pregnant or have a history of eating disorders, talk to a professional first.",
+        "⏱️ 16:8 fasting on. It starts at your last logged meal, or when you say *I started fasting*, and I'll let you know when the window ends.",
         '19:50',
       ),
       bot('⏱️ Your 16 h fast is over (it started at 08:00 PM). You can eat!', '12:00'),
@@ -744,11 +752,11 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('remind me about lunch at 12:30 and dinner at 8 pm', '09:15'),
       bot(
-        "🔔 Done: *lunch* at 12:30 PM and *dinner* at 8:00 PM. I'll remind you at those times, only if the meal isn't logged yet.",
+        "🔔 Done: *lunch* at 12:30 PM and *dinner* at 08:00 PM. I'll remind you at those times, only if the meal isn't logged yet.",
         '09:15',
       ),
       bot(
-        '🍽️ Time to log: *dinner*. Tell me what you ate.\n\n640 kcal left for today.\n\nTo stop getting reminders, reply "stop".',
+        '🍽️ Time to log: *dinner*. Tell me what you ate. 640 kcal left for today.\n\nTo stop getting reminders, reply "stop".',
         '20:00',
       ),
     ],
@@ -777,7 +785,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('how was my week?', '08:30'),
       bot(
-        '📊 *Week summary* (10/13 to 10/19)\n📅 6 of 7 days logged\n🍽️ Average of 1,760 kcal per logged day, against a goal of 1,800\n🏋️ Workout days: 3 · 1,150 kcal burned\n⚖️ Weight: 72.4 → 71.8 kg (-0.6 kg)',
+        '📊 *Week summary* (10/13 to 10/19)\n\n📅 6 of 7 days logged\n🍽️ Average of 1,760 kcal per logged day (goal 1,800)\nProtein 110 of 122 g · Carbs 200 of 216 g · Fat 55 of 50 g\n\n🏋️ 3 workout days · 1,150 kcal burned\n⚖️ Weight: 72.4 → 71.8 kg (−0.6 kg)\n🍽️ Lunch: 36% of the kcal',
         '08:30',
       ),
     ],
@@ -789,7 +797,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('how is my weight going?', '07:05'),
       bot(
-        '⚖️ *Weight progress* (since 09/01)\nStart: 74.2 kg (09/01)\nNow: 71.8 kg (10/19)\nChange: -2.4 kg (-3.2%)\nWant just the last 30 or 90 days? Just ask.',
+        '⚖️ *Weight progress* (since 09/01)\n\n• Start: 74.2 kg (09/01)\n• Now: 71.8 kg (10/19)\n• *Change: −2.4 kg (−3.2%)*\n\nWant just the last 30 or 90 days? Just ask.',
         '07:05',
       ),
     ],
@@ -801,7 +809,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('how much sodium did I have today?', '20:15'),
       bot(
-        '🥗 Nutrients for today:\nSodium: 1,480 of 2,000 mg · 520 left\nThe goals are the labeling reference values (ANVISA). To see where one came from, ask, for example: "where did the sodium come from?"',
+        '🥗 *Nutrients for today*\n\n• Sodium: 1,480 mg of 2,000 mg, 520 mg left\n\nWhere it came from:\n• 60 g of ham: 613 mg (41%)\n• 50 g of bread roll: 324 mg (22%)\n• 30 g of fresh cheese: 207 mg (14%)',
         '20:15',
       ),
     ],
@@ -813,7 +821,7 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('what gave me the most calories this week?', '21:00'),
       bot(
-        '🏆 *What gave you the most calories this week*\n1. Cooked white rice: 2,310 kcal (19%), in 1,805 g\n2. Bread roll: 1,500 kcal (12%), in 500 g\n3. Grilled chicken: 1,272 kcal (10%), in 800 g\nTotal for the period: 12,320 kcal',
+        '🏆 *What gave you the most calories this week*\n\n1. Cooked white rice (1,805 g): 2,310 kcal, 19%\n2. Bread roll (500 g): 1,500 kcal, 12%\n3. Grilled chicken (800 g): 1,272 kcal, 10%\n\n*Total:* 12,320 kcal',
         '21:00',
       ),
     ],
@@ -838,12 +846,12 @@ const EN: Record<string, FeatureCopy> = {
       'Right in the chat, you answer about your goal, routine, training, eating, preferences and health, and send three photos to track your progress. Your plan is built from that.',
     exchange: [
       bot(
-        'Your Premium Pro has started! The first step is your assessment: 4 quick screens about your goal, routine, eating and health.',
+        'Your Premium Pro has started! The first step is your assessment: quick screens about you, your goal, routine, training, food and health.',
         '10:02',
         'Start assessment',
       ),
       bot(
-        'Got your assessment, thank you! Now I need 3 body photos, in workout clothes, one at a time. They are kept for your plan only.',
+        'Got your assessment, thanks! Now I need 3 body photos in workout clothes, one at a time. They are kept only to follow your progress.',
         '10:09',
       ),
     ],
@@ -855,12 +863,13 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you('what do I eat for lunch?', '11:50'),
       bot(
-        '🍽️ *Lunch in your plan*\n1. 120 g of rice or 150 g of potato\n2. 1 ladle of beans or 3 spoons of lentils\n3. 120 g of chicken or 120 g of lean beef\n4. Salad as you like\nMeal goal: 420 kcal (P 45 g · C 48 g · F 5 g)',
+        'By your plan, for lunch:\n• 120 g of cooked white rice (or 150 g of boiled potato)\n• 86 g of cooked pinto beans\n• 120 g of grilled chicken (or 150 g of grilled tilapia)',
         '11:50',
+        'Log as planned',
       ),
-      you('swap the chicken for fish', '11:52'),
+      you('See swaps', '11:52'),
       bot(
-        'Swapped: 120 g of chicken for 150 g of tilapia, with the same calories and protein.',
+        'Swaps for lunch:\n*35 g of carbs*: cooked white rice 120 g, boiled potato 150 g, cooked pasta 110 g\n*38 g of protein*: grilled chicken 120 g, grilled tilapia 150 g, grilled lean beef 110 g',
         '11:52',
       ),
     ],
@@ -872,9 +881,9 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you("what's my workout today?", '18:10'),
       bot(
-        '🏋️ *Workout A*, strength phase, week 3 of 4\n1. Back squat: 4 sets of 6 to 8 with 70 kg\n   ↑ up to 70 kg: you did 4 sets of 8 with 67.5 kg\n2. Leg press: 3 sets of 8 to 10 with 160 kg\n3. Seated leg curl: 3 sets of 10 to 12 with 35 kg',
+        '🏋️ *Workout A*, week 3 of 4\nPhase of the week: *strength*\nMuscles of the day: Legs\n1. Back squat: 4 sets of 6 to 8 with 70 kg\n   ↑ up to 70 kg: you did 4 sets of 8 with 67.5 kg\n2. Leg press: 3 sets of 8 to 10 with 160 kg\n3. Seated leg curl: 3 sets of 10 to 12 with 35 kg',
         '18:10',
-        'See videos',
+        'How to do it',
       ),
     ],
   },
@@ -884,7 +893,7 @@ const EN: Record<string, FeatureCopy> = {
       'Your diet and training are built from your assessment, with evidence-based methods and reference content, and adjust to your progress through the program. The chat assistant logs, adds up and explains.',
     exchange: [
       bot(
-        'Your plan is here! When you train, ask me "what\'s my workout today?". To eat, follow your goal for the day, and I pass any question about your case on to our team.',
+        'Your plan is here! When you go train, ask me "what\'s my workout today?". For food, follow your daily goal, and I send any question about your case to our team.',
         '09:30',
       ),
     ],
@@ -900,7 +909,7 @@ const EN: Record<string, FeatureCopy> = {
         'Do check-in',
       ),
       bot(
-        '📋 *Your plan was adjusted*\nYou lost 0.8 kg in two weeks, right on pace. Since hunger got tight at night, I moved 150 kcal from lunch to dinner.',
+        `💬 ${brand.name} team: You lost 0.8 kg in two weeks, right on pace. Since hunger got tight at night, we moved 150 kcal from lunch to dinner.`,
         '17:40',
       ),
     ],
@@ -912,11 +921,11 @@ const EN: Record<string, FeatureCopy> = {
     exchange: [
       you("can I do Thursday's workout on Saturday?", '07:15'),
       bot(
-        'That one is for our team: I passed your question on, and the answer arrives here within 24 hours.',
+        'This one is for our team: I sent your question, and the answer arrives here within 24 hours.',
         '07:15',
       ),
       bot(
-        '💬 *Our team answered:*\nYes, you can. Do workout C on Saturday and rest on Sunday, before workout A.',
+        `💬 ${brand.name} team: Yes, you can. Do workout C on Saturday and rest on Sunday, before workout A.`,
         '13:20',
       ),
     ],

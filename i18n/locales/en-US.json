@@ -80,13 +80,13 @@
     },
     "chat": {
       "memoryQuestion": "what do you know about me?",
-      "memoryAnswer": "What I know about you:\n*Profile*\n• Daily goal: {goal} kcal\n*Preferences*\n• Foods you avoid: shrimp",
+      "memoryAnswer": "What I know about you:\n\n*Profile*\n• Daily goal: {goal} kcal\n\n*Preferences*\n• Foods you avoid: shrimp",
       "weekQuestion": "how much protein did I eat this week?",
-      "weekAnswer": "*{total} g of protein* over {logged} of {days} days logged: an average of {average} g a day, for a goal of {goal} g.",
+      "weekAnswer": "*{total} g of protein* over {logged} logged days: an average of {average} g a day, for a goal of {goal} g.",
       "creatineQuestion": "is creatine bad for the kidneys?",
       "creatineAnswer": "At 3 to 5 g a day, creatine monohydrate is safe for people without kidney disease.",
       "sourceQuestion": "what's the source?",
-      "sourceAnswer": "Kreider RB et al., ISSN (2017)."
+      "sourceAnswer": "That comes from Kreider et al., ISSN (2017)."
     }
   },
   "how": {
@@ -95,23 +95,23 @@
     "tell": {
       "clause": "You say what you ate",
       "label": "Someone tells the diary about their lunch in one message.",
-      "message": "I had rice, beans and chicken for lunch"
+      "message": "for lunch I had 150 g of rice, a ladle of beans and a chicken fillet"
     },
     "log": {
       "clause": "It logs and adds it up right away",
       "label": "Lunch logged with its calories.",
-      "message": "✅ *Lunch* logged: 416 kcal."
+      "message": "✅ *Lunch* logged\n\n• 150 g of rice: 192 kcal\n• 1 ladle of beans (~86 g): 65 kcal\n• ~100 g of chicken fillet: 159 kcal"
     },
     "left": {
       "clause": "Ask how much is left",
       "label": "The question of how much is left, and the answer.",
       "question": "how much is left?",
-      "answer": "{left} kcal left for the goal of {goal}."
+      "answer": "📊 *Today: 416 kcal*\n• Protein: 40 g\n• Carbs: 54 g\n• Fat: 3 g\n*{left} kcal left* for the goal of {goal}."
     },
     "remind": {
       "clause": "Went quiet? It reminds you",
       "label": "The short reminder the next day.",
-      "message": "Hi! What have you eaten today? Tell me and I'll log it."
+      "message": "Hi! 👋 What have you eaten today? Tell me and I'll log it."
     }
   },
   "bento": {
