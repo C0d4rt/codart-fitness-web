@@ -38,14 +38,14 @@ const LOG_MODE = {
   pt: {
     audio: 'Um áudio de sete segundos com o café da manhã, e o registro que volta.',
     audioReply:
-      '✅ Registrado:\n*Café da manhã*\n1. ~50 g de pão francês (1 unidade): 150 kcal\n2. ~200 ml de café com leite (1 xícara): 84 kcal\nTotal do dia: 234 kcal (P 9 g · C 38 g · G 5 g)\nFaltam 1.566 kcal para a meta de 1.800.',
+      '✅ *Café da manhã* registrado\n\n• 1 unidade de pão francês (~50 g): 150 kcal\n• 1 xícara de café com leite (~200 g): 84 kcal\n\n• Proteína: 9 g\n• Carboidratos: 38 g\n• Gordura: 5 g\n*Total do dia:* 234 kcal\n*Faltam 1.566 kcal* para a meta de 1.800.',
     photo: 'A foto do prato e o formulário para conferir.',
     text: 'O almoço contado por texto e o registro que volta.',
   },
   en: {
     audio: 'A seven-second voice note about breakfast, and the entry that comes back.',
     audioReply:
-      '✅ Logged:\n*Breakfast*\n1. ~50 g of bread roll (1 piece): 150 kcal\n2. ~200 ml of coffee with milk (1 cup): 84 kcal\nDay total: 234 kcal (P 9 g · C 38 g · F 5 g)\n1,566 kcal left for the goal of 1,800.',
+      '✅ *Breakfast* logged\n\n• 1 unit of bread roll (~50 g): 150 kcal\n• 1 cup of coffee with milk (~200 g): 84 kcal\n\n• Protein: 9 g\n• Carbs: 38 g\n• Fat: 5 g\n*Day total:* 234 kcal\n*1,566 kcal left* for the goal of 1,800.',
     photo: 'A photo of the plate and the form to check it.',
     text: 'Lunch told by text and the entry that comes back.',
   },

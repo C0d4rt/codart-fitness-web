@@ -80,13 +80,13 @@
     },
     "chat": {
       "memoryQuestion": "o que você sabe sobre mim?",
-      "memoryAnswer": "O que eu sei sobre você:\n*Perfil*\n• Meta do dia: {goal} kcal\n*Preferências*\n• Alimentos que evita: camarão",
+      "memoryAnswer": "O que eu sei sobre você:\n\n*Perfil*\n• Meta do dia: {goal} kcal\n\n*Preferências*\n• Alimentos que evita: camarão",
       "weekQuestion": "quanta proteína comi essa semana?",
-      "weekAnswer": "*{total} g de proteína* em {logged} de {days} dias registrados: média de {average} g por dia, para a meta de {goal} g.",
+      "weekAnswer": "*{total} g de proteína* em {logged} dias registrados: média de {average} g por dia, para a meta de {goal} g.",
       "creatineQuestion": "creatina faz mal pros rins?",
       "creatineAnswer": "De 3 a 5 g por dia, a creatina monohidratada é segura para quem não tem doença renal.",
       "sourceQuestion": "qual a fonte?",
-      "sourceAnswer": "Kreider RB et al., ISSN (2017)."
+      "sourceAnswer": "Isso vem de Kreider et al., ISSN (2017)."
     }
   },
   "how": {
@@ -95,23 +95,23 @@
     "tell": {
       "clause": "Você conta o que comeu",
       "label": "A pessoa conta o almoço numa mensagem.",
-      "message": "almocei arroz, feijão e frango"
+      "message": "almocei 150 g de arroz, uma concha de feijão e um filé de frango"
     },
     "log": {
       "clause": "Ele anota e soma na hora",
       "label": "O almoço registrado com as calorias.",
-      "message": "✅ *Almoço* registrado: 416 kcal."
+      "message": "✅ *Almoço* registrado\n\n• 150 g de arroz: 192 kcal\n• 1 concha de feijão (~86 g): 65 kcal\n• ~100 g de filé de frango: 159 kcal"
     },
     "left": {
       "clause": "Pergunte quanto falta",
       "label": "A pergunta de quanto falta e a resposta.",
       "question": "quanto falta?",
-      "answer": "Faltam {left} kcal para a meta de {goal}."
+      "answer": "📊 *Hoje: 416 kcal*\n• Proteína: 40 g\n• Carboidratos: 54 g\n• Gordura: 3 g\n*Faltam {left} kcal* para a meta de {goal}."
     },
     "remind": {
       "clause": "Sumiu? Ele te lembra",
       "label": "O lembrete curto do dia seguinte.",
-      "message": "Oi! O que você já comeu hoje? Me conta que eu anoto."
+      "message": "Oi! 👋 O que você já comeu hoje? Me conta que eu anoto."
     }
   },
   "bento": {
