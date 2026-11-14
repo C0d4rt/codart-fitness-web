@@ -139,6 +139,7 @@ const promises = computed(() => [
       <article id="coaching" class="card">
         <div class="name-row">
           <h3 class="name">{{ coaching.name }}</h3>
+          <p v-if="chosen" class="chip">{{ t('pricing.recommended') }}</p>
           <Transition name="chip">
             <p v-if="chosen && chosen === best && packages.length > 1" class="chip">
               {{ t('pricing.perMonthAnchor', { price: wholeMoney(chosen.perMonthCents, locale) }) }}
@@ -165,17 +166,22 @@ const promises = computed(() => [
               {{ t('pricing.months', { months: pack.months }) }}
             </button>
           </div>
-          <p class="price" aria-live="polite">
+          <p v-if="chosen.installments > 1" class="price" aria-live="polite">
+            <span class="amount">{{
+              t('pricing.installmentPrice', {
+                installments: chosen.installments,
+                price: money(installmentCents(chosen), locale),
+              })
+            }}</span>
+          </p>
+          <p v-else class="price" aria-live="polite">
             <span class="amount">{{ money(chosen.totalCents, locale) }}</span>
             <span class="per">{{ t('pricing.forMonths', { months: chosen.months }) }}</span>
           </p>
           <p class="equiv">
             {{
               chosen.installments > 1
-                ? t('pricing.orInstallments', {
-                    installments: chosen.installments,
-                    price: money(installmentCents(chosen), locale),
-                  })
+                ? t('pricing.installmentTotal', { total: money(chosen.totalCents, locale) })
                 : t('pricing.byCard')
             }}
           </p>
@@ -194,9 +200,8 @@ const promises = computed(() => [
             location="plans-coaching"
             :text="wantCoaching"
             :label="chosen ? wantCoaching : t('pricing.notifyMe')"
-            quiet
+            :quiet="!chosen"
           />
-          <p v-if="chosen" class="terms">{{ t('pricing.coachingTerms') }}</p>
         </div>
       </article>
     </div>
@@ -374,8 +379,7 @@ const promises = computed(() => [
 }
 
 .who,
-.equiv,
-.terms {
+.equiv {
   color: var(--muted);
   font-size: var(--step-small);
 }
@@ -443,10 +447,6 @@ const promises = computed(() => [
   line-height: 1.25;
   text-align: center;
   text-wrap: balance;
-}
-
-.terms {
-  text-align: center;
 }
 
 @media (max-width: 63.99rem) {
