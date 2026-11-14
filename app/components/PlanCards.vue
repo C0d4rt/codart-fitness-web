@@ -4,6 +4,7 @@ import {
   type Catalog,
   installmentCents,
   money,
+  moneyParts,
   wholeMoney,
   yearlyPerMonth,
   yearlySaving,
@@ -28,6 +29,12 @@ const premium = computed(() => props.catalog.premium)
 const coaching = computed(() => props.catalog.coaching)
 
 const period = ref<'month' | 'year'>('month')
+const premiumPrice = computed(() =>
+  moneyParts(
+    period.value === 'month' ? premium.value.monthlyCents : premium.value.yearlyCents,
+    locale.value,
+  ),
+)
 const saving = computed(() => yearlySaving(premium.value))
 const yearlyEquiv = computed(() => {
   const installments = premium.value.yearlyInstallments ?? 1
@@ -52,6 +59,9 @@ const best = computed(() => bestPackage(packages.value))
 const months = ref(best.value?.months)
 const chosen = computed(
   () => packages.value.find((each) => each.months === months.value) ?? packages.value[0],
+)
+const installment = computed(() =>
+  moneyParts(chosen.value ? installmentCents(chosen.value) : 0, locale.value),
 )
 const coachingItems = computed(() => [
   t('pricing.allOfPremium'),
@@ -108,9 +118,10 @@ const promises = computed(() => [
           </button>
         </div>
         <p class="price" aria-live="polite">
-          <span class="amount">{{
-            money(period === 'month' ? premium.monthlyCents : premium.yearlyCents, locale)
-          }}</span>
+          <span class="amount"
+            ><span class="unit currency">{{ premiumPrice.currency }}</span
+            >{{ premiumPrice.amount }}</span
+          >
           <span class="per">{{
             period === 'month' ? t('pricing.perMonth') : t('pricing.perYear')
           }}</span>
@@ -167,12 +178,17 @@ const promises = computed(() => [
             </button>
           </div>
           <p v-if="chosen.installments > 1" class="price" aria-live="polite">
-            <span class="amount">{{
-              t('pricing.installmentPrice', {
+            <span class="lead">{{
+              t('pricing.installmentLead', {
+                months: chosen.months,
                 installments: chosen.installments,
-                price: money(installmentCents(chosen), locale),
               })
             }}</span>
+            <span class="amount"
+              ><span class="unit currency">{{ installment.currency }}</span
+              >{{ installment.amount
+              }}<span class="unit">{{ t('pricing.perMonthShort') }}</span></span
+            >
           </p>
           <p v-else class="price" aria-live="polite">
             <span class="amount">{{ money(chosen.totalCents, locale) }}</span>
@@ -398,6 +414,22 @@ const promises = computed(() => [
   letter-spacing: -0.045em;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
+}
+
+.unit {
+  font-size: 0.4em;
+  letter-spacing: 0;
+}
+
+.currency {
+  margin-right: 0.125rem;
+}
+
+.lead {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: var(--step-small);
+  font-weight: 500;
 }
 
 .soon .amount {
