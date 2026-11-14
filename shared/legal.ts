@@ -5,8 +5,8 @@ export type LegalSection = { title: string; paragraphs?: string[]; items?: strin
 export type LegalDoc = { intro: string; sections: LegalSection[] }
 
 /** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
-export const LEGAL_VERSION = '8'
-export const LEGAL_EFFECTIVE = '2026-11-14'
+export const LEGAL_VERSION = '9'
+export const LEGAL_EFFECTIVE = '2026-11-13'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
@@ -37,7 +37,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'São dois planos: o Premium, o assistente completo, por mês ou por ano, e o Premium Pro, o programa de 12 meses da seção seguinte. O que cada um inclui, os limites de uso diário e os preços estão na página Planos e são os mesmos mostrados na conversa.',
           'Todo número novo tem um período de teste gratuito do Premium, uma vez só, sem cartão, com a duração mostrada na página Planos. Quando o teste acaba, o diário para de registrar até você assinar. Nada do que você registrou é apagado por isso.',
           'O pagamento é feito na página da Pagar.me (Stone). Os dados do cartão são digitados lá e não chegam até nós.',
-          'Premium mensal no cartão: renova sozinho todo mês, pelo mesmo preço contratado, até você cancelar. Se uma cobrança for recusada, o acesso continua por 7 dias para você acertar o pagamento; depois disso, a assinatura é cancelada.',
+          'Premium mensal no cartão: renova sozinho todo mês, pelo mesmo preço contratado, até você cancelar. Se a cobrança de um mês for recusada, a assinatura é encerrada na hora e avisamos você pelo WhatsApp; para continuar, é só pagar de novo, com outro cartão ou no Pix. Seus registros continuam guardados.',
           'Premium mensal no Pix e Premium anual: são pagos de uma vez por período, sem renovação automática. Pagamentos antecipados somam períodos.',
           'O Pix vale só para o Premium mensal. O Premium anual e o Premium Pro são pagos só no cartão, à vista ou em até 12x sem juros.',
           'Mudança de preço não vale para o período já pago. Avisamos na conversa antes que um preço novo valha para você.',
@@ -238,7 +238,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'There are two plans: Premium, the full assistant, monthly or yearly, and Premium Pro, the 12-month program described in the next section. What each one includes, the daily usage limits and the prices are on the Plans page and are the same ones shown in the chat.',
           'Every new number gets one free trial of Premium, with no card, for the length shown on the Plans page. When the trial ends, the diary stops logging until you subscribe. Nothing you logged is deleted because of that.',
           'Payment is made on the Pagar.me (Stone) page. Card details are entered there and never reach us.',
-          'Premium monthly by card: renews automatically every month, at the price you subscribed to, until you cancel. If a charge is declined, access continues for 7 days so you can sort out the payment; after that, the subscription is cancelled.',
+          "Premium monthly by card: renews automatically every month, at the price you subscribed to, until you cancel. If a month's charge is declined, the subscription ends at once and we let you know on WhatsApp; to continue, just pay again, with another card or by Pix. Your records stay saved.",
           'Premium monthly by Pix and Premium yearly: paid once per period, with no automatic renewal. Paying ahead adds up periods.',
           'Pix is accepted only for Premium monthly. Premium yearly and Premium Pro are paid by card only, upfront or in up to 12 interest-free installments.',
           'A price change does not apply to a period already paid. We tell you in the chat before a new price applies to you.',
