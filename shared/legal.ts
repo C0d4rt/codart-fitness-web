@@ -5,8 +5,8 @@ export type LegalSection = { title: string; paragraphs?: string[]; items?: strin
 export type LegalDoc = { intro: string; sections: LegalSection[] }
 
 /** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
-export const LEGAL_VERSION = '9'
-export const LEGAL_EFFECTIVE = '2026-11-13'
+export const LEGAL_VERSION = '10'
+export const LEGAL_EFFECTIVE = '2026-11-17'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
@@ -27,7 +27,12 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Quem pode usar',
         paragraphs: [
-          'O serviço é para maiores de 18 anos. Quem informar idade menor não tem dados de saúde guardados e recebe a opção de apagar a conta.',
+          'O serviço é para maiores de 18 anos. Com número de telefone do Brasil, quem tem de 13 a 17 anos pode usar com a autorização da mãe, do pai ou do responsável legal. Abaixo de 13 anos, o serviço não atende.',
+          'A autorização é dada pelo próprio responsável, do WhatsApp dele: o adolescente recebe um link na conversa e o encaminha, e o responsável confirma num formulário o nome, o parentesco, a data de nascimento do adolescente e que tem 18 anos ou mais. No mesmo formulário ele diz se autoriza também o Premium Pro. O teste grátis do adolescente conta a partir da autorização.',
+          'Sem a autorização, quem informar idade menor de 18 anos não tem dados de saúde guardados e recebe a opção de apagar a conta.',
+          'O responsável pode retirar a autorização a qualquer momento, pela conversa: o diário do adolescente para na hora, a renovação no cartão é cancelada e o que já foi guardado continua guardado, até uma nova autorização ou um pedido de exclusão. Ele também pode pedir, pela conversa, a exclusão dos dados do adolescente. A autorização vale até o adolescente fazer 18 anos; a partir daí, a conta é só dele e ele aceita estes termos por si.',
+          'Para quem tem de 13 a 17 anos, o ritmo de perda de peso vai até 0,5 kg por semana, a meta de calorias não fica abaixo do gasto de repouso estimado para a idade, o jejum intermitente não fica disponível no Premium, e não guardamos uso de hormônios, fotos do físico nem exames.',
+          'Quem paga o plano de uma conta de adolescente precisa ser maior de idade e declara isso na página do pagamento. Não precisa ser a mesma pessoa que autorizou.',
           'A conta é o seu número de WhatsApp. Você responde pelo uso feito a partir dele.',
         ],
       },
@@ -49,6 +54,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         items: [
           'O Premium Pro é um programa de 12 meses, com tudo do Premium. Você faz uma avaliação completa e recebe uma dieta e um treino montados para você a partir dela, com métodos baseados em evidência e conteúdo de referência, com check-ins e uma reavaliação por mês. O preço e a disponibilidade estão na página Planos.',
           'A dieta e o treino chegam em até 24 horas corridas, todos os dias da semana, depois que você termina a avaliação e manda as fotos pedidas. O prazo conta a partir do que você fizer por último.',
+          'Para quem tem de 13 a 17 anos, o Premium Pro depende de a autorização do responsável cobri-lo. A avaliação não pede fotos do físico, e o prazo de 24 horas conta do fim da avaliação.',
           'O assistente ajusta o plano automaticamente à sua evolução, a partir dos check-ins, da reavaliação e do que você registra, como a progressão de carga do treino e as trocas equivalentes de exercício ou de alimento.',
           'As dúvidas do seu caso vão para a nossa equipe, e a resposta chega na própria conversa em até 24 horas corridas, todos os dias da semana.',
           'O programa é pago uma vez só, no cartão, à vista ou em até 12x sem juros. Não tem teste grátis nem renovação automática: o programa termina no fim dos 12 meses.',
@@ -122,6 +128,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'Do que você conta ao assistente: notas e preferências (rotina, gostos, o que evita) e, só depois do seu "sim", as condições de saúde que mudam dieta ou treino e os suplementos que você usa. "O que você sabe sobre mim?" mostra tudo, e "esquece" apaga.',
           'Do Premium Pro: as respostas da avaliação e dos check-ins (medidas, histórico de saúde, rotina e alimentação), o registro de remédios e hormônios que você usa, as fotos do físico, os exames e as dietas e treinos anteriores que você mandar, e as dúvidas que você manda para a nossa equipe, com as respostas.',
           'Do aceite: a versão dos termos aceita e quando.',
+          'De quem autoriza um adolescente: o nome, o parentesco, o número de WhatsApp de onde veio a autorização, quando ela foi dada e o que cobre, e a data de nascimento do adolescente.',
           'De pagamento: o plano, as cobranças e a situação da assinatura. Nome, documento e cartão de quem paga ficam com a Pagar.me, não conosco.',
           'De origem: quando você chega por um anúncio da Meta, o identificador do anúncio.',
         ],
@@ -132,6 +139,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'Prestar o serviço que você contratou: registrar, somar, responder, lembrar e cobrar (execução de contrato, LGPD art. 7º, V).',
           'Guardar e usar os dados de saúde para montar o seu diário, com o seu consentimento (art. 11, I), dado ao mandar esses dados na conversa depois do aviso da primeira mensagem, que traz o link destes textos. Você pode revogá-lo apagando a conta.',
           'No Premium Pro, usar a avaliação, os check-ins, as fotos, os exames e o registro de remédios e hormônios para montar e ajustar o seu plano e acompanhar a sua evolução, com o consentimento específico que você dá na avaliação (art. 11, I). As fotos do físico, os exames e os remédios e hormônios ficam no painel de acesso restrito da nossa equipe e nunca vão ao modelo de inteligência artificial.',
+          'Guardar os dados de saúde de quem tem de 13 a 17 anos, com a autorização de um dos pais ou do responsável legal (art. 14), dada no formulário enviado do WhatsApp do próprio responsável.',
           'Manter o serviço seguro, evitar abuso e corrigir falhas, com registros técnicos que não trazem o texto das mensagens (legítimo interesse, art. 7º, IX).',
           'Medir visitas e anúncios no site, só com o seu consentimento no aviso de cookies (art. 7º, I).',
         ],
@@ -164,6 +172,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'Os dados do diário ficam enquanto a conta existir.',
           'Áudios e fotos são apagados automaticamente 90 dias depois de enviados; o que foi registrado a partir deles continua no diário.',
           'No Premium Pro, as fotos do físico, os exames e as dietas e treinos anteriores ficam enquanto durar o programa e são apagados 90 dias depois do fim, ou antes, se você apagar a conta. O que a avaliação registrou no seu perfil fica enquanto a conta existir, para um próximo programa não perguntar de novo.',
+          'O registro da autorização de um responsável (quem autorizou, quando e sob qual versão destes textos) fica enquanto a conta do adolescente existir, como prova da autorização, mesmo que o responsável apague a própria conta.',
           'Registros técnicos ficam 30 dias. Cópias de segurança ficam até 7 dias.',
           'Os registros fiscais dos pagamentos ficam com a Pagar.me pelo prazo que a lei exige.',
         ],
@@ -173,6 +182,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         paragraphs: [
           'Diga "quero apagar minha conta" na conversa e confirme. Você tem 7 dias para desistir; nesse tempo, nada novo é registrado. Depois disso, apagamos a conta, o diário, o que o assistente guardou, as mensagens, inclusive as dúvidas respondidas pela equipe, os áudios, as fotos, os exames e os registros de pagamento. As cópias de segurança somem em até 7 dias. No total, em até 15 dias não sobra dado seu conosco.',
           'Guardamos só o registro de que houve um pedido de exclusão e quando foi cumprido, sem o seu número. A cópia das conversas no seu WhatsApp e nos servidores da Meta segue as regras da Meta.',
+          'Quem autorizou um adolescente pode pedir a exclusão dos dados dele mandando "apagar dados do menor" do próprio WhatsApp. O prazo para desistir é o mesmo, e só quem pediu desiste.',
         ],
       },
       {
@@ -196,7 +206,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Menores de idade',
         paragraphs: [
-          'O serviço é para maiores de 18 anos. Quem informar idade menor não tem dados de saúde guardados e recebe a opção de apagar a conta.',
+          'O serviço é para maiores de 18 anos e, com número de telefone do Brasil, para quem tem de 13 a 17 anos com a autorização de um dos pais ou do responsável legal. Sem a autorização, quem informar idade menor de 18 anos não tem dados de saúde guardados e recebe a opção de apagar a conta. De quem tem de 13 a 17 anos não guardamos uso de hormônios, fotos do físico nem exames. O responsável retira a autorização ou pede a exclusão dos dados do adolescente pela conversa, a qualquer momento.',
         ],
       },
       {
@@ -228,7 +238,12 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Who can use it',
         paragraphs: [
-          'The service is for people aged 18 or over. Anyone who gives an age under 18 has no health data stored and is offered to delete the account.',
+          'The service is for people aged 18 or over. With a phone number from Brazil, anyone aged 13 to 17 can use it with the authorization of their mother, father or legal guardian. The service does not take anyone under 13.',
+          'The authorization is given by the parent or guardian, from their own WhatsApp: the teenager gets a link in the chat and forwards it, and the parent or guardian confirms in a form their name, their relation, the teenager’s date of birth and that they are 18 or over. In the same form they say whether they also authorize Premium Pro. The teenager’s free trial counts from the authorization.',
+          'Without the authorization, anyone who gives an age under 18 has no health data stored and is offered to delete the account.',
+          'The parent or guardian can take the authorization back at any time, in the chat: the teenager’s diary stops at once, the card renewal is cancelled and what was already stored stays stored, until a new authorization or a deletion request. They can also ask, in the chat, for the teenager’s data to be deleted. The authorization lasts until the teenager turns 18; from then on the account is theirs alone and they accept these terms for themselves.',
+          'For anyone aged 13 to 17, the pace of weight loss goes up to 0.5 kg a week, the calorie goal never goes under the resting expenditure estimated for their age, intermittent fasting is not available on Premium, and we do not keep hormone use, physique photos or lab tests.',
+          'Whoever pays for a teenager’s plan must be an adult and declares it on the payment page. It does not have to be the person who gave the authorization.',
           'Your account is your WhatsApp number. You are responsible for its use.',
         ],
       },
@@ -250,6 +265,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         items: [
           'Premium Pro is a 12-month program, with everything in Premium. You fill in a full assessment and get a diet and a training plan built for you from it, with evidence-based methods and reference content, with check-ins and a reassessment every month. The price and whether it is on sale are on the Plans page.',
           'The diet and the training plan arrive within 24 hours, every day of the week, after you finish the assessment and send the photos we ask for. The time counts from whichever of the two you do last.',
+          'For anyone aged 13 to 17, Premium Pro depends on the parent or guardian’s authorization covering it. The assessment asks for no physique photos, and the 24 hours count from the end of the assessment.',
           'The assistant adjusts the plan to your progress automatically, from the check-ins, the reassessment and what you log, such as the load progression of your training and equivalent swaps of exercises or foods.',
           'Questions about your case go to our team, and the answer arrives in the chat within 24 hours, every day of the week.',
           'The program is paid once, by card, upfront or in up to 12 interest-free installments. There is no free trial and no automatic renewal: the program ends when the 12 months end.',
@@ -323,6 +339,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'What you tell the assistant: notes and preferences (routine, tastes, what you avoid) and, only after your "yes", the health conditions that change diet or training and the supplements you take. "What do you know about me?" shows all of it, and "forget" deletes it.',
           'Premium Pro: the answers to the assessment and the check-ins (measurements, health history, routine and eating), the record of medicine and hormones you use, the physique photos, the lab tests and the previous diets and training plans you send, and the questions you send our team, with the answers.',
           'Acceptance: which version of the terms you accepted and when.',
+          'Whoever authorizes a teenager: their name, their relation, the WhatsApp number the authorization came from, when it was given and what it covers, and the teenager’s date of birth.',
           'Payment: the plan, the charges and the subscription status. The payer’s name, ID document and card stay with Pagar.me, not with us.',
           'Origin: when you arrive from a Meta ad, the ad identifier.',
         ],
@@ -333,6 +350,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'To provide the service you signed up for: logging, adding up, replying, reminding and billing (performance of a contract, LGPD art. 7, V).',
           'To keep and use your health data to build your diary, with your consent (art. 11, I), given when you send that data in the chat after the notice in the first message, which links these texts. You can withdraw it by deleting your account.',
           'On Premium Pro, to use the assessment, the check-ins, the photos, the lab tests and the record of medicine and hormones to build and adjust your plan and follow your progress, with the specific consent you give in the assessment (art. 11, I). Physique photos, lab tests and medicine and hormones stay in our team’s restricted-access panel and are never sent to the artificial intelligence model.',
+          'To keep the health data of anyone aged 13 to 17, with the authorization of a parent or legal guardian (art. 14), given in the form sent from the parent or guardian’s own WhatsApp.',
           'To keep the service secure, prevent abuse and fix faults, with technical logs that do not contain the text of messages (legitimate interest, art. 7, IX).',
           'To measure visits and ads on the website, only with your consent in the cookie notice (art. 7, I).',
         ],
@@ -365,6 +383,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'Diary data is kept for as long as the account exists.',
           'Voice notes and photos are deleted automatically 90 days after they are sent; what was logged from them stays in the diary.',
           'On Premium Pro, physique photos, lab tests and previous diets and training plans are kept while the program lasts and deleted 90 days after it ends, or sooner if you delete your account. What the assessment recorded in your profile stays for as long as the account exists, so a later program does not ask again.',
+          'The record of a parent or guardian’s authorization (who gave it, when and under which version of these texts) is kept for as long as the teenager’s account exists, as proof of the authorization, even if the parent or guardian deletes their own account.',
           'Technical logs are kept for 30 days. Backups are kept for up to 7 days.',
           'Payment tax records stay with Pagar.me for as long as the law requires.',
         ],
@@ -374,6 +393,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         paragraphs: [
           'Say "delete my data" in the chat and confirm. You have 7 days to change your mind; during that time, nothing new is logged. After that, we delete the account, the diary, what the assistant kept, the messages, including the questions answered by the team, voice notes, photos, lab tests and payment records. Backups are gone within 7 days. In total, within 15 days no data of yours remains with us.',
           'We only keep a record that a deletion was requested and when it was carried out, without your number. The copy of the conversation in your WhatsApp and on Meta’s servers follows Meta’s rules.',
+          'Whoever authorized a teenager can ask for the teenager’s data to be deleted by sending "delete data of the minor" from their own WhatsApp. The time to change their mind is the same, and only who asked can go back on it.',
         ],
       },
       {
@@ -397,7 +417,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Minors',
         paragraphs: [
-          'The service is for people aged 18 or over. Anyone who gives an age under 18 has no health data stored and is offered to delete the account.',
+          'The service is for people aged 18 or over and, with a phone number from Brazil, for anyone aged 13 to 17 with the authorization of a parent or legal guardian. Without the authorization, anyone who gives an age under 18 has no health data stored and is offered to delete the account. We do not keep hormone use, physique photos or lab tests of anyone aged 13 to 17. The parent or guardian takes the authorization back or asks for the teenager’s data to be deleted in the chat, at any time.',
         ],
       },
       {

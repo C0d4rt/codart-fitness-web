@@ -34,7 +34,7 @@ export const llmsText = (site: Site, catalog: Catalog, builtOn: string): string 
     '',
     `- Calorias e nutrientes vêm da Tabela Brasileira de Composição de Alimentos (TACO, NEPA/Unicamp) e do Open Food Facts; o gasto dos exercícios, do Compendium of Physical Activities.`,
     `- No ${premium.name}, o assistente registra, soma e informa: não prescreve dieta nem treino, e os treinos prontos são programas gerais, que a pessoa escolhe; não são montados para ela. No ${coaching.name}, a dieta e o treino são montados para a pessoa a partir da avaliação, com métodos baseados em evidência e conteúdo de referência, e se ajustam ao progresso dela; as dúvidas são respondidas pela equipe em até 24 horas. O assistente da conversa é uma inteligência artificial, não um nutricionista.`,
-    '- Para maiores de 18 anos. Os dados servem só para o assistente responder sobre a pessoa e são apagados a pedido, na própria conversa (LGPD).',
+    '- Para maiores de 18 anos e, com número do Brasil, de 13 a 17 anos com a autorização do responsável, dada do WhatsApp dele. Os dados servem só para o assistente responder sobre a pessoa e são apagados a pedido, na própria conversa (LGPD).',
     '',
     '## Planos',
     '',
