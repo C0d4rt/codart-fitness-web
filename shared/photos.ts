@@ -50,4 +50,24 @@ export const PHOTO_CREDITS = [
     },
     page: 'https://commons.wikimedia.org/wiki/File:World_Gym_workout_(Unsplash).jpg',
   },
+  {
+    title: 'Man lifting a heavy barbell',
+    author: 'Binyamin Mellish',
+    licence: 'CC0',
+    licenceUrl: {
+      pt: 'https://creativecommons.org/publicdomain/zero/1.0/deed.pt-br',
+      en: 'https://creativecommons.org/publicdomain/zero/1.0/deed.en',
+    },
+    page: 'https://commons.wikimedia.org/wiki/File:Man_lifting_a_heavy_barbell.jpg',
+  },
+  {
+    title: 'Dubai workout',
+    author: 'Keit Trysh',
+    licence: 'CC0',
+    licenceUrl: {
+      pt: 'https://creativecommons.org/publicdomain/zero/1.0/deed.pt-br',
+      en: 'https://creativecommons.org/publicdomain/zero/1.0/deed.en',
+    },
+    page: 'https://commons.wikimedia.org/wiki/File:Dubai_workout_(Unsplash).jpg',
+  },
 ] as const

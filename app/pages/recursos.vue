@@ -18,7 +18,7 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
   <div class="page">
     <SiteNav />
     <main id="conteudo">
-      <header class="intro">
+      <header class="intro photo">
         <h1 class="title">{{ t('features.title') }}</h1>
         <p class="lead">{{ t('features.lead') }}</p>
       </header>
@@ -73,19 +73,26 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
 
 <style scoped>
 .intro {
+  --photo: url('/images/barra-paralela.jpg');
+  --photo-at: 60% 15%;
+  --scrim: rgb(6 8 7 / 0.74);
+
   display: grid;
   gap: 1.75rem;
-  padding: clamp(3rem, 1.5rem + 5vw, 6.5rem) var(--margin) 0;
+  margin-top: calc(-1 * var(--header));
+  padding: calc(var(--header) + clamp(3rem, 1.5rem + 5vw, 6.5rem)) var(--margin)
+    clamp(3rem, 1.5rem + 5vw, 6.5rem);
 }
 
 .title {
+  color: #ffffff;
   font-size: var(--step-display);
   line-height: 0.98;
 }
 
 .lead {
   max-width: 40ch;
-  color: var(--muted);
+  color: #dfe4e0;
   font-size: var(--step-lead);
   line-height: 1.4;
 }
