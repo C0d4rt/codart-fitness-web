@@ -86,13 +86,17 @@ onBeforeUnmount(() => {
   min-height: 4rem;
   padding: 0 0.625rem 0 1.5rem;
   border-radius: 999px;
-  background: var(--card);
+  /* Faint at the top of the page, solid once content passes under it. */
+  background: color-mix(in oklab, var(--card) 45%, transparent);
   font-size: var(--step-small);
   pointer-events: auto;
-  transition: box-shadow 240ms var(--ease-out);
+  transition:
+    background-color 240ms var(--ease-out),
+    box-shadow 240ms var(--ease-out);
 }
 
 .scrolled .nav {
+  background: var(--card);
   box-shadow: /* taste-skill-ignore: the owner's floating header, lifted only while content passes under it */
     0 1px 2px rgb(16 36 26 / 0.06),
     0 10px 30px -12px rgb(16 36 26 / 0.18);
