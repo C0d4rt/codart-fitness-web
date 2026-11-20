@@ -27,7 +27,7 @@ const current = computed(
 </script>
 
 <template>
-  <div class="stage tone-dark">
+  <div class="stage">
     <div class="ask">
       <div class="bar" aria-hidden="true">
         <svg class="glyph" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg>
@@ -74,6 +74,11 @@ const current = computed(
   gap: 2rem 3rem;
   padding: clamp(1.5rem, 0.5rem + 3.5vw, 4rem);
   border-radius: var(--radius-panel);
+  background-color: #eaf1ee;
+  background-image: /* taste-skill-ignore: the owner asked for a soft wash of the palette here */
+    radial-gradient(60% 70% at 12% 18%, #d5ecdf 0%, transparent 70%),
+    radial-gradient(55% 65% at 92% 22%, #dbe7f3 0%, transparent 70%),
+    radial-gradient(70% 60% at 60% 100%, #e6efd6 0%, transparent 75%);
 }
 
 .ask {
@@ -149,7 +154,7 @@ const current = computed(
   padding: 0 1rem 0 0.875rem;
   border: 0;
   border-radius: 999px;
-  background: var(--card);
+  background: rgb(255 255 255 / 0.72);
   color: var(--ink);
   font-size: var(--step-small);
   font-weight: 500;
@@ -180,7 +185,7 @@ const current = computed(
 
 @media (hover: hover) and (pointer: fine) {
   .chip:not([aria-pressed='true']):hover {
-    background: var(--tone);
+    background: var(--card);
   }
 }
 

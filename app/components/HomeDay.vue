@@ -41,7 +41,7 @@ const anchors = useAnchors()
 </script>
 
 <template>
-  <section :id="anchors.day" class="day tone-dark" aria-labelledby="day-title">
+  <section :id="anchors.day" class="day" aria-labelledby="day-title">
     <div class="head" data-reveal>
       <h2 id="day-title" class="title"><TextLines :text="t('day.title')" /></h2>
       <p class="lead">{{ t('day.lead') }}</p>
@@ -82,8 +82,7 @@ const anchors = useAnchors()
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: clamp(2.5rem, 1.5rem + 2vw, 4rem);
-  margin-top: var(--gap-section);
-  padding: var(--gap-band) var(--margin);
+  padding: var(--gap-section) var(--margin) 0;
 }
 
 .head {
@@ -205,7 +204,7 @@ const anchors = useAnchors()
   place-items: center;
   height: calc(min(38rem, 100svh - 8rem) * var(--scale) + 5rem);
   border-radius: var(--radius-panel);
-  background: var(--card);
+  background: var(--tone);
 }
 
 .answer .chat {
