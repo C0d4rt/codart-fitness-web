@@ -26,7 +26,7 @@ const features = computed(() => catalog.groups.flatMap((group) => group.features
 
     <main id="conteudo">
       <section id="hero" class="hero">
-        <div class="copy">
+        <div class="copy tone-dark">
           <h1 class="headline"><TextLines :text="t('home.headline')" /></h1>
           <p class="lead">{{ t('home.lead') }}</p>
           <div class="actions" data-cta>
@@ -61,12 +61,15 @@ const features = computed(() => catalog.groups.flatMap((group) => group.features
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
-  padding: clamp(3rem, 1.5rem + 5vw, 6.5rem) var(--margin) 0;
+  padding: clamp(0.75rem, 0.25rem + 1vw, 1.25rem) var(--margin) 0;
 }
 
+/* The same black panel as the closing, so the page opens and ends on it. */
 .copy {
   display: grid;
   justify-items: center;
+  padding: var(--gap-band) var(--margin);
+  border-radius: var(--radius-panel);
   text-align: center;
 }
 
@@ -130,6 +133,13 @@ const features = computed(() => catalog.groups.flatMap((group) => group.features
   .actions,
   .actions :deep(.button) {
     width: 100%;
+  }
+  /* Inside the panel the headline keeps its two lines on a phone. */
+  .copy {
+    padding-inline: 1rem;
+  }
+  .headline {
+    font-size: 2.25rem;
   }
 }
 </style>
