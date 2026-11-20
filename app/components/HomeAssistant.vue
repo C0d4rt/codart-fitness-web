@@ -109,8 +109,10 @@ const RELATED = ['pantry', 'mealSuggestion', 'weekSummary', 'foodRanking', 'nutr
   place-items: center;
   align-self: start;
   padding: clamp(1.5rem, 0.5rem + 3vw, 3.5rem) 1rem;
-  border-radius: 2.5rem;
-  background: var(--card);
+  border-radius: var(--radius-panel);
+  background:
+    linear-gradient(var(--scrim), var(--scrim)),
+    url('/images/atleta-na-barra.jpg') center 15% / cover var(--night);
 }
 
 /* Three exchanges have to fit one screen: a slightly larger phone, whose text stops growing at its
@@ -190,7 +192,7 @@ const RELATED = ['pantry', 'mealSuggestion', 'weekSummary', 'foodRanking', 'nutr
     --scale: 0.84;
 
     padding: 1.25rem 0.75rem;
-    border-radius: 2rem;
+    border-radius: var(--radius);
   }
 }
 </style>

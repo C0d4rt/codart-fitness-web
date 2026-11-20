@@ -203,8 +203,10 @@ const anchors = useAnchors()
   display: grid;
   place-items: center;
   height: calc(min(38rem, 100svh - 8rem) * var(--scale) + 5rem);
-  border-radius: 2.5rem;
-  background: var(--tone);
+  border-radius: var(--radius-panel);
+  background:
+    linear-gradient(var(--scrim), var(--scrim)),
+    url('/images/atleta-de-perfil.jpg') 70% 30% / cover var(--night);
 }
 
 .answer .chat {
@@ -265,7 +267,7 @@ const anchors = useAnchors()
     --scale: 0.84;
 
     height: calc(min(38rem, 100svh - 8rem) * var(--scale) + 2.5rem);
-    border-radius: 2rem;
+    border-radius: var(--radius);
   }
 }
 

@@ -56,8 +56,9 @@
   --gutter: 1.5rem;
   --gap-section: clamp(6rem, 3rem + 7vw, 11rem);
   --header: 4.75rem;
-  --radius: 2rem;
-  --radius-small: 1rem;
+  --radius-panel: 1.5rem;
+  --radius: 1.25rem;
+  --radius-small: 0.75rem;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);

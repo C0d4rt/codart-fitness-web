@@ -30,4 +30,24 @@ export const PHOTO_CREDITS = [
     },
     page: 'https://commons.wikimedia.org/wiki/File:Fit_man_(Unsplash).jpg',
   },
+  {
+    title: 'Pull-up',
+    author: 'Scott Webb',
+    licence: 'CC0',
+    licenceUrl: {
+      pt: 'https://creativecommons.org/publicdomain/zero/1.0/deed.pt-br',
+      en: 'https://creativecommons.org/publicdomain/zero/1.0/deed.en',
+    },
+    page: 'https://commons.wikimedia.org/wiki/File:Scott_Webb_2015-06-18_(Unsplash_KblIFRq1jkg).jpg',
+  },
+  {
+    title: 'World Gym workout',
+    author: 'Scott Webb',
+    licence: 'CC0',
+    licenceUrl: {
+      pt: 'https://creativecommons.org/publicdomain/zero/1.0/deed.pt-br',
+      en: 'https://creativecommons.org/publicdomain/zero/1.0/deed.en',
+    },
+    page: 'https://commons.wikimedia.org/wiki/File:World_Gym_workout_(Unsplash).jpg',
+  },
 ] as const

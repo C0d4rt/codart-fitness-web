@@ -72,7 +72,7 @@ const current = computed(
   align-items: center;
   gap: 2rem 3rem;
   padding: clamp(1.5rem, 0.5rem + 3.5vw, 4rem);
-  border-radius: 2.5rem;
+  border-radius: var(--radius-panel);
   background:
     linear-gradient(var(--scrim), var(--scrim)),
     url('/images/treino-de-forca-halteres.jpg') center 35% / cover var(--night);
@@ -225,7 +225,7 @@ const current = computed(
     --scale: 0.84;
 
     padding: 1.25rem 0.75rem;
-    border-radius: 2rem;
+    border-radius: var(--radius);
     background-position:
       center,
       82% 30%;
