@@ -53,7 +53,7 @@ const RELATED = ['pantry', 'mealSuggestion', 'weekSummary', 'foodRanking', 'nutr
       <p class="lead">{{ t('assistant.lead') }}</p>
     </div>
 
-    <div class="phone">
+    <div class="phone photo">
       <ChatWindow :screen="screen" class="chat" />
     </div>
 
@@ -103,6 +103,8 @@ const RELATED = ['pantry', 'mealSuggestion', 'weekSummary', 'foodRanking', 'nutr
 
 .phone {
   --scale: 0.9;
+  --photo: url('/images/atleta-na-barra.jpg');
+  --photo-at: center 15%;
 
   grid-area: phone;
   display: grid;
@@ -110,9 +112,6 @@ const RELATED = ['pantry', 'mealSuggestion', 'weekSummary', 'foodRanking', 'nutr
   align-self: start;
   padding: clamp(1.5rem, 0.5rem + 3vw, 3.5rem) 1rem;
   border-radius: var(--radius-panel);
-  background:
-    linear-gradient(var(--scrim), var(--scrim)),
-    url('/images/atleta-na-barra.jpg') center 15% / cover var(--night);
 }
 
 /* Three exchanges have to fit one screen: a slightly larger phone, whose text stops growing at its

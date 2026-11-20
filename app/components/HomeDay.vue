@@ -68,7 +68,7 @@ const anchors = useAnchors()
       </div>
       <p class="picked">{{ t(`day.moments.${selected}.note`) }}</p>
 
-      <div class="answer">
+      <div class="answer photo">
         <ChatWindow :screen="current" class="chat" />
       </div>
       <FeatureChips :features="features" :ids="RELATED" :label="t('chips.label')" class="related" />
@@ -198,15 +198,14 @@ const anchors = useAnchors()
 /* The panel keeps the phone's height whatever the conversation, so choosing never moves the page. */
 .answer {
   --scale: 0.9;
+  --photo: url('/images/atleta-de-perfil.jpg');
+  --photo-at: 70% 30%;
 
   grid-area: answer;
   display: grid;
   place-items: center;
   height: calc(min(38rem, 100svh - 8rem) * var(--scale) + 5rem);
   border-radius: var(--radius-panel);
-  background:
-    linear-gradient(var(--scrim), var(--scrim)),
-    url('/images/atleta-de-perfil.jpg') 70% 30% / cover var(--night);
 }
 
 .answer .chat {

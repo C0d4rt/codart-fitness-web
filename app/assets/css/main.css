@@ -212,6 +212,43 @@ img {
   }
 }
 
+/* The picture sits on its own layer, so it can settle while scrolling without moving what is on it. */
+.photo {
+  position: relative;
+  isolation: isolate;
+  /* clip, not hidden: a hidden overflow would become the scroller that view() follows. */
+  overflow: clip;
+}
+
+.photo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(var(--scrim), var(--scrim)),
+    var(--photo) var(--photo-at, center) / cover var(--night);
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .photo::before {
+      animation: photo-settle linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+  }
+}
+
+@keyframes photo-settle {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
 /* Content stays visible without script: only a page that runs the observer hides it first. */
 .js [data-reveal] > * {
   opacity: 0;

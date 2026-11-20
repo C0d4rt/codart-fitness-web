@@ -4,7 +4,7 @@ const trialDays = useTrialDays()
 </script>
 
 <template>
-  <section class="closing" aria-labelledby="closing-title" data-reveal>
+  <section class="closing photo" aria-labelledby="closing-title" data-reveal>
     <h2 id="closing-title" class="heading"><TextLines :text="t('closing.title')" /></h2>
     <p class="lead">{{ t('closing.lead', { days: trialDays }) }}</p>
     <WhatsAppButton location="closing" :label="t('cta.try')" class="action" />
@@ -13,14 +13,14 @@ const trialDays = useTrialDays()
 
 <style scoped>
 .closing {
+  --photo: url('/images/atleta-na-academia.jpg');
+  --photo-at: center 30%;
+
   display: grid;
   justify-items: center;
   margin: var(--gap-section) var(--margin) 0;
   padding: clamp(5rem, 3rem + 6vw, 9rem) var(--margin);
   border-radius: var(--radius);
-  background:
-    linear-gradient(var(--scrim), var(--scrim)),
-    url('/images/atleta-na-academia.jpg') center 30% / cover var(--night);
   color: #ffffff;
   text-align: center;
 }
