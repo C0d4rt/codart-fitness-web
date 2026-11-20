@@ -138,6 +138,27 @@
       "text": "A sua evolução desde o primeiro registro"
     }
   },
+  "outputs": {
+    "title": "Não fica só na mensagem. Chega pronto para usar.",
+    "lead": "Além das respostas, o assistente manda a ficha do treino do dia, o plano completo em PDF e o resumo da semana em gráfico",
+    "items": {
+      "sheet": {
+        "name": "A ficha do treino do dia",
+        "text": "Exercícios, séries, descanso e como fazer cada técnica, numa imagem para abrir na academia",
+        "alt": "Ficha do Treino Superiores 1: seis exercícios com séries e repetições, dicas de execução, observações técnicas e como fazer o back-off"
+      },
+      "pdf": {
+        "name": "O treino completo em PDF",
+        "text": "Todos os dias, as orientações do seu nível e o cardio, para salvar ou imprimir",
+        "alt": "Primeira página do PDF do plano de treino: orientações do nível e as tabelas dos treinos Superiores 1 e Inferiores 1"
+      },
+      "week": {
+        "name": "O resumo da semana em gráfico",
+        "text": "As calorias de cada dia contra a sua meta e a média de proteína, carboidrato e gordura",
+        "alt": "Gráfico de calorias por dia de uma semana com a linha da meta, e barras da média de proteína, carboidrato e gordura"
+      }
+    }
+  },
   "day": {
     "title": "Um dia normal. Tudo numa conversa.",
     "lead": "Escolha um momento do dia e veja a conversa",

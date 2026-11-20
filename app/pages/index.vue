@@ -47,6 +47,7 @@ const features = computed(() => catalog.groups.flatMap((group) => group.features
       <HomeHow :features="features" />
       <HomeBento :features="features" />
       <HomeDay :features="features" />
+      <HomeOutputs />
       <HomeEverything :features="features" />
       <PlanCards :catalog="catalog" />
       <HomeFaq :trial-days="catalog.trialDays" />

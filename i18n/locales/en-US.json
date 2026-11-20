@@ -138,6 +138,27 @@
       "text": "Your progress since your first weigh-in"
     }
   },
+  "outputs": {
+    "title": "Not just messages. Ready to use.",
+    "lead": "Besides the answers, the assistant sends the day's workout sheet, the full plan as a PDF and the week's summary as a chart",
+    "items": {
+      "sheet": {
+        "name": "The day's workout sheet",
+        "text": "Exercises, sets, rest and how to do each technique, in an image to open at the gym",
+        "alt": "Sheet for Upper Body 1: six exercises with sets and reps, form tips, technical notes and how to do the back-off"
+      },
+      "pdf": {
+        "name": "The full workout as a PDF",
+        "text": "Every day, the guidelines for your level and the cardio, to save or print",
+        "alt": "First page of the workout plan PDF: level guidelines and the tables for Upper Body 1 and Lower Body 1"
+      },
+      "week": {
+        "name": "The week's summary as a chart",
+        "text": "Each day's calories against your goal, and the average protein, carbs and fat",
+        "alt": "Chart of calories per day for a week with the goal line, and bars for the average protein, carbs and fat"
+      }
+    }
+  },
   "day": {
     "title": "A normal day. All in one chat.",
     "lead": "Pick a moment of the day and see the chat",
