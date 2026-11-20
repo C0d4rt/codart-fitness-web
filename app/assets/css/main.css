@@ -27,16 +27,19 @@
   --field: var(--green);
   --field-ink: var(--green-ink);
 
-  --chat-bg: #e9ede8;
-  --chat-wall: #efeae2;
-  --chat-chrome: #f6f6f6;
-  --chat-bot: #ffffff;
-  --chat-you: #d9f6d2;
-  --chat-ink: #111b21;
-  --chat-meta: #5f6b66;
+  /* WhatsApp's own dark mode, so the phones sit in the dark page the way people see the app. */
+  --chat-bg: #0b141a;
+  --chat-wall: #0b141a;
+  --chat-chrome: #1f2c34;
+  --chat-bot: #202c33;
+  --chat-you: #005c4b;
+  --chat-ink: #e9edef;
+  --chat-meta: #8696a0;
   --chat-tick: #53bdeb;
   --chat-voice: #68a4f6;
-  --chat-send: #50a768;
+  --chat-send: #00a884;
+  --chat-link: #00a884;
+  --chat-dots: rgb(233 237 239 / 0.05);
   --chat-bar: #0f5c3c;
   --chat-bar-ink: #ffffff;
 
