@@ -27,7 +27,7 @@ const current = computed(
 </script>
 
 <template>
-  <div class="stage photo">
+  <div class="stage tone-dark">
     <div class="ask">
       <div class="bar" aria-hidden="true">
         <svg class="glyph" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg>
@@ -64,10 +64,9 @@ const current = computed(
 </template>
 
 <style scoped>
+/* A wash of the page's own greens and blues: the one coloured field on the page, behind the live demo. */
 .stage {
   --scale: 0.9;
-  --photo: url('/images/treino-de-forca-halteres.webp');
-  --photo-at: center 35%;
 
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -150,7 +149,7 @@ const current = computed(
   padding: 0 1rem 0 0.875rem;
   border: 0;
   border-radius: 999px;
-  background: rgb(23 26 24 / 0.82);
+  background: var(--card);
   color: var(--ink);
   font-size: var(--step-small);
   font-weight: 500;
@@ -222,8 +221,6 @@ const current = computed(
 @media (max-width: 47.99rem) {
   .stage {
     --scale: 0.84;
-    --photo: url('/images/treino-de-forca-halteres-800.webp');
-    --photo-at: 90% 30%;
 
     padding: 1.25rem 0.75rem;
     border-radius: var(--radius);

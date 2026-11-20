@@ -53,7 +53,7 @@ const RELATED = ['pantry', 'mealSuggestion', 'weekSummary', 'foodRanking', 'nutr
       <p class="lead">{{ t('assistant.lead') }}</p>
     </div>
 
-    <div class="phone photo">
+    <div class="phone">
       <ChatWindow :screen="screen" class="chat" />
     </div>
 
@@ -103,8 +103,6 @@ const RELATED = ['pantry', 'mealSuggestion', 'weekSummary', 'foodRanking', 'nutr
 
 .phone {
   --scale: 0.9;
-  --photo: url('/images/atleta-na-barra.webp');
-  --photo-at: center 15%;
 
   grid-area: phone;
   display: grid;
@@ -112,6 +110,7 @@ const RELATED = ['pantry', 'mealSuggestion', 'weekSummary', 'foodRanking', 'nutr
   align-self: start;
   padding: clamp(1.5rem, 0.5rem + 3vw, 3.5rem) 1rem;
   border-radius: var(--radius-panel);
+  background: var(--card);
 }
 
 /* Three exchanges have to fit one screen: a slightly larger phone, whose text stops growing at its
@@ -189,7 +188,6 @@ const RELATED = ['pantry', 'mealSuggestion', 'weekSummary', 'foodRanking', 'nutr
 @media (max-width: 47.99rem) {
   .phone {
     --scale: 0.84;
-    --photo: url('/images/atleta-na-barra-600.webp');
 
     padding: 1.25rem 0.75rem;
     border-radius: var(--radius);

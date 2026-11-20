@@ -511,6 +511,7 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   background: var(--chat-bot);
   color: var(--chat-meta);
   font-size: 0.875rem;
+  box-shadow: inset 0 0 0 1px var(--chat-field-ring); /* taste-skill-ignore: the outline of WhatsApp's text field (data-ui) */
 }
 
 .field .icon {
@@ -660,8 +661,8 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: #6b7c85;
-  fill: #cfd6da;
+  background: var(--chat-avatar);
+  fill: var(--chat-avatar-ink);
 }
 
 .heard {

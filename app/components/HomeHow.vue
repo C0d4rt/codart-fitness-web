@@ -62,7 +62,7 @@ const anchors = useAnchors()
 </script>
 
 <template>
-  <section :id="anchors.how" class="how" aria-labelledby="how-title">
+  <section :id="anchors.how" class="how tone-dark" aria-labelledby="how-title">
     <div class="head" data-reveal>
       <h2 id="how-title" class="title"><TextLines :text="t('how.title')" /></h2>
       <p class="lead">{{ t('how.lead') }}</p>
@@ -82,7 +82,8 @@ const anchors = useAnchors()
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 2.5rem;
-  padding: var(--gap-section) var(--margin) 0;
+  margin-top: var(--gap-section);
+  padding: var(--gap-band) var(--margin);
 }
 
 .head {

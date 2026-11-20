@@ -4,7 +4,7 @@ const trialDays = useTrialDays()
 </script>
 
 <template>
-  <section class="closing photo" aria-labelledby="closing-title" data-reveal>
+  <section class="closing tone-dark" aria-labelledby="closing-title" data-reveal>
     <h2 id="closing-title" class="heading"><TextLines :text="t('closing.title')" /></h2>
     <p class="lead">{{ t('closing.lead', { days: trialDays }) }}</p>
     <WhatsAppButton location="closing" :label="t('cta.try')" class="action" />
@@ -13,15 +13,11 @@ const trialDays = useTrialDays()
 
 <style scoped>
 .closing {
-  --photo: url('/images/atleta-na-academia.webp');
-  --photo-at: center 30%;
-
   display: grid;
   justify-items: center;
   margin: var(--gap-section) var(--margin) 0;
-  padding: clamp(5rem, 3rem + 6vw, 9rem) var(--margin);
-  border-radius: var(--radius);
-  color: #ffffff;
+  padding: var(--gap-band) var(--margin);
+  border-radius: var(--radius-panel);
   text-align: center;
 }
 
@@ -33,7 +29,7 @@ const trialDays = useTrialDays()
   text-wrap: balance;
   max-width: 34ch;
   margin-top: 1.75rem;
-  color: #dfe4e0;
+  color: var(--muted);
   font-size: var(--step-lead);
   line-height: 1.4;
 }
@@ -43,9 +39,6 @@ const trialDays = useTrialDays()
 }
 
 @media (max-width: 47.99rem) {
-  .closing {
-    --photo: url('/images/atleta-na-academia-800.webp');
-  }
   .action {
     width: 100%;
   }

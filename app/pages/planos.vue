@@ -47,7 +47,7 @@ useSeoMeta({
   <div class="page">
     <SiteNav />
     <main id="conteudo">
-      <header class="intro photo">
+      <header class="intro">
         <h1 class="title">{{ t('plans.title') }}</h1>
         <p class="lead">{{ t('plans.lead', { days: catalog.trialDays }) }}</p>
       </header>
@@ -99,25 +99,19 @@ useSeoMeta({
 
 <style scoped>
 .intro {
-  --photo: url('/images/agachamento-com-barra.webp');
-  --photo-at: center 40%;
-
   display: grid;
   gap: 1.75rem;
-  margin-top: calc(-1 * var(--header));
-  padding: calc(var(--header) + clamp(3rem, 1.5rem + 5vw, 6.5rem)) var(--margin)
-    clamp(3rem, 1.5rem + 5vw, 6.5rem);
+  padding: clamp(3rem, 1.5rem + 5vw, 6.5rem) var(--margin) 0;
 }
 
 .title {
-  color: #ffffff;
   font-size: var(--step-display);
   line-height: 0.98;
 }
 
 .lead {
   max-width: 40ch;
-  color: #dfe4e0;
+  color: var(--muted);
   font-size: var(--step-lead);
   line-height: 1.4;
 }
@@ -224,9 +218,6 @@ useSeoMeta({
 }
 
 @media (max-width: 47.99rem) {
-  .intro {
-    --photo: url('/images/agachamento-com-barra-800.webp');
-  }
   .compare {
     padding: 1.25rem;
   }

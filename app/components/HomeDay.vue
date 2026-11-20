@@ -41,7 +41,7 @@ const anchors = useAnchors()
 </script>
 
 <template>
-  <section :id="anchors.day" class="day" aria-labelledby="day-title">
+  <section :id="anchors.day" class="day tone-dark" aria-labelledby="day-title">
     <div class="head" data-reveal>
       <h2 id="day-title" class="title"><TextLines :text="t('day.title')" /></h2>
       <p class="lead">{{ t('day.lead') }}</p>
@@ -68,7 +68,7 @@ const anchors = useAnchors()
       </div>
       <p class="picked">{{ t(`day.moments.${selected}.note`) }}</p>
 
-      <div class="answer photo">
+      <div class="answer">
         <ChatWindow :screen="current" class="chat" />
       </div>
       <FeatureChips :features="features" :ids="RELATED" :label="t('chips.label')" class="related" />
@@ -82,7 +82,8 @@ const anchors = useAnchors()
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: clamp(2.5rem, 1.5rem + 2vw, 4rem);
-  padding: var(--gap-section) var(--margin) 0;
+  margin-top: var(--gap-section);
+  padding: var(--gap-band) var(--margin);
 }
 
 .head {
@@ -198,14 +199,13 @@ const anchors = useAnchors()
 /* The panel keeps the phone's height whatever the conversation, so choosing never moves the page. */
 .answer {
   --scale: 0.9;
-  --photo: url('/images/atleta-de-perfil.webp');
-  --photo-at: 70% 30%;
 
   grid-area: answer;
   display: grid;
   place-items: center;
   height: calc(min(38rem, 100svh - 8rem) * var(--scale) + 5rem);
   border-radius: var(--radius-panel);
+  background: var(--card);
 }
 
 .answer .chat {
@@ -264,7 +264,6 @@ const anchors = useAnchors()
   }
   .answer {
     --scale: 0.84;
-    --photo: url('/images/atleta-de-perfil-800.webp');
 
     height: calc(min(38rem, 100svh - 8rem) * var(--scale) + 2.5rem);
     border-radius: var(--radius);
