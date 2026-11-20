@@ -187,15 +187,15 @@ const PT: Record<string, FeatureCopy> = {
     ],
   },
   readyPrograms: {
-    headline: 'Um programa de treino pronto, do iniciante ao avançado',
+    headline: 'Um programa de treino, do iniciante ao avançado',
     howTo:
       'São programas gerais, que você escolhe: não são montados para você. Se faltar um aparelho ou doer alguma coisa, o exercício é trocado.',
     exchange: [
       you('treinos', '07:10'),
       bot(
-        'Escolha um treino pronto: ele começa hoje, com os exercícios trocados se faltar um aparelho ou se algo doer.',
+        'Escolha um treino: ele começa hoje, com os exercícios trocados se faltar um aparelho ou se algo doer.',
         '07:10',
-        'Treinos prontos',
+        'Treinos por nível',
       ),
       you('minha academia não tem leg press', '07:40'),
       bot('Troquei leg press por agachamento no smith no seu plano.', '07:40'),
