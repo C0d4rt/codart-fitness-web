@@ -226,7 +226,7 @@ img {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(var(--scrim), var(--scrim)),
+    var(--photo-scrim, linear-gradient(var(--scrim), var(--scrim))),
     var(--photo) var(--photo-at, center) / cover var(--night);
 }
 

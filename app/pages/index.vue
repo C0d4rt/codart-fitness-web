@@ -61,6 +61,14 @@ const features = computed(() => catalog.groups.flatMap((group) => group.features
 .hero {
   --photo: url('/images/treino-de-forca-halteres.jpg');
   --photo-at: center 30%;
+  /* Darker in the middle, where the mirror's edges would otherwise run behind the headline. */
+  --photo-scrim: linear-gradient(
+    90deg,
+    rgb(6 8 7 / 0.5) 0%,
+    rgb(6 8 7 / 0.86) 30%,
+    rgb(6 8 7 / 0.86) 70%,
+    rgb(6 8 7 / 0.5) 100%
+  );
 
   display: grid;
   grid-template-columns: minmax(0, 1fr);
