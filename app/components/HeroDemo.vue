@@ -73,9 +73,7 @@ const current = computed(
   gap: 2rem 3rem;
   padding: clamp(1.5rem, 0.5rem + 3.5vw, 4rem);
   border-radius: var(--radius-panel);
-  background:
-    linear-gradient(var(--scrim), var(--scrim)),
-    url('/images/treino-de-forca-halteres.jpg') center 35% / cover var(--night);
+  background: rgb(12 14 13 / 0.7);
 }
 
 .ask {
@@ -226,9 +224,6 @@ const current = computed(
 
     padding: 1.25rem 0.75rem;
     border-radius: var(--radius);
-    background-position:
-      center,
-      82% 30%;
   }
   .bar .glyph:first-child {
     display: none;

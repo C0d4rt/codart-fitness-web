@@ -57,11 +57,27 @@ const features = computed(() => catalog.groups.flatMap((group) => group.features
 </template>
 
 <style scoped>
+/* The photo runs up behind the floating header, so the first screen is the gym itself. */
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
-  padding: clamp(3rem, 1.5rem + 5vw, 6.5rem) var(--margin) 0;
+  margin-top: calc(-1 * var(--header));
+  padding: calc(var(--header) + clamp(3rem, 1.5rem + 5vw, 6.5rem)) var(--margin)
+    clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+  background:
+    linear-gradient(var(--scrim), var(--scrim)),
+    url('/images/treino-de-forca-halteres.jpg') center 30% / cover var(--night);
+}
+
+.headline,
+.secondary {
+  color: #ffffff;
+}
+
+.lead,
+.terms {
+  color: #dfe4e0;
 }
 
 .copy {
@@ -79,7 +95,6 @@ const features = computed(() => catalog.groups.flatMap((group) => group.features
   text-wrap: balance;
   max-width: 40ch;
   margin-top: clamp(1.5rem, 1rem + 1vw, 2rem);
-  color: var(--muted);
   font-size: var(--step-lead);
   line-height: 1.4;
 }
@@ -121,12 +136,16 @@ const features = computed(() => catalog.groups.flatMap((group) => group.features
 
 .terms {
   margin-top: 1.25rem;
-  color: var(--muted);
   font-size: var(--step-small);
 }
 
 /* A thumb reaches a full-width button anywhere along the bottom of the screen. */
 @media (max-width: 47.99rem) {
+  .hero {
+    background-position:
+      center,
+      78% 30%;
+  }
   .actions,
   .actions :deep(.button) {
     width: 100%;
