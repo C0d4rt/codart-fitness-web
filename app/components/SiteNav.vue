@@ -85,18 +85,48 @@ onBeforeUnmount(() => {
   align-items: center;
   min-height: 4rem;
   padding: 0 0.625rem 0 1.5rem;
+  position: relative;
+  isolation: isolate;
   border-radius: 999px;
-  /* Faint at the top of the page, solid once content passes under it. */
-  background: color-mix(in oklab, var(--card) 45%, transparent);
   font-size: var(--step-small);
   pointer-events: auto;
-  transition:
-    background-color 240ms var(--ease-out),
-    box-shadow 240ms var(--ease-out);
+  transition: box-shadow 240ms var(--ease-out);
+}
+
+/* The fill lives on its own layer: faint at the top, firming up with the first 160px of scroll. */
+.nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--card);
+  opacity: 0.45;
+  transition: opacity 400ms var(--ease-in-out);
+}
+
+.scrolled .nav::before {
+  opacity: 1;
+}
+
+@supports (animation-timeline: scroll()) {
+  .nav::before {
+    animation: nav-firm ease-in-out both;
+    animation-timeline: scroll(root);
+    animation-range: 0 160px;
+  }
+}
+
+@keyframes nav-firm {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .scrolled .nav {
-  background: var(--card);
   box-shadow: /* taste-skill-ignore: the owner's floating header, lifted only while content passes under it */
     0 1px 2px rgb(16 36 26 / 0.06),
     0 10px 30px -12px rgb(16 36 26 / 0.18);
