@@ -176,10 +176,10 @@ const PT: Record<string, FeatureCopy> = {
     ],
   },
   savedWorkouts: {
-    headline: 'O treino A, sem digitar de novo',
-    howTo: 'Salve o treino da semana com um nome e registre de novo só dizendo que fez.',
+    headline: 'O seu treino avulso, sem digitar de novo',
+    howTo: 'Salve como atalho o treino que você repete e registre de novo só dizendo que fez.',
     exchange: [
-      you('fiz o treino A', '18:55'),
+      you('fiz o treino avulso', '18:55'),
       bot(
         '✅ *Treino* registrado\n\n1. Supino reto: 3×8 com 60 kg\n2. Remada curvada: 3×10 com 40 kg\n3. Desenvolvimento: 3×10 com 16 kg\n\n*Faltam 640 kcal* para a meta de 1.800.\n\nQuanto tempo durou o treino? Assim somo o gasto.',
         '18:55',
@@ -639,10 +639,10 @@ const EN: Record<string, FeatureCopy> = {
     ],
   },
   savedWorkouts: {
-    headline: 'Workout A, without typing it again',
-    howTo: 'Save your weekly workout with a name and log it again just by saying you did it.',
+    headline: 'Your extra workout, without typing it again',
+    howTo: 'Save the workout you repeat as a shortcut and log it again just by saying you did it.',
     exchange: [
-      you('I did workout A', '18:55'),
+      you('I did the extra workout', '18:55'),
       bot(
         '✅ *Workout* logged\n\n1. Bench press: 3×8 at 60 kg\n2. Bent-over row: 3×10 at 40 kg\n3. Shoulder press: 3×10 at 16 kg\n\n*640 kcal left* for the goal of 1,800.\n\nHow long did the workout last? That way I can add up the burn.',
         '18:55',
