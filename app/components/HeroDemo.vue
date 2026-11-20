@@ -73,7 +73,7 @@ const current = computed(
   align-items: center;
   gap: 2rem 3rem;
   padding: clamp(1.5rem, 0.5rem + 3.5vw, 4rem);
-  border-radius: 2.5rem;
+  border-radius: var(--radius-panel);
   background-color: #eaf1ee;
   background-image: /* taste-skill-ignore: the owner asked for a soft wash of the palette here */
     radial-gradient(60% 70% at 12% 18%, #d5ecdf 0%, transparent 70%),
@@ -228,7 +228,7 @@ const current = computed(
     --scale: 0.84;
 
     padding: 1.25rem 0.75rem;
-    border-radius: 2rem;
+    border-radius: var(--radius);
   }
   .bar .glyph:first-child {
     display: none;

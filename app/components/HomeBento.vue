@@ -210,7 +210,7 @@ const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', '
 }
 
 .delta {
-  color: #0f5c3c;
+  color: var(--green);
   font-size: var(--step-body);
   font-weight: 500;
   letter-spacing: 0;

@@ -243,7 +243,7 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   overflow: hidden;
   border-radius: 2.5rem;
   background-color: var(--chat-wall);
-  background-image: radial-gradient(rgb(17 27 33 / 0.05) 1px, transparent 1.2px);
+  background-image: radial-gradient(var(--chat-dots) 1px, transparent 1.2px);
   background-size: 14px 14px;
 }
 
@@ -332,7 +332,7 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   height: 2.25rem;
   flex: none;
   border-radius: 50%;
-  background: #fbfaf7;
+  background: var(--chat-bot);
 }
 
 .back .icon {
@@ -508,10 +508,10 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   height: 1.875rem;
   padding: 0 0.5rem 0 0.875rem;
   border-radius: 999px;
-  background: #ffffff;
+  background: var(--chat-bot);
   color: var(--chat-meta);
   font-size: 0.875rem;
-  box-shadow: inset 0 0 0 1px rgb(17 27 33 / 0.2); /* taste-skill-ignore: the outline of WhatsApp's text field (data-ui) */
+  box-shadow: inset 0 0 0 1px var(--chat-field-ring); /* taste-skill-ignore: the outline of WhatsApp's text field (data-ui) */
 }
 
 .field .icon {
@@ -631,7 +631,7 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   gap: 0.375rem;
   padding: 0.625rem;
   border-top: 1px solid color-mix(in oklab, var(--chat-ink) 14%, transparent); /* taste-skill-ignore: WhatsApp draws this divider above a reply button (data-ui fragment) */
-  color: #0b7a5a;
+  color: var(--chat-link);
   font-weight: 500;
   text-align: center;
 }
@@ -661,8 +661,8 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: #c8ced3;
-  fill: #ffffff;
+  background: var(--chat-avatar);
+  fill: var(--chat-avatar-ink);
 }
 
 .heard {

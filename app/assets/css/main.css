@@ -7,7 +7,9 @@
   --muted: #4b5550;
   --green: #187a4e;
   --green-ink: #ffffff;
+  --green-hover: #12663f;
   --mint: #def2e6;
+  --black: #0c0e0d;
   --sky: #dde9f5;
   --peach: #f6e1e5;
   --sand: #e9f2d4;
@@ -34,6 +36,11 @@
   --chat-tick: #53bdeb;
   --chat-voice: #68a4f6;
   --chat-send: #50a768;
+  --chat-link: #0b7a5a;
+  --chat-dots: rgb(17 27 33 / 0.05);
+  --chat-field-ring: rgb(17 27 33 / 0.2);
+  --chat-avatar: #c8ced3;
+  --chat-avatar-ink: #ffffff;
   --chat-bar: #0f5c3c;
   --chat-bar-ink: #ffffff;
 
@@ -52,14 +59,52 @@
   --margin: clamp(1.25rem, 0.6rem + 3vw, 4rem);
   --gutter: 1.5rem;
   --gap-section: clamp(6rem, 3rem + 7vw, 11rem);
+  --gap-band: clamp(4.5rem, 2.5rem + 5vw, 8rem);
   --header: 4.75rem;
-  --radius: 2rem;
-  --radius-small: 1rem;
+  --radius-panel: 1.5rem;
+  --radius: 1.25rem;
+  --radius-small: 0.75rem;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
   color-scheme: light;
+}
+
+/* A black section: the same roles in the dark palette, chats in WhatsApp's own dark mode. */
+.tone-dark {
+  --ground: var(--black);
+  --card: #171a18;
+  --tone: #222623;
+  --line: #2e3330;
+  --ink: #eef1ec;
+  --muted: #a6ada8;
+  --green: #3fd27f;
+  --green-ink: #07130c;
+  --green-hover: #6adf9c;
+  --mint: #173a26;
+
+  --protein: #3fd27f;
+  --carbs: #e9a23b;
+  --fat: #5b9be0;
+
+  --chat-bg: #0b141a;
+  --chat-wall: #0b141a;
+  --chat-chrome: #1f2c34;
+  --chat-bot: #202c33;
+  --chat-you: #005c4b;
+  --chat-ink: #e9edef;
+  --chat-meta: #8696a0;
+  --chat-send: #00a884;
+  --chat-link: #00a884;
+  --chat-dots: rgb(233 237 239 / 0.05);
+  --chat-field-ring: transparent;
+  --chat-avatar: #6b7c85;
+  --chat-avatar-ink: #cfd6da;
+
+  background-color: var(--ground);
+  color: var(--ink);
+  color-scheme: dark;
 }
 
 *,
@@ -201,7 +246,7 @@ img {
 
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
-    background: #12663f;
+    background: var(--green-hover);
   }
   .button--quiet:hover {
     background: color-mix(in oklab, var(--tone) 88%, var(--ink));

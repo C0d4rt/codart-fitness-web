@@ -68,7 +68,7 @@ const locale = useSiteLocale()
   gap: clamp(3rem, 2rem + 4vw, 6rem);
   margin-top: var(--gap-section);
   padding: clamp(3.5rem, 2rem + 4vw, 6rem) var(--margin) 2.5rem;
-  background: var(--ink);
+  background: var(--black);
   color: #ffffff;
   font-size: var(--step-small);
 }
