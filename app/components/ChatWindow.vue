@@ -17,10 +17,32 @@ const WAVE = [
 const sender = (index: number) => props.screen.messages[index]?.from
 const opensRun = (index: number) => sender(index - 1) !== sender(index)
 const closesRun = (index: number) => sender(index + 1) !== sender(index)
+
+/* The finished conversation fades in once the phone is on screen, or as soon as a visitor picks another one. */
+const figure = ref<HTMLElement>()
+const live = ref(false)
+let observer: IntersectionObserver | undefined
+
+const goLive = () => {
+  live.value = true
+  observer?.disconnect()
+}
+
+watch(() => props.screen.id, goLive)
+
+onMounted(() => {
+  if (!figure.value) return
+  observer = new IntersectionObserver(([entry]) => entry?.isIntersecting && goLive(), {
+    threshold: 0.15,
+  })
+  observer.observe(figure.value)
+})
+
+onBeforeUnmount(() => observer?.disconnect())
 </script>
 
 <template>
-  <figure class="chat" :class="{ bare }" data-ui :aria-label="screen.label">
+  <figure ref="figure" class="chat" :class="{ bare, live }" data-ui :aria-label="screen.label">
     <div class="screen">
       <div v-if="!bare" class="top" aria-hidden="true">
         <div class="status">
@@ -404,8 +426,14 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
 
 .row {
   display: flex;
-  animation: arrive 360ms var(--ease-out) both;
-  animation-delay: calc(var(--n) * 140ms);
+  animation: arrive 450ms var(--ease-out) both;
+  animation-delay: calc(var(--n) * 50ms);
+}
+
+/* Hidden from the first paint until the phone is on screen, so the fade is what the visitor sees. */
+:global(html.js .chat:not(.live) .row) {
+  opacity: 0;
+  animation: none;
 }
 
 .row.you {
@@ -783,7 +811,7 @@ const closesRun = (index: number) => sender(index + 1) !== sender(index)
 @keyframes arrive {
   from {
     opacity: 0;
-    transform: translateY(12px) scale(0.98);
+    transform: translateY(4px);
   }
 }
 
