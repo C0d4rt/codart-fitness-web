@@ -223,7 +223,7 @@ const current = computed(
   .stage {
     --scale: 0.84;
     --photo: url('/images/treino-de-forca-halteres-800.webp');
-    --photo-at: 82% 30%;
+    --photo-at: 90% 30%;
 
     padding: 1.25rem 0.75rem;
     border-radius: var(--radius);
