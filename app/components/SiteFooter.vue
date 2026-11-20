@@ -4,6 +4,7 @@ import { brand } from '~/brand'
 const consent = useConsent()
 const { t } = useI18n()
 const anchors = useAnchors()
+const { backToTop } = useHomeLink()
 const locale = useSiteLocale()
 </script>
 
@@ -11,7 +12,7 @@ const locale = useSiteLocale()
   <footer class="footer" data-cta>
     <div class="top">
       <div class="brand">
-        <NuxtLinkLocale to="/" class="wordmark">
+        <NuxtLinkLocale to="/" class="wordmark" @click="backToTop">
           <span class="mark" aria-hidden="true" />{{ brand.name.toLowerCase() }}
         </NuxtLinkLocale>
         <p class="tagline">{{ brand.tagline[locale] }}</p>

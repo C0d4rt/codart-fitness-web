@@ -24,6 +24,9 @@ export default {
         })
       })
     }
-    return to.path === from.path ? false : { top: 0 }
+    if (to.path !== from.path) return { top: 0 }
+    if (!from.hash) return false
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    return { top: 0, behavior: still ? ('instant' as const) : ('smooth' as const) }
   },
 } satisfies RouterConfig
