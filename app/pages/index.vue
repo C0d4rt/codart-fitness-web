@@ -29,7 +29,7 @@ const features = computed(() => catalog.groups.flatMap((group) => group.features
         <div class="copy">
           <h1 class="headline"><TextLines :text="t('home.headline')" /></h1>
           <p class="lead">{{ t('home.lead') }}</p>
-          <div class="actions">
+          <div class="actions" data-cta>
             <WhatsAppButton location="hero" />
             <NuxtLinkLocale :to="`/#${anchors.how}`" class="secondary">
               {{ t('home.seeHow') }}

@@ -1,42 +1,40 @@
 <script setup lang="ts">
-import { decimal, thousands } from '#shared/locale'
+import type { ChatScreen } from '#shared/chat'
+import { thousands } from '#shared/locale'
 import type { Feature } from '#shared/plans'
 
 defineProps<{ features: Feature[] }>()
 
 const { t } = useI18n()
-
-const WEIGHT = [72.4, 72.3, 72.3, 72.1, 72.2, 72.0, 71.8]
-const WEEK = [1820, 1690, 1760, 0, 1710, 1880, 1700]
-const GOAL = 1800
-const FLOOR = 1200
-const CEILING = 2000
-
-const weightPath = computed(() => {
-  const max = 72.5
-  const min = 71.7
-  return WEIGHT.map((value, index) => {
-    const x = (index / (WEIGHT.length - 1)) * 300
-    const y = ((max - value) / (max - min)) * 100
-    return `${index === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`
-  }).join(' ')
-})
-
-const height = (value: number) =>
-  value === 0 ? '4%' : `${((value - FLOOR) / (CEILING - FLOOR)) * 100}%`
 const anchors = useAnchors()
 const locale = useSiteLocale()
 
-const EATEN_TODAY = 1240
-const LOGGED = WEEK.filter((value) => value > 0)
+/* The same sample week the two charts were drawn from by codart-messaging's own code. */
+const WEEK = [2160, 1820, 2230, 1790, 2180, 2470, 1840]
+const GOAL = 2100
+const EATEN_TODAY = 1540
+
 const figures = computed(() => ({
-  left: thousands(GOAL - EATEN_TODAY, locale.value),
   goal: thousands(GOAL, locale.value),
-  average: thousands(LOGGED.reduce((sum, value) => sum + value, 0) / LOGGED.length, locale.value),
-  logged: LOGGED.length,
+  average: thousands(WEEK.reduce((sum, value) => sum + value, 0) / WEEK.length, locale.value),
+  logged: WEEK.length,
   days: WEEK.length,
-  weight: decimal(WEIGHT.at(-1)!, locale.value),
-  delta: decimal(WEIGHT.at(-1)! - WEIGHT[0]!, locale.value),
+}))
+
+const today = computed<ChatScreen>(() => ({
+  id: 'bento-today',
+  label: t('bento.day.label'),
+  messages: [
+    {
+      from: 'bot',
+      text: t('bento.day.answer', {
+        eaten: thousands(EATEN_TODAY, locale.value),
+        left: thousands(GOAL - EATEN_TODAY, locale.value),
+        goal: thousands(GOAL, locale.value),
+      }),
+      time: '17:10',
+    },
+  ],
 }))
 
 const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', 'csvExport'] as const
@@ -53,38 +51,38 @@ const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', '
       <FeatureChips :features="features" :ids="RELATED" :label="t('chips.label')" />
     </div>
     <div class="grid">
-      <article class="tile day" data-ui>
-        <p class="tile-title">{{ t('bento.day.title') }}</p>
-        <CalorieRing :eaten="EATEN_TODAY" :goal="GOAL" :size="208" />
-        <p class="tile-text">{{ t('bento.day.text', figures) }}</p>
-      </article>
-
-      <article class="tile week" data-ui>
-        <p class="tile-title">{{ t('bento.week.title') }}</p>
-        <div class="bars" role="img" :aria-label="t('bento.week.chartLabel', figures)">
-          <span
-            v-for="(value, index) in WEEK"
-            :key="index"
-            class="bar"
-            :class="{ over: value > GOAL, missing: value === 0 }"
-            :style="{ '--h': height(value) }"
-          />
-          <span class="goal-line" :style="{ '--g': height(GOAL) }" />
-        </div>
+      <figure class="tile week">
+        <figcaption class="tile-title">{{ t('bento.week.title') }}</figcaption>
+        <img
+          src="/images/resumo-da-semana.webp"
+          width="900"
+          height="1109"
+          :alt="t('bento.week.chartLabel', figures)"
+          loading="lazy"
+          decoding="async"
+          class="chart"
+        />
         <p class="tile-text">{{ t('bento.week.text', figures) }}</p>
-      </article>
+      </figure>
 
-      <article class="tile weight" data-ui>
-        <p class="tile-title">{{ t('bento.weight.title') }}</p>
-        <p class="big">
-          {{ t('bento.weight.value', figures) }}
-          <span class="delta">{{ t('bento.weight.delta', figures) }}</span>
-        </p>
-        <svg viewBox="0 0 300 100" class="line" aria-hidden="true" preserveAspectRatio="none">
-          <path :d="weightPath" />
-        </svg>
+      <figure class="tile day">
+        <figcaption class="tile-title">{{ t('bento.day.title') }}</figcaption>
+        <ChatWindow :screen="today" bare class="chat" />
+      </figure>
+
+      <figure class="tile weight">
+        <figcaption class="tile-title">{{ t('bento.weight.title') }}</figcaption>
+        <img
+          src="/images/evolucao-do-peso.webp"
+          width="900"
+          height="667"
+          :alt="t('bento.weight.alt')"
+          loading="lazy"
+          decoding="async"
+          class="chart"
+        />
         <p class="tile-text">{{ t('bento.weight.text') }}</p>
-      </article>
+      </figure>
     </div>
   </section>
 </template>
@@ -123,20 +121,24 @@ const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', '
   font-weight: 500;
 }
 
+/* The tall week chart leads; today's answer and the weight chart stack beside it. */
 .grid {
   order: -1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: auto auto;
+  grid-template-areas:
+    'week day'
+    'week weight';
   gap: 0.75rem;
 }
 
 .tile {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: 1.25rem;
-  min-height: 16rem;
-  padding: 1.75rem;
+  align-content: start;
+  gap: 1rem;
+  margin: 0;
+  padding: 1.5rem;
   border-radius: var(--radius);
   background: var(--card);
 }
@@ -150,85 +152,38 @@ const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', '
   font-size: var(--step-small);
 }
 
+.week {
+  grid-area: week;
+}
+
 .day {
-  grid-row: span 2;
-  justify-items: center;
-}
-
-.day .tile-title,
-.day .tile-text {
-  justify-self: start;
-}
-
-.day :deep(.ring) {
-  align-self: center;
-}
-
-.bars {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  align-items: end;
-  align-self: center;
-  gap: 0.5rem;
-  height: 7rem;
-}
-
-.bar {
-  height: var(--h);
-  border-radius: 0.375rem;
-  background: var(--green);
-}
-
-.bar.over {
-  background: var(--carbs);
-}
-
-.bar.missing {
-  background: var(--tone);
-}
-
-.goal-line {
-  position: absolute;
-  inset: auto 0 var(--g);
-  height: 2px;
-  background: var(--ink);
-  opacity: 0.35;
+  grid-area: day;
 }
 
 .weight {
-  grid-template-rows: auto auto 1fr auto;
+  grid-area: weight;
 }
 
-.big {
+/* The charts are the very images the assistant sends; their own off-white ground frames them. */
+.chart {
   align-self: center;
-  font-size: var(--step-figure);
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-
-.delta {
-  color: var(--green);
-  font-size: var(--step-body);
-  font-weight: 500;
-  letter-spacing: 0;
-}
-
-.line {
   width: 100%;
-  height: 3.5rem;
-  overflow: visible;
+  height: auto;
+  border-radius: var(--radius-small);
 }
 
-.line path {
-  fill: none;
-  stroke: var(--fat);
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
+.day .chat {
+  align-self: center;
+}
+
+.day .chat :deep(.thread) {
+  padding: 0;
+}
+
+.day .chat :deep(.bot .bubble) {
+  --fill: var(--ground);
+
+  max-width: 100%;
 }
 
 @media (max-width: 63.99rem) {
@@ -243,12 +198,7 @@ const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', '
 @media (max-width: 47.99rem) {
   .grid {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .day {
-    grid-row: auto;
-  }
-  .tile {
-    min-height: 0;
+    grid-template-areas: 'day' 'week' 'weight';
   }
 }
 </style>

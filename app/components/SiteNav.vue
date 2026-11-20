@@ -3,6 +3,7 @@ import { brand } from '~/brand'
 
 const { t } = useI18n()
 const anchors = useAnchors()
+const { backToTop } = useHomeLink()
 
 const scrolled = ref(false)
 let frame = 0
@@ -24,7 +25,7 @@ onBeforeUnmount(() => {
   <header class="site-header" :class="{ scrolled }">
     <a class="skip" href="#conteudo">{{ t('nav.skip') }}</a>
     <nav class="nav" :aria-label="t('nav.label')">
-      <NuxtLinkLocale to="/" class="wordmark">
+      <NuxtLinkLocale to="/" class="wordmark" @click="backToTop">
         <span class="mark" aria-hidden="true" />{{ brand.name.toLowerCase() }}
       </NuxtLinkLocale>
       <ul class="links">

@@ -4,7 +4,7 @@ const trialDays = useTrialDays()
 </script>
 
 <template>
-  <section class="closing tone-dark" aria-labelledby="closing-title" data-reveal>
+  <section class="closing tone-dark" aria-labelledby="closing-title" data-reveal data-cta>
     <h2 id="closing-title" class="heading"><TextLines :text="t('closing.title')" /></h2>
     <p class="lead">{{ t('closing.lead', { days: trialDays }) }}</p>
     <WhatsAppButton location="closing" :label="t('cta.try')" class="action" />

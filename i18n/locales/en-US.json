@@ -8,6 +8,10 @@
     "title": "Start today. On WhatsApp.",
     "lead": "{days} days free with everything in Premium, no card needed."
   },
+  "stickyCta": {
+    "label": "Try it free on WhatsApp",
+    "text": "{days} days free, no card"
+  },
   "nav": {
     "label": "Main",
     "howItWorks": "How it works",
@@ -120,7 +124,8 @@
     "seeAll": "See all features, with examples",
     "day": {
       "title": "Daily goal",
-      "text": "{left} kcal left for today's goal"
+      "label": "The assistant answer with the day total and how much is left to the goal.",
+      "answer": "📊 *Today: {eaten} kcal*\n• Protein: 112 g\n• Carbs: 168 g\n• Fat: 46 g\n*{left} kcal left* for the goal of {goal}."
     },
     "week": {
       "title": "Week summary",
@@ -129,8 +134,7 @@
     },
     "weight": {
       "title": "Weight",
-      "value": "{weight} kg",
-      "delta": "{delta} kg",
+      "alt": "Chart of weight going down from 84.6 kg to 80.8 kg between 28/09 and 16/11",
       "text": "Your progress since your first weigh-in"
     }
   },
@@ -176,6 +180,13 @@
       "noCard": "No card needed to try",
       "pay": "Monthly by Pix or card, yearly in up to 12 installments",
       "cancel": "Cancel whenever you like"
+    },
+    "payments": {
+      "label": "Payment methods",
+      "secure": "Secure payment",
+      "pix": "Pix",
+      "card": "Credit card",
+      "installments": "Up to {installments} installments by card"
     },
     "periodLabel": "Billing period",
     "monthly": "Monthly",

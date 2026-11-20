@@ -8,6 +8,10 @@
     "title": "Comece hoje. Pelo WhatsApp.",
     "lead": "{days} dias grátis com tudo do Premium, sem cartão."
   },
+  "stickyCta": {
+    "label": "Testar grátis pelo WhatsApp",
+    "text": "{days} dias grátis, sem cartão"
+  },
   "nav": {
     "label": "Principal",
     "howItWorks": "Como funciona",
@@ -120,7 +124,8 @@
     "seeAll": "Ver todos os recursos, com exemplos",
     "day": {
       "title": "Meta do dia",
-      "text": "Faltam {left} kcal para a meta de hoje"
+      "label": "A resposta do assistente com o total do dia e quanto falta para a meta.",
+      "answer": "📊 *Hoje: {eaten} kcal*\n• Proteína: 112 g\n• Carboidratos: 168 g\n• Gordura: 46 g\n*Faltam {left} kcal* para a meta de {goal}."
     },
     "week": {
       "title": "Resumo da semana",
@@ -129,8 +134,7 @@
     },
     "weight": {
       "title": "Peso",
-      "value": "{weight} kg",
-      "delta": "{delta} kg",
+      "alt": "Gráfico do peso caindo de 84,6 kg para 80,8 kg entre 28/09 e 16/11",
       "text": "A sua evolução desde o primeiro registro"
     }
   },
@@ -176,6 +180,13 @@
       "noCard": "Sem cartão para testar",
       "pay": "Mensal no Pix ou no cartão, anual em até 12x",
       "cancel": "Cancele quando quiser"
+    },
+    "payments": {
+      "label": "Formas de pagamento",
+      "secure": "Pagamento seguro",
+      "pix": "Pix",
+      "card": "Cartão de crédito",
+      "installments": "Em até {installments}x no cartão"
     },
     "periodLabel": "Período",
     "monthly": "Mensal",

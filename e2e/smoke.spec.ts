@@ -57,6 +57,28 @@ test('no third party script loads before consent', async ({ page }) => {
   expect(thirdParty).toEqual([])
 })
 
+test('the wordmark takes the visitor back to the top of the home page', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  const wordmark = page.locator('.site-header .wordmark')
+
+  await page.evaluate(() => window.scrollTo(0, 3000))
+  await wordmark.click()
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
+
+  await page.goto('/#como-funciona')
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
+  await wordmark.click()
+  await expect(page).toHaveURL(/\/$/)
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
+
+  await page.goto('/planos')
+  await page.evaluate(() => window.scrollTo(0, 1500))
+  await wordmark.click()
+  await expect(page).toHaveURL(/\/$/)
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
+})
+
 test('a suggestion in the hero plays its conversation in the phone', async ({ page }) => {
   await page.goto('/')
   const chip = page.getByRole('button', { name: 'Foto do prato' })
