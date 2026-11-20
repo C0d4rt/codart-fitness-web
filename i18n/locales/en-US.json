@@ -124,7 +124,8 @@
     "seeAll": "See all features, with examples",
     "day": {
       "title": "Daily goal",
-      "text": "{left} kcal left for today's goal"
+      "label": "The assistant answer with the day total and how much is left to the goal.",
+      "answer": "📊 *Today: {eaten} kcal*\n• Protein: 112 g\n• Carbs: 168 g\n• Fat: 46 g\n*{left} kcal left* for the goal of {goal}."
     },
     "week": {
       "title": "Week summary",
@@ -133,30 +134,8 @@
     },
     "weight": {
       "title": "Weight",
-      "value": "{weight} kg",
-      "delta": "{delta} kg",
+      "alt": "Chart of weight going down from 84.6 kg to 80.8 kg between 28/09 and 16/11",
       "text": "Your progress since your first weigh-in"
-    }
-  },
-  "outputs": {
-    "title": "Not just messages. Ready to use.",
-    "lead": "Besides the answers, the assistant sends the day's workout sheet, the full plan as a PDF and the week's summary as a chart",
-    "items": {
-      "sheet": {
-        "name": "The day's workout sheet",
-        "text": "Exercises, sets, rest and how to do each technique, in an image to open at the gym",
-        "alt": "Sheet for Upper Body 1: six exercises with sets and reps, form tips, technical notes and how to do the back-off"
-      },
-      "pdf": {
-        "name": "The full workout as a PDF",
-        "text": "Every day, the guidelines for your level and the cardio, to save or print",
-        "alt": "First page of the workout plan PDF: level guidelines and the tables for Upper Body 1 and Lower Body 1"
-      },
-      "week": {
-        "name": "The week's summary as a chart",
-        "text": "Each day's calories against your goal, and the average protein, carbs and fat",
-        "alt": "Chart of calories per day for a week with the goal line, and bars for the average protein, carbs and fat"
-      }
     }
   },
   "day": {
@@ -204,7 +183,7 @@
     },
     "payments": {
       "label": "Payment methods",
-      "secure": "Secure payment by Pagar.me",
+      "secure": "Secure payment",
       "pix": "Pix",
       "card": "Credit card",
       "installments": "Up to {installments} installments by card"
