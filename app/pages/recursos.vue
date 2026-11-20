@@ -107,7 +107,6 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
   top: var(--below-header);
   z-index: 20;
   margin-top: 3rem;
-  background: var(--ground);
 }
 
 .group-index ul {
