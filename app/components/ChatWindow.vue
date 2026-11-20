@@ -19,17 +19,18 @@ const opensRun = (index: number) => sender(index - 1) !== sender(index)
 const closesRun = (index: number) => sender(index + 1) !== sender(index)
 
 /* The conversation plays once the phone is on screen: each reply waits while the assistant types,
-   and every new message lands at the bottom and pushes the others up, as in the app. */
-const TYPING_MS = 800
+   and in a phone every new message lands at the bottom and pushes the others up, as in the app.
+   Loose bubbles keep their places instead, so the card around them never changes size. */
+const TYPING_MS = 550
 const timeline = computed(() => {
-  let at = 300
+  let at = 80
   return props.screen.messages.map((message, index) => {
     const typesFirst = message.from === 'bot' && opensRun(index)
     const typingAt = typesFirst ? at : undefined
     if (typesFirst) at += TYPING_MS
     const arriveAt = at
-    at += message.from === 'you' ? 650 : 450
-    if (message.attachment?.kind === 'audio') at += 1800
+    at += message.from === 'you' ? 380 : 300
+    if (message.attachment?.kind === 'audio') at += 1100
     return { typingAt, arriveAt }
   })
 })
@@ -85,7 +86,7 @@ onMounted(() => {
       observer?.disconnect()
       play()
     },
-    { threshold: 0.3 },
+    { threshold: 0.15 },
   )
   observer.observe(figure.value)
 })
@@ -137,14 +138,18 @@ onBeforeUnmount(() => {
         <ol :key="screen.id" class="thread" aria-hidden="true">
           <li v-if="!bare" class="day">{{ $t('chat.today') }}</li>
           <template v-for="(message, index) in screen.messages" :key="index">
-            <li v-if="typing === index" class="row bot opens closes">
+            <li v-if="typing === index && !bare" class="row bot opens closes">
               <span class="typing"><i /><i /><i /></span>
             </li>
             <li
-              v-show="index < shown"
+              v-show="bare || index < shown"
               class="row"
-              :class="[message.from, { opens: opensRun(index), closes: closesRun(index) }]"
+              :class="[
+                message.from,
+                { opens: opensRun(index), closes: closesRun(index), pending: index >= shown },
+              ]"
             >
+              <span v-if="typing === index && bare" class="typing in-place"><i /><i /><i /></span>
               <div
                 class="bubble"
                 :class="{ framed: message.attachment?.kind === 'photo' && !message.text }"
@@ -520,7 +525,22 @@ onBeforeUnmount(() => {
   background: var(--fill);
   /* A drop shadow, not a box shadow, so the tail shares it. */
   filter: drop-shadow(0 1px 0.5px rgb(11 20 26 / 0.16));
-  animation: arrive 360ms var(--ease-out) both;
+}
+
+.row:not(.pending) .bubble {
+  animation: arrive 300ms var(--ease-out) both;
+}
+
+/* A loose bubble waits in its place, invisible, so nothing around it moves when it lands. */
+.pending {
+  visibility: hidden;
+}
+
+.typing.in-place {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  visibility: visible;
 }
 
 .typing {
@@ -550,8 +570,12 @@ onBeforeUnmount(() => {
 }
 
 /* Empty from the first paint until the phone is on screen, so the replay never flashes the whole thread. */
-:global(html.js .chat:not(.live) .row) {
+:global(html.js .chat:not(.bare):not(.live) .row) {
   display: none;
+}
+
+:global(html.js .chat.bare:not(.live) .row) {
+  visibility: hidden;
 }
 
 .you .bubble {
@@ -828,7 +852,10 @@ onBeforeUnmount(() => {
   border-radius: 50%;
   background: var(--chat-voice);
   translate: 0 -50%;
-  animation: play-knob 2170ms linear 500ms both;
+}
+
+.row:not(.pending) .knob {
+  animation: play-knob 1400ms linear 350ms both;
 }
 
 /* The voice note plays once it lands: each bar turns as the knob passes it. */
@@ -838,8 +865,11 @@ onBeforeUnmount(() => {
   height: max(2px, calc(var(--h) * 0.125rem));
   border-radius: 1px;
   background: color-mix(in oklab, var(--chat-ink) 30%, transparent);
+}
+
+.row:not(.pending) .wave i {
   animation: heard 1ms linear both;
-  animation-delay: calc(500ms + var(--b) * 70ms);
+  animation-delay: calc(350ms + var(--b) * 45ms);
 }
 
 .length {
@@ -932,14 +962,13 @@ onBeforeUnmount(() => {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bubble {
+  .row:not(.pending) .bubble {
     animation: fade 200ms ease both;
   }
   .typing {
     display: none;
   }
-  .knob,
-  .wave i {
+  .row:not(.pending) :is(.knob, .wave i) {
     animation: none;
   }
   @keyframes fade {
