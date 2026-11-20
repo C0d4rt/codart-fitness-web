@@ -147,6 +147,10 @@ const anchors = useAnchors()
   --fill: var(--ground);
 }
 
+.step .chat :deep(.typing) {
+  background: var(--ground);
+}
+
 @media (max-width: 63.99rem) {
   .head {
     grid-template-columns: minmax(0, 1fr);
