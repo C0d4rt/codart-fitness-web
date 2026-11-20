@@ -39,7 +39,7 @@ export const CATALOG_NAMES: Partial<Record<Locale, CatalogNames>> = {
       pantry: 'Despensa',
       workouts: 'Treino com gasto calórico',
       savedWorkouts: 'Treinos salvos',
-      readyPrograms: 'Treinos prontos',
+      readyPrograms: 'Treinos por nível',
       dayGoal: 'Meta do dia e quanto falta',
       goalPercent: 'Macros da meta em %',
       mealGoals: 'Meta por refeição',
