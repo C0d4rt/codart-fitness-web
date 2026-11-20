@@ -70,6 +70,12 @@ const coachingItems = computed(() => [
     .map((feature) => feature.name),
 ])
 const wantCoaching = computed(() => t('pricing.wantPlan', { plan: coaching.value.name }))
+const maxInstallments = computed(() =>
+  Math.max(
+    premium.value.yearlyInstallments ?? 1,
+    ...packages.value.map((each) => each.installments),
+  ),
+)
 const promises = computed(() => [
   t('pricing.promises.trial', { days: props.catalog.trialDays }),
   t('pricing.promises.noCard'),
@@ -139,7 +145,7 @@ const promises = computed(() => [
         <ul class="items">
           <li v-for="item in premiumItems" :key="item">{{ item }}</li>
         </ul>
-        <div class="action">
+        <div class="action" data-cta>
           <WhatsAppButton
             location="plans-premium"
             :label="t('cta.tryDays', { days: catalog.trialDays })"
@@ -211,7 +217,7 @@ const promises = computed(() => [
         <ul class="items">
           <li v-for="item in coachingItems" :key="item">{{ item }}</li>
         </ul>
-        <div class="action">
+        <div class="action" data-cta>
           <WhatsAppButton
             location="plans-coaching"
             :text="wantCoaching"
@@ -221,6 +227,38 @@ const promises = computed(() => [
         </div>
       </article>
     </div>
+    <ul class="payments" :aria-label="t('pricing.payments.label')">
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="4.5" y="10.5" width="15" height="10" rx="2.5" />
+          <path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" />
+        </svg>
+        {{ t('pricing.payments.secure') }}
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1.5" />
+          <rect x="14" y="3.5" width="6.5" height="6.5" rx="1.5" />
+          <rect x="3.5" y="14" width="6.5" height="6.5" rx="1.5" />
+          <path d="M14 14h2.5v2.5H14zM18 18h2.5v2.5H18zM14 20.5h1M20.5 14v1" />
+        </svg>
+        {{ t('pricing.payments.pix') }}
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5.5" width="18" height="13" rx="2.5" />
+          <path d="M3 10h18M6.5 14.5h4" />
+        </svg>
+        {{ t('pricing.payments.card') }}
+      </li>
+      <li v-if="maxInstallments > 1">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3.5" y="5" width="17" height="15.5" rx="2.5" />
+          <path d="M3.5 9.5h17M8 3v4M16 3v4" />
+        </svg>
+        {{ t('pricing.payments.installments', { installments: maxInstallments }) }}
+      </li>
+    </ul>
   </section>
 </template>
 
@@ -334,6 +372,44 @@ const promises = computed(() => [
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
+}
+
+.payments {
+  grid-column: -2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: -1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bare .payments {
+  margin-top: 1.25rem;
+}
+
+.payments li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  padding: 0 1rem 0 0.875rem;
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--muted);
+  font-size: var(--step-small);
+}
+
+.payments svg {
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: none;
+  stroke: var(--green);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .card {

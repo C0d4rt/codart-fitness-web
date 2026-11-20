@@ -8,6 +8,10 @@
     "title": "Start today. On WhatsApp.",
     "lead": "{days} days free with everything in Premium, no card needed."
   },
+  "stickyCta": {
+    "label": "Try it free on WhatsApp",
+    "text": "{days} days free, no card"
+  },
   "nav": {
     "label": "Main",
     "howItWorks": "How it works",
@@ -176,6 +180,13 @@
       "noCard": "No card needed to try",
       "pay": "Monthly by Pix or card, yearly in up to 12 installments",
       "cancel": "Cancel whenever you like"
+    },
+    "payments": {
+      "label": "Payment methods",
+      "secure": "Secure payment by Pagar.me",
+      "pix": "Pix",
+      "card": "Credit card",
+      "installments": "Up to {installments} installments by card"
     },
     "periodLabel": "Billing period",
     "monthly": "Monthly",

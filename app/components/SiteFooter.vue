@@ -8,7 +8,7 @@ const locale = useSiteLocale()
 </script>
 
 <template>
-  <footer class="footer">
+  <footer class="footer" data-cta>
     <div class="top">
       <div class="brand">
         <NuxtLinkLocale to="/" class="wordmark">

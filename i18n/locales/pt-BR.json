@@ -8,6 +8,10 @@
     "title": "Comece hoje. Pelo WhatsApp.",
     "lead": "{days} dias grátis com tudo do Premium, sem cartão."
   },
+  "stickyCta": {
+    "label": "Testar grátis pelo WhatsApp",
+    "text": "{days} dias grátis, sem cartão"
+  },
   "nav": {
     "label": "Principal",
     "howItWorks": "Como funciona",
@@ -176,6 +180,13 @@
       "noCard": "Sem cartão para testar",
       "pay": "Mensal no Pix ou no cartão, anual em até 12x",
       "cancel": "Cancele quando quiser"
+    },
+    "payments": {
+      "label": "Formas de pagamento",
+      "secure": "Pagamento seguro pela Pagar.me",
+      "pix": "Pix",
+      "card": "Cartão de crédito",
+      "installments": "Em até {installments}x no cartão"
     },
     "periodLabel": "Período",
     "monthly": "Mensal",

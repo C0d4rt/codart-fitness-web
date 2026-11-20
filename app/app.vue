@@ -47,5 +47,6 @@ useSchemaOrg([
 
 <template>
   <NuxtPage />
+  <StickyCta />
   <ConsentBanner />
 </template>
