@@ -18,83 +18,27 @@ const sender = (index: number) => props.screen.messages[index]?.from
 const opensRun = (index: number) => sender(index - 1) !== sender(index)
 const closesRun = (index: number) => sender(index + 1) !== sender(index)
 
-/* The conversation plays once the phone is on screen: each reply waits while the assistant types,
-   and in a phone every new message lands at the bottom and pushes the others up, as in the app.
-   Loose bubbles keep their places instead, so the card around them never changes size. */
-const TYPING_MS = 550
-const timeline = computed(() => {
-  let at = 80
-  return props.screen.messages.map((message, index) => {
-    const typesFirst = message.from === 'bot' && opensRun(index)
-    const typingAt = typesFirst ? at : undefined
-    if (typesFirst) at += TYPING_MS
-    const arriveAt = at
-    at += message.from === 'you' ? 380 : 300
-    if (message.attachment?.kind === 'audio') at += 1100
-    return { typingAt, arriveAt }
-  })
-})
-
+/* The finished conversation fades in once the phone is on screen, or as soon as a visitor picks another one. */
 const figure = ref<HTMLElement>()
 const live = ref(false)
-const shown = ref(props.screen.messages.length)
-const typing = ref<number>()
-let timers: ReturnType<typeof setTimeout>[] = []
 let observer: IntersectionObserver | undefined
 
-const stop = () => {
-  timers.forEach(clearTimeout)
-  timers = []
+const goLive = () => {
+  live.value = true
+  observer?.disconnect()
 }
 
-const play = () => {
-  stop()
-  typing.value = undefined
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    shown.value = props.screen.messages.length
-    return
-  }
-  shown.value = 0
-  timeline.value.forEach(({ typingAt, arriveAt }, index) => {
-    if (typingAt !== undefined) timers.push(setTimeout(() => (typing.value = index), typingAt))
-    timers.push(
-      setTimeout(() => {
-        shown.value = index + 1
-        if (typing.value === index) typing.value = undefined
-      }, arriveAt),
-    )
-  })
-}
-
-/* A visitor who picks another conversation asked to see it, even if the phone is still below the fold. */
-watch(
-  () => props.screen.id,
-  () => {
-    live.value = true
-    observer?.disconnect()
-    play()
-  },
-)
+watch(() => props.screen.id, goLive)
 
 onMounted(() => {
   if (!figure.value) return
-  shown.value = 0
-  observer = new IntersectionObserver(
-    ([entry]) => {
-      if (!entry?.isIntersecting) return
-      live.value = true
-      observer?.disconnect()
-      play()
-    },
-    { threshold: 0.15 },
-  )
+  observer = new IntersectionObserver(([entry]) => entry?.isIntersecting && goLive(), {
+    threshold: 0.15,
+  })
   observer.observe(figure.value)
 })
 
-onBeforeUnmount(() => {
-  observer?.disconnect()
-  stop()
-})
+onBeforeUnmount(() => observer?.disconnect())
 </script>
 
 <template>
@@ -137,93 +81,82 @@ onBeforeUnmount(() => {
       <Transition name="screen" mode="out-in">
         <ol :key="screen.id" class="thread" aria-hidden="true">
           <li v-if="!bare" class="day">{{ $t('chat.today') }}</li>
-          <template v-for="(message, index) in screen.messages" :key="index">
-            <li v-if="typing === index && !bare" class="row bot opens closes">
-              <span class="typing"><i /><i /><i /></span>
-            </li>
-            <li
-              v-show="bare || index < shown"
-              class="row"
-              :class="[
-                message.from,
-                { opens: opensRun(index), closes: closesRun(index), pending: index >= shown },
-              ]"
+          <li
+            v-for="(message, index) in screen.messages"
+            :key="index"
+            class="row"
+            :class="[message.from, { opens: opensRun(index), closes: closesRun(index) }]"
+            :style="{ '--n': index }"
+          >
+            <div
+              class="bubble"
+              :class="{ framed: message.attachment?.kind === 'photo' && !message.text }"
             >
-              <span v-if="typing === index && bare" class="typing in-place"><i /><i /><i /></span>
-              <div
-                class="bubble"
-                :class="{ framed: message.attachment?.kind === 'photo' && !message.text }"
-              >
-                <div class="body">
-                  <div v-if="message.attachment?.kind === 'audio'" class="audio">
-                    <span class="sender">
-                      <svg class="person" viewBox="0 0 40 40">
-                        <circle cx="20" cy="15.5" r="7" />
-                        <path d="M6.5 35.5c1.6-7.4 7-11 13.5-11s11.9 3.6 13.5 11z" />
-                      </svg>
-                      <svg class="heard" viewBox="0 0 24 24">
-                        <rect x="8.75" y="2" width="6.5" height="12.5" rx="3.25" />
-                        <path class="line" d="M5.5 10.75a6.5 6.5 0 0 0 13 0M12 17.25V22" />
-                      </svg>
-                    </span>
-                    <svg class="play" viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg>
-                    <span class="track">
-                      <span class="wave">
-                        <span class="knob" />
-                        <i
-                          v-for="(height, bar) in WAVE"
-                          :key="bar"
-                          :style="{ '--h': height, '--b': bar }"
-                        />
-                      </span>
-                      <span class="length"
-                        >0:{{ String(message.attachment.seconds).padStart(2, '0') }}</span
-                      >
-                    </span>
-                  </div>
-                  <img
-                    v-else-if="message.attachment?.kind === 'photo' && message.attachment.src"
-                    :src="message.attachment.src"
-                    :alt="message.attachment.label"
-                    width="640"
-                    height="426"
-                    loading="lazy"
-                    class="photo shot"
-                  />
-                  <PlateDrawing v-else-if="message.attachment?.kind === 'photo'" class="photo" />
-                  <div v-else-if="message.attachment?.kind === 'file'" class="file">
-                    <span class="file-icon">CSV</span>
-                    <span>{{ message.attachment.name }}</span>
-                  </div>
-                  <p v-if="message.text" class="text">
-                    <!-- eslint-disable-next-line vue/no-v-html -- the text is escaped by formatChat before the marks become tags -->
-                    <span v-html="formatChat(message.text)" />
-                    <span class="room"
-                      >{{ clock(message.time, locale) }}<i v-if="message.from === 'you'"
-                    /></span>
-                  </p>
-                  <span class="meta">
-                    {{ clock(message.time, locale) }}
-                    <svg v-if="message.from === 'you'" class="ticks" viewBox="0 0 16 11">
-                      <path class="line" d="M1.5 6.2 4.4 9l6.1-7M7.4 8.6l.5.4 6.1-7" />
+              <div class="body">
+                <div v-if="message.attachment?.kind === 'audio'" class="audio">
+                  <span class="sender">
+                    <svg class="person" viewBox="0 0 40 40">
+                      <circle cx="20" cy="15.5" r="7" />
+                      <path d="M6.5 35.5c1.6-7.4 7-11 13.5-11s11.9 3.6 13.5 11z" />
+                    </svg>
+                    <svg class="heard" viewBox="0 0 24 24">
+                      <rect x="8.75" y="2" width="6.5" height="12.5" rx="3.25" />
+                      <path class="line" d="M5.5 10.75a6.5 6.5 0 0 0 13 0M12 17.25V22" />
                     </svg>
                   </span>
+                  <svg class="play" viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg>
+                  <span class="track">
+                    <span class="wave">
+                      <span class="knob" />
+                      <i v-for="(height, bar) in WAVE" :key="bar" :style="{ '--h': height }" />
+                    </span>
+                    <span class="length"
+                      >0:{{ String(message.attachment.seconds).padStart(2, '0') }}</span
+                    >
+                  </span>
                 </div>
-                <span v-if="message.button" class="reply-button">
-                  <svg viewBox="0 0 24 24">
-                    <path
-                      class="line"
-                      d="M9.5 4.5 3 11l6.5 6.5v-4c4.6 0 8 1.5 11 5.5-.7-6-4.5-10-11-11z"
-                    />
+                <img
+                  v-else-if="message.attachment?.kind === 'photo' && message.attachment.src"
+                  :src="message.attachment.src"
+                  :alt="message.attachment.label"
+                  width="640"
+                  height="426"
+                  loading="lazy"
+                  class="photo shot"
+                />
+                <PlateDrawing v-else-if="message.attachment?.kind === 'photo'" class="photo" />
+                <div v-else-if="message.attachment?.kind === 'file'" class="file">
+                  <span class="file-icon">CSV</span>
+                  <span>{{ message.attachment.name }}</span>
+                </div>
+                <p v-if="message.text" class="text">
+                  <!-- eslint-disable-next-line vue/no-v-html -- the text is escaped by formatChat before the marks become tags -->
+                  <span v-html="formatChat(message.text)" />
+                  <span class="room"
+                    >{{ clock(message.time, locale) }}<i v-if="message.from === 'you'"
+                  /></span>
+                </p>
+                <span class="meta">
+                  {{ clock(message.time, locale) }}
+                  <svg v-if="message.from === 'you'" class="ticks" viewBox="0 0 16 11">
+                    <path class="line" d="M1.5 6.2 4.4 9l6.1-7M7.4 8.6l.5.4 6.1-7" />
                   </svg>
-                  {{ message.button }}
                 </span>
-                <svg v-if="closesRun(index)" class="tail" viewBox="0 0 10 16">
-                  <path d="M10 0c0 7-2.4 12.6-10 16h10z" />
-                </svg>
               </div>
-            </li>
-          </template>
+              <span v-if="message.button" class="reply-button">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    class="line"
+                    d="M9.5 4.5 3 11l6.5 6.5v-4c4.6 0 8 1.5 11 5.5-.7-6-4.5-10-11-11z"
+                  />
+                </svg>
+                {{ message.button }}
+              </span>
+              <svg v-if="closesRun(index)" class="tail" viewBox="0 0 10 16">
+                <path d="M10 0c0 7-2.4 12.6-10 16h10z" />
+              </svg>
+            </div>
+          </li>
         </ol>
       </Transition>
       <div v-if="!bare" class="composer" aria-hidden="true">
@@ -492,8 +425,15 @@ onBeforeUnmount(() => {
 }
 
 .row {
-  position: relative;
   display: flex;
+  animation: arrive 450ms var(--ease-out) both;
+  animation-delay: calc(var(--n) * 50ms);
+}
+
+/* Hidden from the first paint until the phone is on screen, so the fade is what the visitor sees. */
+:global(html.js .chat:not(.live) .row) {
+  opacity: 0;
+  animation: none;
 }
 
 .row.you {
@@ -525,57 +465,6 @@ onBeforeUnmount(() => {
   background: var(--fill);
   /* A drop shadow, not a box shadow, so the tail shares it. */
   filter: drop-shadow(0 1px 0.5px rgb(11 20 26 / 0.16));
-}
-
-.row:not(.pending) .bubble {
-  animation: arrive 300ms var(--ease-out) both;
-}
-
-/* A loose bubble waits in its place, invisible, so nothing around it moves when it lands. */
-.pending {
-  visibility: hidden;
-}
-
-.typing.in-place {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  visibility: visible;
-}
-
-.typing {
-  display: flex;
-  gap: 0.25rem;
-  padding: 0.75rem 0.875rem;
-  border-radius: 1rem 1rem 1rem 0.25rem;
-  background: var(--chat-bot);
-  filter: drop-shadow(0 1px 0.5px rgb(11 20 26 / 0.16));
-  animation: arrive 260ms var(--ease-out) both;
-}
-
-.typing i {
-  width: 0.4375rem;
-  height: 0.4375rem;
-  border-radius: 50%;
-  background: var(--chat-meta);
-  animation: typing-dot 900ms ease-in-out infinite;
-}
-
-.typing i:nth-child(2) {
-  animation-delay: 150ms;
-}
-
-.typing i:nth-child(3) {
-  animation-delay: 300ms;
-}
-
-/* Empty from the first paint until the phone is on screen, so the replay never flashes the whole thread. */
-:global(html.js .chat:not(.bare):not(.live) .row) {
-  display: none;
-}
-
-:global(html.js .chat.bare:not(.live) .row) {
-  visibility: hidden;
 }
 
 .you .bubble {
@@ -854,22 +743,12 @@ onBeforeUnmount(() => {
   translate: 0 -50%;
 }
 
-.row:not(.pending) .knob {
-  animation: play-knob 1400ms linear 350ms both;
-}
-
-/* The voice note plays once it lands: each bar turns as the knob passes it. */
 .wave i {
   flex: none;
   width: 2px;
   height: max(2px, calc(var(--h) * 0.125rem));
   border-radius: 1px;
   background: color-mix(in oklab, var(--chat-ink) 30%, transparent);
-}
-
-.row:not(.pending) .wave i {
-  animation: heard 1ms linear both;
-  animation-delay: calc(350ms + var(--b) * 45ms);
 }
 
 .length {
@@ -932,44 +811,14 @@ onBeforeUnmount(() => {
 @keyframes arrive {
   from {
     opacity: 0;
-    transform: translateY(12px) scale(0.98);
-  }
-}
-
-@keyframes typing-dot {
-  0%,
-  60%,
-  100% {
-    opacity: 0.45;
-    transform: none;
-  }
-  30% {
-    opacity: 1;
-    transform: translateY(-3px);
-  }
-}
-
-@keyframes play-knob {
-  to {
-    left: calc(100% - 0.6875rem);
-  }
-}
-
-@keyframes heard {
-  to {
-    background: var(--chat-voice);
+    transform: translateY(4px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .row:not(.pending) .bubble {
-    animation: fade 200ms ease both;
-  }
-  .typing {
-    display: none;
-  }
-  .row:not(.pending) :is(.knob, .wave i) {
-    animation: none;
+  .row {
+    animation-name: fade;
+    animation-duration: 200ms;
   }
   @keyframes fade {
     from {
