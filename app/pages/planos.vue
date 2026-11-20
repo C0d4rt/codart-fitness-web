@@ -99,7 +99,7 @@ useSeoMeta({
 
 <style scoped>
 .intro {
-  --photo: url('/images/agachamento-com-barra.jpg');
+  --photo: url('/images/agachamento-com-barra.webp');
   --photo-at: center 40%;
 
   display: grid;
@@ -224,6 +224,9 @@ useSeoMeta({
 }
 
 @media (max-width: 47.99rem) {
+  .intro {
+    --photo: url('/images/agachamento-com-barra-800.webp');
+  }
   .compare {
     padding: 1.25rem;
   }

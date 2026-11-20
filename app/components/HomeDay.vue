@@ -198,7 +198,7 @@ const anchors = useAnchors()
 /* The panel keeps the phone's height whatever the conversation, so choosing never moves the page. */
 .answer {
   --scale: 0.9;
-  --photo: url('/images/atleta-de-perfil.jpg');
+  --photo: url('/images/atleta-de-perfil.webp');
   --photo-at: 70% 30%;
 
   grid-area: answer;
@@ -264,6 +264,7 @@ const anchors = useAnchors()
   }
   .answer {
     --scale: 0.84;
+    --photo: url('/images/atleta-de-perfil-800.webp');
 
     height: calc(min(38rem, 100svh - 8rem) * var(--scale) + 2.5rem);
     border-radius: var(--radius);

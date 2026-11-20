@@ -13,7 +13,7 @@ const trialDays = useTrialDays()
 
 <style scoped>
 .closing {
-  --photo: url('/images/atleta-na-academia.jpg');
+  --photo: url('/images/atleta-na-academia.webp');
   --photo-at: center 30%;
 
   display: grid;
@@ -43,6 +43,9 @@ const trialDays = useTrialDays()
 }
 
 @media (max-width: 47.99rem) {
+  .closing {
+    --photo: url('/images/atleta-na-academia-800.webp');
+  }
   .action {
     width: 100%;
   }

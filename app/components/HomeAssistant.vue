@@ -103,7 +103,7 @@ const RELATED = ['pantry', 'mealSuggestion', 'weekSummary', 'foodRanking', 'nutr
 
 .phone {
   --scale: 0.9;
-  --photo: url('/images/atleta-na-barra.jpg');
+  --photo: url('/images/atleta-na-barra.webp');
   --photo-at: center 15%;
 
   grid-area: phone;
@@ -189,6 +189,7 @@ const RELATED = ['pantry', 'mealSuggestion', 'weekSummary', 'foodRanking', 'nutr
 @media (max-width: 47.99rem) {
   .phone {
     --scale: 0.84;
+    --photo: url('/images/atleta-na-barra-600.webp');
 
     padding: 1.25rem 0.75rem;
     border-radius: var(--radius);

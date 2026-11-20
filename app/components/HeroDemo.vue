@@ -66,7 +66,7 @@ const current = computed(
 <style scoped>
 .stage {
   --scale: 0.9;
-  --photo: url('/images/treino-de-forca-halteres.jpg');
+  --photo: url('/images/treino-de-forca-halteres.webp');
   --photo-at: center 35%;
 
   display: grid;
@@ -222,6 +222,7 @@ const current = computed(
 @media (max-width: 47.99rem) {
   .stage {
     --scale: 0.84;
+    --photo: url('/images/treino-de-forca-halteres-800.webp');
     --photo-at: 82% 30%;
 
     padding: 1.25rem 0.75rem;

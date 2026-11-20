@@ -73,7 +73,7 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
 
 <style scoped>
 .intro {
-  --photo: url('/images/barra-paralela.jpg');
+  --photo: url('/images/barra-paralela.webp');
   --photo-at: 60% 15%;
   --scrim: rgb(6 8 7 / 0.74);
 
@@ -226,6 +226,12 @@ const planLine = (plan: PlanId) => t(`features.${plan}`)
   .feature {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .intro {
+    --photo: url('/images/barra-paralela-800.webp');
   }
 }
 </style>
