@@ -1,20 +1,23 @@
 :root {
-  --ground: #f4f5f7;
-  --card: #ffffff;
-  --tone: #e9ebee;
-  --line: #d8dbdf;
-  --ink: #10241a;
-  --muted: #4b5550;
-  --green: #187a4e;
-  --green-ink: #ffffff;
-  --mint: #def2e6;
+  --ground: #0c0e0d;
+  --card: #171a18;
+  --tone: #222623;
+  --line: #2e3330;
+  --ink: #eef1ec;
+  --muted: #a6ada8;
+  --green: #3fd27f;
+  --green-ink: #07130c;
+  --green-hover: #6adf9c;
+  --mint: #173a26;
+  --night: #050606;
+  --scrim: rgb(6 8 7 / 0.62);
   --sky: #dde9f5;
   --peach: #f6e1e5;
   --sand: #e9f2d4;
 
-  --protein: #187a4e;
-  --carbs: #d9912a;
-  --fat: #3f7fc4;
+  --protein: #3fd27f;
+  --carbs: #e9a23b;
+  --fat: #5b9be0;
 
   --paper: var(--card);
   --surface: var(--tone);
@@ -59,7 +62,7 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 *,
@@ -201,7 +204,7 @@ img {
 
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
-    background: #12663f;
+    background: var(--green-hover);
   }
   .button--quiet:hover {
     background: color-mix(in oklab, var(--tone) 88%, var(--ink));

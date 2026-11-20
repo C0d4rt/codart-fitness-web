@@ -144,7 +144,7 @@ const anchors = useAnchors()
 }
 
 .step .chat :deep(.bot .bubble) {
-  --fill: var(--ground);
+  --fill: var(--chat-bot);
 }
 
 @media (max-width: 63.99rem) {

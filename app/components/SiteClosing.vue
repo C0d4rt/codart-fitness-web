@@ -15,7 +15,13 @@ const trialDays = useTrialDays()
 .closing {
   display: grid;
   justify-items: center;
-  padding: var(--gap-section) var(--margin) 0;
+  margin: var(--gap-section) var(--margin) 0;
+  padding: clamp(5rem, 3rem + 6vw, 9rem) var(--margin);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(var(--scrim), var(--scrim)),
+    url('/images/atleta-na-academia.jpg') center 30% / cover var(--night);
+  color: #ffffff;
   text-align: center;
 }
 
@@ -27,7 +33,7 @@ const trialDays = useTrialDays()
   text-wrap: balance;
   max-width: 34ch;
   margin-top: 1.75rem;
-  color: var(--muted);
+  color: #dfe4e0;
   font-size: var(--step-lead);
   line-height: 1.4;
 }

@@ -8,10 +8,7 @@ useHead({
   htmlAttrs: { lang: () => localeHead.value.htmlAttrs.lang },
   titleTemplate: (title) =>
     title && title !== brand.name ? `${title} · ${brand.name}` : brand.name,
-  meta: [
-    { name: 'theme-color', media: '(prefers-color-scheme: light)', content: '#f4f5f7' },
-    { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#042a30' },
-  ],
+  meta: [{ name: 'theme-color', content: '#0c0e0d' }],
   link: [{ rel: 'icon', type: 'image/svg+xml', href: '/icon.svg' }],
   // Before first paint, so content meant to rise in is hidden from the start instead of flashing.
   script: [{ innerHTML: "document.documentElement.classList.add('js')", tagPosition: 'head' }],
