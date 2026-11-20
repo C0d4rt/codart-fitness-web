@@ -27,7 +27,7 @@ const current = computed(
 </script>
 
 <template>
-  <div class="stage">
+  <div class="stage photo">
     <div class="ask">
       <div class="bar" aria-hidden="true">
         <svg class="glyph" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg>
@@ -66,6 +66,8 @@ const current = computed(
 <style scoped>
 .stage {
   --scale: 0.9;
+  --photo: url('/images/treino-de-forca-halteres.jpg');
+  --photo-at: center 35%;
 
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -73,7 +75,6 @@ const current = computed(
   gap: 2rem 3rem;
   padding: clamp(1.5rem, 0.5rem + 3.5vw, 4rem);
   border-radius: var(--radius-panel);
-  background: rgb(12 14 13 / 0.7);
 }
 
 .ask {
@@ -221,6 +222,7 @@ const current = computed(
 @media (max-width: 47.99rem) {
   .stage {
     --scale: 0.84;
+    --photo-at: 82% 30%;
 
     padding: 1.25rem 0.75rem;
     border-radius: var(--radius);
