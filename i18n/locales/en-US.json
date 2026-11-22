@@ -201,6 +201,7 @@
     "saving": "Save {percent}%",
     "premiumWho": "The assistant: logging by photo and voice, goals, meal suggestions and ready workouts",
     "coachingWho": "The assistant that builds your diet and training from your assessment and adjusts it all to your progress, with questions answered by our team",
+    "scienceWorkouts": "Science-based workouts, recommended for people who train natural",
     "recommended": "Recommended",
     "allOfPremium": "Everything in Premium",
     "packageLabel": "Program length",
@@ -248,6 +249,10 @@
       {
         "q": "Is the assistant a nutritionist?",
         "a": "No. The assistant is artificial intelligence: it logs, adds up, informs and suggests from reference content, and shows the source when you ask. On Premium, it doesn't prescribe diets or workouts. On Premium Pro, it builds your diet and training from your assessment, and your questions go to our team."
+      },
+      {
+        "q": "Does it work if I use hormones?",
+        "a": "Yes. The app tracks your diet and training either way. The ready-made workouts are recommended for people who train natural."
       },
       {
         "q": "What about my data?",
