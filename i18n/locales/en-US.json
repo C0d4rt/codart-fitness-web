@@ -201,7 +201,7 @@
     "saving": "Save {percent}%",
     "premiumWho": "The assistant: logging by photo and voice, goals, meal suggestions and ready workouts",
     "coachingWho": "The assistant that builds your diet and training from your assessment and adjusts it all to your progress, with questions answered by our team",
-    "scienceWorkouts": "Science-based workouts, recommended for people who train natural",
+    "levelWorkouts": "Ready workout programs, science-based and recommended for people who train natural",
     "recommended": "Recommended",
     "allOfPremium": "Everything in Premium",
     "packageLabel": "Program length",
@@ -252,7 +252,7 @@
       },
       {
         "q": "Does it work if I use hormones?",
-        "a": "Yes. The app tracks your diet and training either way. The ready-made workouts are recommended for people who train natural."
+        "a": "Yes. The app tracks your diet and training either way. The ready workout programs are recommended for people who train natural."
       },
       {
         "q": "What about my data?",

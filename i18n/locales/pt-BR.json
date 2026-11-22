@@ -201,7 +201,7 @@
     "saving": "Economize {percent}%",
     "premiumWho": "O assistente: registro por foto e áudio, metas, sugestão do que comer e treinos por nível",
     "coachingWho": "O assistente que monta sua dieta e seu treino a partir da sua avaliação e ajusta tudo à sua evolução, com dúvidas respondidas pela nossa equipe",
-    "scienceWorkouts": "Treinos baseados em ciência, recomendados para quem treina natural",
+    "levelWorkouts": "Treinos por nível, baseados em ciência e recomendados para quem treina natural",
     "recommended": "Recomendado",
     "allOfPremium": "Tudo do Premium",
     "packageLabel": "Duração do programa",
@@ -252,7 +252,7 @@
       },
       {
         "q": "Serve para quem usa hormônio?",
-        "a": "Sim. O app acompanha sua dieta e seus treinos, usando ou não. Os treinos prontos são recomendados para quem treina natural."
+        "a": "Sim. O app acompanha sua dieta e seus treinos, usando ou não. Os treinos por nível são recomendados para quem treina natural."
       },
       {
         "q": "E os meus dados?",
