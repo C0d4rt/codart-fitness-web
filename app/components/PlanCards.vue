@@ -50,7 +50,9 @@ const yearlyEquiv = computed(() => {
 })
 const premiumItems = computed(() =>
   PREMIUM_HIGHLIGHTS.flatMap((id) =>
-    premium.value.features.filter((each) => each.id === id).map((each) => each.name),
+    premium.value.features
+      .filter((each) => each.id === id)
+      .map((each) => (id === 'readyPrograms' ? t('pricing.levelWorkouts') : each.name)),
   ),
 )
 
