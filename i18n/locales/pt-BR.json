@@ -20,7 +20,9 @@
     "faq": "Perguntas",
     "language": "Idioma",
     "skip": "Pular para o conteúdo",
-    "menu": "Menu"
+    "menu": "Menu",
+    "signIn": "Entrar",
+    "account": "Sua conta"
   },
   "footer": {
     "label": "Rodapé",
@@ -212,7 +214,8 @@
     "soon": "Em breve",
     "soonNote": "Ainda não abrimos. Peça para ser avisado e a gente te chama no WhatsApp quando abrir",
     "notifyMe": "Quero ser avisado",
-    "wantPlan": "Quero o {plan}"
+    "wantPlan": "Quero o {plan}",
+    "subscribeNow": "Assinar agora"
   },
   "faq": {
     "title": "Perguntas frequentes",
@@ -232,7 +235,7 @@
       },
       {
         "q": "Como eu pago e cancelo?",
-        "a": "Na própria conversa: responda \"assinar\" e escolha o plano. O mensal é no Pix ou no cartão, e no cartão renova sozinho todo mês até você cancelar. O anual é no cartão, em até 12x sem juros. Cancele quando quiser; o acesso continua até o fim do período pago. O Pix vale só para o mensal. O Premium Pro é um programa de 12 meses, só no cartão, à vista ou em até 12x sem juros, sem renovação. Comprar o Premium Pro cancela a assinatura mensal no cartão, e os dias já pagos do Premium são descontados do preço."
+        "a": "Na página Assinar, aqui no site, ou respondendo \"assinar\" na conversa, que manda o link. O mensal é no Pix ou no cartão, e no cartão renova sozinho todo mês até você cancelar. O anual é no cartão, em até 12x sem juros. Cancele quando quiser; o acesso continua até o fim do período pago. O Pix vale só para o mensal. O Premium Pro é um programa de 12 meses, só no cartão, à vista ou em até 12x sem juros, sem renovação. Comprar o Premium Pro cancela a assinatura mensal no cartão, e os dias já pagos do Premium são descontados do preço."
       },
       {
         "q": "E se eu me arrepender?",
@@ -255,7 +258,7 @@
   "plans": {
     "title": "Planos",
     "description": "O Premium e o Premium Pro do {name}, com preços e o que cada um inclui. {days} dias grátis com tudo do Premium.",
-    "lead": "Comece com {days} dias grátis com tudo do Premium, sem cartão. Depois, assine na própria conversa",
+    "lead": "Comece com {days} dias grátis com tudo do Premium, sem cartão. Depois, assine aqui no site",
     "compareTitle": "O que cada plano inclui",
     "seeFeatures": "Ver cada recurso com um exemplo",
     "featureColumn": "Recurso",
@@ -317,6 +320,184 @@
       "barcode": "Código de barras",
       "dinner": "O que eu janto?",
       "recipe": "Receita da casa"
+    }
+  },
+  "subscribe": {
+    "title": "Assinar",
+    "description": "Escolha o plano do {name} e pague no Pix ou no cartão.",
+    "heading": "Escolha seu plano.",
+    "lead": "Escolha o plano e a forma de pagar. O pagamento é feito na página segura da Pagar.me.",
+    "buyingFor": "Comprando para {who}",
+    "signedInAs": "Você entrou como {who}",
+    "notYou": "Não é você?",
+    "signInOther": "Entrar com outro número",
+    "haveAccount": "Já usa o {name}?",
+    "signIn": "Entrar com WhatsApp",
+    "signOut": "Sair",
+    "loading": "Atualizando os preços",
+    "offline": "Não conseguimos falar com o servidor agora, então ainda não dá para pagar.",
+    "retry": "Tentar de novo",
+    "cardsLabel": "Planos",
+    "choose": "Escolher",
+    "chosen": "Escolhido",
+    "perMonth": "por mês",
+    "perYear": "por ano",
+    "monthlyNote": "No cartão, renova sozinho até você cancelar. No Pix, paga um mês.",
+    "yearlyNote": "{installments, plural, one {À vista, no cartão.} other {Em até {installments}x de {price} sem juros, no cartão.}} Não renova sozinho.",
+    "proLead": "{months, plural, one {# mês} other {# meses}} · {installments}x de",
+    "proTotal": "sem juros, no cartão · total {total}",
+    "proFrom": "De {full} por {total}",
+    "proCredit": "Desconto do Premium já pago, de {from} a {until}: {amount}",
+    "signInToDiscount": "Já assina? Entre com o WhatsApp para descontar o que já pagou",
+    "soon": "Em breve",
+    "proGuardian": "A autorização do seu responsável ainda não cobre o Premium Pro.",
+    "howToPay": "Como pagar",
+    "methods": {
+      "cardRenews": "Cartão (renova sozinho)",
+      "pix": "Pix (paga o mês)",
+      "cardOnce": "Cartão, em até {installments}x (não renova sozinho)",
+      "cardInstallments": "Cartão, em até {installments}x",
+      "card": "Cartão"
+    },
+    "methodNotes": {
+      "cardRenews": "{price} todo mês, até você cancelar",
+      "pix": "{price} por um mês, sem renovar",
+      "yearly": "{price} por 12 meses, sem renovar",
+      "coaching": "{price} pelos {months} meses, sem renovar",
+      "alreadySubscribed": "Seu mensal no cartão já renova sozinho. Pague um mês no Pix ou escolha o anual."
+    },
+    "proPoints": {
+      "months": "Programa de {months} meses, sem renovação automática.",
+      "guarantee": "Garantia de 7 dias: desista pela conversa e receba de volta o valor integral.",
+      "anonymous": "Comprando sem entrar, os {months} meses e a garantia contam da ativação no WhatsApp.",
+      "cancelsMonthly": "Comprar o Premium Pro cancela o Premium mensal no cartão, se você tiver um."
+    },
+    "premiumPoints": {
+      "cancel": "Cancele quando quiser, dizendo cancelar na conversa.",
+      "guarantee": "Nos 7 dias depois do pagamento, peça o reembolso integral na conversa."
+    },
+    "readTerms": "Ler os termos",
+    "activateLater": "Sem entrar, você paga agora e ativa no WhatsApp depois, com um código.",
+    "pay": "Ir para o pagamento",
+    "paying": "Abrindo o pagamento",
+    "secure": "Você vai para a página segura da Pagar.me. Os dados do cartão não chegam até nós.",
+    "pickMethod": "Escolha como pagar.",
+    "guardianBlocked": "Para assinar, falta a autorização da sua mãe, do seu pai ou do responsável. O pedido está na sua conversa do WhatsApp.",
+    "openWhatsApp": "Abrir o WhatsApp",
+    "titles": {
+      "premiumMonthly": "Premium mensal",
+      "premiumYearly": "Premium anual",
+      "coaching": "Premium Pro"
+    }
+  },
+  "subscribeDone": {
+    "title": "Pagamento",
+    "checking": "Conferindo o pagamento",
+    "waitingHeading": "Esperando o pagamento.",
+    "waitingPix": "Assim que o Pix for confirmado, esta página muda sozinha. Pode levar alguns minutos.",
+    "waitingCard": "Estamos confirmando o pagamento com a Pagar.me. Esta página muda sozinha.",
+    "confirmedHeading": "Pagamento confirmado.",
+    "confirmedText": "Seu {plan} já está no seu número, e a confirmação chega na conversa do WhatsApp.",
+    "activateHeading": "Pagamento confirmado. Falta ativar.",
+    "activateText": "Mande a mensagem do número que vai usar o {name}: a assinatura fica com esse número.",
+    "activatedHeading": "Assinatura ativada.",
+    "activatedText": "Seu {plan} já está no WhatsApp. Pode mandar sua primeira refeição.",
+    "signingIn": "Entrando no site",
+    "signedIn": "Este navegador entrou no site com o número {who}.",
+    "signInLater": "Para entrar no site depois, use Entrar com WhatsApp.",
+    "refusedHeading": "O cartão foi recusado.",
+    "refusedText": "Nada foi cobrado. Tente de novo com outro cartão ou, no mensal, no Pix.",
+    "expiredHeading": "O pagamento venceu.",
+    "expiredText": "Nada foi cobrado. Escolha o plano de novo para gerar outro pagamento.",
+    "refundedHeading": "Pagamento devolvido.",
+    "refundedText": "Esta compra foi devolvida ou contestada e não vale mais.",
+    "noneHeading": "Não achamos uma compra neste navegador.",
+    "noneText": "Se pagou em outro navegador ou aparelho, abra esta página nele. Se tem o código de ativação, ative por ele.",
+    "haveCode": "Tenho o código de ativação",
+    "tryAgain": "Tentar de novo",
+    "choosePlan": "Escolher o plano",
+    "timeout": "A resposta ainda não chegou. Atualize daqui a pouco.",
+    "refresh": "Atualizar"
+  },
+  "activate": {
+    "title": "Ativar",
+    "heading": "Ativar a assinatura.",
+    "lead": "Digite o código de ativação da sua compra. Ele começa com ATV.",
+    "label": "Código de ativação",
+    "submit": "Continuar",
+    "opening": "Abrindo a compra"
+  },
+  "signIn": {
+    "title": "Entrar",
+    "description": "Entre no site do {name} com o seu número do WhatsApp.",
+    "heading": "Entrar com WhatsApp.",
+    "lead": "Sua conta é o seu número do WhatsApp. Sem senha: você manda uma mensagem com um código, e o site entra.",
+    "checking": "Conferindo",
+    "creating": "Gerando o código",
+    "phoneStep": "Toque no botão: o WhatsApp abre com a mensagem pronta. É só enviar.",
+    "desktopStep": "Aponte a câmera do celular para o QR code, ou abra o WhatsApp neste computador. É só enviar a mensagem.",
+    "waiting": "Esperando a sua mensagem",
+    "expiresAt": "O código vale até {time}.",
+    "confirmed": "Mensagem recebida. Entrando",
+    "expired": "O código venceu antes de a mensagem chegar.",
+    "used": "Esse código já foi usado.",
+    "lost": "Este navegador perdeu o pedido de entrada. Confira se ele aceita cookies e tente de novo.",
+    "again": "Gerar outro código",
+    "purchaseScope": "Este navegador abriu a compra de {who} pelo link do WhatsApp. Para entrar na conta, mande o código.",
+    "signedInHeading": "Você entrou.",
+    "signedInAs": "Conta do número {who}",
+    "standing": {
+      "none": "Sem plano ativo.",
+      "trial": "No teste grátis.",
+      "trialUntil": "No teste grátis até {date}.",
+      "subscriber": "{plan} ativo.",
+      "subscriberUntil": "{plan} até {date}.",
+      "expired": "Seu plano venceu.",
+      "revoked": "Acesso suspenso."
+    },
+    "sessionNote": "A entrada vale 30 dias neste navegador. Para sair em todos os aparelhos, mande sair do site na conversa.",
+    "plans": "Ver os planos",
+    "signOut": "Sair",
+    "signingOut": "Saindo",
+    "signedOut": "Você saiu deste navegador."
+  },
+  "whatsappCode": {
+    "open": "Abrir o WhatsApp",
+    "openHere": "Abrir o WhatsApp neste computador",
+    "scan": "Aponte a câmera do celular",
+    "qrLabel": "QR code que abre o WhatsApp com a mensagem pronta",
+    "orSend": "Ou mande esta mensagem na conversa:",
+    "copy": "Copiar",
+    "copied": "Copiado"
+  },
+  "site": {
+    "errors": {
+      "origin_refused": "O pedido foi recusado. Atualize a página e tente de novo.",
+      "json_required": "O pedido foi recusado. Atualize a página e tente de novo.",
+      "login_pending": "A mensagem ainda não chegou. Envie a mensagem no WhatsApp e espere um instante.",
+      "login_used": "Esse código já foi usado. Gere outro para entrar.",
+      "login_expired": "O código venceu. Gere outro para entrar.",
+      "login_unknown": "Não achamos o pedido de entrada deste navegador. Gere outro código.",
+      "link_unknown": "Não reconhecemos o link do WhatsApp. Você ainda pode assinar por aqui.",
+      "link_expired": "O link do WhatsApp venceu. Você ainda pode assinar por aqui, ou responder assinar na conversa para receber outro.",
+      "declaration_required": "Marque a declaração para continuar.",
+      "method_unavailable": "Essa forma de pagamento não vale para este plano. Escolha outra.",
+      "pro_unavailable": "O Premium Pro não está à venda agora.",
+      "already_subscribed": "Seu mensal no cartão já renova sozinho. Pague um mês no Pix ou escolha o anual.",
+      "guardian_required": "Falta a autorização do seu responsável para este plano. O pedido está na sua conversa do WhatsApp.",
+      "purchase_paid": "Essa compra já foi paga.",
+      "checkout_refused": "Não conseguimos abrir esse pagamento. Os preços foram atualizados: confira e tente de novo.",
+      "purchase_unknown": "Não achamos uma compra com esse código. Confira e tente de novo.",
+      "purchase_activated": "Essa compra já foi ativada. Não falta nada.",
+      "purchase_not_activated": "A compra ainda não foi ativada.",
+      "sign_in_closed": "O prazo para entrar no site por esta compra acabou. Entre com WhatsApp quando quiser.",
+      "sign_in_used": "Esta compra já entrou no site uma vez. Entre com WhatsApp quando quiser.",
+      "network": "Sem conexão com o servidor. Confira a internet e tente de novo.",
+      "unavailable": "O servidor não respondeu. Tente de novo em instantes.",
+      "rate_limited": "Muitas tentativas seguidas. Espere alguns minutos e tente de novo.",
+      "bad_request": "Algo saiu errado no pedido. Atualize a página e tente de novo.",
+      "bad_response": "Recebemos uma resposta que não entendemos. Atualize a página e tente de novo.",
+      "unknown": "Algo deu errado. Tente de novo em instantes."
     }
   }
 }

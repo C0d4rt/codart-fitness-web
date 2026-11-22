@@ -1,0 +1,352 @@
+import { expect, type Page, test } from '@playwright/test'
+
+test.use({ colorScheme: 'light' })
+
+const API = 'https://api.fitness.codart.dev/fitness/site'
+const CHECKOUT = 'https://payment-link.example.test/pl_123'
+
+type Answer = { status?: number; body?: unknown }
+type Handler = (body: unknown, count: number) => Answer
+type Call = { method: string; path: string; body: unknown }
+
+/** The API of PRP-065 as the contracts describe it, answered in the browser: nothing leaves the test. */
+const fakeApi = async (page: Page, handlers: Record<string, Handler>) => {
+  const calls: Call[] = []
+  const counts = new Map<string, number>()
+  await page.route(`${API}/**`, async (route) => {
+    const request = route.request()
+    const url = new URL(request.url())
+    const key = `${request.method()} ${url.pathname.replace('/fitness/site', '')}`
+    const body = request.postData() ? JSON.parse(request.postData()!) : undefined
+    calls.push({ method: request.method(), path: url.pathname + url.search, body })
+    const count = (counts.get(key) ?? 0) + 1
+    counts.set(key, count)
+    const handler = handlers[key]
+    const answer = handler ? handler(body, count) : { status: 404, body: { code: 'not_found' } }
+    await route.fulfill({
+      status: answer.status ?? 200,
+      contentType: 'application/json',
+      body: answer.body === undefined ? '' : JSON.stringify(answer.body),
+    })
+  })
+  await page.route(`${CHECKOUT}**`, (route) =>
+    route.fulfill({ status: 200, contentType: 'text/html', body: '<h1>Pagar.me</h1>' }),
+  )
+  return calls
+}
+
+const ANONYMOUS_PLANS = {
+  buyer: 'anonymous',
+  declaration: {
+    code: 'payer_adult',
+    text: 'Tenho 18 anos ou mais; se a conta for de uma pessoa menor de idade, pago por ela com a autorização do responsável.',
+  },
+  plans: [
+    {
+      plan: 'premium',
+      cycle: 'monthly',
+      title: 'Premium mensal',
+      priceCents: 2990,
+      methods: [
+        { method: 'card', renews: true },
+        { method: 'pix', renews: false },
+      ],
+    },
+    {
+      plan: 'premium',
+      cycle: 'yearly',
+      title: 'Premium anual',
+      priceCents: 19990,
+      methods: [{ method: 'card', renews: false, installments: 12 }],
+    },
+    {
+      plan: 'coaching',
+      cycle: 'yearly',
+      title: 'Premium Pro',
+      months: 12,
+      priceCents: 47880,
+      fullCents: 47880,
+      discountCents: 0,
+      installmentCents: 3990,
+      credits: [],
+      signInToDiscount: true,
+      methods: [{ method: 'card', renews: false, installments: 12 }],
+    },
+  ],
+}
+
+const LINK_PLANS = {
+  buyer: 'purchase',
+  plans: [
+    ANONYMOUS_PLANS.plans[0],
+    ANONYMOUS_PLANS.plans[1],
+    {
+      ...ANONYMOUS_PLANS.plans[2],
+      priceCents: 46890,
+      discountCents: 990,
+      installmentCents: 3908,
+      signInToDiscount: false,
+      credits: [
+        {
+          plan: 'premium',
+          from: '2026-11-21T15:00:00.000Z',
+          until: '2026-12-21T15:00:00.000Z',
+          cents: 990,
+        },
+      ],
+    },
+  ],
+}
+
+const ME_PURCHASE = {
+  signedIn: true,
+  scope: 'purchase',
+  phone: '+55 11 9****-4321',
+  access: { standing: 'trial' },
+  expiresAt: '2026-11-24T12:00:00.000Z',
+}
+
+test('the WhatsApp link takes the token off the address bar and buys Premium Pro with the credit', async ({
+  page,
+}) => {
+  const calls = await fakeApi(page, {
+    'POST /handoff': () => ({
+      body: { signedIn: true, scope: 'purchase', expiresAt: '2026-11-24T12:00:00.000Z' },
+    }),
+    'GET /me': () => ({ body: ME_PURCHASE }),
+    'GET /plans': () => ({ body: LINK_PLANS }),
+    'POST /checkout': () => ({ body: { checkoutUrl: CHECKOUT } }),
+  })
+
+  await page.goto('/assinar?plano=pro#c=tok_ABC-123')
+
+  await expect(page.getByText('Comprando para +55 11 9****-4321')).toBeVisible()
+  expect(await page.evaluate(() => window.location.hash)).toBe('')
+  expect(await page.evaluate(() => JSON.stringify(window.history.state))).not.toContain('tok_')
+  expect(calls.find((call) => call.path.endsWith('/handoff'))?.body).toEqual({
+    token: 'tok_ABC-123',
+  })
+  expect(calls.every((call) => !call.path.includes('tok_'))).toBe(true)
+
+  const pro = page.locator('li.card', { has: page.getByRole('heading', { name: 'Premium Pro' }) })
+  await expect(pro.getByText('De R$ 478,80 por R$ 468,90')).toBeVisible()
+  await expect(pro.getByText(/Desconto do Premium já pago/)).toBeVisible()
+  await expect(pro.getByRole('radio', { name: /Cartão, em até 12x/ })).toBeChecked()
+  await expect(pro.getByRole('checkbox')).toHaveCount(0)
+
+  await pro.getByRole('button', { name: 'Ir para o pagamento' }).click()
+  await expect(page).toHaveURL(CHECKOUT)
+  expect(calls.find((call) => call.path.endsWith('/checkout'))?.body).toEqual({
+    plan: 'coaching',
+    cycle: 'yearly',
+    method: 'card',
+    declared: false,
+    locale: 'pt-BR',
+  })
+})
+
+test('an anonymous buyer picks the monthly by Pix and must declare being an adult', async ({
+  page,
+}) => {
+  const calls = await fakeApi(page, {
+    'GET /me': () => ({ body: { signedIn: false } }),
+    'GET /plans': () => ({ body: ANONYMOUS_PLANS }),
+    'POST /checkout': () => ({ body: { checkoutUrl: CHECKOUT } }),
+  })
+
+  await page.goto('/assinar')
+  await expect(page.getByRole('link', { name: 'Entrar com WhatsApp' })).toBeVisible()
+  const monthly = page.locator('li.card', {
+    has: page.getByRole('heading', { name: 'Premium mensal' }),
+  })
+  await monthly.getByRole('button', { name: 'Escolher' }).click()
+  await expect(page).toHaveURL(/\?plano=premium-mensal$/)
+  await expect(monthly.getByRole('radio', { name: 'Cartão (renova sozinho)' })).toBeVisible()
+  await monthly.getByRole('radio', { name: 'Pix (paga o mês)' }).check()
+
+  const pay = monthly.getByRole('button', { name: 'Ir para o pagamento' })
+  await pay.click()
+  await expect(monthly.getByRole('alert')).toHaveText('Marque a declaração para continuar.')
+  expect(calls.some((call) => call.path.endsWith('/checkout'))).toBe(false)
+
+  await monthly.getByRole('checkbox').check()
+  await pay.click()
+  await expect(page).toHaveURL(CHECKOUT)
+  expect(calls.filter((call) => call.path.endsWith('/checkout'))).toHaveLength(1)
+  expect(calls.find((call) => call.path.endsWith('/checkout'))?.body).toMatchObject({
+    plan: 'premium',
+    cycle: 'monthly',
+    method: 'pix',
+    declared: true,
+  })
+})
+
+test('a refused checkout says why in words', async ({ page }) => {
+  await fakeApi(page, {
+    'GET /me': () => ({ body: { signedIn: false } }),
+    'GET /plans': () => ({ body: ANONYMOUS_PLANS }),
+    'POST /checkout': () => ({
+      status: 409,
+      body: { status: 409, error: 'Conflict', message: 'x', code: 'fitness.site.pro_unavailable' },
+    }),
+  })
+
+  await page.goto('/assinar?plano=premium-anual')
+  const yearly = page.locator('li.card', {
+    has: page.getByRole('heading', { name: 'Premium anual' }),
+  })
+  await yearly.getByRole('checkbox').check()
+  await yearly.getByRole('button', { name: 'Ir para o pagamento' }).click()
+  await expect(yearly.getByRole('alert')).toHaveText('O Premium Pro não está à venda agora.')
+})
+
+test('with the API down the build prices show and the page asks to try again', async ({ page }) => {
+  await page.route(`${API}/**`, (route) => route.abort('connectionrefused'))
+
+  await page.goto('/assinar')
+  await expect(page.getByRole('alert')).toContainText('Não conseguimos falar com o servidor')
+  await expect(page.getByText('R$ 29,90').first()).toBeVisible()
+})
+
+test('back from the payment, an anonymous purchase activates on WhatsApp and signs the browser in', async ({
+  page,
+}, info) => {
+  const calls = await fakeApi(page, {
+    'GET /purchase': (_, count) =>
+      count < 2
+        ? {
+            body: {
+              plan: 'premium',
+              cycle: 'monthly',
+              method: 'card',
+              status: 'paid',
+              owned: false,
+              code: 'ATV-7KQ2MXPD',
+              message: 'Ativar minha assinatura: ATV-7KQ2MXPD',
+              link: 'https://wa.me/5511926169724?text=Ativar%20minha%20assinatura%3A%20ATV-7KQ2MXPD',
+            },
+          }
+        : {
+            body: {
+              plan: 'premium',
+              cycle: 'monthly',
+              method: 'card',
+              status: 'activated',
+              owned: false,
+              activatedAt: new Date().toISOString(),
+              signInUntil: new Date(Date.now() + 30 * 60_000).toISOString(),
+            },
+          },
+    'POST /purchase/session': () => ({
+      body: { signedIn: true, scope: 'account', expiresAt: '2026-12-21T12:00:00.000Z' },
+    }),
+    'GET /me': () => ({ body: { ...ME_PURCHASE, scope: 'account' } }),
+  })
+
+  await page.goto('/assinar/pronto')
+  await expect(page.getByText('Pagamento confirmado. Falta ativar.')).toBeVisible()
+  await expect(page.getByText('Ativar minha assinatura: ATV-7KQ2MXPD')).toBeVisible()
+  const open = page.getByRole('link', { name: /Abrir o WhatsApp/ })
+  await expect(open).toHaveAttribute('href', /^https:\/\/wa\.me\/5511926169724\?text=Ativar/)
+  if (info.project.name === 'desktop') {
+    await expect(page.getByRole('img', { name: /QR code/ })).toBeVisible()
+  }
+
+  await expect(page.getByText('Assinatura ativada.')).toBeVisible({ timeout: 8000 })
+  await expect(page.getByText(/entrou no site com o número \+55 11 9\*\*\*\*-4321/)).toBeVisible()
+  expect(calls.filter((call) => call.path.endsWith('/purchase/session'))).toHaveLength(1)
+})
+
+test('signing in with WhatsApp shows the code, waits for it and enters', async ({ page }, info) => {
+  const calls = await fakeApi(page, {
+    'GET /me': (_, count) =>
+      count === 1
+        ? { body: { signedIn: false } }
+        : {
+            body: {
+              ...ME_PURCHASE,
+              scope: 'account',
+              access: {
+                standing: 'subscriber',
+                plan: 'premium',
+                until: '2026-12-21T03:00:00.000Z',
+              },
+            },
+          },
+    'POST /login': () => ({
+      status: 201,
+      body: {
+        code: 'WEB-7KQ2MX',
+        message: 'Entrar no site: WEB-7KQ2MX',
+        link: 'https://wa.me/5511926169724?text=Entrar%20no%20site%3A%20WEB-7KQ2MX',
+        expiresAt: new Date(Date.now() + 10 * 60_000).toISOString(),
+      },
+    }),
+    'GET /login': (_, count) => ({ body: { status: count < 2 ? 'pending' : 'confirmed' } }),
+    'POST /login/session': () => ({
+      body: { signedIn: true, scope: 'account', expiresAt: '2026-12-21T12:00:00.000Z' },
+    }),
+    'POST /logout': () => ({ status: 204 }),
+  })
+
+  await page.goto('/entrar')
+  await expect(page.getByText('Entrar no site: WEB-7KQ2MX')).toBeVisible()
+  if (info.project.name === 'desktop') {
+    await expect(page.getByRole('img', { name: /QR code/ })).toBeVisible()
+  }
+  expect(
+    calls.find((call) => call.path.endsWith('/login') && call.method === 'POST')?.body,
+  ).toEqual({ locale: 'pt-BR' })
+
+  await expect(page.getByRole('heading', { name: 'Você entrou.' })).toBeVisible({ timeout: 8000 })
+  await expect(page.getByText('Premium até 21/12/2026.')).toBeVisible()
+  await page.getByRole('button', { name: 'Sair' }).click()
+  await expect(page.getByText('Você saiu deste navegador.')).toBeVisible()
+})
+
+test('signing in from the purchase page goes back to it with the plan', async ({ page }) => {
+  await fakeApi(page, {
+    'GET /me': () => ({ body: { ...ME_PURCHASE, scope: 'account' } }),
+    'GET /plans': () => ({ body: { ...LINK_PLANS, buyer: 'account' } }),
+  })
+
+  await page.goto('/entrar?voltar=assinar&plano=pro')
+
+  await expect(page).toHaveURL(/\/assinar\?plano=pro$/)
+  await expect(page.getByText('Você entrou como +55 11 9****-4321')).toBeVisible()
+})
+
+test('the activation link of the e-mail opens the purchase by its code', async ({ page }) => {
+  const calls = await fakeApi(page, {
+    'POST /purchase/open': () => ({ body: { opened: true } }),
+    'GET /purchase': () => ({
+      body: { plan: 'premium', cycle: 'yearly', method: 'card', status: 'activated', owned: false },
+    }),
+  })
+
+  await page.goto('/assinar/ativar#a=ATV-7KQ2MXPD')
+
+  await expect(page).toHaveURL(/\/assinar\/pronto$/)
+  await expect(page.getByText('Assinatura ativada.')).toBeVisible()
+  expect(calls.find((call) => call.path.endsWith('/purchase/open'))?.body).toEqual({
+    code: 'ATV-7KQ2MXPD',
+  })
+})
+
+test('the English pages speak English', async ({ page }) => {
+  await fakeApi(page, {
+    'GET /me': () => ({ body: { signedIn: false } }),
+    'GET /plans': () => ({ body: ANONYMOUS_PLANS }),
+  })
+
+  await page.goto('/en/subscribe')
+  await expect(page.locator('h1')).toHaveText('Pick your plan.')
+  await expect(page.getByRole('link', { name: 'Sign in with WhatsApp' }).first()).toBeVisible()
+})
+
+test('the plans page sends each plan to the purchase page', async ({ page }) => {
+  await page.goto('/planos')
+  await expect(
+    page.locator('#premium').getByRole('link', { name: 'Assinar agora' }),
+  ).toHaveAttribute('href', '/assinar?plano=premium-mensal')
+})

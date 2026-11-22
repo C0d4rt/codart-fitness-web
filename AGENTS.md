@@ -51,7 +51,13 @@ Antes de abrir PR: `pnpm format:check && pnpm lint && pnpm typecheck && pnpm tes
   `{n, plural, one {...} other {...}}`, nunca o `|` do vue-i18n.
 - **Sem travessão (— nem –) no texto que a pessoa lê.** No lugar, dois-pontos,
   vírgula ou parênteses.
-- **Tudo estático:** nenhuma página depende de servidor.
+- **Tudo estático:** nenhuma página depende de servidor para ser servida; só
+  `/assinar`, `/assinar/pronto`, `/assinar/ativar` e `/entrar` (e as versões em
+  inglês) chamam a API no navegador (PRP-065 do `codart-messaging`), sempre pelo
+  `useSiteApi`, com `credentials: 'include'`. Token nunca vai na URL nem no
+  `localStorage`/`sessionStorage`: a sessão vive só no cookie `HttpOnly` da API.
+- **Página que mostra código** (`/entrar`, `/assinar/pronto`, `/assinar/ativar`)
+  não carrega GA nem pixel (`showsCode` em `shared/fragment.ts`).
 
 ## Comentários
 

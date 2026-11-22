@@ -17,6 +17,10 @@ describe('whatsAppLink', () => {
     expect(whatsAppLink('', 'Oi')).toBe('https://wa.me/?text=Oi')
   })
 
+  it('opens the chat empty without a text', () => {
+    expect(whatsAppLink('5511', '')).toBe('https://wa.me/5511')
+  })
+
   it('encodes what would break the query', () => {
     expect(whatsAppLink('5511', 'a&b=c')).toBe('https://wa.me/5511?text=a%26b%3Dc')
   })

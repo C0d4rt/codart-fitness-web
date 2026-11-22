@@ -8,6 +8,7 @@ const links = computed(() => [
   { to: '/recursos', label: t('nav.features') },
   { to: '/planos', label: t('nav.plans') },
   { to: `/#${anchors.value.faq}`, label: t('nav.faq') },
+  { to: '/entrar', label: t('nav.signIn') },
 ])
 
 const trigger = ref<HTMLButtonElement>()

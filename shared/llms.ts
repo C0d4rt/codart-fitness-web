@@ -41,7 +41,7 @@ export const llmsText = (site: Site, catalog: Catalog, builtOn: string): string 
     `Preços em reais, válidos em ${builtOn}.`,
     '',
     `- Teste grátis: ${catalog.trialDays} dias com tudo do ${premium.name}, contados da primeira mensagem, sem cartão.`,
-    `- ${premium.name}: ${money(premium.monthlyCents, 'pt')} por mês ou ${money(premium.yearlyCents, 'pt')} por ano. O mensal é no Pix ou no cartão, e no cartão renova sozinho até o cancelamento; o anual é só no cartão, ${yearlyTerms}. O Pix vale só para o mensal. Pagamento pela conversa e cancelamento a qualquer hora.`,
+    `- ${premium.name}: ${money(premium.monthlyCents, 'pt')} por mês ou ${money(premium.yearlyCents, 'pt')} por ano. O mensal é no Pix ou no cartão, e no cartão renova sozinho até o cancelamento; o anual é só no cartão, ${yearlyTerms}. O Pix vale só para o mensal. Pagamento pela página Assinar do site (${site.url}/assinar) e cancelamento a qualquer hora, na conversa.`,
     `${coachingLine} Tudo do ${premium.name}, mais dieta e treino montados para a pessoa a partir da avaliação, check-ins, reavaliação mensal e dúvidas respondidas pela equipe em até 24 horas. Comprar o ${coaching.name} cancela a assinatura mensal no cartão, e os dias já pagos do ${premium.name} são descontados do preço.`,
     '',
     '## Recursos',

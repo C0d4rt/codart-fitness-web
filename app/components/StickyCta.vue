@@ -3,6 +3,8 @@ const { t } = useI18n()
 const trialDays = useTrialDays()
 const consent = useConsent()
 const nuxtApp = useNuxtApp()
+const route = useRoute()
+const onAccountPage = computed(() => route.meta.account === true)
 
 /* On a phone the bar keeps the trial a thumb away, but only past the first screen
    and never while another trial button, the closing or the footer is on screen. */
@@ -49,7 +51,7 @@ onBeforeUnmount(() => {
 <template>
   <Transition name="sticky">
     <aside
-      v-if="shown && !consent.showBanner.value"
+      v-if="shown && !onAccountPage && !consent.showBanner.value"
       class="sticky-cta tone-dark"
       :aria-label="t('stickyCta.label')"
     >

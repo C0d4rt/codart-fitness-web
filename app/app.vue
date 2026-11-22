@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { brand } from '~/brand'
+import { FRAGMENT_SCRIPT } from '#shared/fragment'
 
 const locale = useSiteLocale()
 const localeHead = useLocaleHead({ dir: false })
@@ -14,7 +15,10 @@ useHead({
   ],
   link: [{ rel: 'icon', type: 'image/svg+xml', href: '/icon.svg' }],
   // Before first paint, so content meant to rise in is hidden from the start instead of flashing.
-  script: [{ innerHTML: "document.documentElement.classList.add('js')", tagPosition: 'head' }],
+  script: [
+    { innerHTML: "document.documentElement.classList.add('js')", tagPosition: 'head' },
+    { innerHTML: FRAGMENT_SCRIPT, tagPosition: 'head' },
+  ],
 })
 
 // The module writes the home page as the bare origin, while the sitemap writes it with "/".

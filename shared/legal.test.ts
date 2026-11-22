@@ -47,9 +47,22 @@ describe('the legal texts (PRP-040)', () => {
   })
 
   it('carries the version the app asks to accept', () => {
-    expect(LEGAL_VERSION).toBe('10')
+    expect(LEGAL_VERSION).toBe('11')
     expect(LEGAL_EFFECTIVE).toMatch(/^\d{4}-\d{2}-\d{2}$/)
   })
+
+  it.each(['pt', 'en'] as const)(
+    'covers buying on the website and activating on WhatsApp in %s',
+    (locale) => {
+      const terms = textsOf(LEGAL[locale].terms).join('\n')
+      const privacy = textsOf(LEGAL[locale].privacy).join('\n')
+
+      expect(terms).toMatch(locale === 'pt' ? /código de ativação/ : /activation code/)
+      expect(terms).toMatch(locale === 'pt' ? /conta da ativação/ : /from the activation/)
+      expect(privacy).toMatch(/cookie/)
+      expect(privacy).toMatch(locale === 'pt' ? /no máximo três vezes/ : /at most three times/)
+    },
+  )
 
   it.each(['pt', 'en'] as const)('names only the plans on sale in %s', (locale) => {
     const texts = [...textsOf(LEGAL[locale].terms), ...textsOf(LEGAL[locale].privacy)]

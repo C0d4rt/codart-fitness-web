@@ -35,6 +35,9 @@ importers:
       nuxt-schema-org:
         specifier: ^7.0.1
         version: 7.0.1(47629dbcc5f507687a676bce13146718)
+      uqr:
+        specifier: 0.1.3
+        version: 0.1.3
       vue:
         specifier: ^3.5.44
         version: 3.5.44(typescript@6.0.3)
