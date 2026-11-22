@@ -20,7 +20,9 @@
     "faq": "Questions",
     "language": "Language",
     "skip": "Skip to content",
-    "menu": "Menu"
+    "menu": "Menu",
+    "signIn": "Sign in",
+    "account": "Your account"
   },
   "footer": {
     "label": "Footer",
@@ -212,7 +214,8 @@
     "soon": "Coming soon",
     "soonNote": "It isn't open yet. Ask to be told and we'll message you on WhatsApp when it opens",
     "notifyMe": "Tell me when it opens",
-    "wantPlan": "I want {plan}"
+    "wantPlan": "I want {plan}",
+    "subscribeNow": "Subscribe now"
   },
   "faq": {
     "title": "Frequently asked questions",
@@ -232,7 +235,7 @@
       },
       {
         "q": "How do I pay and cancel?",
-        "a": "Right in the chat: reply \"subscribe\" and choose the plan. Monthly is by Pix or card, and by card it renews on its own every month until you cancel. Yearly is by card, in up to 12 interest-free installments. Cancel whenever you like; your access lasts until the end of the period you paid for. Pix is for monthly only. Premium Pro is a 12-month program, by card only, upfront or in up to 12 interest-free installments, with no renewal. Buying Premium Pro cancels your monthly card subscription, and the Premium days you already paid for are discounted from the price."
+        "a": "On the Subscribe page, here on the site, or by replying \"subscribe\" in the chat, which sends you the link. Monthly is by Pix or card, and by card it renews on its own every month until you cancel. Yearly is by card, in up to 12 interest-free installments. Cancel whenever you like; your access lasts until the end of the period you paid for. Pix is for monthly only. Premium Pro is a 12-month program, by card only, upfront or in up to 12 interest-free installments, with no renewal. Buying Premium Pro cancels your monthly card subscription, and the Premium days you already paid for are discounted from the price."
       },
       {
         "q": "What if I change my mind?",
@@ -255,7 +258,7 @@
   "plans": {
     "title": "Plans",
     "description": "{name} Premium and Premium Pro, with prices and what each one includes. {days} days free with everything in Premium.",
-    "lead": "Start with {days} days free with everything in Premium, no card needed. Then subscribe right in the chat",
+    "lead": "Start with {days} days free with everything in Premium, no card needed. Then subscribe here on the site",
     "compareTitle": "What each plan includes",
     "seeFeatures": "See each feature with an example",
     "featureColumn": "Feature",
@@ -317,6 +320,184 @@
       "barcode": "Barcode",
       "dinner": "What's for dinner?",
       "recipe": "Home recipe"
+    }
+  },
+  "subscribe": {
+    "title": "Subscribe",
+    "description": "Pick your {name} plan and pay by Pix or card.",
+    "heading": "Pick your plan.",
+    "lead": "Pick the plan and how to pay. Payment happens on the secure Pagar.me page.",
+    "buyingFor": "Buying for {who}",
+    "signedInAs": "Signed in as {who}",
+    "notYou": "Not you?",
+    "signInOther": "Sign in with another number",
+    "haveAccount": "Already using {name}?",
+    "signIn": "Sign in with WhatsApp",
+    "signOut": "Sign out",
+    "loading": "Updating the prices",
+    "offline": "We can't reach the server right now, so paying is not possible yet.",
+    "retry": "Try again",
+    "cardsLabel": "Plans",
+    "choose": "Choose",
+    "chosen": "Chosen",
+    "perMonth": "per month",
+    "perYear": "per year",
+    "monthlyNote": "By card, it renews on its own until you cancel. By Pix, you pay for one month.",
+    "yearlyNote": "{installments, plural, one {Upfront, by card.} other {In up to {installments} interest-free installments of {price}, by card.}} It does not renew on its own.",
+    "proLead": "{months, plural, one {# month} other {# months}} · {installments} ×",
+    "proTotal": "interest-free, by card · {total} total",
+    "proFrom": "{full}, now {total}",
+    "proCredit": "Premium already paid, from {from} to {until}: {amount} off",
+    "signInToDiscount": "Already subscribed? Sign in with WhatsApp to discount what you already paid",
+    "soon": "Coming soon",
+    "proGuardian": "Your parent or guardian's authorization does not cover Premium Pro yet.",
+    "howToPay": "How to pay",
+    "methods": {
+      "cardRenews": "Card (renews on its own)",
+      "pix": "Pix (pays for the month)",
+      "cardOnce": "Card, in up to {installments} installments (does not renew)",
+      "cardInstallments": "Card, in up to {installments} installments",
+      "card": "Card"
+    },
+    "methodNotes": {
+      "cardRenews": "{price} every month, until you cancel",
+      "pix": "{price} for one month, with no renewal",
+      "yearly": "{price} for 12 months, with no renewal",
+      "coaching": "{price} for the {months} months, with no renewal",
+      "alreadySubscribed": "Your monthly card plan already renews on its own. Pay a month by Pix or pick yearly."
+    },
+    "proPoints": {
+      "months": "A {months}-month program, with no automatic renewal.",
+      "guarantee": "7-day guarantee: withdraw in the chat and get the full amount back.",
+      "anonymous": "Buying without signing in, the {months} months and the guarantee count from the activation on WhatsApp.",
+      "cancelsMonthly": "Buying Premium Pro cancels your Premium monthly card plan, if you have one."
+    },
+    "premiumPoints": {
+      "cancel": "Cancel whenever you like, by saying cancel in the chat.",
+      "guarantee": "Within 7 days of paying, ask for a full refund in the chat."
+    },
+    "readTerms": "Read the terms",
+    "activateLater": "Without signing in, you pay now and activate on WhatsApp later, with a code.",
+    "pay": "Go to payment",
+    "paying": "Opening the payment",
+    "secure": "You will go to the secure Pagar.me page. Your card details never reach us.",
+    "pickMethod": "Pick how to pay.",
+    "guardianBlocked": "To subscribe, you still need the authorization of your mother, father or guardian. The request is in your WhatsApp chat.",
+    "openWhatsApp": "Open WhatsApp",
+    "titles": {
+      "premiumMonthly": "Premium monthly",
+      "premiumYearly": "Premium yearly",
+      "coaching": "Premium Pro"
+    }
+  },
+  "subscribeDone": {
+    "title": "Payment",
+    "checking": "Checking the payment",
+    "waitingHeading": "Waiting for the payment.",
+    "waitingPix": "As soon as the Pix is confirmed, this page changes on its own. It can take a few minutes.",
+    "waitingCard": "We are confirming the payment with Pagar.me. This page changes on its own.",
+    "confirmedHeading": "Payment confirmed.",
+    "confirmedText": "Your {plan} is already on your number, and the confirmation arrives in the WhatsApp chat.",
+    "activateHeading": "Payment confirmed. Now activate it.",
+    "activateText": "Send the message from the number that will use {name}: the subscription goes to that number.",
+    "activatedHeading": "Subscription activated.",
+    "activatedText": "Your {plan} is on WhatsApp. Go ahead and send your first meal.",
+    "signingIn": "Signing in to the site",
+    "signedIn": "This browser is signed in to the site with the number {who}.",
+    "signInLater": "To sign in to the site later, use Sign in with WhatsApp.",
+    "refusedHeading": "The card was declined.",
+    "refusedText": "Nothing was charged. Try again with another card or, for monthly, by Pix.",
+    "expiredHeading": "The payment expired.",
+    "expiredText": "Nothing was charged. Pick the plan again to start a new payment.",
+    "refundedHeading": "Payment refunded.",
+    "refundedText": "This purchase was refunded or disputed and is no longer valid.",
+    "noneHeading": "We found no purchase in this browser.",
+    "noneText": "If you paid in another browser or device, open this page there. If you have the activation code, activate with it.",
+    "haveCode": "I have the activation code",
+    "tryAgain": "Try again",
+    "choosePlan": "Pick the plan",
+    "timeout": "No answer yet. Refresh in a little while.",
+    "refresh": "Refresh"
+  },
+  "activate": {
+    "title": "Activate",
+    "heading": "Activate your subscription.",
+    "lead": "Type your purchase's activation code. It starts with ATV.",
+    "label": "Activation code",
+    "submit": "Continue",
+    "opening": "Opening the purchase"
+  },
+  "signIn": {
+    "title": "Sign in",
+    "description": "Sign in to the {name} site with your WhatsApp number.",
+    "heading": "Sign in with WhatsApp.",
+    "lead": "Your account is your WhatsApp number. No password: you send a message with a code, and the site signs you in.",
+    "checking": "Checking",
+    "creating": "Creating the code",
+    "phoneStep": "Tap the button: WhatsApp opens with the message ready. Just send it.",
+    "desktopStep": "Point your phone's camera at the QR code, or open WhatsApp on this computer. Just send the message.",
+    "waiting": "Waiting for your message",
+    "expiresAt": "The code is valid until {time}.",
+    "confirmed": "Message received. Signing in",
+    "expired": "The code expired before the message arrived.",
+    "used": "This code was already used.",
+    "lost": "This browser lost the sign-in request. Check that it accepts cookies and try again.",
+    "again": "Create another code",
+    "purchaseScope": "This browser opened the purchase for {who} from the WhatsApp link. To sign in to the account, send the code.",
+    "signedInHeading": "You are signed in.",
+    "signedInAs": "Account of the number {who}",
+    "standing": {
+      "none": "No active plan.",
+      "trial": "On the free trial.",
+      "trialUntil": "On the free trial until {date}.",
+      "subscriber": "{plan} active.",
+      "subscriberUntil": "{plan} until {date}.",
+      "expired": "Your plan has ended.",
+      "revoked": "Access suspended."
+    },
+    "sessionNote": "Signing in lasts 30 days in this browser. To sign out on every device, send sign out of the site in the chat.",
+    "plans": "See the plans",
+    "signOut": "Sign out",
+    "signingOut": "Signing out",
+    "signedOut": "You signed out of this browser."
+  },
+  "whatsappCode": {
+    "open": "Open WhatsApp",
+    "openHere": "Open WhatsApp on this computer",
+    "scan": "Point your phone's camera",
+    "qrLabel": "QR code that opens WhatsApp with the message ready",
+    "orSend": "Or send this message in the chat:",
+    "copy": "Copy",
+    "copied": "Copied"
+  },
+  "site": {
+    "errors": {
+      "origin_refused": "The request was refused. Refresh the page and try again.",
+      "json_required": "The request was refused. Refresh the page and try again.",
+      "login_pending": "The message hasn't arrived yet. Send it on WhatsApp and wait a moment.",
+      "login_used": "This code was already used. Create another one to sign in.",
+      "login_expired": "The code expired. Create another one to sign in.",
+      "login_unknown": "We couldn't find this browser's sign-in request. Create another code.",
+      "link_unknown": "We don't recognize the WhatsApp link. You can still subscribe here.",
+      "link_expired": "The WhatsApp link expired. You can still subscribe here, or reply subscribe in the chat to get another one.",
+      "declaration_required": "Tick the declaration to continue.",
+      "method_unavailable": "That payment method isn't available for this plan. Pick another one.",
+      "pro_unavailable": "Premium Pro is not on sale right now.",
+      "already_subscribed": "Your monthly card plan already renews on its own. Pay a month by Pix or pick yearly.",
+      "guardian_required": "Your parent or guardian's authorization is missing for this plan. The request is in your WhatsApp chat.",
+      "purchase_paid": "This purchase is already paid.",
+      "checkout_refused": "We couldn't open this payment. The prices were updated: check them and try again.",
+      "purchase_unknown": "We found no purchase with this code. Check it and try again.",
+      "purchase_activated": "This purchase is already activated. Nothing is left to do.",
+      "purchase_not_activated": "The purchase is not activated yet.",
+      "sign_in_closed": "The time to sign in to the site from this purchase is over. Sign in with WhatsApp whenever you like.",
+      "sign_in_used": "This purchase already signed in to the site once. Sign in with WhatsApp whenever you like.",
+      "network": "No connection to the server. Check your internet and try again.",
+      "unavailable": "The server didn't answer. Try again in a moment.",
+      "rate_limited": "Too many attempts in a row. Wait a few minutes and try again.",
+      "bad_request": "Something went wrong with the request. Refresh the page and try again.",
+      "bad_response": "We got an answer we don't understand. Refresh the page and try again.",
+      "unknown": "Something went wrong. Try again in a moment."
     }
   }
 }

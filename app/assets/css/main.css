@@ -274,3 +274,17 @@ img {
     transition: opacity 200ms ease;
   }
 }
+
+/* A computer scans a QR code with the phone; a phone, or a narrow window, opens WhatsApp with one tap. */
+.only-pointer {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 48rem) {
+  .only-pointer {
+    display: revert;
+  }
+  .only-touch {
+    display: none;
+  }
+}

@@ -4,6 +4,10 @@ import { brand } from '~/brand'
 const { t } = useI18n()
 const anchors = useAnchors()
 const { backToTop } = useHomeLink()
+const account = useSiteAccount()
+const signedInAs = computed(() =>
+  account.value?.signedIn && account.value.scope === 'account' ? whoOf(account.value) : undefined,
+)
 
 const scrolled = ref(false)
 let frame = 0
@@ -44,6 +48,13 @@ onBeforeUnmount(() => {
       </ul>
       <div class="actions">
         <SiteMenu class="phone-menu" />
+        <NuxtLinkLocale to="/entrar" class="account-link">
+          <template v-if="signedInAs">
+            <span class="visually-hidden">{{ t('nav.account') }}:</span>
+            <span class="signed" aria-hidden="true" />{{ signedInAs }}
+          </template>
+          <template v-else>{{ t('nav.signIn') }}</template>
+        </NuxtLinkLocale>
         <LanguageMenu />
         <WhatsAppButton location="nav" :label="t('cta.try')" class="nav-action" />
       </div>
@@ -190,11 +201,39 @@ onBeforeUnmount(() => {
   display: none;
 }
 
+.account-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 0.75rem;
+  border-radius: 999px;
+  color: var(--muted);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 160ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .account-link:hover {
+    color: var(--ink);
+  }
+}
+
+.signed {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--green);
+}
+
 @media (max-width: 63.99rem) {
   .nav {
     grid-template-columns: 1fr auto;
   }
-  .links {
+  .links,
+  .account-link {
     display: none;
   }
   .phone-menu {

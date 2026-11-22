@@ -5,8 +5,8 @@ export type LegalSection = { title: string; paragraphs?: string[]; items?: strin
 export type LegalDoc = { intro: string; sections: LegalSection[] }
 
 /** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
-export const LEGAL_VERSION = '10'
-export const LEGAL_EFFECTIVE = '2026-11-17'
+export const LEGAL_VERSION = '11'
+export const LEGAL_EFFECTIVE = '2026-11-21'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
@@ -32,8 +32,8 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'Sem a autorização, quem informar idade menor de 18 anos não tem dados de saúde guardados e recebe a opção de apagar a conta.',
           'O responsável pode retirar a autorização a qualquer momento, pela conversa: o diário do adolescente para na hora, a renovação no cartão é cancelada e o que já foi guardado continua guardado, até uma nova autorização ou um pedido de exclusão. Ele também pode pedir, pela conversa, a exclusão dos dados do adolescente. A autorização vale até o adolescente fazer 18 anos; a partir daí, a conta é só dele e ele aceita estes termos por si.',
           'Para quem tem de 13 a 17 anos, o ritmo de perda de peso vai até 0,5 kg por semana, a meta de calorias não fica abaixo do gasto de repouso estimado para a idade, o jejum intermitente não fica disponível no Premium, e não guardamos uso de hormônios, fotos do físico nem exames.',
-          'Quem paga o plano de uma conta de adolescente precisa ser maior de idade e declara isso na página do pagamento. Não precisa ser a mesma pessoa que autorizou.',
-          'A conta é o seu número de WhatsApp. Você responde pelo uso feito a partir dele.',
+          'Quem paga o plano de uma conta de adolescente, ou compra no site sem entrar, precisa ser maior de idade e declara isso antes do pagamento. Não precisa ser a mesma pessoa que autorizou.',
+          'A conta é o seu número de WhatsApp, também no site: para entrar no site, você manda pelo WhatsApp uma mensagem com um código, sem senha. Você responde pelo uso feito a partir dele.',
         ],
       },
       {
@@ -41,7 +41,8 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         items: [
           'São dois planos: o Premium, o assistente completo, por mês ou por ano, e o Premium Pro, o programa de 12 meses da seção seguinte. O que cada um inclui, os limites de uso diário e os preços estão na página Planos e são os mesmos mostrados na conversa.',
           'Todo número novo tem um período de teste gratuito do Premium, uma vez só, sem cartão, com a duração mostrada na página Planos. Quando o teste acaba, o diário para de registrar até você assinar. Nada do que você registrou é apagado por isso.',
-          'O pagamento é feito na página da Pagar.me (Stone). Os dados do cartão são digitados lá e não chegam até nós.',
+          'Você escolhe o plano e a forma de pagar na página Assinar do site, e o pagamento é feito na página da Pagar.me (Stone). Os dados do cartão são digitados lá e não chegam até nós.',
+          'Quem compra no site sem entrar ativa a compra depois, mandando pelo WhatsApp a mensagem com o código de ativação mostrado quando o pagamento é confirmado. A assinatura fica com o número que mandar o código primeiro, e o período pago conta da ativação. Até lá, a compra não é de nenhum número, e a compra nunca ativada é devolvida a pedido, pelo e-mail de suporte, sem prazo.',
           'Premium mensal no cartão: renova sozinho todo mês, pelo mesmo preço contratado, até você cancelar. Se a cobrança de um mês for recusada, a assinatura é encerrada na hora e avisamos você pelo WhatsApp; para continuar, é só pagar de novo, com outro cartão ou no Pix. Seus registros continuam guardados.',
           'Premium mensal no Pix e Premium anual: são pagos de uma vez por período, sem renovação automática. Pagamentos antecipados somam períodos.',
           'O Pix vale só para o Premium mensal. O Premium anual e o Premium Pro são pagos só no cartão, à vista ou em até 12x sem juros.',
@@ -58,8 +59,8 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'O assistente ajusta o plano automaticamente à sua evolução, a partir dos check-ins, da reavaliação e do que você registra, como a progressão de carga do treino e as trocas equivalentes de exercício ou de alimento.',
           'As dúvidas do seu caso vão para a nossa equipe, e a resposta chega na própria conversa em até 24 horas corridas, todos os dias da semana.',
           'O programa é pago uma vez só, no cartão, à vista ou em até 12x sem juros. Não tem teste grátis nem renovação automática: o programa termina no fim dos 12 meses.',
-          'Os 12 meses contam a partir da confirmação do pagamento, e não da entrega do plano: o tempo até o plano chegar faz parte do programa.',
-          'Garantia de 7 dias: em até 7 dias da confirmação do pagamento, você pode desistir pela conversa e receber de volta o valor integral pago. Depois disso, o programa não é reembolsado, salvo nos casos previstos em lei, e o acesso vai até o fim dos 12 meses.',
+          'Os 12 meses contam a partir da confirmação do pagamento, ou da ativação na compra feita no site sem entrar, e não da entrega do plano: o tempo até o plano chegar faz parte do programa.',
+          'Garantia de 7 dias: em até 7 dias da confirmação do pagamento, ou da ativação na compra feita no site sem entrar, você pode desistir pela conversa e receber de volta o valor integral pago. Depois disso, o programa não é reembolsado, salvo nos casos previstos em lei, e o acesso vai até o fim dos 12 meses.',
           'Comprar o Premium Pro cancela a assinatura do Premium mensal no cartão, se você tiver uma, quando o pagamento é confirmado: o programa já tem tudo do Premium. Os dias já pagos do Premium que ainda faltam, no mensal ou no anual, são descontados do preço do programa.',
           'No fim do programa, o último plano fica na conversa para consulta, sem ajustes, check-ins nem dúvidas respondidas pela equipe. Sem um plano pago, o acesso volta a ser o de quem terminou o teste.',
           'O que você contar sobre remédios e hormônios que usa, e os exames que mandar, fica registrado no seu programa. Nem o assistente nem a nossa equipe receitam, dosam ou orientam o uso de remédio ou hormônio.',
@@ -69,7 +70,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'Cancelamento e reembolso',
         items: [
           'Premium: você cancela a qualquer momento dizendo "cancelar" na conversa. A renovação para e o acesso continua até o fim do período pago.',
-          'Direito de arrependimento: em até 7 dias da primeira contratação do Premium, ou da primeira do Premium Pro, você pode desistir e receber de volta o valor integral pago, como prevê o Código de Defesa do Consumidor (art. 49). Peça na conversa; o acesso pago daquele plano termina com o reembolso.',
+          'Direito de arrependimento: em até 7 dias da primeira contratação do Premium, ou da primeira do Premium Pro, você pode desistir e receber de volta o valor integral pago, como prevê o Código de Defesa do Consumidor (art. 49). Na compra feita no site sem entrar, o prazo conta da ativação. Peça na conversa; o acesso pago daquele plano termina com o reembolso.',
           'O reembolso do Premium Pro devolve o valor pago pelo programa. A assinatura do Premium cancelada na compra não volta sozinha: para continuar no Premium, é só assinar de novo. Um Premium já pago de uma vez continua como estava.',
           'Fora desse prazo, o período já pago e o Premium Pro não são reembolsados, salvo nos casos previstos em lei. Pedidos especiais são analisados pela equipe.',
           'Contestar uma cobrança com o banco ou o cartão (chargeback) suspende o acesso pago enquanto a contestação estiver aberta.',
@@ -130,6 +131,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'Do aceite: a versão dos termos aceita e quando.',
           'De quem autoriza um adolescente: o nome, o parentesco, o número de WhatsApp de onde veio a autorização, quando ela foi dada e o que cobre, e a data de nascimento do adolescente.',
           'De pagamento: o plano, as cobranças e a situação da assinatura. Nome, documento e cartão de quem paga ficam com a Pagar.me, não conosco.',
+          'Do site: quando você entra, a sessão guarda a qual número ela pertence, quando começou e quando termina, sem endereço de internet nem navegador. Da compra feita no site sem entrar: o plano, o código de ativação e o e-mail que a Pagar.me pediu a quem pagou.',
           'De origem: quando você chega por um anúncio da Meta, o identificador do anúncio.',
         ],
       },
@@ -141,6 +143,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'No Premium Pro, usar a avaliação, os check-ins, as fotos, os exames e o registro de remédios e hormônios para montar e ajustar o seu plano e acompanhar a sua evolução, com o consentimento específico que você dá na avaliação (art. 11, I). As fotos do físico, os exames e os remédios e hormônios ficam no painel de acesso restrito da nossa equipe e nunca vão ao modelo de inteligência artificial.',
           'Guardar os dados de saúde de quem tem de 13 a 17 anos, com a autorização de um dos pais ou do responsável legal (art. 14), dada no formulário enviado do WhatsApp do próprio responsável.',
           'Manter o serviço seguro, evitar abuso e corrigir falhas, com registros técnicos que não trazem o texto das mensagens (legítimo interesse, art. 7º, IX).',
+          'Lembrar por e-mail, no máximo três vezes, quem pagou no site sem entrar e ainda não ativou a compra, com o link de ativação (execução de contrato, art. 7º, V).',
           'Medir visitas e anúncios no site, só com o seu consentimento no aviso de cookies (art. 7º, I).',
         ],
         paragraphs: [
@@ -153,7 +156,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'Meta (WhatsApp): leva as mensagens entre você e o diário.',
           'OpenAI, pela Portkey: lê as mensagens, transcreve os áudios e interpreta as fotos de refeições e rótulos para registrar o que você contou. Pela política da OpenAI para a sua API, o que enviamos não é usado para treinar modelos.',
           'A nossa equipe: vê, num painel de acesso restrito, os dados de quem está no Premium Pro, para responder às dúvidas e acompanhar o programa. Cada abertura das fotos do físico fica registrada.',
-          'Amazon Web Services (AWS): hospeda o servidor, os bancos de dados e os arquivos.',
+          'Amazon Web Services (AWS): hospeda o servidor, os bancos de dados e os arquivos, e envia os e-mails de lembrete da ativação.',
           'Pagar.me (Stone): processa os pagamentos.',
           'Open Food Facts: recebe só o código de barras consultado, sem nenhum dado seu.',
           'Ferramenta de avisos internos da equipe: recebe os pedidos de suporte que você faz na conversa (o que você contou, o seu plano e o idioma), para a equipe ler e acompanhar.',
@@ -173,6 +176,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'Áudios e fotos são apagados automaticamente 90 dias depois de enviados; o que foi registrado a partir deles continua no diário.',
           'No Premium Pro, as fotos do físico, os exames e as dietas e treinos anteriores ficam enquanto durar o programa e são apagados 90 dias depois do fim, ou antes, se você apagar a conta. O que a avaliação registrou no seu perfil fica enquanto a conta existir, para um próximo programa não perguntar de novo.',
           'O registro da autorização de um responsável (quem autorizou, quando e sob qual versão destes textos) fica enquanto a conta do adolescente existir, como prova da autorização, mesmo que o responsável apague a própria conta.',
+          'A sessão do site dura até 30 dias, ou até você sair. O e-mail de quem pagou sem entrar fica até a ativação, a devolução ou 30 dias depois do último lembrete.',
           'Registros técnicos ficam 30 dias. Cópias de segurança ficam até 7 dias.',
           'Os registros fiscais dos pagamentos ficam com a Pagar.me pelo prazo que a lei exige.',
         ],
@@ -180,7 +184,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Como apagar tudo',
         paragraphs: [
-          'Diga "quero apagar minha conta" na conversa e confirme. Você tem 7 dias para desistir; nesse tempo, nada novo é registrado. Depois disso, apagamos a conta, o diário, o que o assistente guardou, as mensagens, inclusive as dúvidas respondidas pela equipe, os áudios, as fotos, os exames e os registros de pagamento. As cópias de segurança somem em até 7 dias. No total, em até 15 dias não sobra dado seu conosco.',
+          'Diga "quero apagar minha conta" na conversa e confirme. Você tem 7 dias para desistir; nesse tempo, nada novo é registrado. Depois disso, apagamos a conta, as sessões do site, o diário, o que o assistente guardou, as mensagens, inclusive as dúvidas respondidas pela equipe, os áudios, as fotos, os exames e os registros de pagamento. As cópias de segurança somem em até 7 dias. No total, em até 15 dias não sobra dado seu conosco.',
           'Guardamos só o registro de que houve um pedido de exclusão e quando foi cumprido, sem o seu número. A cópia das conversas no seu WhatsApp e nos servidores da Meta segue as regras da Meta.',
           'Quem autorizou um adolescente pode pedir a exclusão dos dados dele mandando "apagar dados do menor" do próprio WhatsApp. O prazo para desistir é o mesmo, e só quem pediu desiste.',
         ],
@@ -200,7 +204,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Este site',
         paragraphs: [
-          'O site não pede nem guarda dado pessoal. Com a sua permissão no aviso de cookies, o Google Analytics e o pixel da Meta contam visitas e medem anúncios; sem ela, nada deles é carregado. A sua escolha fica só no seu navegador e muda pelo link Cookies no rodapé.',
+          'O site não pede senha nem guarda dado pessoal no navegador. Para entrar e comprar, ele fala com o nosso servidor, que guarda a sessão num cookie essencial, só dele e inacessível aos scripts da página, até ela vencer ou você sair. "Sair", no site, encerra a sessão daquele navegador; "sair do site", na conversa, encerra todas. Com a sua permissão no aviso de cookies, o Google Analytics e o pixel da Meta contam visitas e medem anúncios; sem ela, nada deles é carregado, e eles nunca carregam nas páginas que mostram um código de entrada ou de ativação. A sua escolha fica só no seu navegador e muda pelo link Cookies no rodapé.',
         ],
       },
       {
@@ -243,8 +247,8 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'Without the authorization, anyone who gives an age under 18 has no health data stored and is offered to delete the account.',
           'The parent or guardian can take the authorization back at any time, in the chat: the teenager’s diary stops at once, the card renewal is cancelled and what was already stored stays stored, until a new authorization or a deletion request. They can also ask, in the chat, for the teenager’s data to be deleted. The authorization lasts until the teenager turns 18; from then on the account is theirs alone and they accept these terms for themselves.',
           'For anyone aged 13 to 17, the pace of weight loss goes up to 0.5 kg a week, the calorie goal never goes under the resting expenditure estimated for their age, intermittent fasting is not available on Premium, and we do not keep hormone use, physique photos or lab tests.',
-          'Whoever pays for a teenager’s plan must be an adult and declares it on the payment page. It does not have to be the person who gave the authorization.',
-          'Your account is your WhatsApp number. You are responsible for its use.',
+          'Whoever pays for a teenager’s plan, or buys on the website without signing in, must be an adult and declares it before paying. It does not have to be the person who gave the authorization.',
+          'Your account is your WhatsApp number, on the website too: to sign in to the website, you send a message with a code on WhatsApp, with no password. You are responsible for its use.',
         ],
       },
       {
@@ -252,7 +256,8 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         items: [
           'There are two plans: Premium, the full assistant, monthly or yearly, and Premium Pro, the 12-month program described in the next section. What each one includes, the daily usage limits and the prices are on the Plans page and are the same ones shown in the chat.',
           'Every new number gets one free trial of Premium, with no card, for the length shown on the Plans page. When the trial ends, the diary stops logging until you subscribe. Nothing you logged is deleted because of that.',
-          'Payment is made on the Pagar.me (Stone) page. Card details are entered there and never reach us.',
+          'You pick the plan and how to pay on the Subscribe page of the website, and payment is made on the Pagar.me (Stone) page. Card details are entered there and never reach us.',
+          'Whoever buys on the website without signing in activates the purchase afterwards, by sending on WhatsApp the message with the activation code shown when the payment is confirmed. The subscription goes to the number that sends the code first, and the paid period counts from the activation. Until then, the purchase belongs to no number, and a purchase never activated is refunded on request, through the support e-mail, with no time limit.',
           "Premium monthly by card: renews automatically every month, at the price you subscribed to, until you cancel. If a month's charge is declined, the subscription ends at once and we let you know on WhatsApp; to continue, just pay again, with another card or by Pix. Your records stay saved.",
           'Premium monthly by Pix and Premium yearly: paid once per period, with no automatic renewal. Paying ahead adds up periods.',
           'Pix is accepted only for Premium monthly. Premium yearly and Premium Pro are paid by card only, upfront or in up to 12 interest-free installments.',
@@ -269,8 +274,8 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'The assistant adjusts the plan to your progress automatically, from the check-ins, the reassessment and what you log, such as the load progression of your training and equivalent swaps of exercises or foods.',
           'Questions about your case go to our team, and the answer arrives in the chat within 24 hours, every day of the week.',
           'The program is paid once, by card, upfront or in up to 12 interest-free installments. There is no free trial and no automatic renewal: the program ends when the 12 months end.',
-          'The 12 months count from the payment confirmation, not from the delivery of the plan: the time until the plan arrives is part of the program.',
-          '7-day guarantee: within 7 days of the payment confirmation, you can withdraw in the chat and get the full amount paid back. After that, the program is not refunded, except where the law requires, and access continues until the end of the 12 months.',
+          'The 12 months count from the payment confirmation, or from the activation for a purchase made on the website without signing in, not from the delivery of the plan: the time until the plan arrives is part of the program.',
+          '7-day guarantee: within 7 days of the payment confirmation, or of the activation for a purchase made on the website without signing in, you can withdraw in the chat and get the full amount paid back. After that, the program is not refunded, except where the law requires, and access continues until the end of the 12 months.',
           'Buying Premium Pro cancels your Premium monthly card subscription, if you have one, when the payment is confirmed: the program already has everything in Premium. The Premium days you already paid for and have left, monthly or yearly, are discounted from the price of the program.',
           'When the program ends, the last plan stays in the chat for reference, with no adjustments, check-ins or questions answered by the team. Without a paid plan, your access goes back to that of someone whose trial has ended.',
           'What you tell us about medicine and hormones you use, and the lab tests you send, is recorded in your program. Neither the assistant nor our team prescribes, doses or advises on the use of medicine or hormones.',
@@ -280,7 +285,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'Cancellation and refunds',
         items: [
           'Premium: you can cancel at any time by saying "cancel" in the chat. Renewal stops and access continues until the end of the paid period.',
-          'Right of withdrawal: within 7 days of your first Premium purchase, or of your first Premium Pro purchase, you can withdraw and get the full amount paid back, as the Brazilian Consumer Protection Code provides (art. 49). Ask in the chat; paid access to that plan ends with the refund.',
+          'Right of withdrawal: within 7 days of your first Premium purchase, or of your first Premium Pro purchase, you can withdraw and get the full amount paid back, as the Brazilian Consumer Protection Code provides (art. 49). For a purchase made on the website without signing in, the time counts from the activation. Ask in the chat; paid access to that plan ends with the refund.',
           'A Premium Pro refund returns the amount paid for the program. The Premium subscription cancelled on purchase does not come back by itself: to stay on Premium, just subscribe again. Premium already paid in one go stays as it was.',
           'After that period, the time already paid and Premium Pro are not refunded, except where the law requires. Special requests are reviewed by the team.',
           'Disputing a charge with your bank or card issuer (chargeback) suspends paid access while the dispute is open.',
@@ -341,6 +346,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'Acceptance: which version of the terms you accepted and when.',
           'Whoever authorizes a teenager: their name, their relation, the WhatsApp number the authorization came from, when it was given and what it covers, and the teenager’s date of birth.',
           'Payment: the plan, the charges and the subscription status. The payer’s name, ID document and card stay with Pagar.me, not with us.',
+          'Website: when you sign in, the session keeps which number it belongs to, when it started and when it ends, with no internet address or browser. For a purchase made on the website without signing in: the plan, the activation code and the e-mail Pagar.me asked the payer for.',
           'Origin: when you arrive from a Meta ad, the ad identifier.',
         ],
       },
@@ -352,6 +358,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'On Premium Pro, to use the assessment, the check-ins, the photos, the lab tests and the record of medicine and hormones to build and adjust your plan and follow your progress, with the specific consent you give in the assessment (art. 11, I). Physique photos, lab tests and medicine and hormones stay in our team’s restricted-access panel and are never sent to the artificial intelligence model.',
           'To keep the health data of anyone aged 13 to 17, with the authorization of a parent or legal guardian (art. 14), given in the form sent from the parent or guardian’s own WhatsApp.',
           'To keep the service secure, prevent abuse and fix faults, with technical logs that do not contain the text of messages (legitimate interest, art. 7, IX).',
+          'To remind by e-mail, at most three times, whoever paid on the website without signing in and has not activated the purchase yet, with the activation link (performance of a contract, art. 7, V).',
           'To measure visits and ads on the website, only with your consent in the cookie notice (art. 7, I).',
         ],
         paragraphs: [
@@ -364,7 +371,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'Meta (WhatsApp): carries the messages between you and the diary.',
           'OpenAI, through Portkey: reads the messages, transcribes voice notes and interprets photos of meals and labels to log what you said. Under OpenAI’s policy for its API, what we send is not used to train models.',
           'Our team: sees, in a restricted-access panel, the data of the people on Premium Pro, to answer their questions and follow the program. Every opening of the physique photos is logged.',
-          'Amazon Web Services (AWS): hosts the server, the databases and the files.',
+          'Amazon Web Services (AWS): hosts the server, the databases and the files, and sends the activation reminder e-mails.',
           'Pagar.me (Stone): processes payments.',
           'Open Food Facts: receives only the barcode looked up, with no data about you.',
           'The team’s internal notification tool: receives the support requests you make in the chat (what you told us, your plan and language), so the team can read and follow them up.',
@@ -384,6 +391,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'Voice notes and photos are deleted automatically 90 days after they are sent; what was logged from them stays in the diary.',
           'On Premium Pro, physique photos, lab tests and previous diets and training plans are kept while the program lasts and deleted 90 days after it ends, or sooner if you delete your account. What the assessment recorded in your profile stays for as long as the account exists, so a later program does not ask again.',
           'The record of a parent or guardian’s authorization (who gave it, when and under which version of these texts) is kept for as long as the teenager’s account exists, as proof of the authorization, even if the parent or guardian deletes their own account.',
+          'A website session lasts up to 30 days, or until you sign out. The e-mail of whoever paid without signing in is kept until the activation, the refund or 30 days after the last reminder.',
           'Technical logs are kept for 30 days. Backups are kept for up to 7 days.',
           'Payment tax records stay with Pagar.me for as long as the law requires.',
         ],
@@ -391,7 +399,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'How to delete everything',
         paragraphs: [
-          'Say "delete my data" in the chat and confirm. You have 7 days to change your mind; during that time, nothing new is logged. After that, we delete the account, the diary, what the assistant kept, the messages, including the questions answered by the team, voice notes, photos, lab tests and payment records. Backups are gone within 7 days. In total, within 15 days no data of yours remains with us.',
+          'Say "delete my data" in the chat and confirm. You have 7 days to change your mind; during that time, nothing new is logged. After that, we delete the account, the website sessions, the diary, what the assistant kept, the messages, including the questions answered by the team, voice notes, photos, lab tests and payment records. Backups are gone within 7 days. In total, within 15 days no data of yours remains with us.',
           'We only keep a record that a deletion was requested and when it was carried out, without your number. The copy of the conversation in your WhatsApp and on Meta’s servers follows Meta’s rules.',
           'Whoever authorized a teenager can ask for the teenager’s data to be deleted by sending "delete data of the minor" from their own WhatsApp. The time to change their mind is the same, and only who asked can go back on it.',
         ],
@@ -411,7 +419,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'This website',
         paragraphs: [
-          'The website does not ask for or keep personal data. With your permission in the cookie notice, Google Analytics and the Meta pixel count visits and measure ads; without it, nothing from them is loaded. Your choice stays only in your browser and can be changed from the Cookies link in the footer.',
+          'The website asks for no password and keeps no personal data in your browser. To sign in and to buy, it talks to our server, which keeps the session in an essential cookie, only its own and out of reach of the page’s scripts, until it expires or you sign out. "Sign out" on the website ends that browser’s session; "sign out of the site" in the chat ends all of them. With your permission in the cookie notice, Google Analytics and the Meta pixel count visits and measure ads; without it, nothing from them is loaded, and they never load on the pages that show a sign-in or activation code. Your choice stays only in your browser and can be changed from the Cookies link in the footer.',
         ],
       },
       {

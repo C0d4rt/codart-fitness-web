@@ -1,0 +1,161 @@
+import { type Catalog, installmentCents } from './plans'
+import type { LoginStatus, PayMethod, PlanOffer, PlansResponse, Purchase } from './siteApi'
+
+export type PlanChoice = { plan: PlanOffer['plan']; cycle: PlanOffer['cycle'] }
+
+/** `?plano=` as the WhatsApp links write it (decision 14), plus the English spellings. */
+const SLUGS: Record<string, PlanChoice> = {
+  'premium-mensal': { plan: 'premium', cycle: 'monthly' },
+  'premium-anual': { plan: 'premium', cycle: 'yearly' },
+  pro: { plan: 'coaching', cycle: 'yearly' },
+  'premium-monthly': { plan: 'premium', cycle: 'monthly' },
+  'premium-yearly': { plan: 'premium', cycle: 'yearly' },
+  'premium-pro': { plan: 'coaching', cycle: 'yearly' },
+}
+
+export const choiceOfSlug = (slug: unknown): PlanChoice | undefined =>
+  typeof slug === 'string' ? SLUGS[slug.trim().toLowerCase()] : undefined
+
+export const slugOf = (choice: PlanChoice): string =>
+  choice.plan === 'coaching'
+    ? 'pro'
+    : choice.cycle === 'monthly'
+      ? 'premium-mensal'
+      : 'premium-anual'
+
+export const sameChoice = (a: PlanChoice | undefined, b: PlanChoice | undefined): boolean =>
+  a !== undefined && b !== undefined && a.plan === b.plan && a.cycle === b.cycle
+
+/** The order of the cards: the monthly, the yearly and Premium Pro side by side (decision 3). */
+const ORDER = ['premium-mensal', 'premium-anual', 'pro']
+
+export const orderedPlans = (plans: readonly PlanOffer[]): PlanOffer[] =>
+  [...plans].sort((a, b) => ORDER.indexOf(slugOf(a)) - ORDER.indexOf(slugOf(b)))
+
+/**
+ * The prices of the build, shown until `GET /plans` answers (decision 16), with the methods each plan
+ * takes today (decision 4). Nothing here can be bought: the page waits for the API to pay.
+ */
+export const offerFromCatalog = (
+  catalog: Catalog,
+  titles: { monthly: string; yearly: string; coaching: string },
+): PlansResponse => {
+  const yearlyInstallments = catalog.premium.yearlyInstallments ?? 1
+  const pack = catalog.coaching.available
+    ? (catalog.coaching.packages.find((each) => each.months === 12) ?? catalog.coaching.packages[0])
+    : undefined
+  return {
+    buyer: 'anonymous',
+    plans: [
+      {
+        plan: 'premium',
+        cycle: 'monthly',
+        title: titles.monthly,
+        priceCents: catalog.premium.monthlyCents,
+        methods: [
+          { method: 'card', renews: true },
+          { method: 'pix', renews: false },
+        ],
+      },
+      {
+        plan: 'premium',
+        cycle: 'yearly',
+        title: titles.yearly,
+        priceCents: catalog.premium.yearlyCents,
+        methods: [
+          {
+            method: 'card',
+            renews: false,
+            ...(yearlyInstallments > 1 ? { installments: yearlyInstallments } : {}),
+          },
+        ],
+      },
+      pack
+        ? {
+            plan: 'coaching',
+            cycle: 'yearly',
+            title: titles.coaching,
+            months: pack.months,
+            priceCents: pack.totalCents,
+            fullCents: pack.totalCents,
+            discountCents: 0,
+            installmentCents: installmentCents(pack),
+            credits: [],
+            signInToDiscount: true,
+            methods: [{ method: 'card', renews: false, installments: pack.installments }],
+          }
+        : {
+            plan: 'coaching',
+            cycle: 'yearly',
+            title: titles.coaching,
+            priceCents: 0,
+            blocked: 'pro_unavailable',
+            methods: [],
+          },
+    ],
+  }
+}
+
+/** The one method to start on: the only one there is, or none so the person picks. */
+export const defaultMethod = (offer: PlanOffer): PayMethod['method'] | undefined => {
+  const open = offer.methods.filter((each) => !each.blocked)
+  return open.length === 1 ? open[0]!.method : undefined
+}
+
+/** What `/assinar/pronto` shows for each answer of `GET /purchase`. */
+export type PurchaseView =
+  'none' | 'waiting' | 'confirmed' | 'activate' | 'activated' | 'refused' | 'expired' | 'refunded'
+
+export const purchaseView = (purchase: Purchase): PurchaseView => {
+  switch (purchase.status) {
+    case 'paid':
+      if (purchase.owned) return 'confirmed'
+      return purchase.link && purchase.code ? 'activate' : 'waiting'
+    default:
+      return purchase.status
+  }
+}
+
+/** The page keeps asking only while something can still change on its own. */
+export const purchaseSettled = (view: PurchaseView): boolean =>
+  view !== 'waiting' && view !== 'activate'
+
+/** The activated purchase can still sign this browser in. */
+export const canSignInAfterActivation = (purchase: Purchase, now: number): boolean =>
+  purchase.status === 'activated' &&
+  purchase.signInUntil !== undefined &&
+  Date.parse(purchase.signInUntil) > now
+
+export type LoginStep = 'wait' | 'exchange' | 'expired' | 'used' | 'lost'
+
+export const loginStep = (status: LoginStatus['status']): LoginStep => {
+  switch (status) {
+    case 'pending':
+      return 'wait'
+    case 'confirmed':
+      return 'exchange'
+    case 'expired':
+      return 'expired'
+    case 'used':
+      return 'used'
+    case 'none':
+      return 'lost'
+  }
+}
+
+/**
+ * The activation code as typed or pasted ("atv 7kq2 mxpd", the whole sentence, or the eight
+ * characters alone), written the way the API reads it: `ATV-` and eight characters.
+ */
+export const activationCodeOf = (typed: string): string | undefined => {
+  const cleaned = typed.toUpperCase().replace(/[^0-9A-Z]/g, '')
+  const match = /(?:ATV)?([0-9A-Z]{8})$/.exec(cleaned)
+  return match ? `ATV-${match[1]}` : undefined
+}
+
+/** Where `/entrar` may send the person after signing in: a fixed list, never a free path. */
+export const RETURNS = ['assinar'] as const
+export type ReturnTo = (typeof RETURNS)[number]
+
+export const returnOf = (value: unknown): ReturnTo | undefined =>
+  (RETURNS as readonly unknown[]).includes(value) ? (value as ReturnTo) : undefined

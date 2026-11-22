@@ -24,6 +24,7 @@ Tudo opcional no desenvolvimento (veja `.env.example`):
 | ----------------------------- | -------------------------------------------------------------------------------- |
 | `PLANS_API_URL`               | De onde vêm os planos no build. Sem ela, a cópia em `shared/plans.fixture.json`. |
 | `NUXT_PUBLIC_WHATSAPP_NUMBER` | O número do botão, só dígitos com o país.                                        |
+| `NUXT_PUBLIC_API_URL`         | A API da entrada e da compra. Sem ela, `https://api.fitness.codart.dev`.         |
 | `NUXT_PUBLIC_GA_ID`           | GA4 (`G-…`), carregado só depois do consentimento.                               |
 | `NUXT_PUBLIC_META_PIXEL_ID`   | Pixel da Meta, idem.                                                             |
 

@@ -1,4 +1,5 @@
 import type { ConsentChoice } from '#shared/consent'
+import { showsCode } from '#shared/fragment'
 
 const DENIED = {
   ad_storage: 'denied',
@@ -19,7 +20,29 @@ export default defineNuxtPlugin(() => {
   const { gaId, metaPixelId } = useRuntimeConfig().public
   const choice = useState<ConsentChoice | undefined>('consent')
   const granted = computed(() => choice.value === 'granted')
-  const trigger = useScriptTriggerConsent({ consent: granted })
+  const router = useRouter()
+  const path = ref(window.location.pathname)
+  router.afterEach((to) => {
+    path.value = to.path
+  })
+  // GA4 records the external links clicked, and the WhatsApp link of these pages carries a code.
+  const allowed = computed(() => granted.value && !showsCode(path.value))
+  const trigger = useScriptTriggerConsent({ consent: allowed })
+  const loaded = ref(false)
+  watch(
+    allowed,
+    (now) => {
+      if (now) loaded.value = true
+    },
+    { immediate: true },
+  )
+  // A loaded script cannot be taken off the page, so a code page is reached by a full load instead.
+  router.beforeEach((to, from) => {
+    if (loaded.value && showsCode(to.path) && to.path !== from.path) {
+      window.location.assign(router.resolve(to).href)
+      return false
+    }
+  })
 
   const ga = gaId
     ? useScriptGoogleAnalytics({ id: gaId, defaultConsent: DENIED, scriptOptions: { trigger } })
