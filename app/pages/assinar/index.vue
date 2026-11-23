@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { brand } from '~/brand'
 import { takeFragment } from '#shared/fragment'
-import { installmentCents, money as moneyText } from '#shared/plans'
+import { installmentCents, money as moneyText, yearlySaving } from '#shared/plans'
 import {
   choiceOfSlug,
   defaultMethod,
@@ -59,12 +59,29 @@ watch(
   },
   { immediate: true },
 )
+const premiumCycle = ref<PlanOffer['cycle']>('monthly')
+watch(
+  chosen,
+  (now) => {
+    if (now?.plan === 'premium') premiumCycle.value = now.cycle
+  },
+  { immediate: true },
+)
 const method = ref<PayMethod['method']>()
 const declared = ref(false)
 const paying = ref(false)
 const payError = ref<SiteErrorCode | 'pickMethod'>()
 
 const chosenOffer = computed(() => plans.value.find((each) => sameChoice(each, chosen.value)))
+const premiumOffer = (cycle: PlanOffer['cycle']) =>
+  plans.value.find((each) => sameChoice(each, { plan: 'premium', cycle }))
+const cards = computed(() =>
+  plans.value.filter((each) => each.plan !== 'premium' || each.cycle === premiumCycle.value),
+)
+const cycles = computed(() => [
+  { value: 'monthly' as const, label: t('pricing.monthly') },
+  { value: 'yearly' as const, label: t('pricing.yearly') },
+])
 const who = computed(() => whoOf(account.value))
 const whatsApp = useWhatsAppLink(null)
 const notifyLink = useWhatsAppLink(() => t('pricing.wantPlan', { plan: titles.value.coaching }))
@@ -83,21 +100,32 @@ const choose = (each: PlanOffer) => {
   void router.replace({ query: { plano: slugOf(each) } })
 }
 
+const pickCycle = (cycle: PlanOffer['cycle']) => {
+  premiumCycle.value = cycle
+  const next = premiumOffer(cycle)
+  if (next && chosen.value?.plan === 'premium') choose(next)
+}
+
+const orYearly = computed(() => {
+  const monthlyCents = premiumOffer('monthly')?.priceCents ?? 0
+  const yearlyCents = premiumOffer('yearly')?.priceCents ?? 0
+  return t('pricing.orYearly', {
+    price: money(yearlyCents, locale.value),
+    percent: monthlyCents > 0 ? yearlySaving({ monthlyCents, yearlyCents }) : 0,
+  })
+})
+
 watch(chosenOffer, (now) => {
   if (now && (!method.value || !now.methods.some((each) => each.method === method.value))) {
     method.value = defaultMethod(now)
   }
 })
 
-const methodLabel = (each: PlanOffer, pay: PayMethod) => {
+const methodLabel = (pay: PayMethod) => {
   if (pay.method === 'pix') return t('subscribe.methods.pix')
-  if (pay.renews) return t('subscribe.methods.cardRenews')
-  if (pay.installments && pay.installments > 1) {
-    return each.plan === 'coaching'
-      ? t('subscribe.methods.cardInstallments', { installments: pay.installments })
-      : t('subscribe.methods.cardOnce', { installments: pay.installments })
-  }
-  return t('subscribe.methods.card')
+  return pay.installments && pay.installments > 1
+    ? t('subscribe.methods.cardInstallments', { installments: pay.installments })
+    : t('subscribe.methods.card')
 }
 
 const methodNote = (each: PlanOffer, pay: PayMethod) => {
@@ -269,12 +297,21 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
 
       <ul class="cards" :aria-label="t('subscribe.cardsLabel')">
         <li
-          v-for="each in plans"
-          :key="keyOf(each)"
+          v-for="each in cards"
+          :key="each.plan"
           class="card"
-          :class="{ pro: each.plan === 'coaching', picked: sameChoice(each, chosen) }"
+          :class="{ picked: sameChoice(each, chosen) }"
         >
-          <h2 class="name">{{ each.title }}</h2>
+          <h2 class="name">
+            {{ each.plan === 'premium' ? t('subscribe.titles.premium') : each.title }}
+          </h2>
+          <PlanSwitch
+            v-if="each.plan === 'premium'"
+            :model-value="premiumCycle"
+            :options="cycles"
+            :label="t('pricing.periodLabel')"
+            @update:model-value="pickCycle"
+          />
 
           <template v-if="each.blocked === 'pro_unavailable'">
             <p class="price soon">
@@ -338,7 +375,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
               <p class="equiv">
                 {{
                   each.cycle === 'monthly'
-                    ? t('subscribe.monthlyNote')
+                    ? orYearly
                     : t('subscribe.yearlyNote', {
                         installments: installmentsOf(each),
                         price: money(perInstallment(each), locale),
@@ -385,7 +422,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                     :disabled="Boolean(option.blocked)"
                   />
                   <span class="method-text">
-                    <span class="method-name">{{ methodLabel(each, option) }}</span>
+                    <span class="method-name">{{ methodLabel(option) }}</span>
                     <span class="method-note">{{ methodNote(each, option) }}</span>
                   </span>
                 </label>
@@ -394,17 +431,17 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
               <ul class="points">
                 <template v-if="each.plan === 'coaching'">
                   <li>{{ t('subscribe.proPoints.months', { months: each.months ?? 12 }) }}</li>
-                  <li>{{ t('subscribe.proPoints.guarantee') }}</li>
-                  <li v-if="!known">
-                    {{ t('subscribe.proPoints.anonymous', { months: each.months ?? 12 }) }}
-                  </li>
                   <li>{{ t('subscribe.proPoints.cancelsMonthly') }}</li>
                 </template>
-                <template v-else>
-                  <li v-if="each.cycle === 'monthly'">{{ t('subscribe.premiumPoints.cancel') }}</li>
-                  <li>{{ t('subscribe.premiumPoints.guarantee') }}</li>
-                </template>
-                <li v-if="!known">{{ t('subscribe.activateLater') }}</li>
+                <li v-else-if="each.cycle === 'monthly'">{{ t('subscribe.cancelAnytime') }}</li>
+                <li>{{ t('subscribe.guarantee') }}</li>
+                <li v-if="!known">
+                  {{
+                    each.plan === 'coaching'
+                      ? t('subscribe.proPoints.activate', { months: each.months ?? 12 })
+                      : t('subscribe.activateLater')
+                  }}
+                </li>
                 <li>
                   <NuxtLinkLocale to="/termos" class="text-link" target="_blank">{{
                     t('subscribe.readTerms')
@@ -529,7 +566,7 @@ main {
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
   gap: 0.75rem;
   margin: 0;
@@ -546,10 +583,6 @@ main {
   background: var(--card);
   box-shadow: inset 0 0 0 2px transparent; /* taste-skill-ignore: the ring that marks the chosen plan, not a shadow */
   transition: box-shadow 200ms var(--ease-out);
-}
-
-.card.pro {
-  background: color-mix(in oklab, var(--card) 84%, var(--green));
 }
 
 .card.picked {

@@ -110,7 +110,7 @@ const RELATED = ['pantry', 'mealSuggestion', 'weekSummary', 'foodRanking', 'nutr
   align-self: start;
   padding: clamp(1.5rem, 0.5rem + 3vw, 3.5rem) 1rem;
   border-radius: var(--radius-panel);
-  background: var(--card);
+  background: var(--tone);
 }
 
 /* Three exchanges have to fit one screen: a slightly larger phone, whose text stops growing at its

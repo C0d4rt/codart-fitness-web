@@ -351,8 +351,7 @@
     "chosen": "Chosen",
     "perMonth": "per month",
     "perYear": "per year",
-    "monthlyNote": "By card, it renews on its own until you cancel. By Pix, you pay for one month.",
-    "yearlyNote": "{installments, plural, one {Upfront, by card.} other {In up to {installments} interest-free installments of {price}, by card.}} It does not renew on its own.",
+    "yearlyNote": "{installments, plural, one {Upfront, by card} other {In up to {installments} interest-free installments of {price}, by card}}",
     "proLead": "{months, plural, one {# month} other {# months}} · {installments} ×",
     "proTotal": "interest-free, by card · {total} total",
     "proFrom": "{full}, now {total}",
@@ -362,9 +361,7 @@
     "proGuardian": "Your parent or guardian's authorization does not cover Premium Pro yet.",
     "howToPay": "How to pay",
     "methods": {
-      "cardRenews": "Card (renews on its own)",
-      "pix": "Pix (pays for the month)",
-      "cardOnce": "Card, in up to {installments} installments (does not renew)",
+      "pix": "Pix",
       "cardInstallments": "Card, in up to {installments} installments",
       "card": "Card"
     },
@@ -377,23 +374,21 @@
     },
     "proPoints": {
       "months": "A {months}-month program, with no automatic renewal.",
-      "guarantee": "7-day guarantee: withdraw in the chat and get the full amount back.",
-      "anonymous": "Buying without signing in, the {months} months and the guarantee count from the activation on WhatsApp.",
+      "activate": "You activate on WhatsApp with a code, and the {months} months and the guarantee start that day.",
       "cancelsMonthly": "Buying Premium Pro cancels your Premium monthly card plan, if you have one."
     },
-    "premiumPoints": {
-      "cancel": "Cancel whenever you like, by saying cancel in the chat.",
-      "guarantee": "Within 7 days of paying, ask for a full refund in the chat."
-    },
+    "cancelAnytime": "Cancel whenever you like.",
+    "guarantee": "7-day guarantee: if you don't like it, we give your money back.",
     "readTerms": "Read the terms",
-    "activateLater": "Without signing in, you pay now and activate on WhatsApp later, with a code.",
+    "activateLater": "You activate on WhatsApp with a code.",
     "pay": "Go to payment",
     "paying": "Opening the payment",
-    "secure": "You will go to the secure Pagar.me page. Your card details never reach us.",
+    "secure": "You will go to the secure Pagar.me page.",
     "pickMethod": "Pick how to pay.",
     "guardianBlocked": "To subscribe, you still need the authorization of your mother, father or guardian. The request is in your WhatsApp chat.",
     "openWhatsApp": "Open WhatsApp",
     "titles": {
+      "premium": "Premium",
       "premiumMonthly": "Premium monthly",
       "premiumYearly": "Premium yearly",
       "coaching": "Premium Pro"

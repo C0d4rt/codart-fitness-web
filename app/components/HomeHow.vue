@@ -116,8 +116,9 @@ const anchors = useAnchors()
 
 .step {
   display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 1.5rem;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+  row-gap: 1.5rem;
   min-height: 11rem;
 }
 
@@ -126,25 +127,6 @@ const anchors = useAnchors()
   font-weight: 500;
   letter-spacing: -0.025em;
   line-height: 1.15;
-}
-
-.step .chat {
-  align-self: end;
-}
-
-/* Without the thread's padding, clipping would cut the bubble tails and the last bubble's shadow. */
-.step .chat :deep(.screen) {
-  overflow: visible;
-  background: transparent;
-}
-
-.step .chat :deep(.thread) {
-  padding: 0;
-  overflow: visible;
-}
-
-.step .chat :deep(.bot .bubble) {
-  --fill: var(--ground);
 }
 
 @media (max-width: 63.99rem) {

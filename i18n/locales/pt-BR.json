@@ -351,8 +351,7 @@
     "chosen": "Escolhido",
     "perMonth": "por mês",
     "perYear": "por ano",
-    "monthlyNote": "No cartão, renova sozinho até você cancelar. No Pix, paga um mês.",
-    "yearlyNote": "{installments, plural, one {À vista, no cartão.} other {Em até {installments}x de {price} sem juros, no cartão.}} Não renova sozinho.",
+    "yearlyNote": "{installments, plural, one {À vista, no cartão} other {Em até {installments}x de {price} sem juros, no cartão}}",
     "proLead": "{months, plural, one {# mês} other {# meses}} · {installments}x de",
     "proTotal": "sem juros, no cartão · total {total}",
     "proFrom": "De {full} por {total}",
@@ -362,9 +361,7 @@
     "proGuardian": "A autorização do seu responsável ainda não cobre o Premium Pro.",
     "howToPay": "Como pagar",
     "methods": {
-      "cardRenews": "Cartão (renova sozinho)",
-      "pix": "Pix (paga o mês)",
-      "cardOnce": "Cartão, em até {installments}x (não renova sozinho)",
+      "pix": "Pix",
       "cardInstallments": "Cartão, em até {installments}x",
       "card": "Cartão"
     },
@@ -377,23 +374,21 @@
     },
     "proPoints": {
       "months": "Programa de {months} meses, sem renovação automática.",
-      "guarantee": "Garantia de 7 dias: desista pela conversa e receba de volta o valor integral.",
-      "anonymous": "Comprando sem entrar, os {months} meses e a garantia contam da ativação no WhatsApp.",
+      "activate": "Você ativa no WhatsApp com um código, e os {months} meses e a garantia começam nesse dia.",
       "cancelsMonthly": "Comprar o Premium Pro cancela o Premium mensal no cartão, se você tiver um."
     },
-    "premiumPoints": {
-      "cancel": "Cancele quando quiser, dizendo cancelar na conversa.",
-      "guarantee": "Nos 7 dias depois do pagamento, peça o reembolso integral na conversa."
-    },
+    "cancelAnytime": "Cancele quando quiser.",
+    "guarantee": "Garantia de 7 dias: se não gostar, devolvemos o dinheiro.",
     "readTerms": "Ler os termos",
-    "activateLater": "Sem entrar, você paga agora e ativa no WhatsApp depois, com um código.",
+    "activateLater": "Você ativa no WhatsApp com um código.",
     "pay": "Ir para o pagamento",
     "paying": "Abrindo o pagamento",
-    "secure": "Você vai para a página segura da Pagar.me. Os dados do cartão não chegam até nós.",
+    "secure": "Você vai para a página segura da Pagar.me.",
     "pickMethod": "Escolha como pagar.",
     "guardianBlocked": "Para assinar, falta a autorização da sua mãe, do seu pai ou do responsável. O pedido está na sua conversa do WhatsApp.",
     "openWhatsApp": "Abrir o WhatsApp",
     "titles": {
+      "premium": "Premium",
       "premiumMonthly": "Premium mensal",
       "premiumYearly": "Premium anual",
       "coaching": "Premium Pro"
