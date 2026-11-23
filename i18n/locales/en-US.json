@@ -252,7 +252,7 @@
       },
       {
         "q": "How does the guided workout work?",
-        "a": "Say \"let's start the workout\" and the assistant guides you exercise by exercise: it explains the technique, shows the load you used last time and tells you when you can go up. You send each set (load and reps, like \"80 7\") and get a summary at the end; you can pick the program day, skip a day or turn the guide off."
+        "a": "Say \"let's start the workout\" and the assistant guides you exercise by exercise: it explains the technique, shows the load you used last time and tells you when you can go up. You send each set (reps and load, like \"7 80\") and get a summary at the end; you can pick the program day, skip a day or turn the guide off."
       },
       {
         "q": "Does it work if I use hormones?",

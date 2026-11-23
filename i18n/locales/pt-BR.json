@@ -252,7 +252,7 @@
       },
       {
         "q": "Como funciona o treino guiado?",
-        "a": "Diga \"vamos começar o treino\" e o assistente te guia exercício por exercício: explica a técnica, mostra a carga da última vez e avisa quando dá para subir. Você manda cada série (carga e repetições, como \"80 7\") e no fim recebe um resumo; dá para escolher o dia do programa, pular um dia ou desligar o guia."
+        "a": "Diga \"vamos começar o treino\" e o assistente te guia exercício por exercício: explica a técnica, mostra a carga da última vez e avisa quando dá para subir. Você manda cada série (repetições e carga, como \"7 80\") e no fim recebe um resumo; dá para escolher o dia do programa, pular um dia ou desligar o guia."
       },
       {
         "q": "Serve para quem usa hormônio?",
