@@ -310,10 +310,6 @@ const promises = computed(() => [
   background: var(--card);
 }
 
-#coaching {
-  background: color-mix(in oklab, var(--card) 84%, var(--green));
-}
-
 .name-row {
   display: flex;
   flex-wrap: wrap;
