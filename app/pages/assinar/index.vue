@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { brand } from '~/brand'
 import { takeFragment } from '#shared/fragment'
-import { installmentCents, money as moneyText, yearlySaving } from '#shared/plans'
+import {
+  installmentCents,
+  money as moneyText,
+  moneyParts,
+  yearlyPerMonth,
+  yearlySaving,
+} from '#shared/plans'
 import {
   choiceOfSlug,
   defaultMethod,
@@ -67,12 +73,12 @@ watch(
   },
   { immediate: true },
 )
-const method = ref<PayMethod['method']>()
-const declared = ref(false)
-const paying = ref(false)
-const payError = ref<SiteErrorCode | 'pickMethod'>()
+type PlanId = PlanOffer['plan']
+const methods = reactive<Partial<Record<PlanId, PayMethod['method']>>>({})
+const declared = reactive<Partial<Record<PlanId, boolean>>>({})
+const payErrors = reactive<Partial<Record<PlanId, SiteErrorCode | 'pickMethod'>>>({})
+const paying = ref<PlanId>()
 
-const chosenOffer = computed(() => plans.value.find((each) => sameChoice(each, chosen.value)))
 const premiumOffer = (cycle: PlanOffer['cycle']) =>
   plans.value.find((each) => sameChoice(each, { plan: 'premium', cycle }))
 const cards = computed(() =>
@@ -89,21 +95,21 @@ const notifyLink = useWhatsAppLink(() => t('pricing.wantPlan', { plan: titles.va
 // A price never breaks between the symbol and the amount.
 const money = (cents: number, at: typeof locale.value) =>
   moneyText(cents, at).replace(/\s/g, '\u00a0')
-const keyOf = (each: PlanChoice) => slugOf(each)
 const buyable = (each: PlanOffer) => !each.blocked && !blocked.value && each.methods.length > 0
 
-const choose = (each: PlanOffer) => {
-  if (!buyable(each)) return
+const focusPlan = (each: PlanOffer) => {
   chosen.value = { plan: each.plan, cycle: each.cycle }
-  method.value = defaultMethod(each)
-  payError.value = undefined
+  payErrors[each.plan] = undefined
   void router.replace({ query: { plano: slugOf(each) } })
 }
 
+// The monthly card renews by itself, so a method kept from the yearly must not stay ticked on it.
 const pickCycle = (cycle: PlanOffer['cycle']) => {
   premiumCycle.value = cycle
   const next = premiumOffer(cycle)
-  if (next && chosen.value?.plan === 'premium') choose(next)
+  if (!next) return
+  methods.premium = defaultMethod(next)
+  focusPlan(next)
 }
 
 const orYearly = computed(() => {
@@ -115,11 +121,16 @@ const orYearly = computed(() => {
   })
 })
 
-watch(chosenOffer, (now) => {
-  if (now && (!method.value || !now.methods.some((each) => each.method === method.value))) {
-    method.value = defaultMethod(now)
-  }
-})
+watch(
+  cards,
+  (now) => {
+    for (const each of now) {
+      const open = each.methods.some((pay) => pay.method === methods[each.plan] && !pay.blocked)
+      if (!open) methods[each.plan] = defaultMethod(each)
+    }
+  },
+  { immediate: true },
+)
 
 const methodLabel = (pay: PayMethod) => {
   if (pay.method === 'pix') return t('subscribe.methods.pix')
@@ -148,6 +159,18 @@ const perInstallment = (each: PlanOffer) =>
     ? each.installmentCents
     : installmentCents({ totalCents: each.priceCents, installments: installmentsOf(each) })
 
+const yearlyNote = (each: PlanOffer) => {
+  const installments = installmentsOf(each)
+  return installments > 1
+    ? t('pricing.yearlyInstallments', {
+        installments,
+        price: money(perInstallment(each), locale.value),
+      })
+    : t('pricing.yearlyPerMonth', {
+        price: yearlyPerMonth({ yearlyCents: each.priceCents }, locale.value),
+      })
+}
+
 const loadPlans = async () => {
   loading.value = true
   const [me, answer] = await Promise.all([api.me(), api.plans(apiLocale.value)])
@@ -169,36 +192,36 @@ const signOut = async () => {
   }
 }
 
-const pay = async () => {
-  const each = chosenOffer.value
-  if (!each || paying.value || !live.value) return
-  if (!method.value) {
-    payError.value = 'pickMethod'
+const pay = async (each: PlanOffer) => {
+  if (paying.value || !live.value) return
+  const method = methods[each.plan]
+  if (!method) {
+    payErrors[each.plan] = 'pickMethod'
     return
   }
-  if (live.value.declaration && !declared.value) {
-    payError.value = 'declaration_required'
+  if (live.value.declaration && !declared[each.plan]) {
+    payErrors[each.plan] = 'declaration_required'
     return
   }
-  payError.value = undefined
-  paying.value = true
+  payErrors[each.plan] = undefined
+  paying.value = each.plan
   const result = await api.checkout({
     plan: each.plan,
     cycle: each.cycle,
-    method: method.value,
-    declared: Boolean(live.value.declaration) && declared.value,
+    method,
+    declared: Boolean(live.value.declaration) && Boolean(declared[each.plan]),
     locale: apiLocale.value,
   })
   if (result.ok) {
     window.location.assign(result.data.checkoutUrl)
     return
   }
-  paying.value = false
+  paying.value = undefined
   if (result.code === 'purchase_paid') {
     await navigateTo(localePath('/assinar/pronto'))
     return
   }
-  payError.value = result.code
+  payErrors[each.plan] = result.code
   if (
     [
       'checkout_refused',
@@ -214,7 +237,7 @@ const pay = async () => {
 
 // A pay button left pressed by the browser's back cache would block a second try.
 const onShow = (event: PageTransitionEvent) => {
-  if (event.persisted) paying.value = false
+  if (event.persisted) paying.value = undefined
 }
 
 onMounted(async () => {
@@ -225,6 +248,11 @@ onMounted(async () => {
     if (!handoff.ok) notice.value = handoff.code
   }
   await loadPlans()
+  // Stacked on a phone, the open Premium card would hide the Pro the link came for.
+  if (chosen.value?.plan === 'coaching' && window.matchMedia('(max-width: 63.99rem)').matches) {
+    await nextTick()
+    document.getElementById('plan-coaching')?.scrollIntoView()
+  }
 })
 
 onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
@@ -298,13 +326,22 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
       <ul class="cards" :aria-label="t('subscribe.cardsLabel')">
         <li
           v-for="each in cards"
+          :id="`plan-${each.plan}`"
           :key="each.plan"
           class="card"
           :class="{ picked: sameChoice(each, chosen) }"
         >
-          <h2 class="name">
-            {{ each.plan === 'premium' ? t('subscribe.titles.premium') : each.title }}
-          </h2>
+          <div class="name-row">
+            <h2 class="name">
+              {{ each.plan === 'premium' ? t('subscribe.titles.premium') : each.title }}
+            </h2>
+            <p v-if="each.plan === 'coaching' && !each.blocked" class="chip">
+              {{ t('pricing.recommended') }}
+            </p>
+          </div>
+          <p class="plan-who">
+            {{ each.plan === 'premium' ? t('pricing.premiumWho') : t('pricing.coachingWho') }}
+          </p>
           <PlanSwitch
             v-if="each.plan === 'premium'"
             :model-value="premiumCycle"
@@ -315,7 +352,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
 
           <template v-if="each.blocked === 'pro_unavailable'">
             <p class="price soon">
-              <span class="amount">{{ t('subscribe.soon') }}</span>
+              <span class="amount">{{ t('pricing.soon') }}</span>
             </p>
             <p class="equiv">{{ t('pricing.soonNote') }}</p>
             <a :href="notifyLink" target="_blank" rel="noopener" class="button button--quiet">{{
@@ -327,15 +364,21 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
             <template v-if="each.plan === 'coaching'">
               <p class="price">
                 <span class="lead-line">{{
-                  t('subscribe.proLead', {
+                  t('pricing.installmentLead', {
                     months: each.months ?? 12,
                     installments: installmentsOf(each),
                   })
                 }}</span>
-                <span class="amount">{{ money(perInstallment(each), locale) }}</span>
+                <span class="amount"
+                  ><span class="unit currency">{{
+                    moneyParts(perInstallment(each), locale).currency
+                  }}</span
+                  >{{ moneyParts(perInstallment(each), locale).amount
+                  }}<span class="unit">{{ t('pricing.perMonthShort') }}</span></span
+                >
               </p>
               <p class="equiv">
-                {{ t('subscribe.proTotal', { total: money(each.priceCents, locale) }) }}
+                {{ t('pricing.installmentTotal', { total: money(each.priceCents, locale) }) }}
               </p>
               <div v-if="each.discountCents && each.fullCents" class="credit">
                 <p>
@@ -367,20 +410,18 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
             </template>
             <template v-else>
               <p class="price">
-                <span class="amount">{{ money(each.priceCents, locale) }}</span>
+                <span class="amount"
+                  ><span class="unit currency">{{
+                    moneyParts(each.priceCents, locale).currency
+                  }}</span
+                  >{{ moneyParts(each.priceCents, locale).amount }}</span
+                >
                 <span class="per">{{
-                  each.cycle === 'monthly' ? t('subscribe.perMonth') : t('subscribe.perYear')
+                  each.cycle === 'monthly' ? t('pricing.perMonth') : t('pricing.perYear')
                 }}</span>
               </p>
               <p class="equiv">
-                {{
-                  each.cycle === 'monthly'
-                    ? orYearly
-                    : t('subscribe.yearlyNote', {
-                        installments: installmentsOf(each),
-                        price: money(perInstallment(each), locale),
-                      })
-                }}
+                {{ each.cycle === 'monthly' ? orYearly : yearlyNote(each) }}
               </p>
             </template>
 
@@ -388,24 +429,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
               {{ t('subscribe.proGuardian') }}
             </p>
 
-            <button
-              type="button"
-              class="button choose"
-              :class="{ 'button--quiet': !sameChoice(each, chosen) }"
-              :aria-pressed="sameChoice(each, chosen)"
-              :aria-controls="`pay-${keyOf(each)}`"
-              :disabled="!buyable(each)"
-              @click="choose(each)"
-            >
-              {{ sameChoice(each, chosen) ? t('subscribe.chosen') : t('subscribe.choose') }}
-            </button>
-
-            <form
-              v-if="sameChoice(each, chosen) && buyable(each)"
-              :id="`pay-${keyOf(each)}`"
-              class="pay"
-              @submit.prevent="pay"
-            >
+            <form v-if="buyable(each)" class="pay" @submit.prevent="pay(each)">
               <fieldset>
                 <legend>{{ t('subscribe.howToPay') }}</legend>
                 <label
@@ -415,11 +439,12 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                   :class="{ off: option.blocked }"
                 >
                   <input
-                    v-model="method"
+                    v-model="methods[each.plan]"
                     type="radio"
-                    :name="`method-${keyOf(each)}`"
+                    :name="`method-${each.plan}`"
                     :value="option.method"
                     :disabled="Boolean(option.blocked)"
+                    @change="focusPlan(each)"
                   />
                   <span class="method-text">
                     <span class="method-name">{{ methodLabel(option) }}</span>
@@ -449,24 +474,30 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                 </li>
               </ul>
 
-              <label v-if="live?.declaration" class="declare">
-                <input v-model="declared" type="checkbox" />
-                <span>{{ live.declaration.text }}</span>
-              </label>
+              <div class="pay-end">
+                <label v-if="live?.declaration" class="declare">
+                  <input v-model="declared[each.plan]" type="checkbox" />
+                  <span>{{ live.declaration.text }}</span>
+                </label>
 
-              <p v-if="payError" class="error" role="alert">
-                {{ payError === 'pickMethod' ? t('subscribe.pickMethod') : errorText(payError) }}
-              </p>
+                <p v-if="payErrors[each.plan]" class="error" role="alert">
+                  {{
+                    payErrors[each.plan] === 'pickMethod'
+                      ? t('subscribe.pickMethod')
+                      : errorText(payErrors[each.plan] as SiteErrorCode)
+                  }}
+                </p>
 
-              <button
-                type="submit"
-                class="button pay-button"
-                :disabled="paying || !live || offline"
-                :aria-busy="paying"
-              >
-                {{ paying ? t('subscribe.paying') : t('subscribe.pay') }}
-              </button>
-              <p class="secure">{{ t('subscribe.secure') }}</p>
+                <button
+                  type="submit"
+                  class="button pay-button"
+                  :disabled="Boolean(paying) || !live || offline"
+                  :aria-busy="paying === each.plan"
+                >
+                  {{ paying === each.plan ? t('subscribe.paying') : t('subscribe.pay') }}
+                </button>
+                <p class="secure">{{ t('subscribe.secure') }}</p>
+              </div>
             </form>
           </template>
         </li>
@@ -567,7 +598,6 @@ main {
 .cards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
   gap: 0.75rem;
   margin: 0;
   padding: 0;
@@ -589,8 +619,33 @@ main {
   box-shadow: inset 0 0 0 2px var(--green); /* taste-skill-ignore: the ring that marks the chosen plan */
 }
 
+.name-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  min-height: 2rem;
+}
+
 .name {
   font-size: var(--step-lead);
+}
+
+.chip {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: var(--mint);
+  color: var(--green);
+  font-size: var(--step-small);
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.plan-who {
+  color: var(--muted);
+  font-size: var(--step-small);
 }
 
 .price {
@@ -598,6 +653,7 @@ main {
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .amount {
@@ -606,6 +662,15 @@ main {
   letter-spacing: -0.045em;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
+}
+
+.unit {
+  font-size: 0.4em;
+  letter-spacing: 0;
+}
+
+.currency {
+  margin-right: 0.125rem;
 }
 
 .soon .amount {
@@ -658,20 +723,26 @@ main {
   font-size: var(--step-small);
 }
 
-.choose {
-  margin-top: 0.5rem;
-}
-
 .button:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
 .pay {
-  display: grid;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   gap: 1rem;
+  margin-top: 0.5rem;
   padding-top: 1.25rem;
   border-top: 1px solid var(--tone);
+}
+
+/* The two pay buttons line up however long each card's list runs. */
+.pay-end {
+  display: grid;
+  gap: 1rem;
+  margin-top: auto;
 }
 
 fieldset {

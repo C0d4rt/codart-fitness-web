@@ -159,10 +159,9 @@ test('an anonymous buyer picks the monthly by Pix and must declare being an adul
   const monthly = page.locator('li.card', {
     has: page.getByRole('heading', { name: 'Premium', exact: true }),
   })
-  await monthly.getByRole('button', { name: 'Escolher' }).click()
-  await expect(page).toHaveURL(/\?plano=premium-mensal$/)
   await expect(monthly.getByRole('radio', { name: /^Cartão/ })).toBeVisible()
   await monthly.getByRole('radio', { name: /^Pix/ }).check()
+  await expect(page).toHaveURL(/\?plano=premium-mensal$/)
 
   const pay = monthly.getByRole('button', { name: 'Ir para o pagamento' })
   await pay.click()
@@ -199,6 +198,29 @@ test('one Premium card switches between the monthly and the yearly', async ({ pa
   await expect(premium.getByText('R$ 199,90').first()).toBeVisible()
   await expect(premium.getByRole('radio', { name: /^Pix/ })).toHaveCount(0)
   await expect(premium.getByRole('radio', { name: /Cartão, em até 12x/ })).toBeChecked()
+
+  await premium.getByRole('button', { name: 'Mensal' }).click()
+  await expect(premium.getByRole('radio', { name: /^Cartão/ })).not.toBeChecked()
+})
+
+test('both plans stay open, and a link to Premium Pro lands on its card', async ({ page }) => {
+  await fakeApi(page, {
+    'GET /me': () => ({ body: { signedIn: false } }),
+    'GET /plans': () => ({ body: ANONYMOUS_PLANS }),
+  })
+
+  await page.goto('/assinar?plano=pro')
+  await expect(page.getByRole('button', { name: 'Ir para o pagamento' })).toHaveCount(2)
+  await expect(page.getByRole('button', { name: 'Escolher' })).toHaveCount(0)
+  const pro = page.locator('li.card', { has: page.getByRole('heading', { name: 'Premium Pro' }) })
+  await expect(pro.getByRole('radio', { name: /Cartão, em até 12x/ })).toBeChecked()
+  await expect(pro.getByRole('heading', { name: 'Premium Pro' })).toBeInViewport()
+
+  await pro.getByRole('checkbox').check()
+  const premium = page.locator('li.card', {
+    has: page.getByRole('heading', { name: 'Premium', exact: true }),
+  })
+  await expect(premium.getByRole('checkbox')).not.toBeChecked()
 })
 
 test('a refused checkout says why in words', async ({ page }) => {
