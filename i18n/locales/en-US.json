@@ -201,7 +201,7 @@
     "saving": "Save {percent}%",
     "premiumWho": "The assistant: logging by photo and voice, goals, meal suggestions and ready workouts",
     "coachingWho": "The assistant that builds your diet and training from your assessment and adjusts it all to your progress, with questions answered by our team",
-    "levelWorkouts": "Ready workout programs, with science-based options for people who train natural",
+    "levelWorkouts": "Guided workout programs, with science-based options for people who train natural",
     "recommended": "Recommended",
     "allOfPremium": "Everything in Premium",
     "packageLabel": "Program length",
@@ -249,6 +249,10 @@
       {
         "q": "Is the assistant a nutritionist?",
         "a": "No. The assistant is artificial intelligence: it logs, adds up, informs and suggests from reference content, and shows the source when you ask. On Premium, it doesn't prescribe diets or workouts. On Premium Pro, it builds your diet and training from your assessment, and your questions go to our team."
+      },
+      {
+        "q": "How does the guided workout work?",
+        "a": "Say \"let's start the workout\" and the assistant guides you exercise by exercise: it explains the technique, shows the load you used last time and tells you when you can go up. You send each set (load and reps, like \"80 7\") and get a summary at the end; you can pick the program day, skip a day or turn the guide off."
       },
       {
         "q": "Does it work if I use hormones?",
