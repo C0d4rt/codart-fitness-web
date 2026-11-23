@@ -29,6 +29,10 @@ const premium = computed(() => props.catalog.premium)
 const coaching = computed(() => props.catalog.coaching)
 
 const period = ref<'month' | 'year'>('month')
+const periods = computed(() => [
+  { value: 'month' as const, label: t('pricing.monthly') },
+  { value: 'year' as const, label: t('pricing.yearly') },
+])
 const premiumPrice = computed(() =>
   moneyParts(
     period.value === 'month' ? premium.value.monthlyCents : premium.value.yearlyCents,
@@ -57,6 +61,12 @@ const premiumItems = computed(() =>
 )
 
 const packages = computed(() => (coaching.value.available ? coaching.value.packages : []))
+const packageOptions = computed(() =>
+  packages.value.map((pack) => ({
+    value: pack.months,
+    label: t('pricing.months', { months: pack.months }),
+  })),
+)
 const best = computed(() => bestPackage(packages.value))
 const months = ref(best.value?.months)
 const chosen = computed(
@@ -111,20 +121,7 @@ const promises = computed(() => [
           </Transition>
         </div>
         <p class="who">{{ t('pricing.premiumWho') }}</p>
-        <div
-          class="switch"
-          role="group"
-          :aria-label="t('pricing.periodLabel')"
-          :style="{ '--at': period === 'year' ? 1 : 0, '--n': 2 }"
-        >
-          <span class="glide" aria-hidden="true" />
-          <button type="button" :aria-pressed="period === 'month'" @click="period = 'month'">
-            {{ t('pricing.monthly') }}
-          </button>
-          <button type="button" :aria-pressed="period === 'year'" @click="period = 'year'">
-            {{ t('pricing.yearly') }}
-          </button>
-        </div>
+        <PlanSwitch v-model="period" :options="periods" :label="t('pricing.periodLabel')" />
         <p class="price" aria-live="polite">
           <span class="amount"
             ><span class="unit currency">{{ premiumPrice.currency }}</span
@@ -151,13 +148,14 @@ const promises = computed(() => [
           <WhatsAppButton
             location="plans-premium"
             :label="t('cta.tryDays', { days: catalog.trialDays })"
+            quiet
           />
           <NuxtLinkLocale
             :to="{
               path: '/assinar',
               query: { plano: period === 'month' ? 'premium-mensal' : 'premium-anual' },
             }"
-            class="button button--strong"
+            class="button"
             >{{ t('pricing.subscribeNow') }}</NuxtLinkLocale
           >
         </div>
@@ -175,24 +173,13 @@ const promises = computed(() => [
         </div>
         <p class="who">{{ t('pricing.coachingWho') }}</p>
         <template v-if="chosen">
-          <div
+          <PlanSwitch
             v-if="packages.length > 1"
-            class="switch"
-            role="group"
-            :aria-label="t('pricing.packageLabel')"
-            :style="{ '--at': packages.indexOf(chosen), '--n': packages.length }"
-          >
-            <span class="glide" aria-hidden="true" />
-            <button
-              v-for="pack in packages"
-              :key="pack.months"
-              type="button"
-              :aria-pressed="pack === chosen"
-              @click="months = pack.months"
-            >
-              {{ t('pricing.months', { months: pack.months }) }}
-            </button>
-          </div>
+            :model-value="chosen.months"
+            :options="packageOptions"
+            :label="t('pricing.packageLabel')"
+            @update:model-value="months = $event"
+          />
           <p v-if="chosen.installments > 1" class="price" aria-live="polite">
             <span class="lead">{{
               t('pricing.installmentLead', {
@@ -231,7 +218,7 @@ const promises = computed(() => [
           <NuxtLinkLocale
             v-if="chosen"
             :to="{ path: '/assinar', query: { plano: 'pro' } }"
-            class="button button--strong"
+            class="button"
             >{{ wantCoaching }}</NuxtLinkLocale
           >
           <WhatsAppButton
@@ -297,61 +284,6 @@ const promises = computed(() => [
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-
-.switch {
-  position: relative;
-  display: inline-grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  align-self: flex-start;
-  margin-top: 0.25rem;
-  padding: 0.25rem;
-  border-radius: 999px;
-  background: var(--tone);
-}
-
-/* One highlight under every option, so the switch reads as a move rather than a swap. */
-.glide {
-  position: absolute;
-  top: 0.25rem;
-  bottom: 0.25rem;
-  left: 0.25rem;
-  width: calc((100% - 0.5rem) / var(--n, 2));
-  border-radius: 999px;
-  background: var(--card);
-  transform: translateX(calc(var(--at, 0) * 100%));
-  transition: transform 260ms var(--ease-in-out);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .glide {
-    transition: none;
-  }
-}
-
-.switch button {
-  position: relative;
-  min-width: 6.5rem;
-  min-height: 2.5rem;
-  padding: 0 1.125rem;
-  border: 0;
-  border-radius: 999px;
-  background: none;
-  color: var(--muted);
-  font-weight: 500;
-  cursor: pointer;
-  transition:
-    color 200ms ease,
-    transform 160ms var(--ease-out);
-}
-
-.switch button[aria-pressed='true'] {
-  color: var(--ink);
-}
-
-.switch button:active {
-  transform: scale(0.97);
 }
 
 .cards {

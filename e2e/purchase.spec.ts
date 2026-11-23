@@ -39,7 +39,7 @@ const ANONYMOUS_PLANS = {
   buyer: 'anonymous',
   declaration: {
     code: 'payer_adult',
-    text: 'Tenho 18 anos ou mais; se a conta for de uma pessoa menor de idade, pago por ela com a autorização do responsável.',
+    text: 'Tenho 18 anos ou mais ou sou responsável pelo menor de idade.',
   },
   plans: [
     {
@@ -157,12 +157,12 @@ test('an anonymous buyer picks the monthly by Pix and must declare being an adul
   await page.goto('/assinar')
   await expect(page.getByRole('link', { name: 'Entrar com WhatsApp' })).toBeVisible()
   const monthly = page.locator('li.card', {
-    has: page.getByRole('heading', { name: 'Premium mensal' }),
+    has: page.getByRole('heading', { name: 'Premium', exact: true }),
   })
   await monthly.getByRole('button', { name: 'Escolher' }).click()
   await expect(page).toHaveURL(/\?plano=premium-mensal$/)
-  await expect(monthly.getByRole('radio', { name: 'Cartão (renova sozinho)' })).toBeVisible()
-  await monthly.getByRole('radio', { name: 'Pix (paga o mês)' }).check()
+  await expect(monthly.getByRole('radio', { name: /^Cartão/ })).toBeVisible()
+  await monthly.getByRole('radio', { name: /^Pix/ }).check()
 
   const pay = monthly.getByRole('button', { name: 'Ir para o pagamento' })
   await pay.click()
@@ -181,6 +181,26 @@ test('an anonymous buyer picks the monthly by Pix and must declare being an adul
   })
 })
 
+test('one Premium card switches between the monthly and the yearly', async ({ page }) => {
+  await fakeApi(page, {
+    'GET /me': () => ({ body: { signedIn: false } }),
+    'GET /plans': () => ({ body: ANONYMOUS_PLANS }),
+  })
+
+  await page.goto('/assinar?plano=premium-mensal')
+  await expect(page.locator('li.card')).toHaveCount(2)
+  const premium = page.locator('li.card', {
+    has: page.getByRole('heading', { name: 'Premium', exact: true }),
+  })
+  await expect(premium.getByRole('radio', { name: /^Pix/ })).toBeVisible()
+
+  await premium.getByRole('button', { name: 'Anual' }).click()
+  await expect(page).toHaveURL(/\?plano=premium-anual$/)
+  await expect(premium.getByText('R$ 199,90').first()).toBeVisible()
+  await expect(premium.getByRole('radio', { name: /^Pix/ })).toHaveCount(0)
+  await expect(premium.getByRole('radio', { name: /Cartão, em até 12x/ })).toBeChecked()
+})
+
 test('a refused checkout says why in words', async ({ page }) => {
   await fakeApi(page, {
     'GET /me': () => ({ body: { signedIn: false } }),
@@ -193,7 +213,7 @@ test('a refused checkout says why in words', async ({ page }) => {
 
   await page.goto('/assinar?plano=premium-anual')
   const yearly = page.locator('li.card', {
-    has: page.getByRole('heading', { name: 'Premium anual' }),
+    has: page.getByRole('heading', { name: 'Premium', exact: true }),
   })
   await yearly.getByRole('checkbox').check()
   await yearly.getByRole('button', { name: 'Ir para o pagamento' }).click()

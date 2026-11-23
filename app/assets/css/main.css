@@ -242,20 +242,12 @@ img {
   color: var(--ink);
 }
 
-.button--strong {
-  background: var(--ink);
-  color: var(--card);
-}
-
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
     background: var(--green-hover);
   }
   .button--quiet:hover {
     background: color-mix(in oklab, var(--tone) 88%, var(--ink));
-  }
-  .button--strong:hover {
-    background: color-mix(in oklab, var(--ink) 84%, var(--card));
   }
 }
 
