@@ -34,6 +34,13 @@ jobs:
       NUXT_PUBLIC_GA_ID: ${{ vars.NUXT_PUBLIC_GA_ID }}
       NUXT_PUBLIC_META_PIXEL_ID: ${{ vars.NUXT_PUBLIC_META_PIXEL_ID }}
     steps:
+      - name: Require the live catalog
+        run: |
+          if [ -z "$PLANS_API_URL" ]; then
+            echo "::error::PLANS_API_URL is empty: the build would publish the fixture prices"
+            exit 1
+          fi
+
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
