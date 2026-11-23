@@ -25,7 +25,7 @@ produto em si vive no [`codart-messaging`](https://github.com/C0d4rt/codart-mess
 - **O que dá para fazer:** cada função com o plano dela, como usar e um
   exemplo de conversa com o texto que o diário manda de verdade.
 - **Os planos:** o Premium, mensal ou anual, com o teste de 7 dias com tudo
-  dele, sem cartão; e o Premium Pro, um programa de 3 ou 6 meses pago uma vez,
+  dele, sem cartão; e o Premium Pro, um programa de 12 meses pago uma vez,
   com dieta e treino revisados por nutricionista e educador físico e 7 dias de
   garantia. Enquanto a venda do Premium Pro não abre, o card diz "Em breve".
 - **Em que se apoia:** a tabela TACO (Unicamp), o Open Food Facts e o
@@ -56,8 +56,9 @@ redirecionador de atribuição e a Conversions API.
 ## 5. Limites
 
 - **Estático:** nenhuma página depende de servidor; tudo sai do `nuxt generate`.
-- **Dado pessoal:** o site não coleta nenhum. O consentimento fica no
-  navegador da pessoa.
+- **Dado pessoal:** as páginas públicas não coletam nenhum, e o consentimento
+  fica no navegador da pessoa. Entrar guarda uma sessão, e a compra sem entrar
+  guarda o plano, o código de ativação e o e-mail pedido pela Pagar.me.
 - **Textos legais:** termos e privacidade definitivos dependem da revisão
   jurídica (`PRD-fitness.md` §9). Até lá as páginas dizem que estão em revisão.
 - **Número do WhatsApp:** a produção ainda usa o número de teste da Meta, que
