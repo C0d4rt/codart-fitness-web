@@ -172,18 +172,8 @@ const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', '
   border-radius: var(--radius-small);
 }
 
-.day .chat {
-  align-self: center;
-}
-
-.day .chat :deep(.thread) {
-  padding: 0;
-}
-
-.day .chat :deep(.bot .bubble) {
-  --fill: var(--ground);
-
-  max-width: 100%;
+.day .chat :deep(.bubble) {
+  max-width: 94%;
 }
 
 @media (max-width: 63.99rem) {

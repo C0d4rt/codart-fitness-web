@@ -272,7 +272,6 @@ onBeforeUnmount(() => observer?.disconnect())
 .bare .screen {
   min-height: 0;
   border-radius: 0.75rem;
-  background: var(--chat-bg);
 }
 
 .top {

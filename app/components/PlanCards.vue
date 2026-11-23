@@ -147,7 +147,7 @@ const promises = computed(() => [
         <ul class="items">
           <li v-for="item in premiumItems" :key="item">{{ item }}</li>
         </ul>
-        <div class="action" data-cta>
+        <div class="action action--pair" data-cta>
           <WhatsAppButton
             location="plans-premium"
             :label="t('cta.tryDays', { days: catalog.trialDays })"
@@ -157,7 +157,7 @@ const promises = computed(() => [
               path: '/assinar',
               query: { plano: period === 'month' ? 'premium-mensal' : 'premium-anual' },
             }"
-            class="button button--quiet"
+            class="button button--strong"
             >{{ t('pricing.subscribeNow') }}</NuxtLinkLocale
           >
         </div>
@@ -231,7 +231,7 @@ const promises = computed(() => [
           <NuxtLinkLocale
             v-if="chosen"
             :to="{ path: '/assinar', query: { plano: 'pro' } }"
-            class="button"
+            class="button button--strong"
             >{{ wantCoaching }}</NuxtLinkLocale
           >
           <WhatsAppButton
@@ -516,6 +516,16 @@ const promises = computed(() => [
   line-height: 1.25;
   text-align: center;
   text-wrap: balance;
+}
+
+.action--pair {
+  grid-template-columns: auto auto;
+  gap: 0.5rem;
+}
+
+.action--pair :deep(.button) {
+  padding: 0.5rem 0.625rem;
+  font-size: var(--step-small);
 }
 
 @media (max-width: 63.99rem) {
