@@ -201,7 +201,7 @@
     "saving": "Economize {percent}%",
     "premiumWho": "O assistente: registro por foto e áudio, metas, sugestão do que comer e treinos por nível",
     "coachingWho": "O assistente que monta sua dieta e seu treino a partir da sua avaliação e ajusta tudo à sua evolução, com dúvidas respondidas pela nossa equipe",
-    "levelWorkouts": "Treinos por nível, com opções baseadas em ciência para quem treina natural",
+    "levelWorkouts": "Treinos guiados por nível, com opções baseadas em ciência para quem treina natural",
     "recommended": "Recomendado",
     "allOfPremium": "Tudo do Premium",
     "packageLabel": "Duração do programa",
@@ -249,6 +249,10 @@
       {
         "q": "O assistente é um nutricionista?",
         "a": "Não. O assistente é uma inteligência artificial: registra, soma, informa e sugere a partir de conteúdo de referência, e mostra a fonte quando você pergunta. No Premium, ele não prescreve dieta nem treino. No Premium Pro, ele monta a dieta e o treino a partir da sua avaliação, e as suas dúvidas vão para a nossa equipe."
+      },
+      {
+        "q": "Como funciona o treino guiado?",
+        "a": "Diga \"vamos começar o treino\" e o assistente te guia exercício por exercício: explica a técnica, mostra a carga da última vez e avisa quando dá para subir. Você manda cada série (carga e repetições, como \"80 7\") e no fim recebe um resumo; dá para escolher o dia do programa, pular um dia ou desligar o guia."
       },
       {
         "q": "Serve para quem usa hormônio?",

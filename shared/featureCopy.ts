@@ -189,7 +189,7 @@ const PT: Record<string, FeatureCopy> = {
   readyPrograms: {
     headline: 'Um programa de treino, do iniciante ao avançado',
     howTo:
-      'Inclui treinos baseados em ciência, recomendados para quem treina natural. São programas gerais, que você escolhe: não são montados para você. Se faltar um aparelho ou doer alguma coisa, o exercício é trocado.',
+      'Inclui treinos baseados em ciência, recomendados para quem treina natural. São programas gerais, que você escolhe: não são montados para você. Se faltar um aparelho ou doer alguma coisa, o exercício é trocado. No treino, o assistente te guia exercício por exercício: explica a técnica, mostra a carga da última vez e avisa quando dá para subir.',
     exchange: [
       you('treinos', '07:10'),
       bot(
@@ -652,7 +652,7 @@ const EN: Record<string, FeatureCopy> = {
   readyPrograms: {
     headline: 'A ready workout program, from beginner to advanced',
     howTo:
-      'Includes science-based workouts recommended for people who train natural. These are general programs that you pick: they are not built for you. If a machine is missing or something hurts, the exercise gets swapped.',
+      'Includes science-based workouts recommended for people who train natural. These are general programs that you pick: they are not built for you. If a machine is missing or something hurts, the exercise gets swapped. During the workout, the assistant guides you exercise by exercise: it explains the technique, shows the load you used last time and tells you when you can go up.',
     exchange: [
       you('workouts', '07:10'),
       bot(
