@@ -37,6 +37,7 @@ describe('the site contract with codart-messaging (PRP-065)', () => {
     expect(read.plans.map((each) => [each.plan, each.cycle, each.methods.length])).toEqual(
       SITE_ANSWERS.plans.plans.map((each) => [each.plan, each.cycle, each.methods.length]),
     )
+    expect(read.plans[1]!.methods[0]!.installmentCents).toBe(1666)
   })
 
   it('leaves out a plan or a method it does not know, and keeps the rest', () => {

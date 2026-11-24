@@ -1,4 +1,4 @@
-import { type Catalog, installmentCents } from './plans'
+import { type Catalog, installmentCents, packageInstallmentCents } from './plans'
 import type { LoginStatus, PayMethod, PlanOffer, PlansResponse, Purchase } from './siteApi'
 
 export type PlanChoice = { plan: PlanOffer['plan']; cycle: PlanOffer['cycle'] }
@@ -79,7 +79,7 @@ export const offerFromCatalog = (
             priceCents: pack.totalCents,
             fullCents: pack.totalCents,
             discountCents: 0,
-            installmentCents: installmentCents(pack),
+            installmentCents: packageInstallmentCents(pack),
             credits: [],
             signInToDiscount: true,
             methods: [{ method: 'card', renews: false, installments: pack.installments }],
@@ -94,6 +94,24 @@ export const offerFromCatalog = (
           },
     ],
   }
+}
+
+/**
+ * The most installments the offer's methods take, and what each one charges: the method's
+ * `installmentCents`, then the offer's, as codart-messaging computed them, and only without both
+ * the same rounding here.
+ */
+export const installmentOf = (offer: PlanOffer): { count: number; cents: number } => {
+  const most = offer.methods.reduce<PayMethod | undefined>(
+    (best, each) => ((each.installments ?? 1) > (best?.installments ?? 1) ? each : best),
+    undefined,
+  )
+  const count = most?.installments ?? 1
+  const cents =
+    most?.installmentCents ??
+    (offer.installmentCents ||
+      installmentCents({ totalCents: offer.priceCents, installments: count }))
+  return { count, cents }
 }
 
 /** The one method to start on: the only one there is, or none so the person picks. */

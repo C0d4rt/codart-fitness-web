@@ -46,6 +46,7 @@ const methodSchema = z.object({
   method: methodName,
   renews: z.boolean(),
   installments: z.int().positive().optional(),
+  installmentCents: z.int().nonnegative().optional(),
   blocked: z.string().optional(),
 })
 

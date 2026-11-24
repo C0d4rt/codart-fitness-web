@@ -7,6 +7,7 @@ import {
   canSignInAfterActivation,
   choiceOfSlug,
   defaultMethod,
+  installmentOf,
   loginStep,
   offerFromCatalog,
   orderedPlans,
@@ -90,6 +91,60 @@ describe('the prices of the build', () => {
       'premium-anual',
       'pro',
     ])
+  })
+})
+
+describe('the installment shown', () => {
+  const yearly = (methods: PlanOffer['methods'], installmentCents?: number): PlanOffer => ({
+    plan: 'premium',
+    cycle: 'yearly',
+    title: 'Premium anual',
+    priceCents: 10001,
+    methods,
+    ...(installmentCents === undefined ? {} : { installmentCents }),
+  })
+
+  it('is what the API says each installment charges, by method first', () => {
+    expect(
+      installmentOf(
+        yearly([{ method: 'card', renews: false, installments: 12, installmentCents: 834 }], 900),
+      ),
+    ).toEqual({ count: 12, cents: 834 })
+    expect(
+      installmentOf(yearly([{ method: 'card', renews: false, installments: 12 }], 900)),
+    ).toEqual({ count: 12, cents: 900 })
+  })
+
+  it('rounds to the nearest cent, as codart-messaging does, only when the API says nothing', () => {
+    expect(installmentOf(yearly([{ method: 'card', renews: false, installments: 12 }]))).toEqual({
+      count: 12,
+      cents: 833,
+    })
+    expect(installmentOf(yearly([{ method: 'pix', renews: false }]))).toEqual({
+      count: 1,
+      cents: 10001,
+    })
+  })
+
+  it('takes the Premium Pro installment of the build from the catalog', () => {
+    const offer = offerFromCatalog(
+      buildCatalog(
+        {
+          ...onSale,
+          plans: [
+            onSale.plans[0],
+            {
+              ...onSale.plans[1],
+              packages: [{ months: 12, totalCents: 10001, installments: 12, perMonthCents: 834 }],
+            },
+          ],
+        },
+        'pt',
+      ),
+      TITLES,
+    )
+
+    expect(installmentOf(offer.plans[2]!)).toEqual({ count: 12, cents: 834 })
   })
 })
 
