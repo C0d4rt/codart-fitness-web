@@ -166,6 +166,38 @@ describe('the site API client (PRP-065)', () => {
     expect(await aborted).toEqual({ ok: false, status: 0, code: 'network' })
   })
 
+  it('works in a browser without AbortSignal.any, and lets the caller signal go once answered', async () => {
+    const any = Object.getOwnPropertyDescriptor(AbortSignal, 'any')!
+    Object.defineProperty(AbortSignal, 'any', { value: undefined, configurable: true })
+    try {
+      const { api, fetch } = apiAnswering(json(200, { status: 'pending' }))
+      const caller = new AbortController()
+
+      const answer = await api.loginStatus(caller.signal)
+      const passed = fetch.mock.calls[0]![1].signal!
+      caller.abort()
+
+      expect(answer).toEqual({ ok: true, data: { status: 'pending' } })
+      expect(passed.aborted).toBe(false)
+    } finally {
+      Object.defineProperty(AbortSignal, 'any', any)
+    }
+  })
+
+  it('reads a call its caller aborted before it started as a network failure', async () => {
+    const fetch = vi.fn(async (_input: string, init: RequestInit) => {
+      init.signal?.throwIfAborted()
+      return json(200, { status: 'pending' })
+    })
+    const api = createSiteApi({ baseUrl: 'https://api.example.test', fetch })
+
+    expect(await api.loginStatus(AbortSignal.abort())).toEqual({
+      ok: false,
+      status: 0,
+      code: 'network',
+    })
+  })
+
   it.each([
     'javascript:alert(1)',
     'http://payment-link.pagar.me/pl_1',

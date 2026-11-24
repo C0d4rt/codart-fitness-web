@@ -165,8 +165,12 @@ export const createSiteApi = ({
     body?: unknown,
     signal?: AbortSignal,
   ): Promise<ApiResult<T>> => {
-    const timeout = new AbortController()
-    const timer = clock.setTimeout(() => timeout.abort(), timeoutMs)
+    // One controller for both, instead of AbortSignal.any, which Safari only has since 17.4.
+    const aborter = new AbortController()
+    const abort = () => aborter.abort()
+    const timer = clock.setTimeout(abort, timeoutMs)
+    if (signal?.aborted) abort()
+    signal?.addEventListener('abort', abort)
     let response: Response
     let json: unknown
     try {
@@ -179,13 +183,14 @@ export const createSiteApi = ({
             ? { accept: 'application/json', 'content-type': 'application/json' }
             : { accept: 'application/json' },
         body: method === 'POST' ? JSON.stringify(body ?? {}) : undefined,
-        signal: signal ? AbortSignal.any([timeout.signal, signal]) : timeout.signal,
+        signal: aborter.signal,
       })
       json = response.status === 204 ? undefined : await response.json().catch(() => undefined)
     } catch {
       return { ok: false, status: 0, code: 'network' }
     } finally {
       clock.clearTimeout(timer)
+      signal?.removeEventListener('abort', abort)
     }
     if (!response.ok) {
       return { ok: false, status: response.status, code: siteErrorOf(response.status, json) }
