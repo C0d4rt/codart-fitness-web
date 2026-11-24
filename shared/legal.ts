@@ -5,8 +5,8 @@ export type LegalSection = { title: string; paragraphs?: string[]; items?: strin
 export type LegalDoc = { intro: string; sections: LegalSection[] }
 
 /** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
-export const LEGAL_VERSION = '11'
-export const LEGAL_EFFECTIVE = '2026-11-21'
+export const LEGAL_VERSION = '12'
+export const LEGAL_EFFECTIVE = '2026-11-23'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
@@ -29,9 +29,9 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         paragraphs: [
           'O serviço é para maiores de 18 anos. Com número de telefone do Brasil, quem tem de 13 a 17 anos pode usar com a autorização da mãe, do pai ou do responsável legal. Abaixo de 13 anos, o serviço não atende.',
           'A autorização é dada pelo próprio responsável, do WhatsApp dele: o adolescente recebe um link na conversa e o encaminha, e o responsável confirma num formulário o nome, o parentesco, a data de nascimento do adolescente e que tem 18 anos ou mais. No mesmo formulário ele diz se autoriza também o Premium Pro. O teste grátis do adolescente conta a partir da autorização.',
-          'Sem a autorização, quem informar idade menor de 18 anos não tem dados de saúde guardados e recebe a opção de apagar a conta.',
+          'Sem a autorização, quem informar idade menor de 18 anos não tem refeições, peso, metas nem treinos registrados no diário e recebe a opção de apagar a conta. A conversa e notas gerais sobre rotina e preferências ficam guardadas até o pedido de exclusão; áudios e fotos, por até 90 dias.',
           'O responsável pode retirar a autorização a qualquer momento, pela conversa: o diário do adolescente para na hora, a renovação no cartão é cancelada e o que já foi guardado continua guardado, até uma nova autorização ou um pedido de exclusão. Ele também pode pedir, pela conversa, a exclusão dos dados do adolescente. A autorização vale até o adolescente fazer 18 anos; a partir daí, a conta é só dele e ele aceita estes termos por si.',
-          'Para quem tem de 13 a 17 anos, o ritmo de perda de peso vai até 0,5 kg por semana, a meta de calorias não fica abaixo do gasto de repouso estimado para a idade, o jejum intermitente não fica disponível no Premium, e não guardamos uso de hormônios, fotos do físico nem exames.',
+          'Para quem tem de 13 a 17 anos, o ritmo de perda de peso vai até 0,5 kg por semana, a meta de calorias não fica abaixo do gasto de repouso estimado para a idade, o jejum intermitente não fica disponível no Premium, e não registramos uso de hormônios, fotos do físico nem exames no acompanhamento.',
           'Quem paga o plano de uma conta de adolescente, ou compra no site sem entrar, precisa ser maior de idade e declara isso antes do pagamento. Não precisa ser a mesma pessoa que autorizou.',
           'A conta é o seu número de WhatsApp, também no site: para entrar no site, você manda pelo WhatsApp uma mensagem com um código, sem senha. Você responde pelo uso feito a partir dele.',
         ],
@@ -140,7 +140,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         items: [
           'Prestar o serviço que você contratou: registrar, somar, responder, lembrar e cobrar (execução de contrato, LGPD art. 7º, V).',
           'Guardar e usar os dados de saúde para montar o seu diário, com o seu consentimento (art. 11, I), dado ao mandar esses dados na conversa depois do aviso da primeira mensagem, que traz o link destes textos. Você pode revogá-lo apagando a conta.',
-          'No Premium Pro, usar a avaliação, os check-ins, as fotos, os exames e o registro de remédios e hormônios para montar e ajustar o seu plano e acompanhar a sua evolução, com o consentimento específico que você dá na avaliação (art. 11, I). As fotos do físico, os exames e os remédios e hormônios ficam no painel de acesso restrito da nossa equipe e nunca vão ao modelo de inteligência artificial.',
+          'No Premium Pro, usar a avaliação, os check-ins, as fotos, os exames e o registro de remédios e hormônios para montar e ajustar o seu plano e acompanhar a sua evolução, com o consentimento específico que você dá na avaliação (art. 11, I). As fotos e os arquivos pedidos nas etapas do programa e o registro de remédios e hormônios ficam no painel de acesso restrito da nossa equipe e não vão ao modelo de inteligência artificial. O que você escrever ou mandar fora dessas etapas, inclusive sobre remédios, hormônios ou exames, é lido pelo modelo como qualquer mensagem.',
           'Guardar os dados de saúde de quem tem de 13 a 17 anos, com a autorização de um dos pais ou do responsável legal (art. 14), dada no formulário enviado do WhatsApp do próprio responsável.',
           'Manter o serviço seguro, evitar abuso e corrigir falhas, com registros técnicos que não trazem o texto das mensagens (legítimo interesse, art. 7º, IX).',
           'Lembrar por e-mail, no máximo três vezes, quem pagou no site sem entrar e ainda não ativou a compra, com o link de ativação (execução de contrato, art. 7º, V).',
@@ -154,7 +154,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'Com quem compartilhamos',
         items: [
           'Meta (WhatsApp): leva as mensagens entre você e o diário.',
-          'OpenAI, pela Portkey: lê as mensagens, transcreve os áudios e interpreta as fotos de refeições e rótulos para registrar o que você contou. Pela política da OpenAI para a sua API, o que enviamos não é usado para treinar modelos.',
+          'OpenAI e Anthropic, pela Portkey: leem as mensagens para entender o pedido e guardar o que importa. A OpenAI também transcreve os áudios e interpreta as fotos de refeições e rótulos. Pela política da OpenAI para a sua API, o que enviamos não é usado para treinar modelos.',
           'A nossa equipe: vê, num painel de acesso restrito, os dados de quem está no Premium Pro, para responder às dúvidas e acompanhar o programa. Cada abertura das fotos do físico fica registrada.',
           'Amazon Web Services (AWS): hospeda o servidor, os bancos de dados e os arquivos, e envia os e-mails de lembrete da ativação.',
           'Pagar.me (Stone): processa os pagamentos.',
@@ -166,7 +166,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Transferência internacional',
         paragraphs: [
-          'Os servidores ficam nos Estados Unidos (AWS, região us-east-1), e a OpenAI, a Portkey e a Meta também processam dados fora do Brasil. A transferência é feita para cumprir o contrato com você e com fornecedores que adotam garantias de proteção de dados (LGPD art. 33).',
+          'Os servidores ficam nos Estados Unidos (AWS, região us-east-1), e a OpenAI, a Anthropic, a Portkey e a Meta também processam dados fora do Brasil. A transferência é feita para cumprir o contrato com você e com fornecedores que adotam garantias de proteção de dados (LGPD art. 33).',
         ],
       },
       {
@@ -204,13 +204,13 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'Este site',
         paragraphs: [
-          'O site não pede senha nem guarda dado pessoal no navegador. Para entrar e comprar, ele fala com o nosso servidor, que guarda a sessão num cookie essencial, só dele e inacessível aos scripts da página, até ela vencer ou você sair. "Sair", no site, encerra a sessão daquele navegador; "sair do site", na conversa, encerra todas. Com a sua permissão no aviso de cookies, o Google Analytics e o pixel da Meta contam visitas e medem anúncios; sem ela, nada deles é carregado, e eles nunca carregam nas páginas que mostram um código de entrada ou de ativação. A sua escolha fica só no seu navegador e muda pelo link Cookies no rodapé.',
+          'O site não pede senha nem guarda dado pessoal no navegador. Para entrar e comprar, ele fala com o nosso servidor, que guarda a sessão num cookie essencial, só dele e inacessível aos scripts da página, até ela vencer ou você sair. "Sair", no site, encerra a sessão daquele navegador; "sair do site", na conversa, encerra todas. Hoje o site não carrega Google Analytics nem pixel da Meta. Se passar a usar, vamos pedir a sua permissão num aviso de cookies, e eles nunca vão carregar nas páginas que mostram um código de entrada ou de ativação.',
         ],
       },
       {
         title: 'Menores de idade',
         paragraphs: [
-          'O serviço é para maiores de 18 anos e, com número de telefone do Brasil, para quem tem de 13 a 17 anos com a autorização de um dos pais ou do responsável legal. Sem a autorização, quem informar idade menor de 18 anos não tem dados de saúde guardados e recebe a opção de apagar a conta. De quem tem de 13 a 17 anos não guardamos uso de hormônios, fotos do físico nem exames. O responsável retira a autorização ou pede a exclusão dos dados do adolescente pela conversa, a qualquer momento.',
+          'O serviço é para maiores de 18 anos e, com número de telefone do Brasil, para quem tem de 13 a 17 anos com a autorização de um dos pais ou do responsável legal. Sem a autorização, quem informar idade menor de 18 anos não tem refeições, peso, metas nem treinos registrados no diário e recebe a opção de apagar a conta. A conversa e notas gerais sobre rotina e preferências ficam guardadas até o pedido de exclusão; áudios e fotos, por até 90 dias. De quem tem de 13 a 17 anos não registramos uso de hormônios, fotos do físico nem exames no acompanhamento. O responsável retira a autorização ou pede a exclusão dos dados do adolescente pela conversa, a qualquer momento.',
         ],
       },
       {
@@ -244,9 +244,9 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         paragraphs: [
           'The service is for people aged 18 or over. With a phone number from Brazil, anyone aged 13 to 17 can use it with the authorization of their mother, father or legal guardian. The service does not take anyone under 13.',
           'The authorization is given by the parent or guardian, from their own WhatsApp: the teenager gets a link in the chat and forwards it, and the parent or guardian confirms in a form their name, their relation, the teenager’s date of birth and that they are 18 or over. In the same form they say whether they also authorize Premium Pro. The teenager’s free trial counts from the authorization.',
-          'Without the authorization, anyone who gives an age under 18 has no health data stored and is offered to delete the account.',
+          'Without the authorization, anyone who gives an age under 18 has no meals, weight, goals or workouts logged in the diary and is offered to delete the account. The conversation and general notes about routine and preferences are kept until a deletion request; voice notes and photos, for up to 90 days.',
           'The parent or guardian can take the authorization back at any time, in the chat: the teenager’s diary stops at once, the card renewal is cancelled and what was already stored stays stored, until a new authorization or a deletion request. They can also ask, in the chat, for the teenager’s data to be deleted. The authorization lasts until the teenager turns 18; from then on the account is theirs alone and they accept these terms for themselves.',
-          'For anyone aged 13 to 17, the pace of weight loss goes up to 0.5 kg a week, the calorie goal never goes under the resting expenditure estimated for their age, intermittent fasting is not available on Premium, and we do not keep hormone use, physique photos or lab tests.',
+          'For anyone aged 13 to 17, the pace of weight loss goes up to 0.5 kg a week, the calorie goal never goes under the resting expenditure estimated for their age, intermittent fasting is not available on Premium, and we do not record hormone use, physique photos or lab tests in the follow-up.',
           'Whoever pays for a teenager’s plan, or buys on the website without signing in, must be an adult and declares it before paying. It does not have to be the person who gave the authorization.',
           'Your account is your WhatsApp number, on the website too: to sign in to the website, you send a message with a code on WhatsApp, with no password. You are responsible for its use.',
         ],
@@ -355,7 +355,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         items: [
           'To provide the service you signed up for: logging, adding up, replying, reminding and billing (performance of a contract, LGPD art. 7, V).',
           'To keep and use your health data to build your diary, with your consent (art. 11, I), given when you send that data in the chat after the notice in the first message, which links these texts. You can withdraw it by deleting your account.',
-          'On Premium Pro, to use the assessment, the check-ins, the photos, the lab tests and the record of medicine and hormones to build and adjust your plan and follow your progress, with the specific consent you give in the assessment (art. 11, I). Physique photos, lab tests and medicine and hormones stay in our team’s restricted-access panel and are never sent to the artificial intelligence model.',
+          'On Premium Pro, to use the assessment, the check-ins, the photos, the lab tests and the record of medicine and hormones to build and adjust your plan and follow your progress, with the specific consent you give in the assessment (art. 11, I). The photos and files requested in the program’s steps and the record of medicine and hormones stay in our team’s restricted-access panel and are not sent to the artificial intelligence model. What you write or send outside those steps, including about medicine, hormones or lab tests, is read by the model like any other message.',
           'To keep the health data of anyone aged 13 to 17, with the authorization of a parent or legal guardian (art. 14), given in the form sent from the parent or guardian’s own WhatsApp.',
           'To keep the service secure, prevent abuse and fix faults, with technical logs that do not contain the text of messages (legitimate interest, art. 7, IX).',
           'To remind by e-mail, at most three times, whoever paid on the website without signing in and has not activated the purchase yet, with the activation link (performance of a contract, art. 7, V).',
@@ -369,7 +369,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         title: 'Who we share it with',
         items: [
           'Meta (WhatsApp): carries the messages between you and the diary.',
-          'OpenAI, through Portkey: reads the messages, transcribes voice notes and interprets photos of meals and labels to log what you said. Under OpenAI’s policy for its API, what we send is not used to train models.',
+          'OpenAI and Anthropic, through Portkey: read the messages to understand the request and keep what matters. OpenAI also transcribes voice notes and interprets photos of meals and labels. Under OpenAI’s policy for its API, what we send is not used to train models.',
           'Our team: sees, in a restricted-access panel, the data of the people on Premium Pro, to answer their questions and follow the program. Every opening of the physique photos is logged.',
           'Amazon Web Services (AWS): hosts the server, the databases and the files, and sends the activation reminder e-mails.',
           'Pagar.me (Stone): processes payments.',
@@ -381,7 +381,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'International transfers',
         paragraphs: [
-          'Our servers are in the United States (AWS, us-east-1 region), and OpenAI, Portkey and Meta also process data outside Brazil. These transfers are made to perform the contract with you, with providers that adopt data protection safeguards (LGPD art. 33).',
+          'Our servers are in the United States (AWS, us-east-1 region), and OpenAI, Anthropic, Portkey and Meta also process data outside Brazil. These transfers are made to perform the contract with you, with providers that adopt data protection safeguards (LGPD art. 33).',
         ],
       },
       {
@@ -419,13 +419,13 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
       {
         title: 'This website',
         paragraphs: [
-          'The website asks for no password and keeps no personal data in your browser. To sign in and to buy, it talks to our server, which keeps the session in an essential cookie, only its own and out of reach of the page’s scripts, until it expires or you sign out. "Sign out" on the website ends that browser’s session; "sign out of the site" in the chat ends all of them. With your permission in the cookie notice, Google Analytics and the Meta pixel count visits and measure ads; without it, nothing from them is loaded, and they never load on the pages that show a sign-in or activation code. Your choice stays only in your browser and can be changed from the Cookies link in the footer.',
+          'The website asks for no password and keeps no personal data in your browser. To sign in and to buy, it talks to our server, which keeps the session in an essential cookie, only its own and out of reach of the page’s scripts, until it expires or you sign out. "Sign out" on the website ends that browser’s session; "sign out of the site" in the chat ends all of them. Today the website does not load Google Analytics or the Meta pixel. If it starts to, we will ask for your permission in a cookie notice, and they will never load on the pages that show a sign-in or activation code.',
         ],
       },
       {
         title: 'Minors',
         paragraphs: [
-          'The service is for people aged 18 or over and, with a phone number from Brazil, for anyone aged 13 to 17 with the authorization of a parent or legal guardian. Without the authorization, anyone who gives an age under 18 has no health data stored and is offered to delete the account. We do not keep hormone use, physique photos or lab tests of anyone aged 13 to 17. The parent or guardian takes the authorization back or asks for the teenager’s data to be deleted in the chat, at any time.',
+          'The service is for people aged 18 or over and, with a phone number from Brazil, for anyone aged 13 to 17 with the authorization of a parent or legal guardian. Without the authorization, anyone who gives an age under 18 has no meals, weight, goals or workouts logged in the diary and is offered to delete the account. The conversation and general notes about routine and preferences are kept until a deletion request; voice notes and photos, for up to 90 days. We do not record hormone use, physique photos or lab tests of anyone aged 13 to 17 in the follow-up. The parent or guardian takes the authorization back or asks for the teenager’s data to be deleted in the chat, at any time.',
         ],
       },
       {

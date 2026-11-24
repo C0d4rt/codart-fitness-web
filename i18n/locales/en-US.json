@@ -122,7 +122,7 @@
   },
   "bento": {
     "title": "Your numbers. When you ask.",
-    "lead": "Today's goal, your week and your weight, in reply to one message. On the day you choose (Monday, unless you say otherwise), the week summary arrives on its own",
+    "lead": "Today's goal, your week and your weight, in reply to one message. From the day you choose (Monday, unless you say otherwise), the week summary comes in your next conversation",
     "seeAll": "See all features, with examples",
     "day": {
       "title": "Daily goal",
@@ -260,7 +260,7 @@
       },
       {
         "q": "What about my data?",
-        "a": "It's used only for your diary and handled under Brazil's data protection law (LGPD)."
+        "a": "It's used for your diary, your plan, billing and support, and handled under Brazil's data protection law (LGPD). We do not sell your data."
       }
     ]
   },
@@ -362,7 +362,7 @@
       "pix": "{price} for one month, with no renewal",
       "yearly": "{price} for 12 months, with no renewal",
       "coaching": "{price} for the {months} months, with no renewal",
-      "alreadySubscribed": "Your monthly card plan already renews on its own. Pay a month by Pix or pick yearly."
+      "alreadySubscribed": "Your monthly card plan already renews on its own. If you pay by Pix or yearly now, it keeps renewing. To switch, reply \"cancelar\" in the chat and then come back here."
     },
     "proPoints": {
       "months": "A {months}-month program, with no automatic renewal.",
@@ -479,7 +479,7 @@
       "declaration_required": "Tick the declaration to continue.",
       "method_unavailable": "That payment method isn't available for this plan. Pick another one.",
       "pro_unavailable": "Premium Pro is not on sale right now.",
-      "already_subscribed": "Your monthly card plan already renews on its own. Pay a month by Pix or pick yearly.",
+      "already_subscribed": "Your monthly card plan already renews on its own. If you pay by Pix or yearly now, it keeps renewing. To switch, reply \"cancelar\" in the chat and then come back here.",
       "guardian_required": "Your parent or guardian's authorization is missing for this plan. The request is in your WhatsApp chat.",
       "purchase_paid": "This purchase is already paid.",
       "checkout_refused": "We couldn't open this payment. The prices were updated: check them and try again.",

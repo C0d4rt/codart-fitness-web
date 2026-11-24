@@ -413,15 +413,15 @@ const PT: Record<string, FeatureCopy> = {
     ],
   },
   periodizedTraining: {
-    headline: 'Treino em fases, com a carga que sobe',
+    headline: 'Treino do seu nível, com a carga que sobe',
     howTo:
-      'O treino é montado para os seus dias, a sua academia e o seu objetivo, em fases que mudam o estímulo ao longo do programa. Na academia, pergunte "qual meu treino hoje?": vem o dia da vez com as séries, as repetições e a carga de cada exercício, com o vídeo a um toque.',
+      'O treino parte do programa do seu nível, ajustado à sua academia, com a carga que sobe conforme você evolui. Na academia, pergunte "qual meu treino hoje?": vem o dia da vez com as séries, as repetições e a carga de cada exercício, com o vídeo a um toque.',
     exchange: [
       you('qual meu treino hoje?', '18:10'),
       bot(
-        '🏋️ *Treino A*, semana 3 de 4\nFase da semana: *força*\nGrupo do dia: Pernas\n1. Agachamento livre: 4 séries de 6 a 8 com 70 kg\n   ↑ subi para 70 kg: você fez 4 séries de 8 com 67,5 kg\n2. Leg press: 3 séries de 8 a 10 com 160 kg\n3. Cadeira flexora: 3 séries de 10 a 12 com 35 kg',
+        '🏋️ *Treino A*\nGrupo do dia: Pernas\n1. Agachamento livre: 4 séries de 6 a 8 com 70 kg\n   ↑ subi para pelo menos 70 kg: você fez 4 séries de 8 com 67,5 kg\n2. Leg press: 3 séries de 8 a 10 com 160 kg\n3. Cadeira flexora: 3 séries de 10 a 12 com 35 kg',
         '18:10',
-        'Como fazer',
+        'Ver vídeos',
       ),
     ],
   },
@@ -875,15 +875,15 @@ const EN: Record<string, FeatureCopy> = {
     ],
   },
   periodizedTraining: {
-    headline: 'Training in phases, with loads that go up',
+    headline: 'Training for your level, with loads that go up',
     howTo:
-      'Your training is built for your days, your gym and your goal, in phases that change the stimulus over the program. At the gym, ask "what\'s my workout today?": you get the next day with the sets, the reps and the load for each exercise, with the video one tap away.',
+      'Your training starts from the program for your level, adjusted to your gym, with loads that go up as you progress. At the gym, ask "what\'s my workout today?": you get the next day with the sets, the reps and the load for each exercise, with the video one tap away.',
     exchange: [
       you("what's my workout today?", '18:10'),
       bot(
-        '🏋️ *Workout A*, week 3 of 4\nPhase of the week: *strength*\nMuscles of the day: Legs\n1. Back squat: 4 sets of 6 to 8 with 70 kg\n   ↑ up to 70 kg: you did 4 sets of 8 with 67.5 kg\n2. Leg press: 3 sets of 8 to 10 with 160 kg\n3. Seated leg curl: 3 sets of 10 to 12 with 35 kg',
+        '🏋️ *Workout A*\nMuscles of the day: Legs\n1. Back squat: 4 sets of 6 to 8 with 70 kg\n   ↑ up to at least 70 kg: you did 4 sets of 8 with 67.5 kg\n2. Leg press: 3 sets of 8 to 10 with 160 kg\n3. Seated leg curl: 3 sets of 10 to 12 with 35 kg',
         '18:10',
-        'How to do it',
+        'See videos',
       ),
     ],
   },
