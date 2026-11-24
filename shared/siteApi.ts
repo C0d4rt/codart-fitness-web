@@ -5,6 +5,18 @@ import { type SiteErrorCode, siteErrorOf } from './siteErrors'
 
 const iso = z.string().min(1)
 const waLink = z.string().regex(/^https:\/\/wa\.me\/\d*\?text=/)
+const planName = z.enum(['premium', 'coaching'])
+const cycleName = z.enum(['monthly', 'yearly'])
+const methodName = z.enum(['card', 'pix'])
+
+/** A plan or method the API adds before the site knows it is left out, never the whole answer. */
+const knownOnly = <T extends z.ZodType>(schema: T) =>
+  z.array(z.unknown()).transform((items) =>
+    items.flatMap((item): z.output<T>[] => {
+      const read = schema.safeParse(item)
+      return read.success ? [read.data] : []
+    }),
+  )
 
 export const sessionSchema = z.object({
   signedIn: z.literal(true),
@@ -21,7 +33,7 @@ export const meSchema = z.union([
     access: z
       .object({
         standing: z.string(),
-        plan: z.enum(['premium', 'coaching']).optional(),
+        plan: planName.optional().catch(undefined),
         until: iso.optional(),
       })
       .optional(),
@@ -31,15 +43,15 @@ export const meSchema = z.union([
 ])
 
 const methodSchema = z.object({
-  method: z.enum(['card', 'pix']),
+  method: methodName,
   renews: z.boolean(),
   installments: z.int().positive().optional(),
   blocked: z.string().optional(),
 })
 
 const planOfferSchema = z.object({
-  plan: z.enum(['premium', 'coaching']),
-  cycle: z.enum(['monthly', 'yearly']),
+  plan: planName,
+  cycle: cycleName,
   title: z.string(),
   priceCents: z.int().nonnegative(),
   months: z.int().positive().optional(),
@@ -51,25 +63,26 @@ const planOfferSchema = z.object({
     .optional(),
   signInToDiscount: z.boolean().optional(),
   blocked: z.string().optional(),
-  methods: z.array(methodSchema).default([]),
+  methods: knownOnly(methodSchema).default([]),
 })
 
 export const plansResponseSchema = z.object({
-  buyer: z.enum(['anonymous', 'account', 'purchase']),
+  buyer: z.string(),
   declaration: z.object({ code: z.string(), text: z.string().min(1) }).optional(),
   blocked: z.string().optional(),
-  plans: z.array(planOfferSchema),
+  plans: knownOnly(planOfferSchema),
 })
 
 export const checkoutSchema = z.object({
   checkoutUrl: z.string().regex(/^https:\/\//),
 })
 
+/** Read as plain text: a status the site does not know yet shows as still checking. */
 export const purchaseSchema = z.object({
-  status: z.enum(['none', 'waiting', 'paid', 'activated', 'refused', 'expired', 'refunded']),
-  plan: z.enum(['premium', 'coaching']).optional(),
-  cycle: z.enum(['monthly', 'yearly']).optional(),
-  method: z.enum(['card', 'pix']).optional(),
+  status: z.string(),
+  plan: planName.optional().catch(undefined),
+  cycle: cycleName.optional().catch(undefined),
+  method: methodName.optional().catch(undefined),
   owned: z.boolean().optional(),
   code: z.string().optional(),
   message: z.string().optional(),
@@ -86,7 +99,7 @@ export const loginSchema = z.object({
 })
 
 export const loginStatusSchema = z.object({
-  status: z.enum(['pending', 'confirmed', 'expired', 'used', 'none']),
+  status: z.string(),
   expiresAt: iso.optional(),
 })
 

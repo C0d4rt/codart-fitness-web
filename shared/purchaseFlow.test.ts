@@ -142,6 +142,7 @@ describe('the purchase page', () => {
   it('keeps asking only while the payment or the activation can still arrive', () => {
     expect(purchaseSettled('waiting')).toBe(false)
     expect(purchaseSettled('activate')).toBe(false)
+    expect(purchaseSettled('checking')).toBe(false)
     expect(purchaseSettled('activated')).toBe(true)
     expect(purchaseSettled('confirmed')).toBe(true)
     expect(purchaseSettled('refused')).toBe(true)
@@ -167,6 +168,10 @@ describe('the sign-in page', () => {
     expect(loginStep('expired')).toBe('expired')
     expect(loginStep('used')).toBe('used')
     expect(loginStep('none')).toBe('lost')
+  })
+
+  it('keeps waiting on a status it does not know yet', () => {
+    expect(loginStep('something_new')).toBe('wait')
   })
 })
 

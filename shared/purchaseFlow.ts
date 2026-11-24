@@ -102,23 +102,25 @@ export const defaultMethod = (offer: PlanOffer): PayMethod['method'] | undefined
   return open.length === 1 ? open[0]!.method : undefined
 }
 
+const STATUS_VIEWS = ['none', 'waiting', 'activated', 'refused', 'expired', 'refunded'] as const
+
 /** What `/assinar/pronto` shows for each answer of `GET /purchase`. */
-export type PurchaseView =
-  'none' | 'waiting' | 'confirmed' | 'activate' | 'activated' | 'refused' | 'expired' | 'refunded'
+export type PurchaseView = (typeof STATUS_VIEWS)[number] | 'checking' | 'confirmed' | 'activate'
+
+const isStatusView = (status: string): status is (typeof STATUS_VIEWS)[number] =>
+  (STATUS_VIEWS as readonly string[]).includes(status)
 
 export const purchaseView = (purchase: Purchase): PurchaseView => {
-  switch (purchase.status) {
-    case 'paid':
-      if (purchase.owned) return 'confirmed'
-      return purchase.link && purchase.code ? 'activate' : 'waiting'
-    default:
-      return purchase.status
+  if (purchase.status === 'paid') {
+    if (purchase.owned) return 'confirmed'
+    return purchase.link && purchase.code ? 'activate' : 'waiting'
   }
+  return isStatusView(purchase.status) ? purchase.status : 'checking'
 }
 
 /** The page keeps asking only while something can still change on its own. */
 export const purchaseSettled = (view: PurchaseView): boolean =>
-  view !== 'waiting' && view !== 'activate'
+  view !== 'waiting' && view !== 'activate' && view !== 'checking'
 
 /** The activated purchase can still sign this browser in. */
 export const canSignInAfterActivation = (purchase: Purchase, now: number): boolean =>
@@ -140,6 +142,8 @@ export const loginStep = (status: LoginStatus['status']): LoginStep => {
       return 'used'
     case 'none':
       return 'lost'
+    default:
+      return 'wait'
   }
 }
 
