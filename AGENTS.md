@@ -32,7 +32,10 @@ Node 24 (`.nvmrc`) e pnpm.
 | Gerar o site     | `pnpm generate` (sai em `.output/public`) |
 | Ponta a ponta    | `pnpm test:e2e` (depois do `generate`)    |
 
-Antes de abrir PR: `pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm generate && pnpm test:e2e`.
+Sem `PLANS_API_URL`, o `generate` falha, a não ser com `PLANS_FIXTURE=1`, que
+usa `shared/plans.fixture.json` (o `pnpm dev` já liga).
+
+Antes de abrir PR: `pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && PLANS_FIXTURE=1 pnpm generate && pnpm test:e2e`.
 
 ## Regras que o código não mostra sozinho
 

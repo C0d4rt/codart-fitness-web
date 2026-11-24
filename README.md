@@ -12,21 +12,22 @@ O porquê de cada decisão está no [`docs/PRD.md`](./docs/PRD.md) e no
 
 ```bash
 pnpm install
-pnpm dev        # http://localhost:3000
-pnpm generate   # .output/public
+pnpm dev                        # http://localhost:3000
+PLANS_FIXTURE=1 pnpm generate   # .output/public
 ```
 
 ## Configuração
 
 Tudo opcional no desenvolvimento (veja `.env.example`):
 
-| Variável                      | Para quê                                                                                                        |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `PLANS_API_URL`               | De onde vêm os planos no build. Sem ela, a cópia em `shared/plans.fixture.json`; o deploy recusa rodar sem ela. |
-| `NUXT_PUBLIC_WHATSAPP_NUMBER` | O número do botão, só dígitos com o país.                                                                       |
-| `NUXT_PUBLIC_API_URL`         | A API da entrada e da compra. Sem ela, `https://api.fitness.codart.dev`.                                        |
-| `NUXT_PUBLIC_GA_ID`           | GA4 (`G-…`), carregado só depois do consentimento.                                                              |
-| `NUXT_PUBLIC_META_PIXEL_ID`   | Pixel da Meta, idem.                                                                                            |
+| Variável                      | Para quê                                                                                                |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `PLANS_API_URL`               | De onde vêm os planos no build. Sem ela, o build falha.                                                 |
+| `PLANS_FIXTURE`               | `1` usa a cópia em `shared/plans.fixture.json` quando não há `PLANS_API_URL` (dev, CI e ponta a ponta). |
+| `NUXT_PUBLIC_WHATSAPP_NUMBER` | O número do botão, só dígitos com o país.                                                               |
+| `NUXT_PUBLIC_API_URL`         | A API da entrada e da compra. Sem ela, `https://api.fitness.codart.dev`.                                |
+| `NUXT_PUBLIC_GA_ID`           | GA4 (`G-…`), carregado só depois do consentimento.                                                      |
+| `NUXT_PUBLIC_META_PIXEL_ID`   | Pixel da Meta, idem.                                                                                    |
 
 ## Deploy
 

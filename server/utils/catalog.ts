@@ -1,6 +1,7 @@
 import fixture from '#shared/plans.fixture.json'
 import type { Locale } from '#shared/locale'
 import { buildCatalog, type Catalog } from '#shared/plans'
+import { plansSourceOf } from '#shared/plansSource'
 
 /**
  * Only ever called while the site is generated: the answer is baked into each page, so a
@@ -12,9 +13,9 @@ export const loadCatalog = async (locale: Locale): Promise<Catalog> =>
 /* Every prerendered page asks for the catalog; one answer per build keeps the build under the API's rate limit. */
 let plans: Promise<unknown> | undefined
 const fetchPlans = (): Promise<unknown> => {
-  const url = process.env.PLANS_API_URL
-  if (!url) return Promise.resolve(fixture)
-  plans ??= $fetch<unknown>(url, { timeout: 10_000, retry: 2 }).catch((err: unknown) => {
+  const source = plansSourceOf(process.env)
+  if (source === 'fixture') return Promise.resolve(fixture)
+  plans ??= $fetch<unknown>(source.url, { timeout: 10_000, retry: 2 }).catch((err: unknown) => {
     plans = undefined
     throw err
   })
