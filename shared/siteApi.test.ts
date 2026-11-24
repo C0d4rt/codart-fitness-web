@@ -166,8 +166,15 @@ describe('the site API client (PRP-065)', () => {
     expect(await aborted).toEqual({ ok: false, status: 0, code: 'network' })
   })
 
-  it('refuses a checkout link that is not https', async () => {
-    const { api } = apiAnswering(json(200, { checkoutUrl: 'javascript:alert(1)' }))
+  it.each([
+    'javascript:alert(1)',
+    'http://payment-link.pagar.me/pl_1',
+    'https://evil.example/pl_1',
+    'https://payment-link.pagar.me.evil.example/pl_1',
+    'https://user@payment-link.pagar.me/pl_1',
+    'not a url',
+  ])('refuses the checkout link %s', async (checkoutUrl) => {
+    const { api } = apiAnswering(json(200, { checkoutUrl }))
 
     expect(
       await api.checkout({
@@ -178,6 +185,20 @@ describe('the site API client (PRP-065)', () => {
         locale: 'pt-BR',
       }),
     ).toMatchObject({ ok: false, code: 'bad_response' })
+  })
+
+  it('follows a Pagar.me payment link', async () => {
+    const { api } = apiAnswering(json(200, { checkoutUrl: 'https://payment-link.pagar.me/pl_1' }))
+
+    expect(
+      await api.checkout({
+        plan: 'premium',
+        cycle: 'yearly',
+        method: 'card',
+        declared: true,
+        locale: 'pt-BR',
+      }),
+    ).toEqual({ ok: true, data: { checkoutUrl: 'https://payment-link.pagar.me/pl_1' } })
   })
 
   it('accepts only a wa.me link to open WhatsApp', async () => {

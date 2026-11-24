@@ -74,8 +74,20 @@ export const plansResponseSchema = z.object({
   plans: knownOnly(planOfferSchema),
 })
 
+/** Where codart-messaging's Pagar.me gateway sends the buyer: its payment links. */
+export const CHECKOUT_HOSTS: readonly string[] = ['payment-link.pagar.me']
+
+const isCheckoutUrl = (value: string): boolean => {
+  try {
+    const url = new URL(value)
+    return url.protocol === 'https:' && !url.username && CHECKOUT_HOSTS.includes(url.hostname)
+  } catch {
+    return false
+  }
+}
+
 export const checkoutSchema = z.object({
-  checkoutUrl: z.string().regex(/^https:\/\//),
+  checkoutUrl: z.string().refine(isCheckoutUrl),
 })
 
 /** Read as plain text: a status the site does not know yet shows as still checking. */

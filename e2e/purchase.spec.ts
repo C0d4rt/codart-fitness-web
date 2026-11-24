@@ -3,7 +3,7 @@ import { expect, type Page, test } from '@playwright/test'
 test.use({ colorScheme: 'light' })
 
 const API = 'https://api.fitness.codart.dev/fitness/site'
-const CHECKOUT = 'https://payment-link.example.test/pl_123'
+const CHECKOUT = 'https://payment-link.pagar.me/pl_123'
 
 type Answer = { status?: number; body?: unknown }
 type Handler = (body: unknown, count: number) => Answer
