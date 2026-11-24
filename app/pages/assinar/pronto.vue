@@ -7,6 +7,7 @@ import {
   type PurchaseView,
   slugOf,
 } from '#shared/purchaseFlow'
+import type { PollAnswer } from '#shared/poller'
 import type { Purchase } from '#shared/siteApi'
 import type { SiteErrorCode } from '#shared/siteErrors'
 
@@ -42,13 +43,13 @@ const retryPath = computed(() => {
 })
 const who = computed(() => whoOf(account.value))
 
-const signInHere = async (now: Purchase) => {
+const signInHere = async (now: Purchase, signal: AbortSignal) => {
   if (!canSignInAfterActivation(now, Date.now())) {
     signIn.value = 'closed'
     return
   }
   signIn.value = 'busy'
-  const session = await api.purchaseSession()
+  const session = await api.purchaseSession(signal)
   if (!session.ok) {
     signIn.value = 'closed'
     return
@@ -58,16 +59,18 @@ const signInHere = async (now: Purchase) => {
   signIn.value = 'done'
 }
 
-const check = async (): Promise<'again' | 'done'> => {
-  const answer = await api.purchase()
+const check = async (signal: AbortSignal): Promise<PollAnswer> => {
+  const answer = await api.purchase(signal)
+  if (signal.aborted) return 'done'
   if (!answer.ok) {
     if (view.value === 'checking') failure.value = answer.code
-    return ['network', 'unavailable', 'rate_limited'].includes(answer.code) ? 'again' : 'done'
+    if (answer.code === 'rate_limited') return 'slower'
+    return ['network', 'unavailable'].includes(answer.code) ? 'again' : 'done'
   }
   failure.value = undefined
   purchase.value = answer.data
   view.value = purchaseView(answer.data)
-  if (view.value === 'activated' && signIn.value === 'idle') await signInHere(answer.data)
+  if (view.value === 'activated' && signIn.value === 'idle') await signInHere(answer.data, signal)
   return purchaseSettled(view.value) ? 'done' : 'again'
 }
 

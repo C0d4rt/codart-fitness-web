@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { type Clock, systemClock } from './poller'
 import { type SiteErrorCode, siteErrorOf } from './siteErrors'
 
 const iso = z.string().min(1)
@@ -115,9 +116,20 @@ type Fetch = (input: string, init: RequestInit) => Promise<Response>
 /**
  * Every call carries the API's cookies (`credentials: 'include'`) and never a token: the sessions
  * live only in `HttpOnly` cookies on the API host. A POST always sends a JSON body, which the API
- * requires so a cross-site form can never post.
+ * requires so a cross-site form can never post. A call that outlives `timeoutMs`, or whose
+ * `signal` aborts, reads as `network`.
  */
-export const createSiteApi = ({ baseUrl, fetch }: { baseUrl: string; fetch: Fetch }) => {
+export const createSiteApi = ({
+  baseUrl,
+  fetch,
+  timeoutMs = 10_000,
+  clock = systemClock,
+}: {
+  baseUrl: string
+  fetch: Fetch
+  timeoutMs?: number
+  clock?: Clock
+}) => {
   const root = `${baseUrl.replace(/\/+$/, '')}/fitness/site`
 
   const call = async <T>(
@@ -125,8 +137,12 @@ export const createSiteApi = ({ baseUrl, fetch }: { baseUrl: string; fetch: Fetc
     path: string,
     schema: z.ZodType<T>,
     body?: unknown,
+    signal?: AbortSignal,
   ): Promise<ApiResult<T>> => {
+    const timeout = new AbortController()
+    const timer = clock.setTimeout(() => timeout.abort(), timeoutMs)
     let response: Response
+    let json: unknown
     try {
       response = await fetch(`${root}${path}`, {
         method,
@@ -137,12 +153,14 @@ export const createSiteApi = ({ baseUrl, fetch }: { baseUrl: string; fetch: Fetc
             ? { accept: 'application/json', 'content-type': 'application/json' }
             : { accept: 'application/json' },
         body: method === 'POST' ? JSON.stringify(body ?? {}) : undefined,
+        signal: signal ? AbortSignal.any([timeout.signal, signal]) : timeout.signal,
       })
+      json = response.status === 204 ? undefined : await response.json().catch(() => undefined)
     } catch {
       return { ok: false, status: 0, code: 'network' }
+    } finally {
+      clock.clearTimeout(timer)
     }
-    const json: unknown =
-      response.status === 204 ? undefined : await response.json().catch(() => undefined)
     if (!response.ok) {
       return { ok: false, status: response.status, code: siteErrorOf(response.status, json) }
     }
@@ -158,13 +176,16 @@ export const createSiteApi = ({ baseUrl, fetch }: { baseUrl: string; fetch: Fetc
     plans: (locale: ApiLocale) =>
       call('GET', `/plans?locale=${encodeURIComponent(locale)}`, plansResponseSchema),
     checkout: (choice: CheckoutChoice) => call('POST', '/checkout', checkoutSchema, choice),
-    purchase: () => call('GET', '/purchase', purchaseSchema),
+    purchase: (signal?: AbortSignal) => call('GET', '/purchase', purchaseSchema, undefined, signal),
     openPurchase: (code: string) =>
       call('POST', '/purchase/open', z.object({ opened: z.literal(true) }), { code }),
-    purchaseSession: () => call('POST', '/purchase/session', sessionSchema),
+    purchaseSession: (signal?: AbortSignal) =>
+      call('POST', '/purchase/session', sessionSchema, undefined, signal),
     startLogin: (locale: ApiLocale) => call('POST', '/login', loginSchema, { locale }),
-    loginStatus: () => call('GET', '/login', loginStatusSchema),
-    loginSession: () => call('POST', '/login/session', sessionSchema),
+    loginStatus: (signal?: AbortSignal) =>
+      call('GET', '/login', loginStatusSchema, undefined, signal),
+    loginSession: (signal?: AbortSignal) =>
+      call('POST', '/login/session', sessionSchema, undefined, signal),
     logout: () => call('POST', '/logout', z.unknown()),
   }
 }

@@ -77,6 +77,40 @@ describe('startPolling', () => {
     expect(tick).toHaveBeenCalledTimes(2)
   })
 
+  it('waits twice as long after each rate limit, up to its cap, and back to the pace after', async () => {
+    const answers: ('again' | 'slower' | 'done')[] = ['slower', 'slower', 'slower', 'again', 'done']
+    const at: number[] = []
+    const tick = vi.fn(async () => {
+      at.push(Date.now())
+      return answers.shift()!
+    })
+    const start = Date.now()
+
+    startPolling({ tick, everyMs: 1000, maxEveryMs: 3000, forMs: 60_000 })
+    await vi.advanceTimersByTimeAsync(20_000)
+
+    expect(at.map((each) => each - start)).toEqual([0, 2000, 5000, 8000, 9000])
+  })
+
+  it('aborts the question in flight when stopped', async () => {
+    let signal: AbortSignal | undefined
+    const tick = vi.fn(
+      (given: AbortSignal) =>
+        new Promise<'again' | 'done'>((resolve) => {
+          signal = given
+          given.addEventListener('abort', () => resolve('again'))
+        }),
+    )
+
+    const poller = startPolling({ tick, everyMs: 1000, forMs: 60_000 })
+    await vi.advanceTimersByTimeAsync(0)
+    poller.stop()
+    await vi.advanceTimersByTimeAsync(10_000)
+
+    expect(signal?.aborted).toBe(true)
+    expect(tick).toHaveBeenCalledTimes(1)
+  })
+
   it('stops for good when the page leaves', async () => {
     const tick = vi.fn(async () => 'again' as const)
 

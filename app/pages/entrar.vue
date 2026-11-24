@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { brand } from '~/brand'
+import type { PollAnswer } from '#shared/poller'
 import { choiceOfSlug, loginStep, returnOf, slugOf } from '#shared/purchaseFlow'
 import type { Login } from '#shared/siteApi'
 import { clockTime, fullDate } from '#shared/siteDates'
@@ -77,10 +78,11 @@ const readMe = async () => {
   return me
 }
 
-const enter = async (): Promise<'again' | 'done'> => {
+const enter = async (signal: AbortSignal): Promise<PollAnswer> => {
   if (view.value.kind !== 'code') return 'done'
   view.value = { ...view.value, entering: true }
-  const session = await api.loginSession()
+  const session = await api.loginSession(signal)
+  if (signal.aborted) return 'done'
   if (!session.ok) {
     if (session.code === 'login_pending') return 'again'
     view.value =
@@ -102,12 +104,13 @@ const watchCode = () =>
   polling.start({
     everyMs: 2000,
     forMs: 20 * 60 * 1000,
-    tick: async () => {
-      const status = await api.loginStatus()
-      if (!status.ok) return 'again'
+    tick: async (signal) => {
+      const status = await api.loginStatus(signal)
+      if (signal.aborted) return 'done'
+      if (!status.ok) return status.code === 'rate_limited' ? 'slower' : 'again'
       const step = loginStep(status.data.status)
       if (step === 'wait') return 'again'
-      if (step === 'exchange') return enter()
+      if (step === 'exchange') return enter(signal)
       view.value = { kind: 'ended', reason: step }
       return 'done'
     },

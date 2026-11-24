@@ -140,6 +140,32 @@ describe('the site API client (PRP-065)', () => {
     })
   })
 
+  it('gives up on a call that hangs, and on one its caller aborts, as a network failure', async () => {
+    const timers: { run: () => void; ms: number }[] = []
+    const clock = {
+      now: () => 0,
+      setTimeout: (run: () => void, ms: number) => timers.push({ run, ms }),
+      clearTimeout: () => {},
+    }
+    const fetch = vi.fn(
+      (_input: string, init: RequestInit) =>
+        new Promise<Response>((_, reject) => {
+          init.signal?.addEventListener('abort', () => reject(new DOMException('', 'AbortError')))
+        }),
+    )
+    const api = createSiteApi({ baseUrl: 'https://api.example.test', fetch, clock })
+
+    const hung = api.purchase()
+    timers[0]!.run()
+    const caller = new AbortController()
+    const aborted = api.loginStatus(caller.signal)
+    caller.abort()
+
+    expect(timers.map((each) => each.ms)).toEqual([10_000, 10_000])
+    expect(await hung).toEqual({ ok: false, status: 0, code: 'network' })
+    expect(await aborted).toEqual({ ok: false, status: 0, code: 'network' })
+  })
+
   it('refuses a checkout link that is not https', async () => {
     const { api } = apiAnswering(json(200, { checkoutUrl: 'javascript:alert(1)' }))
 
