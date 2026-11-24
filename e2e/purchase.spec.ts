@@ -299,6 +299,27 @@ test('back from the payment, an anonymous purchase activates on WhatsApp and sig
   expect(calls.filter((call) => call.path.endsWith('/purchase/session'))).toHaveLength(1)
 })
 
+test('a purchase that stops answering while waiting says so and can be asked again', async ({
+  page,
+}) => {
+  await fakeApi(page, {
+    'GET /purchase': (_, count) =>
+      count === 2
+        ? {
+            status: 409,
+            body: { status: 409, code: 'fitness.site.purchase_unknown', message: 'x' },
+          }
+        : { body: { plan: 'premium', cycle: 'monthly', method: 'pix', status: 'waiting' } },
+  })
+
+  await page.goto('/assinar/pronto')
+  await expect(page.getByText('Esperando o pagamento.')).toBeVisible()
+  await expect(page.getByRole('alert')).toHaveText(/Não achamos uma compra/, { timeout: 8000 })
+
+  await page.getByRole('button', { name: 'Tentar de novo' }).click()
+  await expect(page.getByText('Esperando o pagamento.')).toBeVisible()
+})
+
 test('signing in with WhatsApp shows the code, waits for it and enters', async ({ page }, info) => {
   const calls = await fakeApi(page, {
     'GET /me': (_, count) =>
@@ -344,6 +365,31 @@ test('signing in with WhatsApp shows the code, waits for it and enters', async (
   await expect(page.getByText('Premium até 21/12/2026.')).toBeVisible()
   await page.getByRole('button', { name: 'Sair' }).click()
   await expect(page.getByText('Você saiu deste navegador.')).toBeVisible()
+})
+
+test('a sign-in that never hears back says so and can ask again', async ({ page }) => {
+  await page.clock.install()
+  await fakeApi(page, {
+    'GET /me': () => ({ body: { signedIn: false } }),
+    'POST /login': () => ({
+      status: 201,
+      body: {
+        code: 'WEB-7KQ2MX',
+        message: 'Entrar no site: WEB-7KQ2MX',
+        link: 'https://wa.me/5511926169724?text=Entrar%20no%20site%3A%20WEB-7KQ2MX',
+        expiresAt: new Date(Date.now() + 10 * 60_000).toISOString(),
+      },
+    }),
+    'GET /login': () => ({ status: 503, body: { code: 'unavailable' } }),
+  })
+
+  await page.goto('/entrar')
+  await expect(page.getByText('Esperando a sua mensagem')).toBeVisible()
+  await page.clock.fastForward('21:00')
+
+  await expect(page.getByText('A resposta ainda não chegou. Atualize daqui a pouco.')).toBeVisible()
+  await page.getByRole('button', { name: 'Atualizar' }).click()
+  await expect(page.getByText('Esperando a sua mensagem')).toBeVisible()
 })
 
 test('signing in from the purchase page goes back to it with the plan', async ({ page }) => {

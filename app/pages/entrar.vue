@@ -167,12 +167,22 @@ onMounted(start)
       <p class="only-touch">{{ t('signIn.phoneStep') }}</p>
       <p class="only-pointer">{{ t('signIn.desktopStep') }}</p>
       <WhatsAppCode :link="view.login.link" :message="view.login.message" />
-      <p class="status">
-        {{ view.entering ? t('signIn.confirmed') : t('signIn.waiting') }}
-      </p>
-      <p class="muted">
-        {{ t('signIn.expiresAt', { time: clockTime(view.login.expiresAt, locale) }) }}
-      </p>
+      <template v-if="polling.timedOut.value">
+        <p class="muted">{{ t('subscribeDone.timeout') }}</p>
+        <div class="actions">
+          <button type="button" class="button button--quiet" @click="watchCode">
+            {{ t('subscribeDone.refresh') }}
+          </button>
+        </div>
+      </template>
+      <template v-else>
+        <p class="status">
+          {{ view.entering ? t('signIn.confirmed') : t('signIn.waiting') }}
+        </p>
+        <p class="muted">
+          {{ t('signIn.expiresAt', { time: clockTime(view.login.expiresAt, locale) }) }}
+        </p>
+      </template>
     </template>
 
     <template v-else-if="view.kind === 'ended'">
