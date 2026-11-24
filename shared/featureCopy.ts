@@ -439,7 +439,7 @@ const PT: Record<string, FeatureCopy> = {
   checkIns: {
     headline: 'Check-in a cada 14 dias, reavaliação todo mês',
     howTo:
-      'A cada 14 dias, um check-in rápido: peso, energia, sono, fome e o que ficou difícil. Todo mês, a reavaliação, com fotos para comparar. O plano se ajusta ao que você conta, e você recebe o que mudou e por quê, ou que ele segue igual.',
+      'A cada 14 dias, um check-in rápido: peso, energia, sono, fome e o que ficou difícil. Todo mês, a reavaliação, com fotos para comparar. A nossa equipe vê o que você contou e responde em até 24 horas com o que muda no plano e por quê, ou que ele segue igual.',
     exchange: [
       bot(
         'Hora do seu check-in! Leva um minuto e ajuda a ajustar seu plano.',
@@ -901,7 +901,7 @@ const EN: Record<string, FeatureCopy> = {
   checkIns: {
     headline: 'A check-in every 14 days, a reassessment every month',
     howTo:
-      'Every 14 days, a quick check-in: weight, energy, sleep, hunger and what was hard. Every month, the reassessment, with photos to compare. Your plan adjusts to what you report, and you get what changed and why, or that it stays the same.',
+      'Every 14 days, a quick check-in: weight, energy, sleep, hunger and what was hard. Every month, the reassessment, with photos to compare. Our team looks at what you report and answers within 24 hours with what changes in the plan and why, or that it stays the same.',
     exchange: [
       bot(
         'Time for your check-in! It takes a minute and helps adjust your plan.',

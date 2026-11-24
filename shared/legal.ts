@@ -5,7 +5,7 @@ export type LegalSection = { title: string; paragraphs?: string[]; items?: strin
 export type LegalDoc = { intro: string; sections: LegalSection[] }
 
 /** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
-export const LEGAL_VERSION = '12'
+export const LEGAL_VERSION = '13'
 export const LEGAL_EFFECTIVE = '2026-11-23'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
@@ -56,7 +56,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'O Premium Pro é um programa de 12 meses, com tudo do Premium. Você faz uma avaliação completa e recebe uma dieta e um treino montados para você a partir dela, com métodos baseados em evidência e conteúdo de referência, com check-ins e uma reavaliação por mês. O preço e a disponibilidade estão na página Planos.',
           'A dieta e o treino chegam em até 24 horas corridas, todos os dias da semana, depois que você termina a avaliação e manda as fotos pedidas. O prazo conta a partir do que você fizer por último.',
           'Para quem tem de 13 a 17 anos, o Premium Pro depende de a autorização do responsável cobri-lo. A avaliação não pede fotos do físico, e o prazo de 24 horas conta do fim da avaliação.',
-          'O assistente ajusta o plano automaticamente à sua evolução, a partir dos check-ins, da reavaliação e do que você registra, como a progressão de carga do treino e as trocas equivalentes de exercício ou de alimento.',
+          'Nos check-ins e na reavaliação mensal, a nossa equipe vê a sua evolução e responde em até 24 horas com o que muda no plano e por quê, ou que ele segue igual. O assistente ajusta sozinho a progressão de carga do treino, as trocas equivalentes de exercício ou de alimento e a meta de calorias quando o peso para. Se você registrar uso de hormônio, a liberação e os ajustes do plano passam pela nossa equipe.',
           'As dúvidas do seu caso vão para a nossa equipe, e a resposta chega na própria conversa em até 24 horas corridas, todos os dias da semana.',
           'O programa é pago uma vez só, no cartão, à vista ou em até 12x sem juros. Não tem teste grátis nem renovação automática: o programa termina no fim dos 12 meses.',
           'Os 12 meses contam a partir da confirmação do pagamento, ou da ativação na compra feita no site sem entrar, e não da entrega do plano: o tempo até o plano chegar faz parte do programa.',
@@ -271,7 +271,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'Premium Pro is a 12-month program, with everything in Premium. You fill in a full assessment and get a diet and a training plan built for you from it, with evidence-based methods and reference content, with check-ins and a reassessment every month. The price and whether it is on sale are on the Plans page.',
           'The diet and the training plan arrive within 24 hours, every day of the week, after you finish the assessment and send the photos we ask for. The time counts from whichever of the two you do last.',
           'For anyone aged 13 to 17, Premium Pro depends on the parent or guardian’s authorization covering it. The assessment asks for no physique photos, and the 24 hours count from the end of the assessment.',
-          'The assistant adjusts the plan to your progress automatically, from the check-ins, the reassessment and what you log, such as the load progression of your training and equivalent swaps of exercises or foods.',
+          'In the check-ins and the monthly reassessment, our team looks at your progress and answers within 24 hours with what changes in the plan and why, or that it stays the same. The assistant adjusts on its own the load progression of your training, equivalent swaps of exercises or foods and the calorie goal when your weight stalls. If you record hormone use, the release and the adjustments of the plan go through our team.',
           'Questions about your case go to our team, and the answer arrives in the chat within 24 hours, every day of the week.',
           'The program is paid once, by card, upfront or in up to 12 interest-free installments. There is no free trial and no automatic renewal: the program ends when the 12 months end.',
           'The 12 months count from the payment confirmation, or from the activation for a purchase made on the website without signing in, not from the delivery of the plan: the time until the plan arrives is part of the program.',
