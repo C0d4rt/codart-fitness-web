@@ -68,7 +68,7 @@
   "assistant": {
     "title": "Ele conhece você. E sabe de onde tirou.",
     "lead": "Lembra da sua meta, do que você não come e do que tem em casa. Pergunte sobre os seus números, ou peça uma explicação e, se quiser, a fonte",
-    "label": "Uma conversa em que a pessoa pergunta o que o assistente sabe sobre ela, quanta proteína comeu na semana e se creatina faz mal aos rins, e depois pergunta a fonte.",
+    "label": "Uma conversa em que a pessoa pergunta o que o assistente sabe sobre ela, quanta proteína comeu na semana e quanto de creatina tomar, e depois pergunta a fonte.",
     "pointsLabel": "O que o assistente faz",
     "points": {
       "memory": {
@@ -89,8 +89,8 @@
       "memoryAnswer": "O que eu sei sobre você:\n\n*Perfil*\n• Meta do dia: {goal} kcal\n\n*Preferências*\n• Alimentos que evita: camarão",
       "weekQuestion": "quanta proteína comi essa semana?",
       "weekAnswer": "*{total} g de proteína* em {logged} dias registrados: média de {average} g por dia, para a meta de {goal} g.",
-      "creatineQuestion": "creatina faz mal pros rins?",
-      "creatineAnswer": "De 3 a 5 g por dia, a creatina monohidratada é segura para quem não tem doença renal.",
+      "creatineQuestion": "quanto de creatina eu tomo por dia?",
+      "creatineAnswer": "0,06 g por kg de peso por dia (cerca de 5 g para quem pesa 80 kg), em qualquer horário e sem fase de saturação.",
       "sourceQuestion": "qual a fonte?",
       "sourceAnswer": "Isso vem de Kreider et al., ISSN (2017)."
     }
@@ -244,7 +244,7 @@
       },
       {
         "q": "Quem cuida do meu plano no Premium Pro?",
-        "a": "O assistente. Você faz uma avaliação completa, e ele monta a dieta e o treino a partir dela, com métodos baseados em evidência e conteúdo de referência. Nos check-ins e na reavaliação mensal, ele ajusta o plano à sua evolução, e as suas dúvidas vão para a nossa equipe, que responde na conversa em até 24 horas."
+        "a": "O assistente. Você faz uma avaliação completa, e ele monta a dieta e o treino a partir dela, com métodos baseados em evidência e conteúdo de referência. Nos check-ins e na reavaliação mensal, a nossa equipe vê a sua evolução e diz o que muda no plano e por quê, ou que ele segue igual. Ela também responde às suas dúvidas, tudo na conversa e em até 24 horas."
       },
       {
         "q": "O assistente é um nutricionista?",
