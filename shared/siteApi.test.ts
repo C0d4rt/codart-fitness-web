@@ -140,8 +140,73 @@ describe('the site API client (PRP-065)', () => {
     })
   })
 
-  it('refuses a checkout link that is not https', async () => {
-    const { api } = apiAnswering(json(200, { checkoutUrl: 'javascript:alert(1)' }))
+  it('gives up on a call that hangs, and on one its caller aborts, as a network failure', async () => {
+    const timers: { run: () => void; ms: number }[] = []
+    const clock = {
+      now: () => 0,
+      setTimeout: (run: () => void, ms: number) => timers.push({ run, ms }),
+      clearTimeout: () => {},
+    }
+    const fetch = vi.fn(
+      (_input: string, init: RequestInit) =>
+        new Promise<Response>((_, reject) => {
+          init.signal?.addEventListener('abort', () => reject(new DOMException('', 'AbortError')))
+        }),
+    )
+    const api = createSiteApi({ baseUrl: 'https://api.example.test', fetch, clock })
+
+    const hung = api.purchase()
+    timers[0]!.run()
+    const caller = new AbortController()
+    const aborted = api.loginStatus(caller.signal)
+    caller.abort()
+
+    expect(timers.map((each) => each.ms)).toEqual([10_000, 10_000])
+    expect(await hung).toEqual({ ok: false, status: 0, code: 'network' })
+    expect(await aborted).toEqual({ ok: false, status: 0, code: 'network' })
+  })
+
+  it('works in a browser without AbortSignal.any, and lets the caller signal go once answered', async () => {
+    const any = Object.getOwnPropertyDescriptor(AbortSignal, 'any')!
+    Object.defineProperty(AbortSignal, 'any', { value: undefined, configurable: true })
+    try {
+      const { api, fetch } = apiAnswering(json(200, { status: 'pending' }))
+      const caller = new AbortController()
+
+      const answer = await api.loginStatus(caller.signal)
+      const passed = fetch.mock.calls[0]![1].signal!
+      caller.abort()
+
+      expect(answer).toEqual({ ok: true, data: { status: 'pending' } })
+      expect(passed.aborted).toBe(false)
+    } finally {
+      Object.defineProperty(AbortSignal, 'any', any)
+    }
+  })
+
+  it('reads a call its caller aborted before it started as a network failure', async () => {
+    const fetch = vi.fn(async (_input: string, init: RequestInit) => {
+      init.signal?.throwIfAborted()
+      return json(200, { status: 'pending' })
+    })
+    const api = createSiteApi({ baseUrl: 'https://api.example.test', fetch })
+
+    expect(await api.loginStatus(AbortSignal.abort())).toEqual({
+      ok: false,
+      status: 0,
+      code: 'network',
+    })
+  })
+
+  it.each([
+    'javascript:alert(1)',
+    'http://payment-link.pagar.me/pl_1',
+    'https://evil.example/pl_1',
+    'https://payment-link.pagar.me.evil.example/pl_1',
+    'https://user@payment-link.pagar.me/pl_1',
+    'not a url',
+  ])('refuses the checkout link %s', async (checkoutUrl) => {
+    const { api } = apiAnswering(json(200, { checkoutUrl }))
 
     expect(
       await api.checkout({
@@ -152,6 +217,20 @@ describe('the site API client (PRP-065)', () => {
         locale: 'pt-BR',
       }),
     ).toMatchObject({ ok: false, code: 'bad_response' })
+  })
+
+  it('follows a Pagar.me payment link', async () => {
+    const { api } = apiAnswering(json(200, { checkoutUrl: 'https://payment-link.pagar.me/pl_1' }))
+
+    expect(
+      await api.checkout({
+        plan: 'premium',
+        cycle: 'yearly',
+        method: 'card',
+        declared: true,
+        locale: 'pt-BR',
+      }),
+    ).toEqual({ ok: true, data: { checkoutUrl: 'https://payment-link.pagar.me/pl_1' } })
   })
 
   it('accepts only a wa.me link to open WhatsApp', async () => {

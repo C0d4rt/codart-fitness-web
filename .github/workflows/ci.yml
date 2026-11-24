@@ -41,6 +41,8 @@ jobs:
 
       - name: Generate
         run: pnpm generate
+        env:
+          PLANS_FIXTURE: '1'
 
       - name: Install the browser
         run: pnpm exec playwright install --with-deps chromium

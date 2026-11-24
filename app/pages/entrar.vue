@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { brand } from '~/brand'
+import type { PollAnswer } from '#shared/poller'
 import { choiceOfSlug, loginStep, returnOf, slugOf } from '#shared/purchaseFlow'
 import type { Login } from '#shared/siteApi'
 import { clockTime, fullDate } from '#shared/siteDates'
@@ -77,10 +78,11 @@ const readMe = async () => {
   return me
 }
 
-const enter = async (): Promise<'again' | 'done'> => {
+const enter = async (signal: AbortSignal): Promise<PollAnswer> => {
   if (view.value.kind !== 'code') return 'done'
   view.value = { ...view.value, entering: true }
-  const session = await api.loginSession()
+  const session = await api.loginSession(signal)
+  if (signal.aborted) return 'done'
   if (!session.ok) {
     if (session.code === 'login_pending') return 'again'
     view.value =
@@ -102,12 +104,13 @@ const watchCode = () =>
   polling.start({
     everyMs: 2000,
     forMs: 20 * 60 * 1000,
-    tick: async () => {
-      const status = await api.loginStatus()
-      if (!status.ok) return 'again'
+    tick: async (signal) => {
+      const status = await api.loginStatus(signal)
+      if (signal.aborted) return 'done'
+      if (!status.ok) return status.code === 'rate_limited' ? 'slower' : 'again'
       const step = loginStep(status.data.status)
       if (step === 'wait') return 'again'
-      if (step === 'exchange') return enter()
+      if (step === 'exchange') return enter(signal)
       view.value = { kind: 'ended', reason: step }
       return 'done'
     },
@@ -164,12 +167,22 @@ onMounted(start)
       <p class="only-touch">{{ t('signIn.phoneStep') }}</p>
       <p class="only-pointer">{{ t('signIn.desktopStep') }}</p>
       <WhatsAppCode :link="view.login.link" :message="view.login.message" />
-      <p class="status">
-        {{ view.entering ? t('signIn.confirmed') : t('signIn.waiting') }}
-      </p>
-      <p class="muted">
-        {{ t('signIn.expiresAt', { time: clockTime(view.login.expiresAt, locale) }) }}
-      </p>
+      <template v-if="polling.timedOut.value">
+        <p class="muted">{{ t('subscribeDone.timeout') }}</p>
+        <div class="actions">
+          <button type="button" class="button button--quiet" @click="watchCode">
+            {{ t('subscribeDone.refresh') }}
+          </button>
+        </div>
+      </template>
+      <template v-else>
+        <p class="status">
+          {{ view.entering ? t('signIn.confirmed') : t('signIn.waiting') }}
+        </p>
+        <p class="muted">
+          {{ t('signIn.expiresAt', { time: clockTime(view.login.expiresAt, locale) }) }}
+        </p>
+      </template>
     </template>
 
     <template v-else-if="view.kind === 'ended'">

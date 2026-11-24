@@ -5,6 +5,7 @@ import {
   installmentCents,
   money,
   moneyParts,
+  packageInstallmentCents,
   wholeMoney,
   yearlyPerMonth,
   yearlySaving,
@@ -73,7 +74,7 @@ const chosen = computed(
   () => packages.value.find((each) => each.months === months.value) ?? packages.value[0],
 )
 const installment = computed(() =>
-  moneyParts(chosen.value ? installmentCents(chosen.value) : 0, locale.value),
+  moneyParts(chosen.value ? packageInstallmentCents(chosen.value) : 0, locale.value),
 )
 const coachingItems = computed(() => [
   t('pricing.allOfPremium'),

@@ -1,4 +1,4 @@
-import { installmentCents, money, type Catalog } from './plans'
+import { installmentCents, money, packageInstallmentCents, type Catalog } from './plans'
 
 type Site = { name: string; url: string; tagline: string }
 
@@ -9,7 +9,7 @@ export const llmsText = (site: Site, catalog: Catalog, builtOn: string): string 
     ? `- ${coaching.name}: programa pago uma vez só, no cartão, sem renovação, com 7 dias de garantia e reembolso integral, e sem teste grátis. ${coaching.packages
         .map(
           (pack) =>
-            `${pack.months} meses por ${money(pack.totalCents, 'pt')}, ou ${pack.installments}x de ${money(installmentCents(pack), 'pt')} sem juros`,
+            `${pack.months} meses por ${money(pack.totalCents, 'pt')}, ou ${pack.installments}x de ${money(packageInstallmentCents(pack), 'pt')} sem juros`,
         )
         .join('; ')}.`
     : `- ${coaching.name}: em breve, ainda sem venda.`

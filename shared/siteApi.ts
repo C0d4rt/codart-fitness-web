@@ -1,9 +1,22 @@
 import { z } from 'zod'
 
+import { type Clock, systemClock } from './poller'
 import { type SiteErrorCode, siteErrorOf } from './siteErrors'
 
 const iso = z.string().min(1)
 const waLink = z.string().regex(/^https:\/\/wa\.me\/\d*\?text=/)
+const planName = z.enum(['premium', 'coaching'])
+const cycleName = z.enum(['monthly', 'yearly'])
+const methodName = z.enum(['card', 'pix'])
+
+/** A plan or method the API adds before the site knows it is left out, never the whole answer. */
+const knownOnly = <T extends z.ZodType>(schema: T) =>
+  z.array(z.unknown()).transform((items) =>
+    items.flatMap((item): z.output<T>[] => {
+      const read = schema.safeParse(item)
+      return read.success ? [read.data] : []
+    }),
+  )
 
 export const sessionSchema = z.object({
   signedIn: z.literal(true),
@@ -20,7 +33,7 @@ export const meSchema = z.union([
     access: z
       .object({
         standing: z.string(),
-        plan: z.enum(['premium', 'coaching']).optional(),
+        plan: planName.optional().catch(undefined),
         until: iso.optional(),
       })
       .optional(),
@@ -30,15 +43,16 @@ export const meSchema = z.union([
 ])
 
 const methodSchema = z.object({
-  method: z.enum(['card', 'pix']),
+  method: methodName,
   renews: z.boolean(),
   installments: z.int().positive().optional(),
+  installmentCents: z.int().nonnegative().optional(),
   blocked: z.string().optional(),
 })
 
 const planOfferSchema = z.object({
-  plan: z.enum(['premium', 'coaching']),
-  cycle: z.enum(['monthly', 'yearly']),
+  plan: planName,
+  cycle: cycleName,
   title: z.string(),
   priceCents: z.int().nonnegative(),
   months: z.int().positive().optional(),
@@ -50,25 +64,38 @@ const planOfferSchema = z.object({
     .optional(),
   signInToDiscount: z.boolean().optional(),
   blocked: z.string().optional(),
-  methods: z.array(methodSchema).default([]),
+  methods: knownOnly(methodSchema).default([]),
 })
 
 export const plansResponseSchema = z.object({
-  buyer: z.enum(['anonymous', 'account', 'purchase']),
+  buyer: z.string(),
   declaration: z.object({ code: z.string(), text: z.string().min(1) }).optional(),
   blocked: z.string().optional(),
-  plans: z.array(planOfferSchema),
+  plans: knownOnly(planOfferSchema),
 })
+
+/** Where codart-messaging's Pagar.me gateway sends the buyer: its payment links. */
+export const CHECKOUT_HOSTS: readonly string[] = ['payment-link.pagar.me']
+
+const isCheckoutUrl = (value: string): boolean => {
+  try {
+    const url = new URL(value)
+    return url.protocol === 'https:' && !url.username && CHECKOUT_HOSTS.includes(url.hostname)
+  } catch {
+    return false
+  }
+}
 
 export const checkoutSchema = z.object({
-  checkoutUrl: z.string().regex(/^https:\/\//),
+  checkoutUrl: z.string().refine(isCheckoutUrl),
 })
 
+/** Read as plain text: a status the site does not know yet shows as still checking. */
 export const purchaseSchema = z.object({
-  status: z.enum(['none', 'waiting', 'paid', 'activated', 'refused', 'expired', 'refunded']),
-  plan: z.enum(['premium', 'coaching']).optional(),
-  cycle: z.enum(['monthly', 'yearly']).optional(),
-  method: z.enum(['card', 'pix']).optional(),
+  status: z.string(),
+  plan: planName.optional().catch(undefined),
+  cycle: cycleName.optional().catch(undefined),
+  method: methodName.optional().catch(undefined),
   owned: z.boolean().optional(),
   code: z.string().optional(),
   message: z.string().optional(),
@@ -85,7 +112,7 @@ export const loginSchema = z.object({
 })
 
 export const loginStatusSchema = z.object({
-  status: z.enum(['pending', 'confirmed', 'expired', 'used', 'none']),
+  status: z.string(),
   expiresAt: iso.optional(),
 })
 
@@ -115,9 +142,20 @@ type Fetch = (input: string, init: RequestInit) => Promise<Response>
 /**
  * Every call carries the API's cookies (`credentials: 'include'`) and never a token: the sessions
  * live only in `HttpOnly` cookies on the API host. A POST always sends a JSON body, which the API
- * requires so a cross-site form can never post.
+ * requires so a cross-site form can never post. A call that outlives `timeoutMs`, or whose
+ * `signal` aborts, reads as `network`.
  */
-export const createSiteApi = ({ baseUrl, fetch }: { baseUrl: string; fetch: Fetch }) => {
+export const createSiteApi = ({
+  baseUrl,
+  fetch,
+  timeoutMs = 10_000,
+  clock = systemClock,
+}: {
+  baseUrl: string
+  fetch: Fetch
+  timeoutMs?: number
+  clock?: Clock
+}) => {
   const root = `${baseUrl.replace(/\/+$/, '')}/fitness/site`
 
   const call = async <T>(
@@ -125,8 +163,16 @@ export const createSiteApi = ({ baseUrl, fetch }: { baseUrl: string; fetch: Fetc
     path: string,
     schema: z.ZodType<T>,
     body?: unknown,
+    signal?: AbortSignal,
   ): Promise<ApiResult<T>> => {
+    // One controller for both, instead of AbortSignal.any, which Safari only has since 17.4.
+    const aborter = new AbortController()
+    const abort = () => aborter.abort()
+    const timer = clock.setTimeout(abort, timeoutMs)
+    if (signal?.aborted) abort()
+    signal?.addEventListener('abort', abort)
     let response: Response
+    let json: unknown
     try {
       response = await fetch(`${root}${path}`, {
         method,
@@ -137,12 +183,15 @@ export const createSiteApi = ({ baseUrl, fetch }: { baseUrl: string; fetch: Fetc
             ? { accept: 'application/json', 'content-type': 'application/json' }
             : { accept: 'application/json' },
         body: method === 'POST' ? JSON.stringify(body ?? {}) : undefined,
+        signal: aborter.signal,
       })
+      json = response.status === 204 ? undefined : await response.json().catch(() => undefined)
     } catch {
       return { ok: false, status: 0, code: 'network' }
+    } finally {
+      clock.clearTimeout(timer)
+      signal?.removeEventListener('abort', abort)
     }
-    const json: unknown =
-      response.status === 204 ? undefined : await response.json().catch(() => undefined)
     if (!response.ok) {
       return { ok: false, status: response.status, code: siteErrorOf(response.status, json) }
     }
@@ -158,13 +207,16 @@ export const createSiteApi = ({ baseUrl, fetch }: { baseUrl: string; fetch: Fetc
     plans: (locale: ApiLocale) =>
       call('GET', `/plans?locale=${encodeURIComponent(locale)}`, plansResponseSchema),
     checkout: (choice: CheckoutChoice) => call('POST', '/checkout', checkoutSchema, choice),
-    purchase: () => call('GET', '/purchase', purchaseSchema),
+    purchase: (signal?: AbortSignal) => call('GET', '/purchase', purchaseSchema, undefined, signal),
     openPurchase: (code: string) =>
       call('POST', '/purchase/open', z.object({ opened: z.literal(true) }), { code }),
-    purchaseSession: () => call('POST', '/purchase/session', sessionSchema),
+    purchaseSession: (signal?: AbortSignal) =>
+      call('POST', '/purchase/session', sessionSchema, undefined, signal),
     startLogin: (locale: ApiLocale) => call('POST', '/login', loginSchema, { locale }),
-    loginStatus: () => call('GET', '/login', loginStatusSchema),
-    loginSession: () => call('POST', '/login/session', sessionSchema),
+    loginStatus: (signal?: AbortSignal) =>
+      call('GET', '/login', loginStatusSchema, undefined, signal),
+    loginSession: (signal?: AbortSignal) =>
+      call('POST', '/login/session', sessionSchema, undefined, signal),
     logout: () => call('POST', '/logout', z.unknown()),
   }
 }

@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { brand } from '~/brand'
 import { takeFragment } from '#shared/fragment'
-import {
-  installmentCents,
-  money as moneyText,
-  moneyParts,
-  yearlyPerMonth,
-  yearlySaving,
-} from '#shared/plans'
+import { money as moneyText, moneyParts, yearlyPerMonth, yearlySaving } from '#shared/plans'
 import {
   choiceOfSlug,
   defaultMethod,
+  installmentOf,
+  mostInstallments,
   offerFromCatalog,
   orderedPlans,
   type PlanChoice,
@@ -88,6 +84,7 @@ const cycles = computed(() => [
   { value: 'monthly' as const, label: t('pricing.monthly') },
   { value: 'yearly' as const, label: t('pricing.yearly') },
 ])
+const most = computed(() => mostInstallments(plans.value))
 const who = computed(() => whoOf(account.value))
 const whatsApp = useWhatsAppLink(null)
 const notifyLink = useWhatsAppLink(() => t('pricing.wantPlan', { plan: titles.value.coaching }))
@@ -151,20 +148,12 @@ const methodNote = (each: PlanOffer, pay: PayMethod) => {
     : t('subscribe.methodNotes.cardRenews', { price })
 }
 
-const installmentsOf = (each: PlanOffer) =>
-  Math.max(1, ...each.methods.map((pay) => pay.installments ?? 1))
-
-const perInstallment = (each: PlanOffer) =>
-  each.installmentCents && each.installmentCents > 0
-    ? each.installmentCents
-    : installmentCents({ totalCents: each.priceCents, installments: installmentsOf(each) })
-
 const yearlyNote = (each: PlanOffer) => {
-  const installments = installmentsOf(each)
-  return installments > 1
+  const installment = installmentOf(each)
+  return installment.count > 1
     ? t('pricing.yearlyInstallments', {
-        installments,
-        price: money(perInstallment(each), locale.value),
+        installments: installment.count,
+        price: money(installment.cents, locale.value),
       })
     : t('pricing.yearlyPerMonth', {
         price: yearlyPerMonth({ yearlyCents: each.priceCents }, locale.value),
@@ -366,14 +355,14 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                 <span class="lead-line">{{
                   t('pricing.installmentLead', {
                     months: each.months ?? 12,
-                    installments: installmentsOf(each),
+                    installments: installmentOf(each).count,
                   })
                 }}</span>
                 <span class="amount"
                   ><span class="unit currency">{{
-                    moneyParts(perInstallment(each), locale).currency
+                    moneyParts(installmentOf(each).cents, locale).currency
                   }}</span
-                  >{{ moneyParts(perInstallment(each), locale).amount
+                  >{{ moneyParts(installmentOf(each).cents, locale).amount
                   }}<span class="unit">{{ t('pricing.perMonthShort') }}</span></span
                 >
               </p>
@@ -503,7 +492,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
         </li>
       </ul>
 
-      <PaymentBadges class="badges" :installments="12" />
+      <PaymentBadges class="badges" :installments="most" />
     </main>
     <SiteFooter />
   </div>

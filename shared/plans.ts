@@ -190,9 +190,16 @@ export const wholeMoney = (cents: number, locale: Locale): string =>
     .format(Math.floor(cents / 100))
     .replace(/\s/g, ' ')
 
-/** What each card installment charges, rounded up to the cent ("12x de R$ 16,66" for R$ 199,90). */
+/**
+ * What each card installment charges when the API does not say, rounded to the nearest cent as
+ * codart-messaging rounds it ("12x de R$ 16,66" for R$ 199,90).
+ */
 export const installmentCents = (charge: { totalCents: number; installments: number }) =>
-  Math.ceil(charge.totalCents / charge.installments)
+  Math.round(charge.totalCents / charge.installments)
+
+/** With one installment a month, the package's `perMonthCents` is the installment messaging charges. */
+export const packageInstallmentCents = (pack: CoachingPackage) =>
+  pack.installments === pack.months ? pack.perMonthCents : installmentCents(pack)
 
 /** The package that costs least a month: the card opens on it and anchors its price. */
 export const bestPackage = (packages: readonly CoachingPackage[]): CoachingPackage | undefined =>

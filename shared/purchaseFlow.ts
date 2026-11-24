@@ -1,4 +1,4 @@
-import { type Catalog, installmentCents } from './plans'
+import { type Catalog, installmentCents, packageInstallmentCents } from './plans'
 import type { LoginStatus, PayMethod, PlanOffer, PlansResponse, Purchase } from './siteApi'
 
 export type PlanChoice = { plan: PlanOffer['plan']; cycle: PlanOffer['cycle'] }
@@ -79,7 +79,7 @@ export const offerFromCatalog = (
             priceCents: pack.totalCents,
             fullCents: pack.totalCents,
             discountCents: 0,
-            installmentCents: installmentCents(pack),
+            installmentCents: packageInstallmentCents(pack),
             credits: [],
             signInToDiscount: true,
             methods: [{ method: 'card', renews: false, installments: pack.installments }],
@@ -96,29 +96,53 @@ export const offerFromCatalog = (
   }
 }
 
+/**
+ * The most installments the offer's methods take, and what each one charges: the method's
+ * `installmentCents`, then the offer's, as codart-messaging computed them, and only without both
+ * the same rounding here.
+ */
+export const installmentOf = (offer: PlanOffer): { count: number; cents: number } => {
+  const most = offer.methods.reduce<PayMethod | undefined>(
+    (best, each) => ((each.installments ?? 1) > (best?.installments ?? 1) ? each : best),
+    undefined,
+  )
+  const count = most?.installments ?? 1
+  const cents =
+    most?.installmentCents ??
+    (offer.installmentCents ||
+      installmentCents({ totalCents: offer.priceCents, installments: count }))
+  return { count, cents }
+}
+
+/** The most installments any plan on sale takes, for the payment badges. */
+export const mostInstallments = (plans: readonly PlanOffer[]): number =>
+  Math.max(1, ...plans.filter((each) => !each.blocked).map((each) => installmentOf(each).count))
+
 /** The one method to start on: the only one there is, or none so the person picks. */
 export const defaultMethod = (offer: PlanOffer): PayMethod['method'] | undefined => {
   const open = offer.methods.filter((each) => !each.blocked)
   return open.length === 1 ? open[0]!.method : undefined
 }
 
+const STATUS_VIEWS = ['none', 'waiting', 'activated', 'refused', 'expired', 'refunded'] as const
+
 /** What `/assinar/pronto` shows for each answer of `GET /purchase`. */
-export type PurchaseView =
-  'none' | 'waiting' | 'confirmed' | 'activate' | 'activated' | 'refused' | 'expired' | 'refunded'
+export type PurchaseView = (typeof STATUS_VIEWS)[number] | 'checking' | 'confirmed' | 'activate'
+
+const isStatusView = (status: string): status is (typeof STATUS_VIEWS)[number] =>
+  (STATUS_VIEWS as readonly string[]).includes(status)
 
 export const purchaseView = (purchase: Purchase): PurchaseView => {
-  switch (purchase.status) {
-    case 'paid':
-      if (purchase.owned) return 'confirmed'
-      return purchase.link && purchase.code ? 'activate' : 'waiting'
-    default:
-      return purchase.status
+  if (purchase.status === 'paid') {
+    if (purchase.owned) return 'confirmed'
+    return purchase.link && purchase.code ? 'activate' : 'waiting'
   }
+  return isStatusView(purchase.status) ? purchase.status : 'checking'
 }
 
 /** The page keeps asking only while something can still change on its own. */
 export const purchaseSettled = (view: PurchaseView): boolean =>
-  view !== 'waiting' && view !== 'activate'
+  view !== 'waiting' && view !== 'activate' && view !== 'checking'
 
 /** The activated purchase can still sign this browser in. */
 export const canSignInAfterActivation = (purchase: Purchase, now: number): boolean =>
@@ -140,6 +164,8 @@ export const loginStep = (status: LoginStatus['status']): LoginStep => {
       return 'used'
     case 'none':
       return 'lost'
+    default:
+      return 'wait'
   }
 }
 

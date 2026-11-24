@@ -228,11 +228,12 @@ describe('money', () => {
 })
 
 describe('the Premium Pro packages', () => {
-  it('charges each installment rounded up to the cent', () => {
+  it('rounds each installment to the nearest cent, as codart-messaging charges it', () => {
     expect(installmentCents({ totalCents: 29990, installments: 3 })).toBe(9997)
     expect(installmentCents({ totalCents: 49990, installments: 6 })).toBe(8332)
     expect(installmentCents(program)).toBe(3990)
     expect(installmentCents({ totalCents: 19990, installments: 12 })).toBe(1666)
+    expect(installmentCents({ totalCents: 10001, installments: 12 })).toBe(833)
   })
 
   it('leads with the package that costs least a month', () => {
