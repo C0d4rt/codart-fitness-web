@@ -122,7 +122,7 @@
   },
   "bento": {
     "title": "Seus números. Quando pedir.",
-    "lead": "A meta do dia, a semana e o peso, em resposta a uma mensagem. No dia que você escolher (segunda, se não disser nada), o resumo da semana chega sozinho",
+    "lead": "A meta do dia, a semana e o peso, em resposta a uma mensagem. A partir do dia que você escolher (segunda, se não disser nada), o resumo da semana vem na sua próxima conversa",
     "seeAll": "Ver todos os recursos, com exemplos",
     "day": {
       "title": "Meta do dia",
@@ -260,7 +260,7 @@
       },
       {
         "q": "E os meus dados?",
-        "a": "Servem só para o seu diário e são tratados conforme a LGPD."
+        "a": "Servem para o seu diário, o seu plano, a cobrança e o suporte, e são tratados conforme a LGPD. Não vendemos os seus dados."
       }
     ]
   },
@@ -362,7 +362,7 @@
       "pix": "{price} por um mês, sem renovar",
       "yearly": "{price} por 12 meses, sem renovar",
       "coaching": "{price} pelos {months} meses, sem renovar",
-      "alreadySubscribed": "Seu mensal no cartão já renova sozinho. Pague um mês no Pix ou escolha o anual."
+      "alreadySubscribed": "Seu mensal no cartão já renova sozinho. Se pagar no Pix ou no anual agora, ele continua renovando. Para trocar, responda \"cancelar\" na conversa e depois volte aqui."
     },
     "proPoints": {
       "months": "Programa de {months} meses, sem renovação automática.",
@@ -479,7 +479,7 @@
       "declaration_required": "Marque a declaração para continuar.",
       "method_unavailable": "Essa forma de pagamento não vale para este plano. Escolha outra.",
       "pro_unavailable": "O Premium Pro não está à venda agora.",
-      "already_subscribed": "Seu mensal no cartão já renova sozinho. Pague um mês no Pix ou escolha o anual.",
+      "already_subscribed": "Seu mensal no cartão já renova sozinho. Se pagar no Pix ou no anual agora, ele continua renovando. Para trocar, responda \"cancelar\" na conversa e depois volte aqui.",
       "guardian_required": "Falta a autorização do seu responsável para este plano. O pedido está na sua conversa do WhatsApp.",
       "purchase_paid": "Essa compra já foi paga.",
       "checkout_refused": "Não conseguimos abrir esse pagamento. Os preços foram atualizados: confira e tente de novo.",
