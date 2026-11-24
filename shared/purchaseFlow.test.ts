@@ -9,6 +9,7 @@ import {
   defaultMethod,
   installmentOf,
   loginStep,
+  mostInstallments,
   offerFromCatalog,
   orderedPlans,
   purchaseSettled,
@@ -145,6 +146,26 @@ describe('the installment shown', () => {
     )
 
     expect(installmentOf(offer.plans[2]!)).toEqual({ count: 12, cents: 834 })
+  })
+})
+
+describe('the payment badges', () => {
+  it('promise as many installments as the plans on sale take, and no more', () => {
+    const onSaleOffer = offerFromCatalog(buildCatalog(onSale, 'pt'), TITLES)
+    const withoutPro = offerFromCatalog(buildCatalog(fixture, 'pt'), TITLES)
+    const monthlyOnly = withoutPro.plans.filter((each) => each.cycle === 'monthly')
+
+    expect(mostInstallments(onSaleOffer.plans)).toBe(12)
+    expect(
+      mostInstallments(
+        onSaleOffer.plans.map((each) =>
+          each.plan === 'coaching'
+            ? { ...each, methods: [{ method: 'card', renews: false, installments: 18 }] }
+            : each,
+        ),
+      ),
+    ).toBe(18)
+    expect(mostInstallments(monthlyOnly)).toBe(1)
   })
 })
 

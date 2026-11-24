@@ -114,6 +114,10 @@ export const installmentOf = (offer: PlanOffer): { count: number; cents: number 
   return { count, cents }
 }
 
+/** The most installments any plan on sale takes, for the payment badges. */
+export const mostInstallments = (plans: readonly PlanOffer[]): number =>
+  Math.max(1, ...plans.filter((each) => !each.blocked).map((each) => installmentOf(each).count))
+
 /** The one method to start on: the only one there is, or none so the person picks. */
 export const defaultMethod = (offer: PlanOffer): PayMethod['method'] | undefined => {
   const open = offer.methods.filter((each) => !each.blocked)

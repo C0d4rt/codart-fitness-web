@@ -6,6 +6,7 @@ import {
   choiceOfSlug,
   defaultMethod,
   installmentOf,
+  mostInstallments,
   offerFromCatalog,
   orderedPlans,
   type PlanChoice,
@@ -83,6 +84,7 @@ const cycles = computed(() => [
   { value: 'monthly' as const, label: t('pricing.monthly') },
   { value: 'yearly' as const, label: t('pricing.yearly') },
 ])
+const most = computed(() => mostInstallments(plans.value))
 const who = computed(() => whoOf(account.value))
 const whatsApp = useWhatsAppLink(null)
 const notifyLink = useWhatsAppLink(() => t('pricing.wantPlan', { plan: titles.value.coaching }))
@@ -490,7 +492,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
         </li>
       </ul>
 
-      <PaymentBadges class="badges" :installments="12" />
+      <PaymentBadges class="badges" :installments="most" />
     </main>
     <SiteFooter />
   </div>
