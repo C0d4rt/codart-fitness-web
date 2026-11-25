@@ -91,7 +91,7 @@ watch(
     newFrom.value = props.grow ? Math.min(lastLength, length) : 0
     lastLength = length
     if (live.value) play()
-    else goLive()
+    else if (!props.grow) goLive()
   },
 )
 
@@ -985,6 +985,13 @@ onBeforeUnmount(() => {
 /* When a message arrives, the ones above slide up to make room instead of jumping. */
 .row-move {
   transition: transform 380ms var(--ease-out);
+}
+
+/* A message taken back leaves at once; without this, TransitionGroup waits on the arrival animation. */
+.row-leave-active {
+  display: none;
+  animation: none;
+  transition: none;
 }
 
 .screen-enter-active {
