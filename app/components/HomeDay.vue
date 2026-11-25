@@ -239,7 +239,7 @@ const anchors = useAnchors()
 .answer {
   grid-area: answer;
   display: grid;
-  grid-template-rows: 27rem 10.5rem;
+  grid-template-rows: 28rem 15rem;
   gap: 0.875rem;
   padding: clamp(1rem, 0.5rem + 1.5vw, 1.75rem);
   border-radius: var(--radius-panel);
@@ -248,6 +248,9 @@ const anchors = useAnchors()
 
 .card-slot {
   display: grid;
+}
+
+.card-slot .day-card {
   align-content: start;
 }
 
@@ -327,7 +330,7 @@ const anchors = useAnchors()
     margin-top: 1.25rem;
   }
   .answer {
-    grid-template-rows: 30rem 11.5rem;
+    grid-template-rows: 30rem 16.5rem;
     margin-inline: calc(var(--margin) * -0.5);
     border-radius: var(--radius);
   }

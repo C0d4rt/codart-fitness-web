@@ -525,5 +525,16 @@
       "bad_response": "We got an answer we don't understand. Refresh the page and try again.",
       "unknown": "Something went wrong. Try again in a moment."
     }
+  },
+  "promo": {
+    "label": "Black Friday",
+    "offer": "Premium yearly for {yearly} and {plan} for {pro}, until Nov 30",
+    "offerShort": "Yearly for {yearly} until Nov 30",
+    "endsIn": "Ends in",
+    "see": "See plans",
+    "days": "{n, plural, one {day} other {days}}",
+    "hours": "hours",
+    "minutes": "min",
+    "seconds": "sec"
   }
 }

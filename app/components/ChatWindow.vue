@@ -89,7 +89,7 @@ onBeforeUnmount(() => {
   <figure
     ref="figure"
     class="chat"
-    :class="{ bare, flat, phone, live }"
+    :class="{ bare, flat, handset: phone, live }"
     data-ui
     :aria-label="screen.label"
   >
@@ -271,7 +271,7 @@ onBeforeUnmount(() => {
     0 28px 60px -24px rgb(16 36 26 / 0.45); /* taste-skill-ignore: the phone has to sit on the page like an object (data-ui) */
 }
 
-.chat.phone {
+.chat.handset {
   /* A phone's own proportion (71.6 × 147.6 mm), never stretched by the messages inside. */
   container-type: inline-size;
   width: min(100%, min(38rem, 100svh - 8rem) * 71.6 / 147.6);
@@ -280,13 +280,13 @@ onBeforeUnmount(() => {
   aspect-ratio: 71.6 / 147.6;
 }
 
-.chat.phone .screen {
+.chat.handset .screen {
   font-size: clamp(0.75rem, 4.75cqw, 0.875rem);
 }
 
 /* The two side buttons of a phone. */
-.chat.phone::before,
-.chat.phone::after {
+.chat.handset::before,
+.chat.handset::after {
   content: '';
   position: absolute;
   width: 3px;
@@ -294,13 +294,13 @@ onBeforeUnmount(() => {
   background: #111a16;
 }
 
-.chat.phone::before {
+.chat.handset::before {
   top: 7rem;
   left: -3px;
   height: 3rem;
 }
 
-.chat.phone::after {
+.chat.handset::after {
   top: 8.5rem;
   right: -3px;
   height: 4.5rem;
@@ -372,8 +372,10 @@ onBeforeUnmount(() => {
   font-size: 0.8125rem;
 }
 
+/* A long conversation fades out under the header instead of cutting a bubble in half. */
 .flat .thread {
   padding: 1.25rem 1.5rem 1.5rem;
+  mask-image: linear-gradient(to bottom, transparent, #000 2.5rem);
 }
 
 .flat .bubble {

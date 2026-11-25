@@ -145,6 +145,17 @@ const promises = computed(() => [
 
 <template>
   <section class="pricing" :class="{ bare }" aria-labelledby="pricing-title">
+    <div v-if="offerLines.length" class="offer" role="note">
+      <div class="offer-words">
+        <p class="offer-title">{{ t('pricing.blackFriday.title') }}</p>
+        <p v-for="line in offerLines" :key="line" class="offer-line">{{ line }}</p>
+        <p class="offer-after">{{ t('pricing.blackFriday.after') }}</p>
+      </div>
+      <div class="offer-clock">
+        <p class="offer-ends">{{ t('promo.endsIn') }}</p>
+        <CountdownClock boxes />
+      </div>
+    </div>
     <div class="head" data-reveal>
       <h2 id="pricing-title" :class="bare ? 'visually-hidden' : 'title'">
         <TextLines :text="t('pricing.title')" />
@@ -155,17 +166,15 @@ const promises = computed(() => [
           {{ promise }}
         </li>
       </ul>
-      <div v-if="offerLines.length" class="offer" role="note">
-        <p class="offer-title">{{ t('pricing.blackFriday.title') }}</p>
-        <p v-for="line in offerLines" :key="line">{{ line }}</p>
-        <p class="offer-after">{{ t('pricing.blackFriday.after') }}</p>
-      </div>
     </div>
 
     <div class="cards">
       <article id="premium" class="card">
         <div class="name-row">
           <h3 class="name">{{ premium.name }}</h3>
+          <p v-if="blackFriday.yearlyFrom(premium.yearlyCents)" class="chip chip--deal">
+            {{ t('promo.label') }}
+          </p>
           <Transition name="chip">
             <p v-if="period === 'year' && saving > 0" class="chip">
               {{ t('pricing.saving', { percent: saving }) }}
@@ -194,7 +203,12 @@ const promises = computed(() => [
         <ul class="items">
           <li v-for="item in premiumItems" :key="item">{{ item }}</li>
         </ul>
-        <div class="action" data-cta>
+        <div class="action action--pair" data-cta>
+          <WhatsAppButton
+            location="plans-premium"
+            :label="t('cta.tryDays', { days: catalog.trialDays })"
+            quiet
+          />
           <NuxtLinkLocale
             :to="{
               path: '/assinar',
@@ -203,18 +217,13 @@ const promises = computed(() => [
             class="button"
             >{{ t('pricing.subscribeNow') }}</NuxtLinkLocale
           >
-          <WhatsAppButton
-            location="plans-premium"
-            :label="t('cta.tryDays', { days: catalog.trialDays })"
-            quiet
-            class="trial"
-          />
         </div>
       </article>
 
       <article id="coaching" class="card">
         <div class="name-row">
           <h3 class="name">{{ coaching.name }}</h3>
+          <p v-if="coachingStruck" class="chip chip--deal">{{ t('promo.label') }}</p>
           <p v-if="chosen" class="chip">{{ t('pricing.recommended') }}</p>
           <Transition name="chip">
             <p v-if="chosen && chosen === best && packages.length > 1" class="chip">
@@ -394,6 +403,15 @@ const promises = computed(() => [
   white-space: nowrap;
 }
 
+.chip--deal {
+  background: var(--black);
+  color: #ffffff;
+}
+
+.name-row .name {
+  margin-right: auto;
+}
+
 .chip-enter-active {
   transition:
     opacity 200ms var(--ease-out),
@@ -473,21 +491,49 @@ const promises = computed(() => [
 }
 
 .offer {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 2rem;
+  padding: clamp(1.5rem, 1rem + 1.5vw, 2.25rem) clamp(1.5rem, 1rem + 2vw, 2.75rem);
+  border-radius: var(--radius-panel);
+  background: var(--black);
+  color: #ffffff;
+}
+
+.offer-words {
   display: grid;
   gap: 0.25rem;
-  padding: 1rem 1.25rem;
-  border-radius: var(--radius);
-  background: var(--mint);
-  font-size: var(--step-small);
 }
 
 .offer-title {
-  color: var(--green);
-  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #3fd27f;
+  font-size: var(--step-title);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.offer-line {
+  font-size: var(--step-body);
 }
 
 .offer-after {
-  color: var(--muted);
+  margin-top: 0.25rem;
+  color: rgb(255 255 255 / 0.65);
+  font-size: var(--step-small);
+}
+
+.offer-clock {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.offer-ends {
+  color: rgb(255 255 255 / 0.65);
+  font-size: var(--step-small);
 }
 
 .bare .offer {
@@ -540,21 +586,14 @@ const promises = computed(() => [
   text-wrap: balance;
 }
 
-/* The trial is the quiet way in: a line under the button, not a second button beside it. */
-.action :deep(.trial) {
-  min-height: 2.75rem;
-  margin-top: -0.25rem;
-  background: transparent;
-  color: var(--muted);
-  font-size: var(--step-small);
+.action--pair {
+  grid-template-columns: auto auto;
+  gap: 0.5rem;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .action :deep(.trial:hover) {
-    background: transparent;
-    color: var(--ink);
-    text-decoration: underline;
-  }
+.action--pair :deep(.button) {
+  padding: 0.5rem 0.625rem;
+  font-size: var(--step-small);
 }
 
 @media (max-width: 63.99rem) {

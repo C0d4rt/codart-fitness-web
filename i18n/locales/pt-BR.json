@@ -525,5 +525,16 @@
       "bad_response": "Recebemos uma resposta que não entendemos. Atualize a página e tente de novo.",
       "unknown": "Algo deu errado. Tente de novo em instantes."
     }
+  },
+  "promo": {
+    "label": "Black Friday",
+    "offer": "Premium anual por {yearly} e {plan} por {pro}, até 30/11",
+    "offerShort": "Anual por {yearly} até 30/11",
+    "endsIn": "Termina em",
+    "see": "Ver planos",
+    "days": "{n, plural, one {dia} other {dias}}",
+    "hours": "horas",
+    "minutes": "min",
+    "seconds": "seg"
   }
 }
