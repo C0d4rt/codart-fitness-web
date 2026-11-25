@@ -118,7 +118,9 @@
       "clause": "Went quiet? It reminds you",
       "label": "The short reminder the next day.",
       "message": "Hi! 👋 What have you eaten today? Tell me and I'll log it."
-    }
+    },
+    "tomorrow": "Tomorrow",
+    "steps": "Steps"
   },
   "bento": {
     "title": "Your numbers. When you ask.",

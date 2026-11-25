@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ChatScreen } from '#shared/chat'
+import type { ChatMessage, ChatScreen } from '#shared/chat'
 import { formatChat } from '#shared/formatChat'
 import { clock } from '#shared/locale'
 
@@ -10,10 +10,12 @@ const props = defineProps<{
   bare?: boolean
   flat?: boolean
   typing?: boolean
+  grow?: boolean
 }>()
 const emit = defineEmits<{ replied: [id: string] }>()
 
 const locale = useSiteLocale()
+const { t } = useI18n()
 const phone = computed(() => !props.bare && !props.flat)
 
 /* A voice note's waveform: louder bars, and dots where the speaker paused. */
@@ -32,7 +34,12 @@ let observer: IntersectionObserver | undefined
 
 /* With typing on, the first answer waits behind three dots for a moment: long enough to read as a reply, short enough not to make anyone wait. */
 const TYPING_MS = 650
-const firstReply = computed(() => props.screen.messages.findIndex((each) => each.from === 'bot'))
+/* A growing conversation keeps what was already on screen and only plays what is new. */
+const newFrom = ref(0)
+let lastLength = 0
+const firstReply = computed(() =>
+  props.screen.messages.findIndex((each, index) => index >= newFrom.value && each.from === 'bot'),
+)
 const heldFrom = ref<number>()
 const shown = computed(() =>
   heldFrom.value === undefined
@@ -40,6 +47,20 @@ const shown = computed(() =>
     : props.screen.messages.slice(0, heldFrom.value),
 )
 let timer: ReturnType<typeof setTimeout> | undefined
+
+/* One flat, keyed list: TransitionGroup cannot hydrate v-if or fragment children. */
+type Item =
+  | { key: string; kind: 'day'; text: string }
+  | { key: string; kind: 'typing' }
+  | { key: string; kind: 'message'; message: ChatMessage; index: number }
+const items = computed<Item[]>(() => [
+  ...(props.bare ? [] : [{ key: 'today', kind: 'day' as const, text: t('chat.today') }]),
+  ...shown.value.flatMap((message, index) => [
+    ...(message.day ? [{ key: `day-${index}`, kind: 'day' as const, text: message.day }] : []),
+    { key: `message-${index}`, kind: 'message' as const, message, index },
+  ]),
+  ...(heldFrom.value === undefined ? [] : [{ key: 'typing', kind: 'typing' as const }]),
+])
 
 const play = () => {
   clearTimeout(timer)
@@ -66,12 +87,16 @@ const goLive = () => {
 watch(
   () => props.screen.id,
   () => {
+    const length = props.screen.messages.length
+    newFrom.value = props.grow ? Math.min(lastLength, length) : 0
+    lastLength = length
     if (live.value) play()
     else goLive()
   },
 )
 
 onMounted(() => {
+  lastLength = props.screen.messages.length
   if (!figure.value) return
   observer = new IntersectionObserver(([entry]) => entry?.isIntersecting && goLive(), {
     threshold: 0.15,
@@ -129,21 +154,43 @@ onBeforeUnmount(() => {
         </div>
       </div>
       <Transition name="screen" mode="out-in">
-        <ol :key="screen.id" class="thread" aria-hidden="true">
-          <li v-if="!bare" class="day">{{ $t('chat.today') }}</li>
+        <TransitionGroup
+          :key="grow ? 'grow' : screen.id"
+          tag="ol"
+          name="row"
+          class="thread"
+          aria-hidden="true"
+        >
           <li
-            v-for="(message, index) in shown"
-            :key="index"
-            class="row"
-            :class="[message.from, { opens: opensRun(index), closes: closesRun(index) }]"
-            :style="{ '--n': index }"
+            v-for="item in items"
+            :key="item.key"
+            :class="
+              item.kind === 'day'
+                ? 'day'
+                : item.kind === 'typing'
+                  ? 'row bot opens closes typing'
+                  : [
+                      'row',
+                      item.message.from,
+                      { opens: opensRun(item.index), closes: closesRun(item.index) },
+                    ]
+            "
+            :style="item.kind === 'message' ? { '--n': item.index } : undefined"
           >
+            <template v-if="item.kind === 'day'">{{ item.text }}</template>
+            <div v-else-if="item.kind === 'typing'" class="bubble">
+              <span class="dots"><i /><i /><i /></span>
+              <svg class="tail" viewBox="0 0 10 16">
+                <path d="M10 0c0 7-2.4 12.6-10 16h10z" />
+              </svg>
+            </div>
             <div
+              v-else
               class="bubble"
-              :class="{ framed: message.attachment?.kind === 'photo' && !message.text }"
+              :class="{ framed: item.message.attachment?.kind === 'photo' && !item.message.text }"
             >
               <div class="body">
-                <div v-if="message.attachment?.kind === 'audio'" class="audio">
+                <div v-if="item.message.attachment?.kind === 'audio'" class="audio">
                   <span class="sender">
                     <svg class="person" viewBox="0 0 40 40">
                       <circle cx="20" cy="15.5" r="7" />
@@ -161,61 +208,55 @@ onBeforeUnmount(() => {
                       <i v-for="(height, bar) in WAVE" :key="bar" :style="{ '--h': height }" />
                     </span>
                     <span class="length"
-                      >0:{{ String(message.attachment.seconds).padStart(2, '0') }}</span
+                      >0:{{ String(item.message.attachment.seconds).padStart(2, '0') }}</span
                     >
                   </span>
                 </div>
                 <img
-                  v-else-if="message.attachment?.kind === 'photo' && message.attachment.src"
-                  :src="message.attachment.src"
-                  :alt="message.attachment.label"
+                  v-else-if="
+                    item.message.attachment?.kind === 'photo' && item.message.attachment.src
+                  "
+                  :src="item.message.attachment.src"
+                  :alt="item.message.attachment.label"
                   width="640"
                   height="426"
                   loading="lazy"
                   class="photo shot"
                 />
-                <PlateDrawing v-else-if="message.attachment?.kind === 'photo'" class="photo" />
-                <div v-else-if="message.attachment?.kind === 'file'" class="file">
+                <PlateDrawing v-else-if="item.message.attachment?.kind === 'photo'" class="photo" />
+                <div v-else-if="item.message.attachment?.kind === 'file'" class="file">
                   <span class="file-icon">CSV</span>
-                  <span>{{ message.attachment.name }}</span>
+                  <span>{{ item.message.attachment.name }}</span>
                 </div>
-                <p v-if="message.text" class="text">
+                <p v-if="item.message.text" class="text">
                   <!-- eslint-disable-next-line vue/no-v-html -- the text is escaped by formatChat before the marks become tags -->
-                  <span v-html="formatChat(message.text)" />
+                  <span v-html="formatChat(item.message.text)" />
                   <span class="room"
-                    >{{ clock(message.time, locale) }}<i v-if="message.from === 'you'"
+                    >{{ clock(item.message.time, locale) }}<i v-if="item.message.from === 'you'"
                   /></span>
                 </p>
                 <span class="meta">
-                  {{ clock(message.time, locale) }}
-                  <svg v-if="message.from === 'you'" class="ticks" viewBox="0 0 16 11">
+                  {{ clock(item.message.time, locale) }}
+                  <svg v-if="item.message.from === 'you'" class="ticks" viewBox="0 0 16 11">
                     <path class="line" d="M1.5 6.2 4.4 9l6.1-7M7.4 8.6l.5.4 6.1-7" />
                   </svg>
                 </span>
               </div>
-              <span v-if="message.button" class="reply-button">
+              <span v-if="item.message.button" class="reply-button">
                 <svg viewBox="0 0 24 24">
                   <path
                     class="line"
                     d="M9.5 4.5 3 11l6.5 6.5v-4c4.6 0 8 1.5 11 5.5-.7-6-4.5-10-11-11z"
                   />
                 </svg>
-                {{ message.button }}
+                {{ item.message.button }}
               </span>
-              <svg v-if="closesRun(index)" class="tail" viewBox="0 0 10 16">
+              <svg v-if="closesRun(item.index)" class="tail" viewBox="0 0 10 16">
                 <path d="M10 0c0 7-2.4 12.6-10 16h10z" />
               </svg>
             </div>
           </li>
-          <li v-if="heldFrom !== undefined" class="row bot opens closes typing">
-            <div class="bubble">
-              <span class="dots"><i /><i /><i /></span>
-              <svg class="tail" viewBox="0 0 10 16">
-                <path d="M10 0c0 7-2.4 12.6-10 16h10z" />
-              </svg>
-            </div>
-          </li>
-        </ol>
+        </TransitionGroup>
       </Transition>
       <div v-if="phone" class="composer" aria-hidden="true">
         <div class="tools">
@@ -941,6 +982,11 @@ onBeforeUnmount(() => {
   font-weight: 500;
 }
 
+/* When a message arrives, the ones above slide up to make room instead of jumping. */
+.row-move {
+  transition: transform 380ms var(--ease-out);
+}
+
 .screen-enter-active {
   transition: opacity 200ms var(--ease-out);
 }
@@ -962,6 +1008,9 @@ onBeforeUnmount(() => {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .row-move {
+    transition: none;
+  }
   .row {
     animation-name: fade;
     animation-duration: 200ms;

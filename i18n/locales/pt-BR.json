@@ -118,7 +118,9 @@
       "clause": "Sumiu? Ele te lembra",
       "label": "O lembrete curto do dia seguinte.",
       "message": "Oi! 👋 O que você já comeu hoje? Me conta que eu anoto."
-    }
+    },
+    "tomorrow": "Amanhã",
+    "steps": "Passos"
   },
   "bento": {
     "title": "Seus números. Quando pedir.",
