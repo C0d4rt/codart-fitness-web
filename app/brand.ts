@@ -10,17 +10,6 @@ export const brand = {
     pt: 'Seu assistente fitness no WhatsApp',
     en: 'Your fitness assistant on WhatsApp',
   } satisfies Record<Locale, string>,
-  /** The first message of the chat: the app answers in the language it is written in. */
-  greeting: {
-    pt: (trialDays?: number) =>
-      trialDays
-        ? `Oi! Quero testar o ${name} ${trialDays} dias grátis`
-        : `Oi! Quero testar o ${name}`,
-    en: (trialDays?: number) =>
-      trialDays
-        ? `Hi! I want to try ${name} free for ${trialDays} days`
-        : `Hi! I want to try ${name}`,
-  } satisfies Record<Locale, (trialDays?: number) => string>,
   /** `support@` and `privacy@` are aliases of the Portuguese mailboxes, for English readers. */
   email: {
     pt: { support: 'contato@codart.dev', privacy: 'privacidade@codart.dev' },
