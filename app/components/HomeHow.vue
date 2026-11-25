@@ -109,8 +109,9 @@ const anchors = useAnchors()
   gap: 2.5rem;
   margin: 0;
   padding: clamp(1.75rem, 1rem + 2vw, 2.75rem);
-  border-radius: var(--radius);
+  border-radius: var(--radius-panel);
   background: var(--card);
+  box-shadow: var(--shadow-card);
   list-style: none;
 }
 

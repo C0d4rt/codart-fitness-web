@@ -194,12 +194,7 @@ const promises = computed(() => [
         <ul class="items">
           <li v-for="item in premiumItems" :key="item">{{ item }}</li>
         </ul>
-        <div class="action action--pair" data-cta>
-          <WhatsAppButton
-            location="plans-premium"
-            :label="t('cta.tryDays', { days: catalog.trialDays })"
-            quiet
-          />
+        <div class="action" data-cta>
           <NuxtLinkLocale
             :to="{
               path: '/assinar',
@@ -208,6 +203,12 @@ const promises = computed(() => [
             class="button"
             >{{ t('pricing.subscribeNow') }}</NuxtLinkLocale
           >
+          <WhatsAppButton
+            location="plans-premium"
+            :label="t('cta.tryDays', { days: catalog.trialDays })"
+            quiet
+            class="trial"
+          />
         </div>
       </article>
 
@@ -363,9 +364,10 @@ const promises = computed(() => [
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
-  padding: 2.25rem 2rem 2rem;
-  border-radius: var(--radius);
+  padding: 2.5rem 2.25rem 2.25rem;
+  border-radius: var(--radius-panel);
   background: var(--card);
+  box-shadow: var(--shadow-card);
 }
 
 .name-row {
@@ -432,20 +434,23 @@ const promises = computed(() => [
 }
 
 .amount {
-  font-size: var(--step-figure);
+  font-size: var(--step-price);
   font-weight: 500;
-  letter-spacing: -0.045em;
-  line-height: 1.1;
+  letter-spacing: -0.055em;
+  line-height: 1;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .unit {
-  font-size: 0.4em;
+  color: var(--muted);
+  font-size: 0.3em;
+  font-weight: 500;
   letter-spacing: 0;
 }
 
 .currency {
-  margin-right: 0.125rem;
+  margin-right: 0.25rem;
 }
 
 .lead {
@@ -457,6 +462,7 @@ const promises = computed(() => [
 
 .soon .amount {
   color: var(--muted);
+  font-size: var(--step-figure);
 }
 
 .was {
@@ -527,20 +533,28 @@ const promises = computed(() => [
 }
 
 .action :deep(.button) {
+  min-height: 3.5rem;
   padding-block: 0.75rem;
   line-height: 1.25;
   text-align: center;
   text-wrap: balance;
 }
 
-.action--pair {
-  grid-template-columns: auto auto;
-  gap: 0.5rem;
+/* The trial is the quiet way in: a line under the button, not a second button beside it. */
+.action :deep(.trial) {
+  min-height: 2.75rem;
+  margin-top: -0.25rem;
+  background: transparent;
+  color: var(--muted);
+  font-size: var(--step-small);
 }
 
-.action--pair :deep(.button) {
-  padding: 0.5rem 0.625rem;
-  font-size: var(--step-small);
+@media (hover: hover) and (pointer: fine) {
+  .action :deep(.trial:hover) {
+    background: transparent;
+    color: var(--ink);
+    text-decoration: underline;
+  }
 }
 
 @media (max-width: 63.99rem) {

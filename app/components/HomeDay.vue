@@ -5,6 +5,8 @@ import { clock } from '#shared/locale'
 import type { Feature } from '#shared/plans'
 import { logModeScreen } from '#shared/screens'
 
+import type { DayFigures } from './DayCard.vue'
+
 defineProps<{ features: Feature[] }>()
 
 const locale = useSiteLocale().value
@@ -16,18 +18,50 @@ const fromFeature = (id: string): ChatScreen => ({
   messages: FEATURE_COPY[locale][id]?.exchange ?? [],
 })
 
-const MOMENTS = [
-  { id: 'breakfast', screen: logModeScreen('audio', locale) },
-  { id: 'reminder', screen: fromFeature('reminders') },
-  { id: 'left', screen: fromFeature('dayGoal') },
-  { id: 'workout', screen: fromFeature('workouts') },
-  { id: 'nutrients', screen: fromFeature('nutrients') },
-].map((moment) => ({ ...moment, time: clock(moment.screen.messages[0]?.time ?? '', locale) }))
+/* Each card repeats the numbers its conversation already says, never new ones. */
+const MOMENTS: { id: string; screen: ChatScreen; figures: DayFigures }[] = [
+  {
+    id: 'breakfast',
+    screen: logModeScreen('audio', locale),
+    figures: {
+      kind: 'energy',
+      day: 'today',
+      eaten: 234,
+      goal: 1800,
+      macros: { protein: 9, carbs: 38, fat: 5 },
+    },
+  },
+  {
+    id: 'reminder',
+    screen: fromFeature('reminders'),
+    figures: { kind: 'energy', day: 'yesterday', eaten: 1760, goal: 1800 },
+  },
+  {
+    id: 'left',
+    screen: fromFeature('dayGoal'),
+    figures: {
+      kind: 'energy',
+      day: 'today',
+      eaten: 1240,
+      goal: 1800,
+      macros: { protein: 78, carbs: 140, fat: 38 },
+    },
+  },
+  { id: 'workout', screen: fromFeature('workouts'), figures: { kind: 'burn', kcal: 357 } },
+  {
+    id: 'nutrients',
+    screen: fromFeature('nutrients'),
+    figures: { kind: 'sodium', mg: 1480, max: 2000 },
+  },
+]
+const TIMES = Object.fromEntries(
+  MOMENTS.map((moment) => [moment.id, clock(moment.screen.messages[0]?.time ?? '', locale)]),
+)
 
 const selected = useState('day-moment', () => MOMENTS[0]!.id)
-const current = computed(
-  () => (MOMENTS.find((each) => each.id === selected.value) ?? MOMENTS[0]!).screen,
-)
+const picked = computed(() => MOMENTS.find((each) => each.id === selected.value) ?? MOMENTS[0]!)
+const current = computed(() => picked.value.screen)
+const replied = ref<string>()
 
 const RELATED = [
   'reminders',
@@ -57,7 +91,7 @@ const anchors = useAnchors()
               :aria-pressed="selected === moment.id"
               @click="selected = moment.id"
             >
-              <span class="time">{{ moment.time }}</span>
+              <span class="time">{{ TIMES[moment.id] }}</span>
               <span class="what">
                 <span class="name">{{ t(`day.moments.${moment.id}.name`) }}</span>
                 <span class="note">{{ t(`day.moments.${moment.id}.note`) }}</span>
@@ -69,7 +103,12 @@ const anchors = useAnchors()
       <p class="picked">{{ t(`day.moments.${selected}.note`) }}</p>
 
       <div class="answer">
-        <ChatWindow :screen="current" class="chat" />
+        <ChatWindow :screen="current" flat typing class="chat" @replied="replied = $event" />
+        <div class="card-slot">
+          <Transition name="card">
+            <DayCard v-if="replied === current.id" :key="current.id" :figures="picked.figures" />
+          </Transition>
+        </div>
       </div>
       <FeatureChips :features="features" :ids="RELATED" :label="t('chips.label')" class="related" />
       <p class="visually-hidden" aria-live="polite">{{ current.label }}</p>
@@ -154,6 +193,7 @@ const anchors = useAnchors()
 
 .moment[aria-pressed='true'] {
   background: var(--card);
+  box-shadow: var(--shadow-card);
 }
 
 .moment:active {
@@ -195,20 +235,45 @@ const anchors = useAnchors()
   font-size: var(--step-small);
 }
 
-/* The panel keeps the phone's height whatever the conversation, so choosing never moves the page. */
+/* The window and the card keep fixed heights whatever the moment, so choosing never moves the page. */
 .answer {
-  --scale: 0.9;
-
   grid-area: answer;
   display: grid;
-  place-items: center;
-  height: calc(min(38rem, 100svh - 8rem) * var(--scale) + 5rem);
+  grid-template-rows: 27rem 10.5rem;
+  gap: 0.875rem;
+  padding: clamp(1rem, 0.5rem + 1.5vw, 1.75rem);
   border-radius: var(--radius-panel);
   background: var(--tone);
 }
 
-.answer .chat {
-  zoom: var(--scale);
+.card-slot {
+  display: grid;
+  align-content: start;
+}
+
+.card-enter-active {
+  transition:
+    opacity 300ms var(--ease-out),
+    transform 300ms var(--ease-out);
+}
+
+.card-leave-active {
+  transition: opacity 120ms ease;
+}
+
+.card-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.card-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-enter-from {
+    transform: none;
+  }
 }
 
 @media (max-width: 63.99rem) {
@@ -262,10 +327,15 @@ const anchors = useAnchors()
     margin-top: 1.25rem;
   }
   .answer {
-    --scale: 0.84;
-
-    height: calc(min(38rem, 100svh - 8rem) * var(--scale) + 2.5rem);
+    grid-template-rows: 30rem 11.5rem;
+    margin-inline: calc(var(--margin) * -0.5);
     border-radius: var(--radius);
+  }
+  .answer .chat {
+    font-size: 0.9375rem;
+  }
+  .answer .chat :deep(.thread) {
+    padding-inline: 0.875rem;
   }
 }
 

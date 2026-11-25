@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ChatScreen } from '#shared/chat'
-import { thousands } from '#shared/locale'
+import { decimal, LANGUAGE, thousands } from '#shared/locale'
 import type { Feature } from '#shared/plans'
 
 defineProps<{ features: Feature[] }>()
@@ -13,12 +13,23 @@ const locale = useSiteLocale()
 const WEEK = [2160, 1820, 2230, 1790, 2180, 2470, 1840]
 const GOAL = 2100
 const EATEN_TODAY = 1540
+const WEIGHT = { from: 84.6, now: 80.8, since: Date.UTC(2026, 8, 28) }
 
 const figures = computed(() => ({
   goal: thousands(GOAL, locale.value),
   average: thousands(WEEK.reduce((sum, value) => sum + value, 0) / WEEK.length, locale.value),
   logged: WEEK.length,
   days: WEEK.length,
+}))
+
+const weight = computed(() => ({
+  now: decimal(WEIGHT.now, locale.value),
+  delta: `−${decimal(WEIGHT.from - WEIGHT.now, locale.value)}`,
+  date: new Intl.DateTimeFormat(LANGUAGE[locale.value], {
+    day: '2-digit',
+    month: '2-digit',
+    timeZone: 'UTC',
+  }).format(WEIGHT.since),
 }))
 
 const today = computed<ChatScreen>(() => ({
@@ -53,6 +64,12 @@ const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', '
     <div class="grid">
       <figure class="tile week">
         <figcaption class="tile-title">{{ t('bento.week.title') }}</figcaption>
+        <div class="figure">
+          <p class="number">
+            {{ figures.average }}<span class="unit">{{ t('bento.week.unit') }}</span>
+          </p>
+          <p class="badge">{{ t('bento.week.badge', figures) }}</p>
+        </div>
         <img
           src="/images/resumo-da-semana.webp"
           width="900"
@@ -62,7 +79,6 @@ const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', '
           decoding="async"
           class="chart"
         />
-        <p class="tile-text">{{ t('bento.week.text', figures) }}</p>
       </figure>
 
       <figure class="tile day">
@@ -72,6 +88,12 @@ const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', '
 
       <figure class="tile weight">
         <figcaption class="tile-title">{{ t('bento.weight.title') }}</figcaption>
+        <div class="figure">
+          <p class="number">
+            {{ weight.now }}<span class="unit">{{ t('bento.weight.unit') }}</span>
+          </p>
+          <p class="badge">{{ t('bento.weight.badge', weight) }}</p>
+        </div>
         <img
           src="/images/evolucao-do-peso.webp"
           width="900"
@@ -133,14 +155,14 @@ const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', '
 }
 
 .tile {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
   margin: 0;
   padding: 1.5rem;
   border-radius: var(--radius);
   background: var(--card);
+  box-shadow: var(--shadow-card);
 }
 
 .tile-title {
@@ -150,6 +172,46 @@ const RELATED = ['dayGoal', 'mealGoals', 'weekSummary', 'weight', 'nutrients', '
 .tile-text {
   color: var(--muted);
   font-size: var(--step-small);
+}
+
+.figure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.number {
+  display: flex;
+  align-items: baseline;
+  gap: 0.375rem;
+  font-size: var(--step-figure);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.number .unit {
+  color: var(--muted);
+  font-size: var(--step-small);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.badge {
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  background: var(--mint);
+  color: var(--green);
+  font-size: var(--step-small);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.week .chart {
+  margin-block: auto;
 }
 
 .week {

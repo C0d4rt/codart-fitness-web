@@ -5,6 +5,34 @@ const props = defineProps<{ features: Feature[]; ids?: readonly string[]; label:
 
 const localePath = useLocalePath()
 
+type Tone = 'log' | 'goal' | 'train' | 'nudge' | 'pro'
+
+const TONE: Record<string, Tone> = {
+  dayGoal: 'goal',
+  goalPercent: 'goal',
+  mealGoals: 'goal',
+  goalGrams: 'goal',
+  weekdayGoals: 'goal',
+  weekSummary: 'goal',
+  weight: 'goal',
+  nutrients: 'goal',
+  foodRanking: 'goal',
+  csvExport: 'goal',
+  workouts: 'train',
+  savedWorkouts: 'train',
+  readyPrograms: 'train',
+  periodizedTraining: 'train',
+  fasting: 'train',
+  reminders: 'nudge',
+  mealReminders: 'nudge',
+  anamnesis: 'pro',
+  swapDiet: 'pro',
+  professionalReview: 'pro',
+  checkIns: 'pro',
+  coachChat: 'pro',
+  unlimitedReplies: 'pro',
+}
+
 const shown = computed(() =>
   props.ids === undefined
     ? props.features
@@ -15,8 +43,12 @@ const shown = computed(() =>
 <template>
   <ul class="feature-chips" :aria-label="label">
     <li v-for="feature in shown" :key="feature.id">
-      <NuxtLink :to="localePath(`/recursos#${feature.id}`)" class="chip">
-        <FeatureIcon :feature="feature.id" class="icon" />
+      <NuxtLink
+        :to="localePath(`/recursos#${feature.id}`)"
+        class="chip"
+        :data-tone="TONE[feature.id] ?? 'log'"
+      >
+        <span class="tile"><FeatureIcon :feature="feature.id" /></span>
         <span>{{ feature.name }}</span>
       </NuxtLink>
     </li>
@@ -34,11 +66,14 @@ const shown = computed(() =>
 }
 
 .chip {
+  --tile: var(--mint);
+  --tile-ink: var(--green);
+
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.625rem;
   min-height: 2.75rem;
-  padding: 0.5rem 1rem 0.5rem 0.875rem;
+  padding: 0.375rem 1.125rem 0.375rem 0.4375rem;
   border-radius: 999px;
   background: var(--card);
   color: var(--ink);
@@ -46,13 +81,41 @@ const shown = computed(() =>
   font-weight: 500;
   line-height: 1.25;
   text-decoration: none;
+  box-shadow: var(--shadow-chip);
   transition:
-    background-color 160ms ease,
-    transform 160ms var(--ease-out);
+    box-shadow 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
 }
 
-.icon {
-  color: var(--green);
+.chip[data-tone='goal'] {
+  --tile: var(--sky);
+  --tile-ink: #2c64a0;
+}
+
+.chip[data-tone='train'] {
+  --tile: #fbe7cc;
+  --tile-ink: #a35d0c;
+}
+
+.chip[data-tone='nudge'] {
+  --tile: var(--peach);
+  --tile-ink: #a83c52;
+}
+
+.chip[data-tone='pro'] {
+  --tile: var(--sand);
+  --tile-ink: #4f6b16;
+}
+
+.tile {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 50%;
+  background: var(--tile);
+  color: var(--tile-ink);
 }
 
 .chip:active {
@@ -61,7 +124,18 @@ const shown = computed(() =>
 
 @media (hover: hover) and (pointer: fine) {
   .chip:hover {
-    background: var(--tone);
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-2px);
+  }
+  .chip:hover:active {
+    transform: translateY(-2px) scale(0.97);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip:hover,
+  .chip:hover:active {
+    transform: none;
   }
 }
 

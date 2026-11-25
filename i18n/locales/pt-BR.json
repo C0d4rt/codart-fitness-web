@@ -132,12 +132,15 @@
     "week": {
       "title": "Resumo da semana",
       "chartLabel": "Calorias de cada dia da semana, perto da meta de {goal}",
-      "text": "Média de {average} kcal em {logged} de {days} dias, toda semana"
+      "unit": "kcal por dia, em média",
+      "badge": "{logged} de {days} dias registrados"
     },
     "weight": {
       "title": "Peso",
       "alt": "Gráfico do peso caindo de 84,6 kg para 80,8 kg entre 28/09 e 16/11",
-      "text": "A sua evolução desde o primeiro registro"
+      "text": "A sua evolução desde o primeiro registro",
+      "unit": "kg",
+      "badge": "{delta} kg desde {date}"
     }
   },
   "day": {
@@ -165,6 +168,24 @@
         "name": "Sódio e fibra",
         "note": "Sódio, fibra, açúcar e mais, comparados aos valores de referência"
       }
+    },
+    "card": {
+      "energy": "Calorias",
+      "today": "Hoje",
+      "yesterday": "Ontem",
+      "left": "kcal faltam",
+      "logged": "kcal registradas",
+      "goal": "Meta de {goal} kcal",
+      "ofGoal": "{percent}% da meta de {goal} kcal",
+      "protein": "Proteína {grams} g",
+      "carbs": "Carboidratos {grams} g",
+      "fat": "Gordura {grams} g",
+      "workout": "Treino",
+      "burned": "kcal gastas, estimativa",
+      "burnNote": "O gasto entra na conta do dia",
+      "sodium": "Sódio",
+      "sodiumOf": "mg de {max} mg",
+      "sodiumLeft": "Faltam {left} mg"
     }
   },
   "everything": {

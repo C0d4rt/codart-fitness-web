@@ -132,12 +132,15 @@
     "week": {
       "title": "Week summary",
       "chartLabel": "Calories for each day of the week, close to the goal of {goal}",
-      "text": "An average of {average} kcal on {logged} of {days} days, every week"
+      "unit": "kcal a day, on average",
+      "badge": "{logged} of {days} days logged"
     },
     "weight": {
       "title": "Weight",
       "alt": "Chart of weight going down from 84.6 kg to 80.8 kg between 28/09 and 16/11",
-      "text": "Your progress since your first weigh-in"
+      "text": "Your progress since your first weigh-in",
+      "unit": "kg",
+      "badge": "{delta} kg since {date}"
     }
   },
   "day": {
@@ -165,6 +168,24 @@
         "name": "Sodium and fiber",
         "note": "Sodium, fiber, sugar and more, compared with the reference values"
       }
+    },
+    "card": {
+      "energy": "Calories",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "left": "kcal left",
+      "logged": "kcal logged",
+      "goal": "Goal of {goal} kcal",
+      "ofGoal": "{percent}% of the {goal} kcal goal",
+      "protein": "Protein {grams} g",
+      "carbs": "Carbs {grams} g",
+      "fat": "Fat {grams} g",
+      "workout": "Workout",
+      "burned": "kcal burned, estimate",
+      "burnNote": "The burn counts toward your day",
+      "sodium": "Sodium",
+      "sodiumOf": "mg of {max} mg",
+      "sodiumLeft": "{left} mg left"
     }
   },
   "everything": {

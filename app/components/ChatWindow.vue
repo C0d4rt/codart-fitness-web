@@ -5,9 +5,16 @@ import { clock } from '#shared/locale'
 
 import { brand } from '~/brand'
 
-const props = defineProps<{ screen: ChatScreen; bare?: boolean }>()
+const props = defineProps<{
+  screen: ChatScreen
+  bare?: boolean
+  flat?: boolean
+  typing?: boolean
+}>()
+const emit = defineEmits<{ replied: [id: string] }>()
 
 const locale = useSiteLocale()
+const phone = computed(() => !props.bare && !props.flat)
 
 /* A voice note's waveform: louder bars, and dots where the speaker paused. */
 const WAVE = [
@@ -23,12 +30,46 @@ const figure = ref<HTMLElement>()
 const live = ref(false)
 let observer: IntersectionObserver | undefined
 
+/* With typing on, the first answer waits behind three dots for a moment: long enough to read as a reply, short enough not to make anyone wait. */
+const TYPING_MS = 650
+const firstReply = computed(() => props.screen.messages.findIndex((each) => each.from === 'bot'))
+const heldFrom = ref<number>()
+const shown = computed(() =>
+  heldFrom.value === undefined
+    ? props.screen.messages
+    : props.screen.messages.slice(0, heldFrom.value),
+)
+let timer: ReturnType<typeof setTimeout> | undefined
+
+const play = () => {
+  clearTimeout(timer)
+  const id = props.screen.id
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (!props.typing || still || firstReply.value < 0) {
+    heldFrom.value = undefined
+    emit('replied', id)
+    return
+  }
+  heldFrom.value = firstReply.value
+  timer = setTimeout(() => {
+    heldFrom.value = undefined
+    emit('replied', id)
+  }, TYPING_MS)
+}
+
 const goLive = () => {
+  if (!live.value) play()
   live.value = true
   observer?.disconnect()
 }
 
-watch(() => props.screen.id, goLive)
+watch(
+  () => props.screen.id,
+  () => {
+    if (live.value) play()
+    else goLive()
+  },
+)
 
 onMounted(() => {
   if (!figure.value) return
@@ -38,14 +79,23 @@ onMounted(() => {
   observer.observe(figure.value)
 })
 
-onBeforeUnmount(() => observer?.disconnect())
+onBeforeUnmount(() => {
+  observer?.disconnect()
+  clearTimeout(timer)
+})
 </script>
 
 <template>
-  <figure ref="figure" class="chat" :class="{ bare, live }" data-ui :aria-label="screen.label">
+  <figure
+    ref="figure"
+    class="chat"
+    :class="{ bare, flat, phone, live }"
+    data-ui
+    :aria-label="screen.label"
+  >
     <div class="screen">
       <div v-if="!bare" class="top" aria-hidden="true">
-        <div class="status">
+        <div v-if="phone" class="status">
           <span class="clock">9:41</span>
           <span class="island" />
           <span class="signals">
@@ -66,7 +116,7 @@ onBeforeUnmount(() => observer?.disconnect())
           </span>
         </div>
         <div class="bar">
-          <span class="back">
+          <span v-if="phone" class="back">
             <svg class="icon" viewBox="0 0 12 20">
               <path class="line" d="M9.5 2.5 2 10l7.5 7.5" />
             </svg>
@@ -82,7 +132,7 @@ onBeforeUnmount(() => observer?.disconnect())
         <ol :key="screen.id" class="thread" aria-hidden="true">
           <li v-if="!bare" class="day">{{ $t('chat.today') }}</li>
           <li
-            v-for="(message, index) in screen.messages"
+            v-for="(message, index) in shown"
             :key="index"
             class="row"
             :class="[message.from, { opens: opensRun(index), closes: closesRun(index) }]"
@@ -157,9 +207,17 @@ onBeforeUnmount(() => observer?.disconnect())
               </svg>
             </div>
           </li>
+          <li v-if="heldFrom !== undefined" class="row bot opens closes typing">
+            <div class="bubble">
+              <span class="dots"><i /><i /><i /></span>
+              <svg class="tail" viewBox="0 0 10 16">
+                <path d="M10 0c0 7-2.4 12.6-10 16h10z" />
+              </svg>
+            </div>
+          </li>
         </ol>
       </Transition>
-      <div v-if="!bare" class="composer" aria-hidden="true">
+      <div v-if="phone" class="composer" aria-hidden="true">
         <div class="tools">
           <svg class="icon plus" viewBox="0 0 24 24">
             <path class="line" d="M12 3.5v17M3.5 12h17" />
@@ -213,7 +271,7 @@ onBeforeUnmount(() => observer?.disconnect())
     0 28px 60px -24px rgb(16 36 26 / 0.45); /* taste-skill-ignore: the phone has to sit on the page like an object (data-ui) */
 }
 
-.chat:not(.bare) {
+.chat.phone {
   /* A phone's own proportion (71.6 × 147.6 mm), never stretched by the messages inside. */
   container-type: inline-size;
   width: min(100%, min(38rem, 100svh - 8rem) * 71.6 / 147.6);
@@ -222,13 +280,13 @@ onBeforeUnmount(() => observer?.disconnect())
   aspect-ratio: 71.6 / 147.6;
 }
 
-.chat:not(.bare) .screen {
+.chat.phone .screen {
   font-size: clamp(0.75rem, 4.75cqw, 0.875rem);
 }
 
 /* The two side buttons of a phone. */
-.chat:not(.bare)::before,
-.chat:not(.bare)::after {
+.chat.phone::before,
+.chat.phone::after {
   content: '';
   position: absolute;
   width: 3px;
@@ -236,13 +294,13 @@ onBeforeUnmount(() => observer?.disconnect())
   background: #111a16;
 }
 
-.chat:not(.bare)::before {
+.chat.phone::before {
   top: 7rem;
   left: -3px;
   height: 3rem;
 }
 
-.chat:not(.bare)::after {
+.chat.phone::after {
   top: 8.5rem;
   right: -3px;
   height: 4.5rem;
@@ -272,6 +330,93 @@ onBeforeUnmount(() => observer?.disconnect())
 .bare .screen {
   min-height: 0;
   border-radius: 0.75rem;
+}
+
+/* A wide window, no phone around it: the conversation at reading size. */
+.chat.flat {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border-radius: var(--radius);
+  background: none;
+  font-size: 1rem;
+  line-height: 1.45;
+  box-shadow: var(--shadow-card);
+}
+
+.flat .screen {
+  border-radius: inherit;
+}
+
+.flat .top {
+  background: var(--chat-chrome);
+  box-shadow: 0 1px 0 color-mix(in oklab, var(--chat-ink) 8%, transparent); /* taste-skill-ignore: the hairline under WhatsApp's header (data-ui) */
+}
+
+.flat .bar {
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+}
+
+.flat .avatar {
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.375rem;
+}
+
+.flat .name {
+  font-size: 1.0625rem;
+}
+
+.flat .presence {
+  font-size: 0.8125rem;
+}
+
+.flat .thread {
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.flat .bubble {
+  max-width: min(84%, 32rem);
+}
+
+.flat .body {
+  padding: 0.5rem 0.75rem 0.5rem 0.875rem;
+}
+
+.flat .meta,
+.flat .room {
+  font-size: 0.75rem;
+}
+
+.dots {
+  display: flex;
+  gap: 0.3125rem;
+  padding: 0.875rem 1rem;
+}
+
+.dots i {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background: var(--chat-meta);
+  opacity: 0.35;
+  animation: blink 1s ease-in-out infinite;
+}
+
+.dots i:nth-child(2) {
+  animation-delay: 160ms;
+}
+
+.dots i:nth-child(3) {
+  animation-delay: 320ms;
+}
+
+@keyframes blink {
+  30% {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
 }
 
 .top {
