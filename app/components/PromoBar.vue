@@ -62,7 +62,7 @@ const offerShort = computed(() =>
   border-radius: 999px;
   background: #3fd27f;
   color: #07130c;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
