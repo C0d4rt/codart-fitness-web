@@ -94,6 +94,23 @@ const money = (cents: number, at: typeof locale.value) =>
   moneyText(cents, at).replace(/\s/g, '\u00a0')
 const buyable = (each: PlanOffer) => !each.blocked && !blocked.value && each.methods.length > 0
 
+const blackFriday = useBlackFriday()
+const struckOf = (each: PlanOffer): { text: string; label: string } | undefined => {
+  if (each.plan === 'coaching') {
+    const from = blackFriday.coachingFrom(each.fullCents ?? each.priceCents)
+    if (!from) return undefined
+    const count = installmentOf(each).count
+    return {
+      text: `${money(Math.round(from / count), locale.value)}${t('pricing.perMonthShort')}`,
+      label: t('pricing.blackFriday.struck', { price: money(from, locale.value) }),
+    }
+  }
+  const from = each.cycle === 'yearly' ? blackFriday.yearlyFrom(each.priceCents) : undefined
+  if (!from) return undefined
+  const price = money(from, locale.value)
+  return { text: price, label: t('pricing.blackFriday.struck', { price }) }
+}
+
 const focusPlan = (each: PlanOffer) => {
   chosen.value = { plan: each.plan, cycle: each.cycle }
   payErrors[each.plan] = undefined
@@ -358,6 +375,9 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                     installments: installmentOf(each).count,
                   })
                 }}</span>
+                <s v-if="struckOf(each)" class="was" :aria-label="struckOf(each)?.label">{{
+                  struckOf(each)?.text
+                }}</s>
                 <span class="amount"
                   ><span class="unit currency">{{
                     moneyParts(installmentOf(each).cents, locale).currency
@@ -399,6 +419,9 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
             </template>
             <template v-else>
               <p class="price">
+                <s v-if="struckOf(each)" class="was" :aria-label="struckOf(each)?.label">{{
+                  struckOf(each)?.text
+                }}</s>
                 <span class="amount"
                   ><span class="unit currency">{{
                     moneyParts(each.priceCents, locale).currency
@@ -660,6 +683,13 @@ main {
 
 .currency {
   margin-right: 0.125rem;
+}
+
+.was {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: var(--step-small);
+  font-weight: 500;
 }
 
 .soon .amount {

@@ -25,32 +25,38 @@ const PREMIUM_HIGHLIGHTS = [
 
 const { t } = useI18n()
 const locale = useSiteLocale()
+const blackFriday = useBlackFriday()
 
 const premium = computed(() => props.catalog.premium)
 const coaching = computed(() => props.catalog.coaching)
 
-const period = ref<'month' | 'year'>('month')
+const period = ref<'month' | 'year'>('year')
 const periods = computed(() => [
   { value: 'month' as const, label: t('pricing.monthly') },
   { value: 'year' as const, label: t('pricing.yearly') },
 ])
+const yearlyInstallments = computed(() => premium.value.yearlyInstallments ?? 1)
+const byInstallments = computed(() => period.value === 'year' && yearlyInstallments.value > 1)
+const yearlyShown = (totalCents: number) =>
+  yearlyInstallments.value > 1
+    ? installmentCents({ totalCents, installments: yearlyInstallments.value })
+    : totalCents
 const premiumPrice = computed(() =>
   moneyParts(
-    period.value === 'month' ? premium.value.monthlyCents : premium.value.yearlyCents,
+    period.value === 'month' ? premium.value.monthlyCents : yearlyShown(premium.value.yearlyCents),
     locale.value,
   ),
 )
 const saving = computed(() => yearlySaving(premium.value))
-const yearlyEquiv = computed(() => {
-  const installments = premium.value.yearlyInstallments ?? 1
-  return installments > 1
-    ? t('pricing.yearlyInstallments', {
-        installments,
-        price: money(
-          installmentCents({ totalCents: premium.value.yearlyCents, installments }),
-          locale.value,
-        ),
-      })
+const premiumNote = computed(() => {
+  if (period.value === 'month') {
+    return t('pricing.orYearly', {
+      price: money(premium.value.yearlyCents, locale.value),
+      percent: saving.value,
+    })
+  }
+  return byInstallments.value
+    ? t('pricing.installmentTotal', { total: money(premium.value.yearlyCents, locale.value) })
     : t('pricing.yearlyPerMonth', { price: yearlyPerMonth(premium.value, locale.value) })
 })
 const premiumItems = computed(() =>
@@ -76,6 +82,45 @@ const chosen = computed(
 const installment = computed(() =>
   moneyParts(chosen.value ? packageInstallmentCents(chosen.value) : 0, locale.value),
 )
+
+const yearlyStruck = computed(() => {
+  const from = period.value === 'year' && blackFriday.yearlyFrom(premium.value.yearlyCents)
+  if (!from) return undefined
+  const shown = money(yearlyShown(from), locale.value)
+  return {
+    text: byInstallments.value ? `${shown}${t('pricing.perMonthShort')}` : shown,
+    label: t('pricing.blackFriday.struck', { price: money(from, locale.value) }),
+  }
+})
+const coachingStruck = computed(() => {
+  const pack = chosen.value
+  const from = pack && blackFriday.coachingFrom(pack.totalCents)
+  return pack && from
+    ? {
+        total: from,
+        installment: installmentCents({ totalCents: from, installments: pack.installments }),
+      }
+    : undefined
+})
+const offerLines = computed(() => {
+  const yearly = blackFriday.yearlyFrom(premium.value.yearlyCents)
+  const pack = chosen.value
+  const pro = pack && blackFriday.coachingFrom(pack.totalCents)
+  return [
+    yearly &&
+      t('pricing.blackFriday.yearly', {
+        from: money(yearly, locale.value),
+        price: money(premium.value.yearlyCents, locale.value),
+      }),
+    pack &&
+      pro &&
+      t('pricing.blackFriday.coaching', {
+        plan: coaching.value.name,
+        from: money(pro, locale.value),
+        price: money(pack.totalCents, locale.value),
+      }),
+  ].filter((line): line is string => Boolean(line))
+})
 const coachingItems = computed(() => [
   t('pricing.allOfPremium'),
   ...coaching.value.features
@@ -92,6 +137,7 @@ const maxInstallments = computed(() =>
 const promises = computed(() => [
   t('pricing.promises.trial', { days: props.catalog.trialDays }),
   t('pricing.promises.noCard'),
+  t('pricing.promises.guarantee'),
   t('pricing.promises.pay'),
   t('pricing.promises.cancel'),
 ])
@@ -109,6 +155,11 @@ const promises = computed(() => [
           {{ promise }}
         </li>
       </ul>
+      <div v-if="offerLines.length" class="offer" role="note">
+        <p class="offer-title">{{ t('pricing.blackFriday.title') }}</p>
+        <p v-for="line in offerLines" :key="line">{{ line }}</p>
+        <p class="offer-after">{{ t('pricing.blackFriday.after') }}</p>
+      </div>
     </div>
 
     <div class="cards">
@@ -124,24 +175,22 @@ const promises = computed(() => [
         <p class="who">{{ t('pricing.premiumWho') }}</p>
         <PlanSwitch v-model="period" :options="periods" :label="t('pricing.periodLabel')" />
         <p class="price" aria-live="polite">
+          <span v-if="byInstallments" class="lead">{{
+            t('pricing.yearlyLead', { installments: yearlyInstallments })
+          }}</span>
+          <s v-if="yearlyStruck" class="was" :aria-label="yearlyStruck.label">{{
+            yearlyStruck.text
+          }}</s>
           <span class="amount"
             ><span class="unit currency">{{ premiumPrice.currency }}</span
-            >{{ premiumPrice.amount }}</span
+            >{{ premiumPrice.amount
+            }}<span v-if="byInstallments" class="unit">{{ t('pricing.perMonthShort') }}</span></span
           >
-          <span class="per">{{
+          <span v-if="!byInstallments" class="per">{{
             period === 'month' ? t('pricing.perMonth') : t('pricing.perYear')
           }}</span>
         </p>
-        <p class="equiv">
-          {{
-            period === 'month'
-              ? t('pricing.orYearly', {
-                  price: money(premium.yearlyCents, locale),
-                  percent: saving,
-                })
-              : yearlyEquiv
-          }}
-        </p>
+        <p class="equiv">{{ premiumNote }}</p>
         <ul class="items">
           <li v-for="item in premiumItems" :key="item">{{ item }}</li>
         </ul>
@@ -188,6 +237,14 @@ const promises = computed(() => [
                 installments: chosen.installments,
               })
             }}</span>
+            <s
+              v-if="coachingStruck"
+              class="was"
+              :aria-label="
+                t('pricing.blackFriday.struck', { price: money(coachingStruck.total, locale) })
+              "
+              >{{ money(coachingStruck.installment, locale) }}{{ t('pricing.perMonthShort') }}</s
+            >
             <span class="amount"
               ><span class="unit currency">{{ installment.currency }}</span
               >{{ installment.amount
@@ -400,6 +457,35 @@ const promises = computed(() => [
 
 .soon .amount {
   color: var(--muted);
+}
+
+.was {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+.offer {
+  display: grid;
+  gap: 0.25rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  background: var(--mint);
+  font-size: var(--step-small);
+}
+
+.offer-title {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.offer-after {
+  color: var(--muted);
+}
+
+.bare .offer {
+  margin-bottom: 1.25rem;
 }
 
 .per {

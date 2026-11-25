@@ -181,7 +181,8 @@
       "trial": "{days} days free with everything in Premium",
       "noCard": "No card needed to try",
       "pay": "Monthly by Pix or card, yearly in up to 12 installments",
-      "cancel": "Cancel whenever you like"
+      "cancel": "Cancel whenever you like",
+      "guarantee": "7-day guarantee: not for you, we refund it in the chat"
     },
     "payments": {
       "label": "Payment methods",
@@ -216,7 +217,15 @@
     "soonNote": "It isn't open yet. Ask to be told and we'll message you on WhatsApp when it opens",
     "notifyMe": "Tell me when it opens",
     "wantPlan": "I want {plan}",
-    "subscribeNow": "Subscribe now"
+    "subscribeNow": "Subscribe now",
+    "blackFriday": {
+      "title": "Black Friday until Nov 30",
+      "yearly": "Yearly from {from} down to {price}",
+      "coaching": "{plan} from {from} down to {price}",
+      "after": "On December 1, these become the prices.",
+      "struck": "Price from December 1: {price}"
+    },
+    "yearlyLead": "Yearly plan · {installments} ×"
   },
   "faq": {
     "title": "Frequently asked questions",

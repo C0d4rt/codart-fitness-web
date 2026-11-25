@@ -181,7 +181,8 @@
       "trial": "{days} dias grátis com tudo do Premium",
       "noCard": "Sem cartão para testar",
       "pay": "Mensal no Pix ou no cartão, anual em até 12x",
-      "cancel": "Cancele quando quiser"
+      "cancel": "Cancele quando quiser",
+      "guarantee": "7 dias de garantia: não gostou, devolvemos pela conversa"
     },
     "payments": {
       "label": "Formas de pagamento",
@@ -216,7 +217,15 @@
     "soonNote": "Ainda não abrimos. Peça para ser avisado e a gente te chama no WhatsApp quando abrir",
     "notifyMe": "Quero ser avisado",
     "wantPlan": "Quero o {plan}",
-    "subscribeNow": "Assinar agora"
+    "subscribeNow": "Assinar agora",
+    "blackFriday": {
+      "title": "Black Friday até 30/11",
+      "yearly": "Anual de {from} por {price}",
+      "coaching": "{plan} de {from} por {price}",
+      "after": "Em 1º de dezembro, estes passam a ser os preços.",
+      "struck": "Preço a partir de 1º de dezembro: {price}"
+    },
+    "yearlyLead": "Plano anual · {installments}x de"
   },
   "faq": {
     "title": "Perguntas frequentes",

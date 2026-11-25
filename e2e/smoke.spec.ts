@@ -9,14 +9,14 @@ test('the home page says what this is and opens the conversation', async ({ page
   await expect(page.locator('h1')).toHaveText('Seu assistente fitness. No WhatsApp.')
   const cta = page.getByRole('link', { name: 'Testar 7 dias grátis' }).first()
   await expect(cta).toHaveAttribute('href', /^https:\/\/wa\.me\/.*\?text=Oi!/)
-  await expect(page.getByText('R$ 29,90').first()).toBeVisible()
+  await expect(page.getByText('R$ 16,66').first()).toBeVisible()
 })
 
 test('the plans page has an anchor for each plan', async ({ page }) => {
   await page.goto('/planos')
   await expect(page.locator('#premium')).toHaveCount(1)
   await expect(page.locator('#coaching h3')).toHaveText('Premium Pro')
-  await expect(page.getByText('R$ 29,90').first()).toBeVisible()
+  await expect(page.getByText('R$ 16,66').first()).toBeVisible()
   const coaching = page.locator('#coaching').getByRole('link')
   await expect(coaching).toHaveAttribute('href', /\?text=Quero%20o%20Premium%20Pro$/)
 })
@@ -101,7 +101,7 @@ test('the English home page speaks English and opens the chat in English', async
   await expect(page.locator('h1')).toHaveText('Your fitness assistant. On WhatsApp.')
   const cta = page.getByRole('link', { name: 'Try 7 days free' }).first()
   await expect(cta).toHaveAttribute('href', /^https:\/\/wa\.me\/.*\?text=Hi!%20I%20want/)
-  await expect(page.getByText('R$29.90').first()).toBeVisible()
+  await expect(page.getByText('R$16.66').first()).toBeVisible()
   await page.getByRole('button', { name: /How much is left/ }).click()
   await expect(page.locator('#a-normal-day').getByText(/560 kcal left/)).toBeVisible()
 })
@@ -110,7 +110,7 @@ test('the English plans page has the plans in English, with prices in reais', as
   await page.goto('/en/plans')
   await expect(page.locator('#premium')).toHaveCount(1)
   await expect(page.locator('#coaching h3')).toHaveText('Premium Pro')
-  await expect(page.getByText('R$29.90').first()).toBeVisible()
+  await expect(page.getByText('R$16.66').first()).toBeVisible()
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
     'https://fitness.codart.dev/en/plans',
