@@ -101,24 +101,30 @@
     "tell": {
       "clause": "You say what you ate",
       "label": "Someone tells the diary about their lunch in one message.",
-      "message": "for lunch I had 150 g of rice, a ladle of beans and a chicken fillet"
+      "message": "for lunch I had 150 g of rice, a ladle of beans and a chicken fillet",
+      "note": "By text, voice or photo, the way you would say it."
     },
     "log": {
       "clause": "It logs and adds it up right away",
       "label": "Lunch logged with its calories.",
-      "message": "✅ *Lunch* logged\n\n• 150 g of rice: 192 kcal\n• 1 ladle of beans (~86 g): 65 kcal\n• ~100 g of chicken fillet: 159 kcal"
+      "message": "✅ *Lunch* logged\n\n• 150 g of rice: 192 kcal\n• 1 ladle of beans (~86 g): 65 kcal\n• ~100 g of chicken fillet: 159 kcal",
+      "note": "Each item with calories and macros, added to the day total."
     },
     "left": {
       "clause": "Ask how much is left",
       "label": "The question of how much is left, and the answer.",
       "question": "how much is left?",
-      "answer": "📊 *Today: 416 kcal*\n• Protein: 40 g\n• Carbs: 54 g\n• Fat: 3 g\n*{left} kcal left* for the goal of {goal}."
+      "answer": "📊 *Today: 416 kcal*\n• Protein: 40 g\n• Carbs: 54 g\n• Fat: 3 g\n*{left} kcal left* for the goal of {goal}.",
+      "note": "Whenever you like, it tells you what is left for your goal."
     },
     "remind": {
       "clause": "Went quiet? It reminds you",
       "label": "The short reminder the next day.",
-      "message": "Hi! 👋 What have you eaten today? Tell me and I'll log it."
-    }
+      "message": "Hi! 👋 What have you eaten today? Tell me and I'll log it.",
+      "note": "If you go quiet, a short message comes to pick it up again."
+    },
+    "tomorrow": "Tomorrow",
+    "steps": "Steps"
   },
   "bento": {
     "title": "Your numbers. When you ask.",
@@ -132,12 +138,15 @@
     "week": {
       "title": "Week summary",
       "chartLabel": "Calories for each day of the week, close to the goal of {goal}",
-      "text": "An average of {average} kcal on {logged} of {days} days, every week"
+      "unit": "kcal a day, on average",
+      "badge": "{logged} of {days} days logged"
     },
     "weight": {
       "title": "Weight",
       "alt": "Chart of weight going down from 84.6 kg to 80.8 kg between 28/09 and 16/11",
-      "text": "Your progress since your first weigh-in"
+      "text": "Your progress since your first weigh-in",
+      "unit": "kg",
+      "badge": "{delta} kg since {date}"
     }
   },
   "day": {
@@ -165,6 +174,24 @@
         "name": "Sodium and fiber",
         "note": "Sodium, fiber, sugar and more, compared with the reference values"
       }
+    },
+    "card": {
+      "energy": "Calories",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "left": "kcal left",
+      "logged": "kcal logged",
+      "goal": "Goal of {goal} kcal",
+      "ofGoal": "{percent}% of the {goal} kcal goal",
+      "protein": "Protein {grams} g",
+      "carbs": "Carbs {grams} g",
+      "fat": "Fat {grams} g",
+      "workout": "Workout",
+      "burned": "kcal burned, estimate",
+      "burnNote": "The burn counts toward your day",
+      "sodium": "Sodium",
+      "sodiumOf": "mg of {max} mg",
+      "sodiumLeft": "{left} mg left"
     }
   },
   "everything": {
@@ -219,7 +246,7 @@
     "wantPlan": "I want {plan}",
     "subscribeNow": "Subscribe now",
     "blackFriday": {
-      "title": "Black Friday until Nov 30",
+      "title": "Black Friday",
       "yearly": "Yearly from {from} down to {price}",
       "coaching": "{plan} from {from} down to {price}",
       "after": "On December 1, these become the prices.",
@@ -504,5 +531,16 @@
       "bad_response": "We got an answer we don't understand. Refresh the page and try again.",
       "unknown": "Something went wrong. Try again in a moment."
     }
+  },
+  "promo": {
+    "label": "Black Friday",
+    "offer": "Premium yearly for {yearly} and {plan} for {pro}",
+    "offerShort": "Yearly for {yearly}",
+    "endsIn": "Ends in",
+    "see": "See plans",
+    "days": "{n, plural, one {day} other {days}}",
+    "hours": "hours",
+    "minutes": "min",
+    "seconds": "sec"
   }
 }

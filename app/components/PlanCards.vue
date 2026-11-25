@@ -145,6 +145,17 @@ const promises = computed(() => [
 
 <template>
   <section class="pricing" :class="{ bare }" aria-labelledby="pricing-title">
+    <div v-if="offerLines.length" class="offer" role="note">
+      <div class="offer-words">
+        <p class="offer-title">{{ t('pricing.blackFriday.title') }}</p>
+        <p v-for="line in offerLines" :key="line" class="offer-line">{{ line }}</p>
+        <p class="offer-after">{{ t('pricing.blackFriday.after') }}</p>
+      </div>
+      <div class="offer-clock">
+        <p class="offer-ends">{{ t('promo.endsIn') }}</p>
+        <CountdownClock boxes />
+      </div>
+    </div>
     <div class="head" data-reveal>
       <h2 id="pricing-title" :class="bare ? 'visually-hidden' : 'title'">
         <TextLines :text="t('pricing.title')" />
@@ -155,17 +166,15 @@ const promises = computed(() => [
           {{ promise }}
         </li>
       </ul>
-      <div v-if="offerLines.length" class="offer" role="note">
-        <p class="offer-title">{{ t('pricing.blackFriday.title') }}</p>
-        <p v-for="line in offerLines" :key="line">{{ line }}</p>
-        <p class="offer-after">{{ t('pricing.blackFriday.after') }}</p>
-      </div>
     </div>
 
     <div class="cards">
       <article id="premium" class="card">
         <div class="name-row">
           <h3 class="name">{{ premium.name }}</h3>
+          <p v-if="blackFriday.yearlyFrom(premium.yearlyCents)" class="chip chip--deal">
+            {{ t('promo.label') }}
+          </p>
           <Transition name="chip">
             <p v-if="period === 'year' && saving > 0" class="chip">
               {{ t('pricing.saving', { percent: saving }) }}
@@ -214,6 +223,7 @@ const promises = computed(() => [
       <article id="coaching" class="card">
         <div class="name-row">
           <h3 class="name">{{ coaching.name }}</h3>
+          <p v-if="coachingStruck" class="chip chip--deal">{{ t('promo.label') }}</p>
           <p v-if="chosen" class="chip">{{ t('pricing.recommended') }}</p>
           <Transition name="chip">
             <p v-if="chosen && chosen === best && packages.length > 1" class="chip">
@@ -363,9 +373,10 @@ const promises = computed(() => [
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
-  padding: 2.25rem 2rem 2rem;
-  border-radius: var(--radius);
+  padding: 2.5rem 2.25rem 2.25rem;
+  border-radius: var(--radius-panel);
   background: var(--card);
+  box-shadow: var(--shadow-card);
 }
 
 .name-row {
@@ -390,6 +401,15 @@ const promises = computed(() => [
   font-weight: 700;
   line-height: 1.3;
   white-space: nowrap;
+}
+
+.chip--deal {
+  background: var(--black);
+  color: #ffffff;
+}
+
+.name-row .name {
+  margin-right: auto;
 }
 
 .chip-enter-active {
@@ -432,20 +452,23 @@ const promises = computed(() => [
 }
 
 .amount {
-  font-size: var(--step-figure);
+  font-size: var(--step-price);
   font-weight: 500;
-  letter-spacing: -0.045em;
-  line-height: 1.1;
+  letter-spacing: -0.055em;
+  line-height: 1;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .unit {
-  font-size: 0.4em;
+  color: var(--muted);
+  font-size: 0.3em;
+  font-weight: 500;
   letter-spacing: 0;
 }
 
 .currency {
-  margin-right: 0.125rem;
+  margin-right: 0.25rem;
 }
 
 .lead {
@@ -457,6 +480,7 @@ const promises = computed(() => [
 
 .soon .amount {
   color: var(--muted);
+  font-size: var(--step-figure);
 }
 
 .was {
@@ -467,21 +491,49 @@ const promises = computed(() => [
 }
 
 .offer {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 2rem;
+  padding: clamp(1.5rem, 1rem + 1.5vw, 2.25rem) clamp(1.5rem, 1rem + 2vw, 2.75rem);
+  border-radius: var(--radius-panel);
+  background: var(--black);
+  color: #ffffff;
+}
+
+.offer-words {
   display: grid;
   gap: 0.25rem;
-  padding: 1rem 1.25rem;
-  border-radius: var(--radius);
-  background: var(--mint);
-  font-size: var(--step-small);
 }
 
 .offer-title {
-  color: var(--green);
-  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #3fd27f;
+  font-size: var(--step-title);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.offer-line {
+  font-size: var(--step-body);
 }
 
 .offer-after {
-  color: var(--muted);
+  margin-top: 0.25rem;
+  color: rgb(255 255 255 / 0.65);
+  font-size: var(--step-small);
+}
+
+.offer-clock {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.offer-ends {
+  color: rgb(255 255 255 / 0.65);
+  font-size: var(--step-small);
 }
 
 .bare .offer {
@@ -527,6 +579,7 @@ const promises = computed(() => [
 }
 
 .action :deep(.button) {
+  min-height: 3.5rem;
   padding-block: 0.75rem;
   line-height: 1.25;
   text-align: center;

@@ -101,24 +101,30 @@
     "tell": {
       "clause": "Você conta o que comeu",
       "label": "A pessoa conta o almoço numa mensagem.",
-      "message": "almocei 150 g de arroz, uma concha de feijão e um filé de frango"
+      "message": "almocei 150 g de arroz, uma concha de feijão e um filé de frango",
+      "note": "Por texto, áudio ou foto, do jeito que você falaria."
     },
     "log": {
       "clause": "Ele anota e soma na hora",
       "label": "O almoço registrado com as calorias.",
-      "message": "✅ *Almoço* registrado\n\n• 150 g de arroz: 192 kcal\n• 1 concha de feijão (~86 g): 65 kcal\n• ~100 g de filé de frango: 159 kcal"
+      "message": "✅ *Almoço* registrado\n\n• 150 g de arroz: 192 kcal\n• 1 concha de feijão (~86 g): 65 kcal\n• ~100 g de filé de frango: 159 kcal",
+      "note": "Cada item com calorias e macros, somado ao total do dia."
     },
     "left": {
       "clause": "Pergunte quanto falta",
       "label": "A pergunta de quanto falta e a resposta.",
       "question": "quanto falta?",
-      "answer": "📊 *Hoje: 416 kcal*\n• Proteína: 40 g\n• Carboidratos: 54 g\n• Gordura: 3 g\n*Faltam {left} kcal* para a meta de {goal}."
+      "answer": "📊 *Hoje: 416 kcal*\n• Proteína: 40 g\n• Carboidratos: 54 g\n• Gordura: 3 g\n*Faltam {left} kcal* para a meta de {goal}.",
+      "note": "Quando quiser, ele responde o que falta para a meta."
     },
     "remind": {
       "clause": "Sumiu? Ele te lembra",
       "label": "O lembrete curto do dia seguinte.",
-      "message": "Oi! 👋 O que você já comeu hoje? Me conta que eu anoto."
-    }
+      "message": "Oi! 👋 O que você já comeu hoje? Me conta que eu anoto.",
+      "note": "Se você some, chega uma mensagem curta para retomar."
+    },
+    "tomorrow": "Amanhã",
+    "steps": "Passos"
   },
   "bento": {
     "title": "Seus números. Quando pedir.",
@@ -132,12 +138,15 @@
     "week": {
       "title": "Resumo da semana",
       "chartLabel": "Calorias de cada dia da semana, perto da meta de {goal}",
-      "text": "Média de {average} kcal em {logged} de {days} dias, toda semana"
+      "unit": "kcal por dia, em média",
+      "badge": "{logged} de {days} dias registrados"
     },
     "weight": {
       "title": "Peso",
       "alt": "Gráfico do peso caindo de 84,6 kg para 80,8 kg entre 28/09 e 16/11",
-      "text": "A sua evolução desde o primeiro registro"
+      "text": "A sua evolução desde o primeiro registro",
+      "unit": "kg",
+      "badge": "{delta} kg desde {date}"
     }
   },
   "day": {
@@ -165,6 +174,24 @@
         "name": "Sódio e fibra",
         "note": "Sódio, fibra, açúcar e mais, comparados aos valores de referência"
       }
+    },
+    "card": {
+      "energy": "Calorias",
+      "today": "Hoje",
+      "yesterday": "Ontem",
+      "left": "kcal faltam",
+      "logged": "kcal registradas",
+      "goal": "Meta de {goal} kcal",
+      "ofGoal": "{percent}% da meta de {goal} kcal",
+      "protein": "Proteína {grams} g",
+      "carbs": "Carboidratos {grams} g",
+      "fat": "Gordura {grams} g",
+      "workout": "Treino",
+      "burned": "kcal gastas, estimativa",
+      "burnNote": "O gasto entra na conta do dia",
+      "sodium": "Sódio",
+      "sodiumOf": "mg de {max} mg",
+      "sodiumLeft": "Faltam {left} mg"
     }
   },
   "everything": {
@@ -219,7 +246,7 @@
     "wantPlan": "Quero o {plan}",
     "subscribeNow": "Assinar agora",
     "blackFriday": {
-      "title": "Black Friday até 30/11",
+      "title": "Black Friday",
       "yearly": "Anual de {from} por {price}",
       "coaching": "{plan} de {from} por {price}",
       "after": "Em 1º de dezembro, estes passam a ser os preços.",
@@ -504,5 +531,16 @@
       "bad_response": "Recebemos uma resposta que não entendemos. Atualize a página e tente de novo.",
       "unknown": "Algo deu errado. Tente de novo em instantes."
     }
+  },
+  "promo": {
+    "label": "Black Friday",
+    "offer": "Premium anual por {yearly} e {plan} por {pro}",
+    "offerShort": "Anual por {yearly}",
+    "endsIn": "Termina em",
+    "see": "Ver planos",
+    "days": "{n, plural, one {dia} other {dias}}",
+    "hours": "horas",
+    "minutes": "min",
+    "seconds": "seg"
   }
 }

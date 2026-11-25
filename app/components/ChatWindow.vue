@@ -1,13 +1,23 @@
 <script setup lang="ts">
-import type { ChatScreen } from '#shared/chat'
+import type { ChatMessage, ChatScreen } from '#shared/chat'
 import { formatChat } from '#shared/formatChat'
 import { clock } from '#shared/locale'
 
 import { brand } from '~/brand'
 
-const props = defineProps<{ screen: ChatScreen; bare?: boolean }>()
+const props = defineProps<{
+  screen: ChatScreen
+  bare?: boolean
+  flat?: boolean
+  typing?: boolean
+  typingMs?: number
+  grow?: boolean
+}>()
+const emit = defineEmits<{ replied: [id: string]; live: [] }>()
 
 const locale = useSiteLocale()
+const { t } = useI18n()
+const phone = computed(() => !props.bare && !props.flat)
 
 /* A voice note's waveform: louder bars, and dots where the speaker paused. */
 const WAVE = [
@@ -23,14 +33,73 @@ const figure = ref<HTMLElement>()
 const live = ref(false)
 let observer: IntersectionObserver | undefined
 
-const goLive = () => {
-  live.value = true
-  observer?.disconnect()
+/* With typing on, the first answer waits behind three dots for a moment: long enough to read as a reply, short enough not to make anyone wait. */
+const TYPING_MS = 650
+/* A growing conversation keeps what was already on screen and only plays what is new. */
+const newFrom = ref(0)
+let lastLength = 0
+const firstReply = computed(() =>
+  props.screen.messages.findIndex((each, index) => index >= newFrom.value && each.from === 'bot'),
+)
+const heldFrom = ref<number>()
+const shown = computed(() =>
+  heldFrom.value === undefined
+    ? props.screen.messages
+    : props.screen.messages.slice(0, heldFrom.value),
+)
+let timer: ReturnType<typeof setTimeout> | undefined
+
+/* One flat, keyed list: TransitionGroup cannot hydrate v-if or fragment children. */
+type Item =
+  | { key: string; kind: 'day'; text: string }
+  | { key: string; kind: 'typing' }
+  | { key: string; kind: 'message'; message: ChatMessage; index: number }
+const items = computed<Item[]>(() => [
+  ...(props.bare ? [] : [{ key: 'today', kind: 'day' as const, text: t('chat.today') }]),
+  ...shown.value.flatMap((message, index) => [
+    ...(message.day ? [{ key: `day-${index}`, kind: 'day' as const, text: message.day }] : []),
+    { key: `message-${index}`, kind: 'message' as const, message, index },
+  ]),
+  ...(heldFrom.value === undefined ? [] : [{ key: 'typing', kind: 'typing' as const }]),
+])
+
+const play = () => {
+  clearTimeout(timer)
+  const id = props.screen.id
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (!props.typing || still || firstReply.value < 0) {
+    heldFrom.value = undefined
+    emit('replied', id)
+    return
+  }
+  heldFrom.value = firstReply.value
+  timer = setTimeout(() => {
+    heldFrom.value = undefined
+    emit('replied', id)
+  }, props.typingMs ?? TYPING_MS)
 }
 
-watch(() => props.screen.id, goLive)
+const goLive = () => {
+  if (live.value) return
+  play()
+  live.value = true
+  observer?.disconnect()
+  emit('live')
+}
+
+watch(
+  () => props.screen.id,
+  () => {
+    const length = props.screen.messages.length
+    newFrom.value = props.grow ? Math.min(lastLength, length) : 0
+    lastLength = length
+    if (live.value) play()
+    else if (!props.grow) goLive()
+  },
+)
 
 onMounted(() => {
+  lastLength = props.screen.messages.length
   if (!figure.value) return
   observer = new IntersectionObserver(([entry]) => entry?.isIntersecting && goLive(), {
     threshold: 0.15,
@@ -38,14 +107,23 @@ onMounted(() => {
   observer.observe(figure.value)
 })
 
-onBeforeUnmount(() => observer?.disconnect())
+onBeforeUnmount(() => {
+  observer?.disconnect()
+  clearTimeout(timer)
+})
 </script>
 
 <template>
-  <figure ref="figure" class="chat" :class="{ bare, live }" data-ui :aria-label="screen.label">
+  <figure
+    ref="figure"
+    class="chat"
+    :class="{ bare, flat, handset: phone, live }"
+    data-ui
+    :aria-label="screen.label"
+  >
     <div class="screen">
       <div v-if="!bare" class="top" aria-hidden="true">
-        <div class="status">
+        <div v-if="phone" class="status">
           <span class="clock">9:41</span>
           <span class="island" />
           <span class="signals">
@@ -66,7 +144,7 @@ onBeforeUnmount(() => observer?.disconnect())
           </span>
         </div>
         <div class="bar">
-          <span class="back">
+          <span v-if="phone" class="back">
             <svg class="icon" viewBox="0 0 12 20">
               <path class="line" d="M9.5 2.5 2 10l7.5 7.5" />
             </svg>
@@ -79,21 +157,43 @@ onBeforeUnmount(() => observer?.disconnect())
         </div>
       </div>
       <Transition name="screen" mode="out-in">
-        <ol :key="screen.id" class="thread" aria-hidden="true">
-          <li v-if="!bare" class="day">{{ $t('chat.today') }}</li>
+        <TransitionGroup
+          :key="grow ? 'grow' : screen.id"
+          tag="ol"
+          name="row"
+          class="thread"
+          aria-hidden="true"
+        >
           <li
-            v-for="(message, index) in screen.messages"
-            :key="index"
-            class="row"
-            :class="[message.from, { opens: opensRun(index), closes: closesRun(index) }]"
-            :style="{ '--n': index }"
+            v-for="item in items"
+            :key="item.key"
+            :class="
+              item.kind === 'day'
+                ? 'day'
+                : item.kind === 'typing'
+                  ? 'row bot opens closes typing'
+                  : [
+                      'row',
+                      item.message.from,
+                      { opens: opensRun(item.index), closes: closesRun(item.index) },
+                    ]
+            "
+            :style="item.kind === 'message' ? { '--n': item.index } : undefined"
           >
+            <template v-if="item.kind === 'day'">{{ item.text }}</template>
+            <div v-else-if="item.kind === 'typing'" class="bubble">
+              <span class="dots"><i /><i /><i /></span>
+              <svg class="tail" viewBox="0 0 10 16">
+                <path d="M10 0c0 7-2.4 12.6-10 16h10z" />
+              </svg>
+            </div>
             <div
+              v-else
               class="bubble"
-              :class="{ framed: message.attachment?.kind === 'photo' && !message.text }"
+              :class="{ framed: item.message.attachment?.kind === 'photo' && !item.message.text }"
             >
               <div class="body">
-                <div v-if="message.attachment?.kind === 'audio'" class="audio">
+                <div v-if="item.message.attachment?.kind === 'audio'" class="audio">
                   <span class="sender">
                     <svg class="person" viewBox="0 0 40 40">
                       <circle cx="20" cy="15.5" r="7" />
@@ -111,55 +211,57 @@ onBeforeUnmount(() => observer?.disconnect())
                       <i v-for="(height, bar) in WAVE" :key="bar" :style="{ '--h': height }" />
                     </span>
                     <span class="length"
-                      >0:{{ String(message.attachment.seconds).padStart(2, '0') }}</span
+                      >0:{{ String(item.message.attachment.seconds).padStart(2, '0') }}</span
                     >
                   </span>
                 </div>
                 <img
-                  v-else-if="message.attachment?.kind === 'photo' && message.attachment.src"
-                  :src="message.attachment.src"
-                  :alt="message.attachment.label"
+                  v-else-if="
+                    item.message.attachment?.kind === 'photo' && item.message.attachment.src
+                  "
+                  :src="item.message.attachment.src"
+                  :alt="item.message.attachment.label"
                   width="640"
                   height="426"
                   loading="lazy"
                   class="photo shot"
                 />
-                <PlateDrawing v-else-if="message.attachment?.kind === 'photo'" class="photo" />
-                <div v-else-if="message.attachment?.kind === 'file'" class="file">
+                <PlateDrawing v-else-if="item.message.attachment?.kind === 'photo'" class="photo" />
+                <div v-else-if="item.message.attachment?.kind === 'file'" class="file">
                   <span class="file-icon">CSV</span>
-                  <span>{{ message.attachment.name }}</span>
+                  <span>{{ item.message.attachment.name }}</span>
                 </div>
-                <p v-if="message.text" class="text">
+                <p v-if="item.message.text" class="text">
                   <!-- eslint-disable-next-line vue/no-v-html -- the text is escaped by formatChat before the marks become tags -->
-                  <span v-html="formatChat(message.text)" />
+                  <span v-html="formatChat(item.message.text)" />
                   <span class="room"
-                    >{{ clock(message.time, locale) }}<i v-if="message.from === 'you'"
+                    >{{ clock(item.message.time, locale) }}<i v-if="item.message.from === 'you'"
                   /></span>
                 </p>
                 <span class="meta">
-                  {{ clock(message.time, locale) }}
-                  <svg v-if="message.from === 'you'" class="ticks" viewBox="0 0 16 11">
+                  {{ clock(item.message.time, locale) }}
+                  <svg v-if="item.message.from === 'you'" class="ticks" viewBox="0 0 16 11">
                     <path class="line" d="M1.5 6.2 4.4 9l6.1-7M7.4 8.6l.5.4 6.1-7" />
                   </svg>
                 </span>
               </div>
-              <span v-if="message.button" class="reply-button">
+              <span v-if="item.message.button" class="reply-button">
                 <svg viewBox="0 0 24 24">
                   <path
                     class="line"
                     d="M9.5 4.5 3 11l6.5 6.5v-4c4.6 0 8 1.5 11 5.5-.7-6-4.5-10-11-11z"
                   />
                 </svg>
-                {{ message.button }}
+                {{ item.message.button }}
               </span>
-              <svg v-if="closesRun(index)" class="tail" viewBox="0 0 10 16">
+              <svg v-if="closesRun(item.index)" class="tail" viewBox="0 0 10 16">
                 <path d="M10 0c0 7-2.4 12.6-10 16h10z" />
               </svg>
             </div>
           </li>
-        </ol>
+        </TransitionGroup>
       </Transition>
-      <div v-if="!bare" class="composer" aria-hidden="true">
+      <div v-if="phone" class="composer" aria-hidden="true">
         <div class="tools">
           <svg class="icon plus" viewBox="0 0 24 24">
             <path class="line" d="M12 3.5v17M3.5 12h17" />
@@ -213,7 +315,7 @@ onBeforeUnmount(() => observer?.disconnect())
     0 28px 60px -24px rgb(16 36 26 / 0.45); /* taste-skill-ignore: the phone has to sit on the page like an object (data-ui) */
 }
 
-.chat:not(.bare) {
+.chat.handset {
   /* A phone's own proportion (71.6 × 147.6 mm), never stretched by the messages inside. */
   container-type: inline-size;
   width: min(100%, min(38rem, 100svh - 8rem) * 71.6 / 147.6);
@@ -222,13 +324,13 @@ onBeforeUnmount(() => observer?.disconnect())
   aspect-ratio: 71.6 / 147.6;
 }
 
-.chat:not(.bare) .screen {
+.chat.handset .screen {
   font-size: clamp(0.75rem, 4.75cqw, 0.875rem);
 }
 
 /* The two side buttons of a phone. */
-.chat:not(.bare)::before,
-.chat:not(.bare)::after {
+.chat.handset::before,
+.chat.handset::after {
   content: '';
   position: absolute;
   width: 3px;
@@ -236,13 +338,13 @@ onBeforeUnmount(() => observer?.disconnect())
   background: #111a16;
 }
 
-.chat:not(.bare)::before {
+.chat.handset::before {
   top: 7rem;
   left: -3px;
   height: 3rem;
 }
 
-.chat:not(.bare)::after {
+.chat.handset::after {
   top: 8.5rem;
   right: -3px;
   height: 4.5rem;
@@ -272,6 +374,99 @@ onBeforeUnmount(() => observer?.disconnect())
 .bare .screen {
   min-height: 0;
   border-radius: 0.75rem;
+}
+
+/* A wide window, no phone around it: the conversation at reading size. */
+.chat.flat {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border-radius: var(--radius);
+  background: none;
+  font-size: 1rem;
+  line-height: 1.45;
+  box-shadow: var(--shadow-card);
+}
+
+.flat .screen {
+  border-radius: inherit;
+}
+
+.flat .top {
+  background: var(--chat-chrome);
+  box-shadow: 0 1px 0 color-mix(in oklab, var(--chat-ink) 8%, transparent); /* taste-skill-ignore: the hairline under WhatsApp's header (data-ui) */
+}
+
+.flat .bar {
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+}
+
+.flat .avatar {
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.375rem;
+}
+
+.flat .name {
+  font-size: 1.0625rem;
+}
+
+.flat .presence {
+  font-size: 0.8125rem;
+}
+
+/* A long conversation fades out under the header instead of cutting a bubble in half. */
+.flat .thread {
+  padding: 1.25rem 1.5rem 1.5rem;
+  mask-image: linear-gradient(to bottom, transparent, #000 2.5rem);
+}
+
+.flat .bubble {
+  max-width: min(84%, 32rem);
+}
+
+.flat .body {
+  padding: 0.5rem 0.75rem 0.5rem 0.875rem;
+}
+
+.flat .meta,
+.flat .room {
+  font-size: 0.75rem;
+}
+
+.typing {
+  animation-duration: 120ms;
+}
+
+.dots {
+  display: flex;
+  gap: 0.3125rem;
+  padding: 0.875rem 1rem;
+}
+
+.dots i {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background: var(--chat-meta);
+  opacity: 0.35;
+  animation: blink 1s ease-in-out infinite;
+}
+
+.dots i:nth-child(2) {
+  animation-delay: 160ms;
+}
+
+.dots i:nth-child(3) {
+  animation-delay: 320ms;
+}
+
+@keyframes blink {
+  30% {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
 }
 
 .top {
@@ -794,6 +989,18 @@ onBeforeUnmount(() => observer?.disconnect())
   font-weight: 500;
 }
 
+/* When a message arrives, the ones above slide up to make room instead of jumping. */
+.row-move {
+  transition: transform 380ms var(--ease-out);
+}
+
+/* A message taken back leaves at once; without this, TransitionGroup waits on the arrival animation. */
+.row-leave-active {
+  display: none;
+  animation: none;
+  transition: none;
+}
+
 .screen-enter-active {
   transition: opacity 200ms var(--ease-out);
 }
@@ -815,6 +1022,9 @@ onBeforeUnmount(() => observer?.disconnect())
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .row-move {
+    transition: none;
+  }
   .row {
     animation-name: fade;
     animation-duration: 200ms;

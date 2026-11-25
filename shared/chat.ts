@@ -11,6 +11,8 @@ export type ChatMessage = {
   /** A reply or link button under the message, as WhatsApp draws it. */
   button?: string
   time: string
+  /** A date chip WhatsApp draws above this message, when the day changes. */
+  day?: string
 }
 
 export type ChatScreen = {
