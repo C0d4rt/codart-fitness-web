@@ -5,10 +5,13 @@ import fixture from '../shared/plans.fixture.json' with { type: 'json' }
 test.use({ colorScheme: 'light' })
 
 test('the home page says what this is and opens the conversation', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/?utm_source=partner&utm_campaign=bf&fbclid=IwAR2')
   await expect(page.locator('h1')).toHaveText('Seu assistente fitness. No WhatsApp.')
   const cta = page.getByRole('link', { name: 'Testar 7 dias grátis' }).first()
-  await expect(cta).toHaveAttribute('href', /^https:\/\/wa\.me\/.*\?text=Oi!/)
+  await expect(cta).toHaveAttribute(
+    'href',
+    /^https:\/\/api\.fitness\.codart\.dev\/fitness\/go\?utm_source=partner&utm_campaign=bf&landing=%2F&consent=0&lang=pt$/,
+  )
   await expect(page.getByText('R$ 16,66').first()).toBeVisible()
 })
 
@@ -100,7 +103,7 @@ test('the English home page speaks English and opens the chat in English', async
   await expect(page.locator('html')).toHaveAttribute('lang', 'en-US')
   await expect(page.locator('h1')).toHaveText('Your fitness assistant. On WhatsApp.')
   const cta = page.getByRole('link', { name: 'Try 7 days free' }).first()
-  await expect(cta).toHaveAttribute('href', /^https:\/\/wa\.me\/.*\?text=Hi!%20I%20want/)
+  await expect(cta).toHaveAttribute('href', /\/fitness\/go\?landing=%2Fen&consent=0&lang=en$/)
   await expect(page.getByText('R$16.66').first()).toBeVisible()
   await page.getByRole('button', { name: /How much is left/ }).click()
   await expect(page.locator('#a-normal-day').getByText(/560 kcal left/)).toBeVisible()
