@@ -25,6 +25,7 @@ const PREMIUM_HIGHLIGHTS = [
 
 const { t } = useI18n()
 const locale = useSiteLocale()
+const blackFriday = useBlackFriday()
 
 const premium = computed(() => props.catalog.premium)
 const coaching = computed(() => props.catalog.coaching)
@@ -76,6 +77,39 @@ const chosen = computed(
 const installment = computed(() =>
   moneyParts(chosen.value ? packageInstallmentCents(chosen.value) : 0, locale.value),
 )
+
+const yearlyStruck = computed(() =>
+  period.value === 'year' ? blackFriday.yearlyFrom(premium.value.yearlyCents) : undefined,
+)
+const coachingStruck = computed(() => {
+  const pack = chosen.value
+  const from = pack && blackFriday.coachingFrom(pack.totalCents)
+  return pack && from
+    ? {
+        total: from,
+        installment: installmentCents({ totalCents: from, installments: pack.installments }),
+      }
+    : undefined
+})
+const offerLines = computed(() => {
+  const yearly = blackFriday.yearlyFrom(premium.value.yearlyCents)
+  const pack = chosen.value
+  const pro = pack && blackFriday.coachingFrom(pack.totalCents)
+  return [
+    yearly &&
+      t('pricing.blackFriday.yearly', {
+        from: money(yearly, locale.value),
+        price: money(premium.value.yearlyCents, locale.value),
+      }),
+    pack &&
+      pro &&
+      t('pricing.blackFriday.coaching', {
+        plan: coaching.value.name,
+        from: money(pro, locale.value),
+        price: money(pack.totalCents, locale.value),
+      }),
+  ].filter((line): line is string => Boolean(line))
+})
 const coachingItems = computed(() => [
   t('pricing.allOfPremium'),
   ...coaching.value.features
@@ -92,6 +126,7 @@ const maxInstallments = computed(() =>
 const promises = computed(() => [
   t('pricing.promises.trial', { days: props.catalog.trialDays }),
   t('pricing.promises.noCard'),
+  t('pricing.promises.guarantee'),
   t('pricing.promises.pay'),
   t('pricing.promises.cancel'),
 ])
@@ -109,6 +144,11 @@ const promises = computed(() => [
           {{ promise }}
         </li>
       </ul>
+      <div v-if="offerLines.length" class="offer" role="note">
+        <p class="offer-title">{{ t('pricing.blackFriday.title') }}</p>
+        <p v-for="line in offerLines" :key="line">{{ line }}</p>
+        <p class="offer-after">{{ t('pricing.blackFriday.after') }}</p>
+      </div>
     </div>
 
     <div class="cards">
@@ -124,6 +164,12 @@ const promises = computed(() => [
         <p class="who">{{ t('pricing.premiumWho') }}</p>
         <PlanSwitch v-model="period" :options="periods" :label="t('pricing.periodLabel')" />
         <p class="price" aria-live="polite">
+          <s
+            v-if="yearlyStruck"
+            class="was"
+            :aria-label="t('pricing.blackFriday.struck', { price: money(yearlyStruck, locale) })"
+            >{{ money(yearlyStruck, locale) }}</s
+          >
           <span class="amount"
             ><span class="unit currency">{{ premiumPrice.currency }}</span
             >{{ premiumPrice.amount }}</span
@@ -188,6 +234,14 @@ const promises = computed(() => [
                 installments: chosen.installments,
               })
             }}</span>
+            <s
+              v-if="coachingStruck"
+              class="was"
+              :aria-label="
+                t('pricing.blackFriday.struck', { price: money(coachingStruck.total, locale) })
+              "
+              >{{ money(coachingStruck.installment, locale) }}{{ t('pricing.perMonthShort') }}</s
+            >
             <span class="amount"
               ><span class="unit currency">{{ installment.currency }}</span
               >{{ installment.amount
@@ -400,6 +454,35 @@ const promises = computed(() => [
 
 .soon .amount {
   color: var(--muted);
+}
+
+.was {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+.offer {
+  display: grid;
+  gap: 0.25rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  background: var(--mint);
+  font-size: var(--step-small);
+}
+
+.offer-title {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.offer-after {
+  color: var(--muted);
+}
+
+.bare .offer {
+  margin-bottom: 1.25rem;
 }
 
 .per {
