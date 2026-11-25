@@ -43,14 +43,12 @@ const screen = computed<ChatScreen>(() => ({
 }))
 
 const STEP_MS = 2200
-const FIRST_MS = 1000
+const FIRST_MS = 450
 /* Like a story: each track fills for its whole step, the dots start with it and the reply lands while it still runs. */
 const TYPE_MS = 900
 const playing = ref(false)
 const waiting = ref(false)
-const stage = ref<HTMLElement>()
 let timer: ReturnType<typeof setTimeout> | undefined
-let observer: IntersectionObserver | undefined
 
 const next = (wait: number) => {
   clearTimeout(timer)
@@ -69,26 +67,20 @@ const pick = (index: number) => {
 }
 
 onMounted(() => {
-  if (!stage.value || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
   step.value = 0
   waiting.value = true
-  observer = new IntersectionObserver(
-    ([entry]) => {
-      if (!entry?.isIntersecting) return
-      observer?.disconnect()
-      waiting.value = false
-      playing.value = true
-      next(FIRST_MS)
-    },
-    { threshold: 0.35 },
-  )
-  observer.observe(stage.value)
 })
 
-onBeforeUnmount(() => {
-  observer?.disconnect()
-  clearTimeout(timer)
-})
+/* Starts the moment the first message shows, so the dots follow it right away. */
+const start = () => {
+  if (!waiting.value) return
+  waiting.value = false
+  playing.value = true
+  next(FIRST_MS)
+}
+
+onBeforeUnmount(() => clearTimeout(timer))
 
 const RELATED = ['diary', 'photos', 'barcode', 'quickAdd', 'backfill', 'reminders'] as const
 const anchors = useAnchors()
@@ -100,7 +92,7 @@ const anchors = useAnchors()
       <h2 id="how-title" class="title"><TextLines :text="t('how.title')" /></h2>
       <p class="lead">{{ t('how.lead') }}</p>
     </div>
-    <div ref="stage" class="stage">
+    <div class="stage">
       <ol class="steps" :aria-label="t('how.steps')">
         <li v-for="(each, index) in STEPS" :key="each.id">
           <button
@@ -125,7 +117,7 @@ const anchors = useAnchors()
         </li>
       </ol>
       <div class="window">
-        <ChatWindow :screen="screen" flat typing :typing-ms="TYPE_MS" grow />
+        <ChatWindow :screen="screen" flat typing :typing-ms="TYPE_MS" grow @live="start" />
       </div>
       <p class="visually-hidden" aria-live="polite">{{ screen.label }}</p>
     </div>

@@ -13,7 +13,7 @@ const props = defineProps<{
   typingMs?: number
   grow?: boolean
 }>()
-const emit = defineEmits<{ replied: [id: string] }>()
+const emit = defineEmits<{ replied: [id: string]; live: [] }>()
 
 const locale = useSiteLocale()
 const { t } = useI18n()
@@ -80,9 +80,11 @@ const play = () => {
 }
 
 const goLive = () => {
-  if (!live.value) play()
+  if (live.value) return
+  play()
   live.value = true
   observer?.disconnect()
+  emit('live')
 }
 
 watch(
