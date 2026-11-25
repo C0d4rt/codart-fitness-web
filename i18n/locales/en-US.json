@@ -101,23 +101,27 @@
     "tell": {
       "clause": "You say what you ate",
       "label": "Someone tells the diary about their lunch in one message.",
-      "message": "for lunch I had 150 g of rice, a ladle of beans and a chicken fillet"
+      "message": "for lunch I had 150 g of rice, a ladle of beans and a chicken fillet",
+      "note": "By text, voice or photo, the way you would say it."
     },
     "log": {
       "clause": "It logs and adds it up right away",
       "label": "Lunch logged with its calories.",
-      "message": "✅ *Lunch* logged\n\n• 150 g of rice: 192 kcal\n• 1 ladle of beans (~86 g): 65 kcal\n• ~100 g of chicken fillet: 159 kcal"
+      "message": "✅ *Lunch* logged\n\n• 150 g of rice: 192 kcal\n• 1 ladle of beans (~86 g): 65 kcal\n• ~100 g of chicken fillet: 159 kcal",
+      "note": "Each item with calories and macros, added to the day total."
     },
     "left": {
       "clause": "Ask how much is left",
       "label": "The question of how much is left, and the answer.",
       "question": "how much is left?",
-      "answer": "📊 *Today: 416 kcal*\n• Protein: 40 g\n• Carbs: 54 g\n• Fat: 3 g\n*{left} kcal left* for the goal of {goal}."
+      "answer": "📊 *Today: 416 kcal*\n• Protein: 40 g\n• Carbs: 54 g\n• Fat: 3 g\n*{left} kcal left* for the goal of {goal}.",
+      "note": "Whenever you like, it tells you what is left for your goal."
     },
     "remind": {
       "clause": "Went quiet? It reminds you",
       "label": "The short reminder the next day.",
-      "message": "Hi! 👋 What have you eaten today? Tell me and I'll log it."
+      "message": "Hi! 👋 What have you eaten today? Tell me and I'll log it.",
+      "note": "If you go quiet, a short message comes to pick it up again."
     },
     "tomorrow": "Tomorrow",
     "steps": "Steps"
@@ -242,7 +246,7 @@
     "wantPlan": "I want {plan}",
     "subscribeNow": "Subscribe now",
     "blackFriday": {
-      "title": "Black Friday until Nov 30",
+      "title": "Black Friday",
       "yearly": "Yearly from {from} down to {price}",
       "coaching": "{plan} from {from} down to {price}",
       "after": "On December 1, these become the prices.",
@@ -530,8 +534,8 @@
   },
   "promo": {
     "label": "Black Friday",
-    "offer": "Premium yearly for {yearly} and {plan} for {pro}, until Nov 30",
-    "offerShort": "Yearly for {yearly} until Nov 30",
+    "offer": "Premium yearly for {yearly} and {plan} for {pro}",
+    "offerShort": "Yearly for {yearly}",
     "endsIn": "Ends in",
     "see": "See plans",
     "days": "{n, plural, one {day} other {days}}",

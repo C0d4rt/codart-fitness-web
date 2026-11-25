@@ -101,23 +101,27 @@
     "tell": {
       "clause": "Você conta o que comeu",
       "label": "A pessoa conta o almoço numa mensagem.",
-      "message": "almocei 150 g de arroz, uma concha de feijão e um filé de frango"
+      "message": "almocei 150 g de arroz, uma concha de feijão e um filé de frango",
+      "note": "Por texto, áudio ou foto, do jeito que você falaria."
     },
     "log": {
       "clause": "Ele anota e soma na hora",
       "label": "O almoço registrado com as calorias.",
-      "message": "✅ *Almoço* registrado\n\n• 150 g de arroz: 192 kcal\n• 1 concha de feijão (~86 g): 65 kcal\n• ~100 g de filé de frango: 159 kcal"
+      "message": "✅ *Almoço* registrado\n\n• 150 g de arroz: 192 kcal\n• 1 concha de feijão (~86 g): 65 kcal\n• ~100 g de filé de frango: 159 kcal",
+      "note": "Cada item com calorias e macros, somado ao total do dia."
     },
     "left": {
       "clause": "Pergunte quanto falta",
       "label": "A pergunta de quanto falta e a resposta.",
       "question": "quanto falta?",
-      "answer": "📊 *Hoje: 416 kcal*\n• Proteína: 40 g\n• Carboidratos: 54 g\n• Gordura: 3 g\n*Faltam {left} kcal* para a meta de {goal}."
+      "answer": "📊 *Hoje: 416 kcal*\n• Proteína: 40 g\n• Carboidratos: 54 g\n• Gordura: 3 g\n*Faltam {left} kcal* para a meta de {goal}.",
+      "note": "Quando quiser, ele responde o que falta para a meta."
     },
     "remind": {
       "clause": "Sumiu? Ele te lembra",
       "label": "O lembrete curto do dia seguinte.",
-      "message": "Oi! 👋 O que você já comeu hoje? Me conta que eu anoto."
+      "message": "Oi! 👋 O que você já comeu hoje? Me conta que eu anoto.",
+      "note": "Se você some, chega uma mensagem curta para retomar."
     },
     "tomorrow": "Amanhã",
     "steps": "Passos"
@@ -242,7 +246,7 @@
     "wantPlan": "Quero o {plan}",
     "subscribeNow": "Assinar agora",
     "blackFriday": {
-      "title": "Black Friday até 30/11",
+      "title": "Black Friday",
       "yearly": "Anual de {from} por {price}",
       "coaching": "{plan} de {from} por {price}",
       "after": "Em 1º de dezembro, estes passam a ser os preços.",
@@ -530,8 +534,8 @@
   },
   "promo": {
     "label": "Black Friday",
-    "offer": "Premium anual por {yearly} e {plan} por {pro}, até 30/11",
-    "offerShort": "Anual por {yearly} até 30/11",
+    "offer": "Premium anual por {yearly} e {plan} por {pro}",
+    "offerShort": "Anual por {yearly}",
     "endsIn": "Termina em",
     "see": "Ver planos",
     "days": "{n, plural, one {dia} other {dias}}",

@@ -114,6 +114,7 @@ const anchors = useAnchors()
             </span>
             <span class="number">{{ String(index + 1).padStart(2, '0') }}</span>
             <span class="clause">{{ t(`how.${each.id}.clause`) }}</span>
+            <span class="note">{{ t(`how.${each.id}.note`) }}</span>
           </button>
         </li>
       </ol>
@@ -249,6 +250,13 @@ const anchors = useAnchors()
   line-height: 1.2;
 }
 
+.note {
+  display: none;
+  color: var(--muted);
+  font-size: var(--step-small);
+  line-height: 1.4;
+}
+
 .window {
   height: 30rem;
 }
@@ -259,6 +267,52 @@ const anchors = useAnchors()
   }
   to {
     transform: none;
+  }
+}
+
+@keyframes fill-down {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* On a wide screen the steps stand beside the conversation, so it keeps a reading width. */
+@media (min-width: 64rem) {
+  .stage {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: center;
+  }
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.375rem;
+  }
+  .step {
+    grid-template-columns: 3px minmax(0, 1fr);
+    column-gap: 1.25rem;
+    row-gap: 0.25rem;
+    padding: 1.25rem 1.5rem;
+  }
+  .track {
+    grid-row: 1 / span 3;
+    width: 3px;
+    height: auto;
+    margin: 0;
+  }
+  .fill {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  .now .fill.running {
+    animation-name: fill-down;
+  }
+  .note {
+    display: block;
+  }
+  .window {
+    height: 34rem;
   }
 }
 
