@@ -44,7 +44,10 @@ const screen = computed<ChatScreen>(() => ({
 
 const STEP_MS = 3400
 const FIRST_MS = 1600
+/* The track fills with the typing dots, so it is full when the reply lands. */
+const FILL_MS = 700
 const playing = ref(false)
+const waiting = ref(false)
 const stage = ref<HTMLElement>()
 let timer: ReturnType<typeof setTimeout> | undefined
 let observer: IntersectionObserver | undefined
@@ -54,23 +57,26 @@ const next = (wait: number) => {
   timer = setTimeout(() => {
     step.value += 1
     if (step.value < LAST) next(STEP_MS)
-    else playing.value = false
+    else timer = setTimeout(() => (playing.value = false), FILL_MS)
   }, wait)
 }
 
 const pick = (index: number) => {
   clearTimeout(timer)
   playing.value = false
+  waiting.value = false
   step.value = index
 }
 
 onMounted(() => {
   if (!stage.value || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
   step.value = 0
+  waiting.value = true
   observer = new IntersectionObserver(
     ([entry]) => {
       if (!entry?.isIntersecting) return
       observer?.disconnect()
+      waiting.value = false
       playing.value = true
       next(FIRST_MS)
     },
@@ -108,8 +114,8 @@ const anchors = useAnchors()
               <span
                 :key="playing && index === step ? `run-${step}` : 'still'"
                 class="fill"
-                :class="{ running: playing && index === step }"
-                :style="{ '--ms': `${index === 0 ? FIRST_MS : STEP_MS}ms` }"
+                :class="{ running: playing && index === step, empty: waiting && index === step }"
+                :style="{ '--ms': `${FILL_MS}ms` }"
               />
             </span>
             <span class="number">{{ String(index + 1).padStart(2, '0') }}</span>
@@ -230,7 +236,11 @@ const anchors = useAnchors()
 }
 
 .now .fill.running {
-  animation: fill var(--ms) linear both;
+  animation: fill var(--ms) var(--ease-out) both;
+}
+
+.now .fill.empty {
+  transform: scaleX(0);
 }
 
 .number {
@@ -307,6 +317,9 @@ const anchors = useAnchors()
   }
   .now .fill.running {
     animation-name: fill-down;
+  }
+  .now .fill.empty {
+    transform: scaleY(0);
   }
   .note {
     display: block;
