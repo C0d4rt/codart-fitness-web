@@ -42,10 +42,10 @@ const screen = computed<ChatScreen>(() => ({
   messages: STEPS.slice(0, step.value + 1).flatMap((each) => each.messages),
 }))
 
-const STEP_MS = 3000
-const FIRST_MS = 1600
+const STEP_MS = 2200
+const FIRST_MS = 1000
 /* Like a story: each track fills for its whole step, the dots start with it and the reply lands while it still runs. */
-const TYPE_MS = 1000
+const TYPE_MS = 900
 const playing = ref(false)
 const waiting = ref(false)
 const stage = ref<HTMLElement>()
