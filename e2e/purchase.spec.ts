@@ -436,5 +436,5 @@ test('the plans page sends each plan to the purchase page', async ({ page }) => 
   await page.goto('/planos')
   await expect(
     page.locator('#premium').getByRole('link', { name: 'Assinar agora' }),
-  ).toHaveAttribute('href', '/assinar?plano=premium-mensal')
+  ).toHaveAttribute('href', '/assinar?plano=premium-anual')
 })

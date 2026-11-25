@@ -30,28 +30,33 @@ const blackFriday = useBlackFriday()
 const premium = computed(() => props.catalog.premium)
 const coaching = computed(() => props.catalog.coaching)
 
-const period = ref<'month' | 'year'>('month')
+const period = ref<'month' | 'year'>('year')
 const periods = computed(() => [
   { value: 'month' as const, label: t('pricing.monthly') },
   { value: 'year' as const, label: t('pricing.yearly') },
 ])
+const yearlyInstallments = computed(() => premium.value.yearlyInstallments ?? 1)
+const byInstallments = computed(() => period.value === 'year' && yearlyInstallments.value > 1)
+const yearlyShown = (totalCents: number) =>
+  yearlyInstallments.value > 1
+    ? installmentCents({ totalCents, installments: yearlyInstallments.value })
+    : totalCents
 const premiumPrice = computed(() =>
   moneyParts(
-    period.value === 'month' ? premium.value.monthlyCents : premium.value.yearlyCents,
+    period.value === 'month' ? premium.value.monthlyCents : yearlyShown(premium.value.yearlyCents),
     locale.value,
   ),
 )
 const saving = computed(() => yearlySaving(premium.value))
-const yearlyEquiv = computed(() => {
-  const installments = premium.value.yearlyInstallments ?? 1
-  return installments > 1
-    ? t('pricing.yearlyInstallments', {
-        installments,
-        price: money(
-          installmentCents({ totalCents: premium.value.yearlyCents, installments }),
-          locale.value,
-        ),
-      })
+const premiumNote = computed(() => {
+  if (period.value === 'month') {
+    return t('pricing.orYearly', {
+      price: money(premium.value.yearlyCents, locale.value),
+      percent: saving.value,
+    })
+  }
+  return byInstallments.value
+    ? t('pricing.installmentTotal', { total: money(premium.value.yearlyCents, locale.value) })
     : t('pricing.yearlyPerMonth', { price: yearlyPerMonth(premium.value, locale.value) })
 })
 const premiumItems = computed(() =>
@@ -78,9 +83,15 @@ const installment = computed(() =>
   moneyParts(chosen.value ? packageInstallmentCents(chosen.value) : 0, locale.value),
 )
 
-const yearlyStruck = computed(() =>
-  period.value === 'year' ? blackFriday.yearlyFrom(premium.value.yearlyCents) : undefined,
-)
+const yearlyStruck = computed(() => {
+  const from = period.value === 'year' && blackFriday.yearlyFrom(premium.value.yearlyCents)
+  if (!from) return undefined
+  const shown = money(yearlyShown(from), locale.value)
+  return {
+    text: byInstallments.value ? `${shown}${t('pricing.perMonthShort')}` : shown,
+    label: t('pricing.blackFriday.struck', { price: money(from, locale.value) }),
+  }
+})
 const coachingStruck = computed(() => {
   const pack = chosen.value
   const from = pack && blackFriday.coachingFrom(pack.totalCents)
@@ -164,30 +175,22 @@ const promises = computed(() => [
         <p class="who">{{ t('pricing.premiumWho') }}</p>
         <PlanSwitch v-model="period" :options="periods" :label="t('pricing.periodLabel')" />
         <p class="price" aria-live="polite">
-          <s
-            v-if="yearlyStruck"
-            class="was"
-            :aria-label="t('pricing.blackFriday.struck', { price: money(yearlyStruck, locale) })"
-            >{{ money(yearlyStruck, locale) }}</s
-          >
+          <span v-if="byInstallments" class="lead">{{
+            t('pricing.yearlyLead', { installments: yearlyInstallments })
+          }}</span>
+          <s v-if="yearlyStruck" class="was" :aria-label="yearlyStruck.label">{{
+            yearlyStruck.text
+          }}</s>
           <span class="amount"
             ><span class="unit currency">{{ premiumPrice.currency }}</span
-            >{{ premiumPrice.amount }}</span
+            >{{ premiumPrice.amount
+            }}<span v-if="byInstallments" class="unit">{{ t('pricing.perMonthShort') }}</span></span
           >
-          <span class="per">{{
+          <span v-if="!byInstallments" class="per">{{
             period === 'month' ? t('pricing.perMonth') : t('pricing.perYear')
           }}</span>
         </p>
-        <p class="equiv">
-          {{
-            period === 'month'
-              ? t('pricing.orYearly', {
-                  price: money(premium.yearlyCents, locale),
-                  percent: saving,
-                })
-              : yearlyEquiv
-          }}
-        </p>
+        <p class="equiv">{{ premiumNote }}</p>
         <ul class="items">
           <li v-for="item in premiumItems" :key="item">{{ item }}</li>
         </ul>

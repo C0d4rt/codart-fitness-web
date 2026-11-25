@@ -224,7 +224,8 @@
       "coaching": "{plan} from {from} down to {price}",
       "after": "On December 1, these become the prices.",
       "struck": "Price from December 1: {price}"
-    }
+    },
+    "yearlyLead": "Yearly plan · {installments} ×"
   },
   "faq": {
     "title": "Frequently asked questions",

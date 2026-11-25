@@ -224,7 +224,8 @@
       "coaching": "{plan} de {from} por {price}",
       "after": "Em 1º de dezembro, estes passam a ser os preços.",
       "struck": "Preço a partir de 1º de dezembro: {price}"
-    }
+    },
+    "yearlyLead": "Plano anual · {installments}x de"
   },
   "faq": {
     "title": "Perguntas frequentes",
