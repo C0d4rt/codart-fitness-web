@@ -45,7 +45,7 @@ const screen = computed<ChatScreen>(() => ({
 const STEP_MS = 3400
 const FIRST_MS = 1600
 /* The track fills with the typing dots, so it is full when the reply lands. */
-const FILL_MS = 700
+const FILL_MS = 1300
 const playing = ref(false)
 const waiting = ref(false)
 const stage = ref<HTMLElement>()
@@ -124,7 +124,9 @@ const anchors = useAnchors()
           </button>
         </li>
       </ol>
-      <div class="window"><ChatWindow :screen="screen" flat typing grow /></div>
+      <div class="window">
+        <ChatWindow :screen="screen" flat typing :typing-ms="FILL_MS" grow />
+      </div>
       <p class="visually-hidden" aria-live="polite">{{ screen.label }}</p>
     </div>
     <FeatureChips :features="features" :ids="RELATED" :label="t('chips.label')" />
@@ -236,7 +238,7 @@ const anchors = useAnchors()
 }
 
 .now .fill.running {
-  animation: fill var(--ms) var(--ease-out) both;
+  animation: fill var(--ms) linear both;
 }
 
 .now .fill.empty {

@@ -10,6 +10,7 @@ const props = defineProps<{
   bare?: boolean
   flat?: boolean
   typing?: boolean
+  typingMs?: number
   grow?: boolean
 }>()
 const emit = defineEmits<{ replied: [id: string] }>()
@@ -75,7 +76,7 @@ const play = () => {
   timer = setTimeout(() => {
     heldFrom.value = undefined
     emit('replied', id)
-  }, TYPING_MS)
+  }, props.typingMs ?? TYPING_MS)
 }
 
 const goLive = () => {
@@ -430,6 +431,10 @@ onBeforeUnmount(() => {
 .flat .meta,
 .flat .room {
   font-size: 0.75rem;
+}
+
+.typing {
+  animation-duration: 120ms;
 }
 
 .dots {
