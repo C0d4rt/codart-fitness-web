@@ -42,10 +42,10 @@ const screen = computed<ChatScreen>(() => ({
   messages: STEPS.slice(0, step.value + 1).flatMap((each) => each.messages),
 }))
 
-const STEP_MS = 3400
+const STEP_MS = 3000
 const FIRST_MS = 1600
-/* The track fills with the typing dots, so it is full when the reply lands. */
-const FILL_MS = 1300
+/* Like a story: each track fills for its whole step, the dots start with it and the reply lands while it still runs. */
+const TYPE_MS = 1000
 const playing = ref(false)
 const waiting = ref(false)
 const stage = ref<HTMLElement>()
@@ -57,7 +57,7 @@ const next = (wait: number) => {
   timer = setTimeout(() => {
     step.value += 1
     if (step.value < LAST) next(STEP_MS)
-    else timer = setTimeout(() => (playing.value = false), FILL_MS)
+    else timer = setTimeout(() => (playing.value = false), STEP_MS)
   }, wait)
 }
 
@@ -115,7 +115,7 @@ const anchors = useAnchors()
                 :key="playing && index === step ? `run-${step}` : 'still'"
                 class="fill"
                 :class="{ running: playing && index === step, empty: waiting && index === step }"
-                :style="{ '--ms': `${FILL_MS}ms` }"
+                :style="{ '--ms': `${index === 0 ? FIRST_MS : STEP_MS}ms` }"
               />
             </span>
             <span class="number">{{ String(index + 1).padStart(2, '0') }}</span>
@@ -125,7 +125,7 @@ const anchors = useAnchors()
         </li>
       </ol>
       <div class="window">
-        <ChatWindow :screen="screen" flat typing :typing-ms="FILL_MS" grow />
+        <ChatWindow :screen="screen" flat typing :typing-ms="TYPE_MS" grow />
       </div>
       <p class="visually-hidden" aria-live="polite">{{ screen.label }}</p>
     </div>
