@@ -27,6 +27,21 @@
       ]
     }
   ],
+  "next": {
+    "from": "2026-12-01T00:00:00-03:00",
+    "premium": {
+      "monthlyCents": 3990,
+      "yearlyCents": 35880,
+      "yearlyPixCents": 32990
+    },
+    "coaching": {
+      "totalCents": 71880,
+      "pixCents": 64990,
+      "perMonthCents": 5990,
+      "installments": 12,
+      "months": 12
+    }
+  },
   "groups": [
     {
       "id": "log",
