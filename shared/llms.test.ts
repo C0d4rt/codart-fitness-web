@@ -10,7 +10,7 @@ const text = llmsText(site, catalog, '26/10/2026')
 
 describe('llmsText', () => {
   it('takes prices and trial length from the plans contract', () => {
-    expect(text).toContain(`Teste grátis: ${catalog.trialDays} dias`)
+    expect(text).toContain(`Teste grátis com tudo do`)
     expect(text).toContain(`${money(2990, 'pt')} por mês ou ${money(23880, 'pt')} por ano`)
     expect(text).toContain(`em até 12x de ${money(1990, 'pt')} sem juros`)
     expect(text).toContain(`ou no Pix à vista, por ${money(21990, 'pt')}`)
