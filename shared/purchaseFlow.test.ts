@@ -5,6 +5,7 @@ import { buildCatalog } from './plans'
 import {
   activationCodeOf,
   canSignInAfterActivation,
+  cheaperPixOf,
   choiceOfSlug,
   defaultMethod,
   installmentOf,
@@ -21,17 +22,9 @@ import type { PlanOffer } from './siteApi'
 
 const TITLES = { monthly: 'Premium mensal', yearly: 'Premium anual', coaching: 'Premium Pro' }
 
-const onSale = {
+const offSale = {
   ...fixture,
-  plans: [
-    fixture.plans[0],
-    {
-      id: 'coaching',
-      name: 'Premium Pro',
-      available: true,
-      packages: [{ months: 12, totalCents: 47880, installments: 12, perMonthCents: 3990 }],
-    },
-  ],
+  plans: [fixture.plans[0], { id: 'coaching', name: 'Premium Pro', available: false }],
 }
 
 describe('the plan in the link', () => {
@@ -58,34 +51,62 @@ describe('the plan in the link', () => {
 
 describe('the prices of the build', () => {
   it('offers the three plans with the methods each takes (decision 4)', () => {
-    const offer = offerFromCatalog(buildCatalog(onSale, 'pt'), TITLES)
+    const offer = offerFromCatalog(buildCatalog(fixture, 'pt'), TITLES)
 
     expect(offer.buyer).toBe('anonymous')
     expect(offer.plans.map((each) => [each.title, each.priceCents])).toEqual([
       ['Premium mensal', 2990],
-      ['Premium anual', 19990],
-      ['Premium Pro', 47880],
+      ['Premium anual', 26990],
+      ['Premium Pro', 59880],
     ])
     expect(offer.plans[0]!.methods).toEqual([
-      { method: 'card', renews: true },
-      { method: 'pix', renews: false },
+      { method: 'card', priceCents: 2990, renews: true },
+      { method: 'pix', priceCents: 2990, renews: false },
     ])
-    expect(offer.plans[1]!.methods).toEqual([{ method: 'card', renews: false, installments: 12 }])
+    expect(offer.plans[1]!.methods).toEqual([
+      { method: 'card', priceCents: 26990, renews: false, installments: 12 },
+      { method: 'pix', priceCents: 24990, renews: false },
+    ])
     expect(offer.plans[2]).toMatchObject({
-      installmentCents: 3990,
+      installmentCents: 4990,
       signInToDiscount: true,
-      methods: [{ method: 'card', renews: false, installments: 12 }],
+      methods: [
+        { method: 'card', priceCents: 59880, renews: false, installments: 12 },
+        { method: 'pix', priceCents: 54990, renews: false },
+      ],
     })
   })
 
+  it('takes the yearly and Premium Pro by card alone when the catalog has no Pix price', () => {
+    const { yearlyPixCents: _, ...premium } = fixture.plans[0]!
+    const { pixCents: __, ...pack } = fixture.plans[1]!.packages![0]!
+    const offer = offerFromCatalog(
+      buildCatalog(
+        { ...fixture, plans: [premium, { ...fixture.plans[1], packages: [pack] }] },
+        'pt',
+      ),
+      TITLES,
+    )
+
+    expect(offer.plans[1]!.methods.map((each) => each.method)).toEqual(['card'])
+    expect(offer.plans[2]!.methods.map((each) => each.method)).toEqual(['card'])
+  })
+
+  it('shows the Pix price only where it costs less than the card', () => {
+    const [monthly, yearly, pro] = offerFromCatalog(buildCatalog(fixture, 'pt'), TITLES).plans
+    expect(cheaperPixOf(monthly!)).toBeUndefined()
+    expect(cheaperPixOf(yearly!)).toBe(24990)
+    expect(cheaperPixOf(pro!)).toBe(54990)
+  })
+
   it('says Premium Pro is not on sale when the build has no package', () => {
-    const offer = offerFromCatalog(buildCatalog(fixture, 'pt'), TITLES)
+    const offer = offerFromCatalog(buildCatalog(offSale, 'pt'), TITLES)
 
     expect(offer.plans[2]).toMatchObject({ blocked: 'pro_unavailable', methods: [] })
   })
 
   it('puts the cards in the order monthly, yearly, Premium Pro', () => {
-    const plans = offerFromCatalog(buildCatalog(onSale, 'pt'), TITLES).plans
+    const plans = offerFromCatalog(buildCatalog(fixture, 'pt'), TITLES).plans
 
     expect(orderedPlans([...plans].reverse()).map((each) => slugOf(each))).toEqual([
       'premium-mensal',
@@ -131,11 +152,11 @@ describe('the installment shown', () => {
     const offer = offerFromCatalog(
       buildCatalog(
         {
-          ...onSale,
+          ...fixture,
           plans: [
-            onSale.plans[0],
+            fixture.plans[0],
             {
-              ...onSale.plans[1],
+              ...fixture.plans[1],
               packages: [{ months: 12, totalCents: 10001, installments: 12, perMonthCents: 834 }],
             },
           ],
@@ -151,8 +172,8 @@ describe('the installment shown', () => {
 
 describe('the payment badges', () => {
   it('promise as many installments as the plans on sale take, and no more', () => {
-    const onSaleOffer = offerFromCatalog(buildCatalog(onSale, 'pt'), TITLES)
-    const withoutPro = offerFromCatalog(buildCatalog(fixture, 'pt'), TITLES)
+    const onSaleOffer = offerFromCatalog(buildCatalog(fixture, 'pt'), TITLES)
+    const withoutPro = offerFromCatalog(buildCatalog(offSale, 'pt'), TITLES)
     const monthlyOnly = withoutPro.plans.filter((each) => each.cycle === 'monthly')
 
     expect(mostInstallments(onSaleOffer.plans)).toBe(12)
