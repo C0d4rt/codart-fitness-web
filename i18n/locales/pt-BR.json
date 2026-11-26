@@ -537,8 +537,8 @@
   },
   "promo": {
     "label": "Black Friday",
-    "offer": "Premium anual em {installments} ou {pix} no Pix",
-    "offerShort": "Anual em 12x de {installment}",
+    "offer": "Premium anual por {price}",
+    "offerShort": "Anual por {price}",
     "see": "Ver planos",
     "endsIn": "Termina em",
     "days": "{n, plural, one {dia} other {dias}}",
