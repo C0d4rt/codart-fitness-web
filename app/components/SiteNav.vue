@@ -26,7 +26,6 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <PromoBar />
   <header class="site-header" :class="{ scrolled }">
     <a class="skip" href="#conteudo">{{ t('nav.skip') }}</a>
     <nav class="nav" :aria-label="t('nav.label')">

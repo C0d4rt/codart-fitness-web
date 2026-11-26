@@ -207,7 +207,7 @@
     "promises": {
       "trial": "{days} dias grátis com tudo do Premium",
       "noCard": "Sem cartão para testar",
-      "pay": "Mensal no Pix ou no cartão, anual em até 12x",
+      "pay": "Mensal no Pix ou no cartão, anual em até 12x ou no Pix à vista",
       "cancel": "Cancele quando quiser",
       "guarantee": "7 dias de garantia: não gostou, devolvemos pela conversa"
     },
@@ -226,7 +226,7 @@
     "orYearly": "{percent, plural, =0 {ou {price} por ano} other {ou {price} por ano, {percent}% a menos}}",
     "yearlyPerMonth": "equivale a {price} por mês",
     "yearlyInstallments": "Em até {installments}x de {price} sem juros, no cartão",
-    "saving": "Economize {percent}%",
+    "saving": "{percent}% menos",
     "premiumWho": "O assistente: registro por foto e áudio, metas, sugestão do que comer e treinos por nível",
     "coachingWho": "O assistente que monta sua dieta e seu treino a partir da sua avaliação e ajusta tudo à sua evolução, com dúvidas respondidas pela nossa equipe",
     "levelWorkouts": "Treinos guiados por nível, com opções baseadas em ciência para quem treina natural",
@@ -245,14 +245,9 @@
     "notifyMe": "Quero ser avisado",
     "wantPlan": "Quero o {plan}",
     "subscribeNow": "Assinar agora",
-    "blackFriday": {
-      "title": "Black Friday",
-      "yearly": "Anual de {from} por {price}",
-      "coaching": "{plan} de {from} por {price}",
-      "after": "Em 1º de dezembro, estes passam a ser os preços.",
-      "struck": "Preço a partir de 1º de dezembro: {price}"
-    },
-    "yearlyLead": "Plano anual · {installments}x de"
+    "yearlyLead": "Plano anual · {installments}x de",
+    "orPix": "ou {price} no Pix à vista",
+    "inMonthly": "no mensal"
   },
   "faq": {
     "title": "Perguntas frequentes",
@@ -272,7 +267,7 @@
       },
       {
         "q": "Como eu pago e cancelo?",
-        "a": "Na página Assinar, aqui no site, ou respondendo \"assinar\" na conversa, que manda o link. O mensal é no Pix ou no cartão, e no cartão renova sozinho todo mês até você cancelar. O anual é no cartão, em até 12x sem juros. Cancele quando quiser; o acesso continua até o fim do período pago. O Pix vale só para o mensal. O Premium Pro é um programa de 12 meses, só no cartão, à vista ou em até 12x sem juros, sem renovação. Comprar o Premium Pro cancela a assinatura mensal no cartão, e os dias já pagos do Premium são descontados do preço."
+        "a": "Na página Assinar, aqui no site, ou respondendo \"assinar\" na conversa, que manda o link. O mensal é no Pix ou no cartão, e no cartão renova sozinho todo mês até você cancelar. O anual é no cartão, em até 12x sem juros, ou no Pix à vista, por um preço menor. Cancele quando quiser; o acesso continua até o fim do período pago. O Premium Pro é um programa de 12 meses, no cartão, em até 12x sem juros, ou no Pix à vista, sem renovação. O que é pago no Pix não renova sozinho: perto do fim, a conversa traz o link para renovar. Comprar o Premium Pro cancela a assinatura mensal no cartão, e os dias já pagos do Premium são descontados do preço."
       },
       {
         "q": "E se eu me arrepender?",
@@ -311,7 +306,9 @@
     "offerMonthly": "{plan} mensal",
     "offerYearly": "{plan} anual",
     "coachingOnly": "Só no Premium Pro",
-    "offerPackage": "{plan} por {months} meses"
+    "offerPackage": "{plan} por {months} meses",
+    "offerYearlyPix": "{plan} anual no Pix à vista",
+    "offerPackagePix": "{plan} por {months} meses no Pix à vista"
   },
   "features": {
     "title": "Recursos",
@@ -391,7 +388,8 @@
     "methods": {
       "pix": "Pix",
       "cardInstallments": "Cartão, em até {installments}x",
-      "card": "Cartão"
+      "card": "Cartão",
+      "pixUpfront": "Pix à vista"
     },
     "methodNotes": {
       "cardRenews": "{price} todo mês, até você cancelar",
@@ -420,7 +418,8 @@
       "premiumMonthly": "Premium mensal",
       "premiumYearly": "Premium anual",
       "coaching": "Premium Pro"
-    }
+    },
+    "pixPrepaid": "Pago de uma vez. Não renova sozinho: perto do fim, a conversa traz o link para renovar."
   },
   "subscribeDone": {
     "title": "Pagamento",
@@ -438,7 +437,7 @@
     "signedIn": "Este navegador entrou no site com o número {who}.",
     "signInLater": "Para entrar no site depois, use Entrar com WhatsApp.",
     "refusedHeading": "O cartão foi recusado.",
-    "refusedText": "Nada foi cobrado. Tente de novo com outro cartão ou, no mensal, no Pix.",
+    "refusedText": "Nada foi cobrado. Tente de novo com outro cartão ou no Pix.",
     "expiredHeading": "O pagamento venceu.",
     "expiredText": "Nada foi cobrado. Escolha o plano de novo para gerar outro pagamento.",
     "refundedHeading": "Pagamento devolvido.",
@@ -531,16 +530,5 @@
       "bad_response": "Recebemos uma resposta que não entendemos. Atualize a página e tente de novo.",
       "unknown": "Algo deu errado. Tente de novo em instantes."
     }
-  },
-  "promo": {
-    "label": "Black Friday",
-    "offer": "Premium anual por {yearly} e {plan} por {pro}",
-    "offerShort": "Anual por {yearly}",
-    "endsIn": "Termina em",
-    "see": "Ver planos",
-    "days": "{n, plural, one {dia} other {dias}}",
-    "hours": "horas",
-    "minutes": "min",
-    "seconds": "seg"
   }
 }

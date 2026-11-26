@@ -3,9 +3,11 @@ import { brand } from '~/brand'
 import { takeFragment } from '#shared/fragment'
 import { money as moneyText, moneyParts, yearlyPerMonth, yearlySaving } from '#shared/plans'
 import {
+  cheaperPixOf,
   choiceOfSlug,
   defaultMethod,
   installmentOf,
+  methodPriceOf,
   mostInstallments,
   offerFromCatalog,
   orderedPlans,
@@ -94,21 +96,9 @@ const money = (cents: number, at: typeof locale.value) =>
   moneyText(cents, at).replace(/\s/g, '\u00a0')
 const buyable = (each: PlanOffer) => !each.blocked && !blocked.value && each.methods.length > 0
 
-const blackFriday = useBlackFriday()
-const struckOf = (each: PlanOffer): { text: string; label: string } | undefined => {
-  if (each.plan === 'coaching') {
-    const from = blackFriday.coachingFrom(each.fullCents ?? each.priceCents)
-    if (!from) return undefined
-    const count = installmentOf(each).count
-    return {
-      text: `${money(Math.round(from / count), locale.value)}${t('pricing.perMonthShort')}`,
-      label: t('pricing.blackFriday.struck', { price: money(from, locale.value) }),
-    }
-  }
-  const from = each.cycle === 'yearly' ? blackFriday.yearlyFrom(each.priceCents) : undefined
-  if (!from) return undefined
-  const price = money(from, locale.value)
-  return { text: price, label: t('pricing.blackFriday.struck', { price }) }
+const orPix = (each: PlanOffer) => {
+  const cents = cheaperPixOf(each)
+  return cents === undefined ? undefined : t('pricing.orPix', { price: money(cents, locale.value) })
 }
 
 const focusPlan = (each: PlanOffer) => {
@@ -146,8 +136,10 @@ watch(
   { immediate: true },
 )
 
-const methodLabel = (pay: PayMethod) => {
-  if (pay.method === 'pix') return t('subscribe.methods.pix')
+const methodLabel = (each: PlanOffer, pay: PayMethod) => {
+  if (pay.method === 'pix') {
+    return each.cycle === 'yearly' ? t('subscribe.methods.pixUpfront') : t('subscribe.methods.pix')
+  }
   return pay.installments && pay.installments > 1
     ? t('subscribe.methods.cardInstallments', { installments: pay.installments })
     : t('subscribe.methods.card')
@@ -155,7 +147,7 @@ const methodLabel = (pay: PayMethod) => {
 
 const methodNote = (each: PlanOffer, pay: PayMethod) => {
   if (pay.blocked === 'already_subscribed') return t('subscribe.methodNotes.alreadySubscribed')
-  const price = money(each.priceCents, locale.value)
+  const price = money(methodPriceOf(each, pay), locale.value)
   if (each.plan === 'coaching') {
     return t('subscribe.methodNotes.coaching', { price, months: each.months ?? 12 })
   }
@@ -375,9 +367,6 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                     installments: installmentOf(each).count,
                   })
                 }}</span>
-                <s v-if="struckOf(each)" class="was" :aria-label="struckOf(each)?.label">{{
-                  struckOf(each)?.text
-                }}</s>
                 <span class="amount"
                   ><span class="unit currency">{{
                     moneyParts(installmentOf(each).cents, locale).currency
@@ -389,6 +378,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
               <p class="equiv">
                 {{ t('pricing.installmentTotal', { total: money(each.priceCents, locale) }) }}
               </p>
+              <p v-if="orPix(each)" class="pix">{{ orPix(each) }}</p>
               <div v-if="each.discountCents && each.fullCents" class="credit">
                 <p>
                   {{
@@ -419,9 +409,6 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
             </template>
             <template v-else>
               <p class="price">
-                <s v-if="struckOf(each)" class="was" :aria-label="struckOf(each)?.label">{{
-                  struckOf(each)?.text
-                }}</s>
                 <span class="amount"
                   ><span class="unit currency">{{
                     moneyParts(each.priceCents, locale).currency
@@ -435,6 +422,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
               <p class="equiv">
                 {{ each.cycle === 'monthly' ? orYearly : yearlyNote(each) }}
               </p>
+              <p v-if="orPix(each)" class="pix">{{ orPix(each) }}</p>
             </template>
 
             <p v-if="each.blocked === 'guardian_required'" class="equiv blocked">
@@ -459,7 +447,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                     @change="focusPlan(each)"
                   />
                   <span class="method-text">
-                    <span class="method-name">{{ methodLabel(option) }}</span>
+                    <span class="method-name">{{ methodLabel(each, option) }}</span>
                     <span class="method-note">{{ methodNote(each, option) }}</span>
                   </span>
                 </label>
@@ -471,6 +459,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                   <li>{{ t('subscribe.proPoints.cancelsMonthly') }}</li>
                 </template>
                 <li v-else-if="each.cycle === 'monthly'">{{ t('subscribe.cancelAnytime') }}</li>
+                <li v-if="methods[each.plan] === 'pix'">{{ t('subscribe.pixPrepaid') }}</li>
                 <li>{{ t('subscribe.guarantee') }}</li>
                 <li v-if="!known">
                   {{
@@ -685,13 +674,6 @@ main {
   margin-right: 0.125rem;
 }
 
-.was {
-  flex-basis: 100%;
-  color: var(--muted);
-  font-size: var(--step-small);
-  font-weight: 500;
-}
-
 .soon .amount {
   color: var(--muted);
 }
@@ -711,6 +693,11 @@ main {
 .equiv {
   color: var(--muted);
   font-size: var(--step-small);
+}
+
+.pix {
+  font-size: var(--step-small);
+  font-weight: 600;
 }
 
 .blocked {
