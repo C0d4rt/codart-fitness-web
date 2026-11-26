@@ -207,7 +207,7 @@
     "promises": {
       "trial": "{days} days free with everything in Premium",
       "noCard": "No card needed to try",
-      "pay": "Monthly by Pix or card, yearly in up to 12 installments",
+      "pay": "Monthly by Pix or card, yearly in up to 12 installments or by Pix upfront",
       "cancel": "Cancel whenever you like",
       "guarantee": "7-day guarantee: not for you, we refund it in the chat"
     },
@@ -226,7 +226,7 @@
     "orYearly": "{percent, plural, =0 {or {price} per year} other {or {price} per year, {percent}% less}}",
     "yearlyPerMonth": "same as {price} per month",
     "yearlyInstallments": "In up to {installments} interest-free installments of {price}, by card",
-    "saving": "Save {percent}%",
+    "saving": "{percent}% less",
     "premiumWho": "The assistant: logging by photo and voice, goals, meal suggestions and workouts by level",
     "coachingWho": "The assistant that builds your diet and training from your assessment and adjusts it all to your progress, with questions answered by our team",
     "levelWorkouts": "Guided workout programs, with science-based options for people who train natural",
@@ -245,14 +245,9 @@
     "notifyMe": "Tell me when it opens",
     "wantPlan": "I want {plan}",
     "subscribeNow": "Subscribe now",
-    "blackFriday": {
-      "title": "Black Friday",
-      "yearly": "Yearly from {from} down to {price}",
-      "coaching": "{plan} from {from} down to {price}",
-      "after": "On December 1, these become the prices.",
-      "struck": "Price from December 1: {price}"
-    },
-    "yearlyLead": "Yearly plan · {installments} ×"
+    "yearlyLead": "Yearly plan · {installments} ×",
+    "orPix": "or {price} by Pix upfront",
+    "inMonthly": "paying monthly"
   },
   "faq": {
     "title": "Frequently asked questions",
@@ -272,7 +267,7 @@
       },
       {
         "q": "How do I pay and cancel?",
-        "a": "On the Subscribe page, here on the site, or by replying \"subscribe\" in the chat, which sends you the link. Monthly is by Pix or card, and by card it renews on its own every month until you cancel. Yearly is by card, in up to 12 interest-free installments. Cancel whenever you like; your access lasts until the end of the period you paid for. Pix is for monthly only. Premium Pro is a 12-month program, by card only, upfront or in up to 12 interest-free installments, with no renewal. Buying Premium Pro cancels your monthly card subscription, and the Premium days you already paid for are discounted from the price."
+        "a": "On the Subscribe page, here on the site, or by replying \"subscribe\" in the chat, which sends you the link. Monthly is by Pix or card, and by card it renews on its own every month until you cancel. Yearly is by card, in up to 12 interest-free installments, or by Pix upfront, for less. Cancel whenever you like; your access lasts until the end of the period you paid for. Premium Pro is a 12-month program, by card in up to 12 interest-free installments or by Pix upfront, with no renewal. What you pay by Pix does not renew on its own: near the end, the chat sends you the link to renew. Buying Premium Pro cancels your monthly card subscription, and the Premium days you already paid for are discounted from the price."
       },
       {
         "q": "What if I change my mind?",
@@ -311,7 +306,9 @@
     "offerMonthly": "{plan} monthly",
     "offerYearly": "{plan} yearly",
     "coachingOnly": "Premium Pro only",
-    "offerPackage": "{plan} for {months} months"
+    "offerPackage": "{plan} for {months} months",
+    "offerYearlyPix": "{plan} yearly by Pix upfront",
+    "offerPackagePix": "{plan} for {months} months by Pix upfront"
   },
   "features": {
     "title": "Features",
@@ -391,7 +388,8 @@
     "methods": {
       "pix": "Pix",
       "cardInstallments": "Card, in up to {installments} installments",
-      "card": "Card"
+      "card": "Card",
+      "pixUpfront": "Pix, upfront"
     },
     "methodNotes": {
       "cardRenews": "{price} every month, until you cancel",
@@ -420,7 +418,8 @@
       "premiumMonthly": "Premium monthly",
       "premiumYearly": "Premium yearly",
       "coaching": "Premium Pro"
-    }
+    },
+    "pixPrepaid": "Paid once. It does not renew on its own: near the end, the chat sends you the link to renew."
   },
   "subscribeDone": {
     "title": "Payment",
@@ -438,7 +437,7 @@
     "signedIn": "This browser is signed in to the site with the number {who}.",
     "signInLater": "To sign in to the site later, use Sign in with WhatsApp.",
     "refusedHeading": "The card was declined.",
-    "refusedText": "Nothing was charged. Try again with another card or, for monthly, by Pix.",
+    "refusedText": "Nothing was charged. Try again with another card or by Pix.",
     "expiredHeading": "The payment expired.",
     "expiredText": "Nothing was charged. Pick the plan again to start a new payment.",
     "refundedHeading": "Payment refunded.",
@@ -531,16 +530,5 @@
       "bad_response": "We got an answer we don't understand. Refresh the page and try again.",
       "unknown": "Something went wrong. Try again in a moment."
     }
-  },
-  "promo": {
-    "label": "Black Friday",
-    "offer": "Premium yearly for {yearly} and {plan} for {pro}",
-    "offerShort": "Yearly for {yearly}",
-    "endsIn": "Ends in",
-    "see": "See plans",
-    "days": "{n, plural, one {day} other {days}}",
-    "hours": "hours",
-    "minutes": "min",
-    "seconds": "sec"
   }
 }

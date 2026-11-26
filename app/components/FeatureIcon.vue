@@ -27,8 +27,8 @@ const SHAPES = {
   person: 'M12 5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM5 20c.8-4 3.6-6 7-6s6.2 2 7 6',
   calendar:
     'M6.5 5.5h11A2.5 2.5 0 0 1 20 8v9.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5V8a2.5 2.5 0 0 1 2.5-2.5zM4 10h16M8.5 3.5v4M15.5 3.5v4',
-  infinity:
-    'M12 12c-2-2.5-3.5-4-5.5-4a4 4 0 0 0 0 8c2 0 3.5-1.5 5.5-4s3.5-4 5.5-4a4 4 0 0 1 0 8c-2 0-3.5-1.5-5.5-4z',
+  chatPlus:
+    'M4.5 6.5A2.5 2.5 0 0 1 7 4h10a2.5 2.5 0 0 1 2.5 2.5v7A2.5 2.5 0 0 1 17 16h-6l-4.5 3.5V16a2 2 0 0 1-2-2zM12 7.5v5M9.5 10h5',
 }
 
 type Shape = keyof typeof SHAPES
@@ -68,7 +68,7 @@ const FEATURE_SHAPE: Record<string, Shape> = {
   professionalReview: 'trend',
   checkIns: 'calendar',
   coachChat: 'chat',
-  unlimitedReplies: 'infinity',
+  moreReplies: 'chatPlus',
 }
 
 const path = computed(

@@ -11,28 +11,21 @@ const text = llmsText(site, catalog, '26/10/2026')
 describe('llmsText', () => {
   it('takes prices and trial length from the plans contract', () => {
     expect(text).toContain(`Teste grátis: ${catalog.trialDays} dias`)
-    expect(text).toContain(`${money(2990, 'pt')} por mês ou ${money(19990, 'pt')} por ano`)
-    expect(text).toContain(`em até 12x de ${money(1666, 'pt')} sem juros`)
+    expect(text).toContain(`${money(2990, 'pt')} por mês ou ${money(26990, 'pt')} por ano`)
+    expect(text).toContain(`em até 12x de ${money(2249, 'pt')} sem juros`)
+    expect(text).toContain(`ou no Pix à vista, por ${money(24990, 'pt')}`)
     expect(text).toContain('válidos em 26/10/2026')
   })
 
   it('says Premium Pro is coming while its sale is off, and its program once it is on', () => {
-    expect(text).toContain('- Premium Pro: em breve')
-    const onSale = buildCatalog({
-      ...fixture,
-      plans: [
-        fixture.plans[0],
-        {
-          id: 'coaching',
-          name: 'Premium Pro',
-          available: true,
-          packages: [{ months: 12, totalCents: 47880, installments: 12, perMonthCents: 3990 }],
-        },
-      ],
-    })
-    expect(llmsText(site, onSale, '26/10/2026')).toContain(
-      `12 meses por ${money(47880, 'pt')}, ou 12x de ${money(3990, 'pt')} sem juros`,
+    expect(text).toContain(
+      `12 meses por ${money(59880, 'pt')}, ou 12x de ${money(4990, 'pt')} sem juros, ou ${money(54990, 'pt')} no Pix à vista`,
     )
+    const offSale = buildCatalog({
+      ...fixture,
+      plans: [fixture.plans[0], { id: 'coaching', name: 'Premium Pro', available: false }],
+    })
+    expect(llmsText(site, offSale, '26/10/2026')).toContain('- Premium Pro: em breve')
   })
 
   it('lists every feature once', () => {

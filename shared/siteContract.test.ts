@@ -37,7 +37,21 @@ describe('the site contract with codart-messaging (PRP-065)', () => {
     expect(read.plans.map((each) => [each.plan, each.cycle, each.methods.length])).toEqual(
       SITE_ANSWERS.plans.plans.map((each) => [each.plan, each.cycle, each.methods.length]),
     )
-    expect(read.plans[1]!.methods[0]!.installmentCents).toBe(1666)
+    expect(read.plans[1]!.methods[0]!.installmentCents).toBe(2249)
+    expect(read.plans.map((each) => each.methods.map((pay) => pay.priceCents))).toEqual([
+      [2990, 2990],
+      [26990, 24990],
+      [59880, 54990],
+    ])
+  })
+
+  it('reads Premium Pro off sale, with no method to pay', () => {
+    const read = plansResponseSchema.parse({
+      ...SITE_ANSWERS.plans,
+      plans: [...SITE_ANSWERS.plans.plans.slice(0, 2), SITE_ANSWERS.proOffSale],
+    })
+
+    expect(read.plans[2]).toMatchObject({ blocked: 'pro_unavailable', methods: [] })
   })
 
   it('leaves out a plan or a method it does not know, and keeps the rest', () => {

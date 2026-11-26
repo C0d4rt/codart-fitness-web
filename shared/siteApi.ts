@@ -44,6 +44,7 @@ export const meSchema = z.union([
 
 const methodSchema = z.object({
   method: methodName,
+  priceCents: z.int().nonnegative().optional(),
   renews: z.boolean(),
   installments: z.int().positive().optional(),
   installmentCents: z.int().nonnegative().optional(),

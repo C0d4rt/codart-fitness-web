@@ -13,13 +13,18 @@ const premiumPlan = z.object({
   yearlyCents: z.int().positive(),
 })
 
-const premiumPlanV3 = premiumPlan.extend({ yearlyInstallments: z.int().positive() })
+/** The Pix prices are optional fields of version 3 (PRP-067 of codart-messaging, decision 10). */
+const premiumPlanV3 = premiumPlan.extend({
+  yearlyInstallments: z.int().positive(),
+  yearlyPixCents: z.int().positive().optional(),
+})
 
 const coachingPackage = z.object({
   months: z.int().positive(),
   totalCents: z.int().positive(),
   installments: z.int().positive(),
   perMonthCents: z.int().positive(),
+  pixCents: z.int().positive().optional(),
 })
 
 /** Without prices while the sale is off: the site then says "soon" instead of a number. */
@@ -75,6 +80,7 @@ export type CoachingPackage = z.infer<typeof coachingPackage>
 export type Feature = PlansFacts['features'][number] & FeatureCopy
 export type PremiumPlan = z.infer<typeof premiumPlan> & {
   yearlyInstallments?: number
+  yearlyPixCents?: number
   features: Feature[]
 }
 export type CoachingPlan = z.infer<typeof coachingPlan> & { features: Feature[] }

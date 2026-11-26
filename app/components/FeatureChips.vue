@@ -30,7 +30,7 @@ const TONE: Record<string, Tone> = {
   professionalReview: 'pro',
   checkIns: 'pro',
   coachChat: 'pro',
-  unlimitedReplies: 'pro',
+  moreReplies: 'pro',
 }
 
 const shown = computed(() =>

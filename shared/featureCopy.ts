@@ -468,10 +468,10 @@ const PT: Record<string, FeatureCopy> = {
       ),
     ],
   },
-  unlimitedReplies: {
-    headline: 'Pergunte quanto quiser',
+  moreReplies: {
+    headline: 'Mais conversa por dia',
     howTo:
-      'No Premium Pro, as respostas do assistente não têm limite por dia: pergunte, registre e peça sugestões quantas vezes precisar.',
+      'No Premium Pro, o assistente responde mais vezes por dia do que no Premium: pergunte, registre e peça sugestões sem economizar.',
     exchange: [
       you('o que eu como no lanche para bater a proteína?', '16:10'),
       bot(
@@ -930,10 +930,10 @@ const EN: Record<string, FeatureCopy> = {
       ),
     ],
   },
-  unlimitedReplies: {
-    headline: 'Ask as much as you like',
+  moreReplies: {
+    headline: 'More conversation every day',
     howTo:
-      "On Premium Pro, the assistant's replies have no daily limit: ask, log and get suggestions as often as you need.",
+      'On Premium Pro, the assistant replies more times a day than on Premium: ask, log and get suggestions without holding back.',
     exchange: [
       you('what can I eat as a snack to hit my protein?', '16:10'),
       bot(

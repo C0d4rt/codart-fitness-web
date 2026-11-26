@@ -25,13 +25,24 @@ useSchemaOrg([
     offers: [
       offer(premium.monthlyCents, t('plans.offerMonthly', { plan: premium.name })),
       offer(premium.yearlyCents, t('plans.offerYearly', { plan: premium.name })),
+      ...(premium.yearlyPixCents === undefined
+        ? []
+        : [offer(premium.yearlyPixCents, t('plans.offerYearlyPix', { plan: premium.name }))]),
       ...(coaching.available
-        ? coaching.packages.map((pack) =>
+        ? coaching.packages.flatMap((pack) => [
             offer(
               pack.totalCents,
               t('plans.offerPackage', { plan: coaching.name, months: pack.months }),
             ),
-          )
+            ...(pack.pixCents === undefined
+              ? []
+              : [
+                  offer(
+                    pack.pixCents,
+                    t('plans.offerPackagePix', { plan: coaching.name, months: pack.months }),
+                  ),
+                ]),
+          ])
         : []),
     ],
   }),

@@ -59,7 +59,7 @@ export const CATALOG_NAMES: Partial<Record<Locale, CatalogNames>> = {
       professionalReview: 'Plano ajustado à sua evolução',
       checkIns: 'Check-ins e reavaliação mensal',
       coachChat: 'Dúvidas respondidas pela nossa equipe',
-      unlimitedReplies: 'Sem limite de respostas',
+      moreReplies: 'Mais respostas por dia',
     },
   },
   en: {
@@ -108,7 +108,7 @@ export const CATALOG_NAMES: Partial<Record<Locale, CatalogNames>> = {
       professionalReview: 'Plan adjusted to your progress',
       checkIns: 'Check-ins and monthly reassessment',
       coachChat: 'Questions answered by our team',
-      unlimitedReplies: 'No reply limit',
+      moreReplies: 'More replies a day',
     },
   },
 }
