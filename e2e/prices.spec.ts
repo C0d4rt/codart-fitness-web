@@ -27,9 +27,7 @@ test('before 1/12 each card strikes the price from 1/12 next to the Black Friday
   const bar = page.locator('.promo-bar')
   await expect(
     bar.getByText(
-      info.project.name === 'mobile'
-        ? 'Anual em 12x de R$ 19,90'
-        : 'Premium anual em 12x de R$ 19,90 ou R$ 219,90 no Pix',
+      info.project.name === 'mobile' ? 'Anual por R$ 19,90/mês' : 'Premium anual por R$ 19,90/mês',
       { exact: true },
     ),
   ).toBeVisible()
