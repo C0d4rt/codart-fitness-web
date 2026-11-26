@@ -25,6 +25,7 @@ const PREMIUM_HIGHLIGHTS = [
 
 const { t } = useI18n()
 const locale = useSiteLocale()
+const blackFriday = useBlackFriday()
 
 const premium = computed(() => props.catalog.premium)
 const coaching = computed(() => props.catalog.coaching)
@@ -97,6 +98,31 @@ const coachingPix = computed(() =>
     ? undefined
     : t('pricing.orPix', { price: money(chosen.value.pixCents, locale.value) }),
 )
+const offerLines = computed(() => {
+  const lines = [
+    t(
+      premium.value.yearlyPixCents === undefined
+        ? 'pricing.blackFriday.yearlyCard'
+        : 'pricing.blackFriday.yearly',
+      {
+        installment: money(yearlyShown(premium.value.yearlyCents), locale.value),
+        pix: money(premium.value.yearlyPixCents ?? 0, locale.value),
+        percent: saving.value,
+      },
+    ),
+  ]
+  const pack = chosen.value
+  if (pack?.pixCents !== undefined) {
+    lines.push(
+      t('pricing.blackFriday.coaching', {
+        plan: coaching.value.name,
+        installment: money(packageInstallmentCents(pack), locale.value),
+        pix: money(pack.pixCents, locale.value),
+      }),
+    )
+  }
+  return lines
+})
 const coachingItems = computed(() => [
   t('pricing.allOfPremium'),
   ...coaching.value.features
@@ -121,6 +147,10 @@ const promises = computed(() => [
 
 <template>
   <section class="pricing" :class="{ bare }" aria-labelledby="pricing-title">
+    <div v-if="blackFriday" class="offer" role="note">
+      <p class="offer-title">{{ t('pricing.blackFriday.title') }}</p>
+      <p v-for="line in offerLines" :key="line" class="offer-line">{{ line }}</p>
+    </div>
     <div class="head" data-reveal>
       <h2 id="pricing-title" :class="bare ? 'visually-hidden' : 'title'">
         <TextLines :text="t('pricing.title')" />
@@ -137,6 +167,7 @@ const promises = computed(() => [
       <article id="premium" class="card">
         <div class="name-row">
           <h3 class="name">{{ premium.name }}</h3>
+          <p v-if="blackFriday" class="chip chip--deal">{{ t('promo.label') }}</p>
           <Transition name="chip">
             <p v-if="period === 'year' && saving > 0" class="chip">
               {{ t('pricing.saving', { percent: saving }) }}
@@ -188,6 +219,7 @@ const promises = computed(() => [
       <article id="coaching" class="card">
         <div class="name-row">
           <h3 class="name">{{ coaching.name }}</h3>
+          <p v-if="blackFriday && chosen" class="chip chip--deal">{{ t('promo.label') }}</p>
           <p v-if="chosen" class="chip">{{ t('pricing.recommended') }}</p>
           <Transition name="chip">
             <p v-if="chosen && chosen === best && packages.length > 1" class="chip">
@@ -355,6 +387,34 @@ const promises = computed(() => [
   font-weight: 700;
   line-height: 1.3;
   white-space: nowrap;
+}
+
+.chip--deal {
+  background: var(--black);
+  color: #ffffff;
+}
+
+.offer {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 0.25rem;
+  padding: clamp(1.5rem, 1rem + 1.5vw, 2.25rem) clamp(1.5rem, 1rem + 2vw, 2.75rem);
+  margin-bottom: clamp(1rem, 0.5rem + 1.5vw, 2rem);
+  border-radius: var(--radius-panel);
+  background: var(--black);
+  color: #ffffff;
+}
+
+.offer-title {
+  margin-bottom: 0.25rem;
+  color: #3fd27f;
+  font-size: var(--step-title);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.offer-line {
+  font-size: var(--step-body);
 }
 
 .name-row .name {

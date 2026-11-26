@@ -247,7 +247,13 @@
     "subscribeNow": "Assinar agora",
     "yearlyLead": "Plano anual · {installments}x de",
     "orPix": "ou {price} no Pix à vista",
-    "inMonthly": "no mensal"
+    "inMonthly": "no mensal",
+    "blackFriday": {
+      "title": "Black Friday",
+      "yearly": "Premium anual em 12x de {installment}, {percent}% menos que o mensal, ou {pix} no Pix à vista",
+      "yearlyCard": "Premium anual em 12x de {installment}, {percent}% menos que o mensal",
+      "coaching": "{plan} em 12x de {installment} ou {pix} no Pix à vista"
+    }
   },
   "faq": {
     "title": "Perguntas frequentes",
@@ -530,5 +536,11 @@
       "bad_response": "Recebemos uma resposta que não entendemos. Atualize a página e tente de novo.",
       "unknown": "Algo deu errado. Tente de novo em instantes."
     }
+  },
+  "promo": {
+    "label": "Black Friday",
+    "offer": "Premium anual em 12x de {installment} ou {pix} no Pix",
+    "offerShort": "Anual em 12x de {installment}",
+    "see": "Ver planos"
   }
 }
