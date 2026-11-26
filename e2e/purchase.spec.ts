@@ -229,7 +229,7 @@ test('with the API down the build prices show and the page asks to try again', a
 
   await page.goto('/assinar')
   await expect(page.getByRole('alert')).toContainText('Não conseguimos falar com o servidor')
-  await expect(page.getByText('R$ 29,90').first()).toBeVisible()
+  await expect(page.getByText('R$ 29,90').filter({ visible: true }).first()).toBeVisible()
 })
 
 test('back from the payment, an anonymous purchase activates on WhatsApp and signs the browser in', async ({

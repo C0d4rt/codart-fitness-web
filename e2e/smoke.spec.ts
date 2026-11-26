@@ -21,8 +21,6 @@ test('the plans page has an anchor for each plan, with the Pix prices', async ({
   await expect(premium).toHaveCount(1)
   await expect(premium.getByText('R$ 19,90').first()).toBeVisible()
   await expect(premium.getByText('sem juros, no cartão · total R$ 238,80')).toBeVisible()
-  await expect(premium.locator('s')).toHaveText('R$ 358,80')
-  await expect(premium.getByText('no mensal')).toBeVisible()
   await expect(premium.getByText('33% a menos', { exact: true })).toBeVisible()
   await expect(premium.getByText('ou R$ 219,90 no Pix à vista')).toBeVisible()
 
@@ -30,12 +28,10 @@ test('the plans page has an anchor for each plan, with the Pix prices', async ({
   await expect(coaching.locator('h3')).toHaveText('Premium Pro')
   await expect(coaching.getByText('R$ 49,90').first()).toBeVisible()
   await expect(coaching.getByText('ou R$ 549,90 no Pix à vista')).toBeVisible()
-  await expect(coaching.locator('s')).toHaveCount(0)
   await expect(coaching.getByRole('link')).toHaveAttribute('href', '/assinar?plano=pro')
 
   await premium.getByRole('button', { name: 'Mensal' }).click()
   await expect(premium.getByText('ou R$ 238,80 por ano, 33% a menos')).toBeVisible()
-  await expect(premium.locator('s')).toHaveCount(0)
   await expect(premium.getByText(/no Pix à vista/)).toHaveCount(0)
 })
 

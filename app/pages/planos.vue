@@ -14,7 +14,7 @@ const offer = (cents: number, name: string) => ({
   url: brand.siteUrl + localePath('/planos'),
 })
 
-const { premium, coaching } = catalog
+const { premium, coaching } = usePrices(catalog).value
 
 useSchemaOrg([
   defineProduct({

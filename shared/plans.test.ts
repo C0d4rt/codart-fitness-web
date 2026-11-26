@@ -11,6 +11,7 @@ import {
   installmentCents,
   money,
   moneyParts,
+  pricesAt,
   wholeMoney,
   yearlyPerMonth,
   yearlySaving,
@@ -31,6 +32,7 @@ const offSale = {
 }
 
 const { yearlyInstallments: _, yearlyPixCents: __, ...premiumV2 } = fixture.plans[0]!
+const { next: ___, ...withoutNext } = fixture
 
 const versionTwo = {
   ...fixture,
@@ -104,6 +106,19 @@ describe('buildCatalog', () => {
     })
     expect(catalog.premium.yearlyPixCents).toBeUndefined()
     expect(catalog.coaching.available && catalog.coaching.packages[0]!.pixCents).toBeUndefined()
+  })
+
+  it('takes the prices that replace these at 1/12 from version 3', () => {
+    expect(buildCatalog(fixture).next).toEqual(fixture.next)
+  })
+
+  it('still reads version 3 without the next prices, once the change is past', () => {
+    expect(buildCatalog(withoutNext).next).toBeUndefined()
+  })
+
+  it('refuses next prices without the date they take effect', () => {
+    const { from: _, ...next } = fixture.next
+    expect(() => buildCatalog({ ...fixture, next })).toThrow()
   })
 
   it('takes the yearly installments from version 3', () => {
@@ -266,5 +281,66 @@ describe('yearlySaving', () => {
   it('is zero when a year costs as much as twelve months or more', () => {
     expect(yearlySaving({ monthlyCents: 1000, yearlyCents: 12000 })).toBe(0)
     expect(yearlySaving({ monthlyCents: 1000, yearlyCents: 13000 })).toBe(0)
+  })
+})
+
+describe('pricesAt', () => {
+  const catalog = buildCatalog(fixture)
+  const pro = (at: Date) => {
+    const { coaching } = pricesAt(catalog, at)
+    return coaching.available ? coaching.packages[0] : undefined
+  }
+
+  it('keeps the prices of today, and the next ones, until the last second of 30/11', () => {
+    const before = pricesAt(catalog, new Date('2026-11-30T23:59:59-03:00'))
+    expect(before).toBe(catalog)
+    expect(before.premium).toMatchObject({
+      monthlyCents: 2990,
+      yearlyCents: 23880,
+      yearlyPixCents: 21990,
+    })
+    expect(before.next?.premium.monthlyCents).toBe(3990)
+    expect(pro(new Date('2026-11-30T23:59:59-03:00'))?.perMonthCents).toBe(4990)
+  })
+
+  it('charges the next prices from 1/12 at midnight in Brasília, with nothing next', () => {
+    const at = new Date('2026-12-01T00:00:00-03:00')
+    const after = pricesAt(catalog, at)
+    expect(after.next).toBeUndefined()
+    expect(after.premium).toMatchObject({
+      monthlyCents: 3990,
+      yearlyCents: 35880,
+      yearlyInstallments: 12,
+      yearlyPixCents: 32990,
+    })
+    expect(after.premium.features).toBe(catalog.premium.features)
+    expect(pro(at)).toEqual({
+      months: 12,
+      totalCents: 71880,
+      installments: 12,
+      perMonthCents: 5990,
+      pixCents: 64990,
+    })
+    expect(installmentCents({ totalCents: after.premium.yearlyCents, installments: 12 })).toBe(2990)
+    expect(yearlySaving(after.premium)).toBe(25)
+  })
+
+  it('drops a Pix price the next prices leave out', () => {
+    const { yearlyPixCents: _, ...premium } = fixture.next.premium
+    const after = pricesAt(
+      buildCatalog({ ...fixture, next: { ...fixture.next, premium } }),
+      new Date('2026-12-02'),
+    )
+    expect(after.premium.yearlyPixCents).toBeUndefined()
+  })
+
+  it('leaves Premium Pro off sale when the next prices have one for it', () => {
+    const after = pricesAt(buildCatalog({ ...offSale, next: fixture.next }), new Date('2026-12-02'))
+    expect(after.coaching.available).toBe(false)
+  })
+
+  it('leaves a catalog without next prices as it is', () => {
+    const plain = buildCatalog(withoutNext)
+    expect(pricesAt(plain, new Date('2027-01-01'))).toBe(plain)
   })
 })

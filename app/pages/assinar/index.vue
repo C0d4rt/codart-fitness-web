@@ -21,7 +21,7 @@ import type { SiteErrorCode } from '#shared/siteErrors'
 
 definePageMeta({ account: true })
 
-const catalog = await usePlans()
+const prices = usePrices(await usePlans())
 const { t } = useI18n()
 const locale = useSiteLocale()
 const apiLocale = useApiLocale()
@@ -48,7 +48,7 @@ const live = ref<PlansResponse>()
 const loading = ref(true)
 const offline = ref(false)
 const notice = ref<SiteErrorCode>()
-const offer = computed(() => live.value ?? offerFromCatalog(catalog, titles.value))
+const offer = computed(() => live.value ?? offerFromCatalog(prices.value, titles.value))
 const plans = computed(() => orderedPlans(offer.value.plans))
 const blocked = computed(() => offer.value.blocked === 'guardian_required')
 const known = computed(() => offer.value.buyer !== 'anonymous')
