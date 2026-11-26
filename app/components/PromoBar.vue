@@ -3,27 +3,32 @@ import { installmentCents, money } from '#shared/plans'
 
 const { t } = useI18n()
 const locale = useSiteLocale()
-const catalog = await usePlans()
+const prices = usePrices(await usePlans())
 const blackFriday = useBlackFriday()
+const { withLater } = useInstallmentWords()
 
-const yearlyInstallment = computed(() =>
-  money(
-    installmentCents({
-      totalCents: catalog.premium.yearlyCents,
-      installments: catalog.premium.yearlyInstallments ?? 1,
-    }),
-    locale.value,
-  ),
-)
-const offer = computed(() =>
-  catalog.premium.yearlyPixCents === undefined
-    ? t('promo.offerShort', { installment: yearlyInstallment.value })
+const installments = computed(() => prices.value.premium.yearlyInstallments ?? 1)
+const yearlyInstallment = (totalCents: number) =>
+  installmentCents({ totalCents, installments: installments.value })
+const offer = computed(() => {
+  const { premium, next } = prices.value
+  const now = yearlyInstallment(premium.yearlyCents)
+  return premium.yearlyPixCents === undefined
+    ? t('promo.offerShort', { installment: money(now, locale.value) })
     : t('promo.offer', {
-        installment: yearlyInstallment.value,
-        pix: money(catalog.premium.yearlyPixCents, locale.value),
-      }),
+        installments: withLater(
+          installments.value,
+          now,
+          next && { from: next.from, cents: yearlyInstallment(next.premium.yearlyCents) },
+        ),
+        pix: money(premium.yearlyPixCents, locale.value),
+      })
+})
+const offerShort = computed(() =>
+  t('promo.offerShort', {
+    installment: money(yearlyInstallment(prices.value.premium.yearlyCents), locale.value),
+  }),
 )
-const offerShort = computed(() => t('promo.offerShort', { installment: yearlyInstallment.value }))
 </script>
 
 <template>

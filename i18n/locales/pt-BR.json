@@ -245,12 +245,15 @@
     "subscribeNow": "Assinar agora",
     "yearlyLead": "Plano anual · {installments}x de",
     "orPix": "ou {price} no Pix à vista",
-    "inMonthly": "no mensal",
+    "nextPrice": "a partir de {date}",
+    "nextSpoken": "Preço a partir de {date}: {price}",
+    "inInstallments": "{count}x de {price}",
+    "priceLater": "{now} (a partir de {date}: {later})",
     "blackFriday": {
       "title": "Black Friday",
-      "yearly": "Premium anual em 12x de {installment}, {percent}% a menos que o mensal, ou {pix} no Pix à vista",
-      "yearlyCard": "Premium anual em 12x de {installment}, {percent}% a menos que o mensal",
-      "coaching": "{plan} em 12x de {installment} ou {pix} no Pix à vista"
+      "yearly": "Premium anual em {installments} ou {pix} no Pix à vista",
+      "yearlyCard": "Premium anual em {installments}",
+      "coaching": "{plan} em {installments} ou {pix} no Pix à vista"
     }
   },
   "faq": {
@@ -537,7 +540,7 @@
   },
   "promo": {
     "label": "Black Friday",
-    "offer": "Premium anual em 12x de {installment} ou {pix} no Pix",
+    "offer": "Premium anual em {installments} ou {pix} no Pix",
     "offerShort": "Anual em 12x de {installment}",
     "see": "Ver planos",
     "endsIn": "Termina em",

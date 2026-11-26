@@ -245,12 +245,15 @@
     "subscribeNow": "Subscribe now",
     "yearlyLead": "Yearly plan · {installments} ×",
     "orPix": "or {price} by Pix upfront",
-    "inMonthly": "paying monthly",
+    "nextPrice": "from {date}",
+    "nextSpoken": "Price from {date}: {price}",
+    "inInstallments": "{count} payments of {price}",
+    "priceLater": "{now} (from {date}: {later})",
     "blackFriday": {
       "title": "Black Friday",
-      "yearly": "Yearly Premium in 12 payments of {installment}, {percent}% less than monthly, or {pix} upfront by Pix",
-      "yearlyCard": "Yearly Premium in 12 payments of {installment}, {percent}% less than monthly",
-      "coaching": "{plan} in 12 payments of {installment} or {pix} upfront by Pix"
+      "yearly": "Yearly Premium in {installments} or {pix} upfront by Pix",
+      "yearlyCard": "Yearly Premium in {installments}",
+      "coaching": "{plan} in {installments} or {pix} upfront by Pix"
     }
   },
   "faq": {
@@ -537,7 +540,7 @@
   },
   "promo": {
     "label": "Black Friday",
-    "offer": "Yearly Premium in 12 payments of {installment} or {pix} by Pix",
+    "offer": "Yearly Premium in {installments} or {pix} by Pix",
     "offerShort": "Yearly in 12 payments of {installment}",
     "see": "See plans",
     "endsIn": "Ends in",
