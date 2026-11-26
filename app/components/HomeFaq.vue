@@ -1,12 +1,10 @@
 <script setup lang="ts">
-const props = defineProps<{ trialDays: number }>()
-
 const { t, tm, rt } = useI18n()
 
 const QUESTIONS = computed(() =>
   (tm('faq.items') as { q: string; a: string }[]).map((item) => ({
     question: rt(item.q),
-    answer: rt(item.a, { days: props.trialDays }),
+    answer: rt(item.a),
   })),
 )
 const anchors = useAnchors()

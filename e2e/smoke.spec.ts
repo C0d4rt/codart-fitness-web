@@ -23,7 +23,7 @@ test('the plans page has an anchor for each plan, with the Pix prices', async ({
   await expect(premium.getByText('sem juros, no cartão · total R$ 238,80')).toBeVisible()
   await expect(premium.locator('s')).toHaveText('R$ 358,80')
   await expect(premium.getByText('no mensal')).toBeVisible()
-  await expect(premium.getByText('33% menos')).toBeVisible()
+  await expect(premium.getByText('33% a menos', { exact: true })).toBeVisible()
   await expect(premium.getByText('ou R$ 219,90 no Pix à vista')).toBeVisible()
 
   const coaching = page.locator('#coaching')

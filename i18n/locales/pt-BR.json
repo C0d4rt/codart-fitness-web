@@ -5,11 +5,11 @@
   },
   "closing": {
     "title": "Comece hoje. Pelo WhatsApp.",
-    "lead": "{days} dias grátis com tudo do Premium, sem cartão."
+    "lead": "Com tudo do Premium, sem cartão."
   },
   "stickyCta": {
     "label": "Testar grátis pelo WhatsApp",
-    "text": "{days} dias grátis, sem cartão"
+    "text": "Sem cartão"
   },
   "nav": {
     "label": "Principal",
@@ -57,12 +57,12 @@
     "ofGoal": "de {goal} kcal"
   },
   "home": {
-    "description": "Seu assistente fitness no WhatsApp: anota refeições e treinos, sugere o que comer, compara produtos e responde com os seus números. {days} dias grátis, sem cartão.",
-    "ogDescription": "Dieta, treino e muito mais numa conversa. {days} dias grátis.",
+    "description": "Seu assistente fitness no WhatsApp: anota refeições e treinos, sugere o que comer, compara produtos e responde com os seus números. Sem cartão.",
+    "ogDescription": "Dieta, treino e muito mais numa conversa.",
     "headline": "Seu assistente fitness. No WhatsApp.",
     "lead": "Anota o que você come e treina, sugere o que comer com o que tem em casa, compara produtos no mercado e te passa o treino do dia. Por texto, áudio ou foto.",
     "seeHow": "Ver como funciona",
-    "terms": "{days} dias grátis com tudo do Premium, sem cartão."
+    "terms": "Com tudo do Premium, sem cartão."
   },
   "assistant": {
     "title": "Ele conhece você. E sabe de onde tirou.",
@@ -204,7 +204,6 @@
   "pricing": {
     "title": "Planos simples. Teste grátis.",
     "promises": {
-      "trial": "{days} dias grátis com tudo do Premium",
       "noCard": "Sem cartão para testar",
       "pay": "Mensal no Pix ou no cartão, anual em até 12x ou no Pix à vista",
       "cancel": "Cancele quando quiser",
@@ -225,7 +224,7 @@
     "orYearly": "{percent, plural, =0 {ou {price} por ano} other {ou {price} por ano, {percent}% a menos}}",
     "yearlyPerMonth": "equivale a {price} por mês",
     "yearlyInstallments": "Em até {installments}x de {price} sem juros, no cartão",
-    "saving": "{percent}% menos",
+    "saving": "{percent}% a menos",
     "premiumWho": "O assistente: registro por foto e áudio, metas, sugestão do que comer e treinos por nível",
     "coachingWho": "O assistente que monta sua dieta e seu treino a partir da sua avaliação e ajusta tudo à sua evolução, com dúvidas respondidas pela nossa equipe",
     "levelWorkouts": "Treinos guiados por nível, com opções baseadas em ciência para quem treina natural",
@@ -249,8 +248,8 @@
     "inMonthly": "no mensal",
     "blackFriday": {
       "title": "Black Friday",
-      "yearly": "Premium anual em 12x de {installment}, {percent}% menos que o mensal, ou {pix} no Pix à vista",
-      "yearlyCard": "Premium anual em 12x de {installment}, {percent}% menos que o mensal",
+      "yearly": "Premium anual em 12x de {installment}, {percent}% a menos que o mensal, ou {pix} no Pix à vista",
+      "yearlyCard": "Premium anual em 12x de {installment}, {percent}% a menos que o mensal",
       "coaching": "{plan} em 12x de {installment} ou {pix} no Pix à vista"
     }
   },
@@ -264,7 +263,7 @@
       },
       {
         "q": "Como funciona o teste grátis?",
-        "a": "São {days} dias com tudo do Premium, contados da primeira mensagem, sem cartão. O Premium Pro não tem teste: tem 7 dias de garantia."
+        "a": "Com tudo do Premium, sem cartão. O Premium Pro não tem teste: tem 7 dias de garantia."
       },
       {
         "q": "E quando o teste acaba?",
@@ -302,8 +301,8 @@
   },
   "plans": {
     "title": "Planos",
-    "description": "O Premium e o Premium Pro do {name}, com preços e o que cada um inclui. {days} dias grátis com tudo do Premium.",
-    "lead": "Comece com {days} dias grátis com tudo do Premium, sem cartão. Depois, assine aqui no site",
+    "description": "O Premium e o Premium Pro do {name}, com preços e o que cada um inclui.",
+    "lead": "Comece com tudo do Premium, sem cartão. Depois, assine aqui no site",
     "compareTitle": "O que cada plano inclui",
     "seeFeatures": "Ver cada recurso com um exemplo",
     "featureColumn": "Recurso",
@@ -317,7 +316,7 @@
   },
   "features": {
     "title": "Recursos",
-    "description": "Tudo o que o {name} faz no WhatsApp, com um exemplo de conversa para cada recurso. {days} dias grátis com tudo do Premium.",
+    "description": "Tudo o que o {name} faz no WhatsApp, com um exemplo de conversa para cada recurso.",
     "lead": "Tudo o que dá para fazer na conversa, com exemplos de verdade",
     "groups": "Grupos de recursos",
     "premium": "No Premium, no Premium Pro e no teste",

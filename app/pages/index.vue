@@ -8,9 +8,9 @@ const anchors = useAnchors()
 
 useSeoMeta({
   title: tagline,
-  description: t('home.description', { days: catalog.trialDays }),
+  description: t('home.description'),
   ogTitle: `${tagline} · ${brand.name}`,
-  ogDescription: t('home.ogDescription', { days: catalog.trialDays }),
+  ogDescription: t('home.ogDescription'),
   ogType: 'website',
 })
 
@@ -38,7 +38,7 @@ const features = computed(() => catalog.groups.flatMap((group) => group.features
               </svg>
             </NuxtLinkLocale>
           </div>
-          <p class="terms">{{ t('home.terms', { days: catalog.trialDays }) }}</p>
+          <p class="terms">{{ t('home.terms') }}</p>
         </div>
         <HeroDemo />
       </section>
@@ -49,7 +49,7 @@ const features = computed(() => catalog.groups.flatMap((group) => group.features
       <HomeDay :features="features" />
       <HomeEverything :features="features" />
       <PlanCards :catalog="catalog" />
-      <HomeFaq :trial-days="catalog.trialDays" />
+      <HomeFaq />
       <SiteClosing />
     </main>
     <SiteFooter />

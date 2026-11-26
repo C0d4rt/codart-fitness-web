@@ -50,7 +50,7 @@ useSchemaOrg([
 
 useSeoMeta({
   title: t('plans.title'),
-  description: t('plans.description', { name: brand.name, days: catalog.trialDays }),
+  description: t('plans.description', { name: brand.name }),
 })
 </script>
 
@@ -60,7 +60,7 @@ useSeoMeta({
     <main id="conteudo">
       <header class="intro">
         <h1 class="title">{{ t('plans.title') }}</h1>
-        <p class="lead">{{ t('plans.lead', { days: catalog.trialDays }) }}</p>
+        <p class="lead">{{ t('plans.lead') }}</p>
       </header>
 
       <PlanCards :catalog="catalog" bare />

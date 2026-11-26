@@ -5,11 +5,11 @@
   },
   "closing": {
     "title": "Start today. On WhatsApp.",
-    "lead": "{days} days free with everything in Premium, no card needed."
+    "lead": "With everything in Premium, no card needed."
   },
   "stickyCta": {
     "label": "Try it free on WhatsApp",
-    "text": "{days} days free, no card"
+    "text": "No card"
   },
   "nav": {
     "label": "Main",
@@ -57,12 +57,12 @@
     "ofGoal": "of {goal} kcal"
   },
   "home": {
-    "description": "Your fitness assistant on WhatsApp: it logs meals and workouts, suggests what to eat, compares products and answers with your numbers. {days} days free, no card.",
-    "ogDescription": "Diet, workouts and much more in one chat. {days} days free.",
+    "description": "Your fitness assistant on WhatsApp: it logs meals and workouts, suggests what to eat, compares products and answers with your numbers. No card needed.",
+    "ogDescription": "Diet, workouts and much more in one chat.",
     "headline": "Your fitness assistant. On WhatsApp.",
     "lead": "It logs what you eat and train, suggests what to eat from what you have at home, compares products at the store and gives you today's workout. By text, voice or photo.",
     "seeHow": "See how it works",
-    "terms": "{days} days free with everything in Premium, no card needed."
+    "terms": "With everything in Premium, no card needed."
   },
   "assistant": {
     "title": "It knows you. And knows its sources.",
@@ -204,7 +204,6 @@
   "pricing": {
     "title": "Simple plans. Try it free.",
     "promises": {
-      "trial": "{days} days free with everything in Premium",
       "noCard": "No card needed to try",
       "pay": "Monthly by Pix or card, yearly in up to 12 installments or by Pix upfront",
       "cancel": "Cancel whenever you like",
@@ -264,7 +263,7 @@
       },
       {
         "q": "How does the free trial work?",
-        "a": "You get {days} days with everything in Premium, counted from your first message, no card needed. Premium Pro has no trial: it has a 7 day guarantee."
+        "a": "With everything in Premium, no card needed. Premium Pro has no trial: it has a 7 day guarantee."
       },
       {
         "q": "What happens when the trial ends?",
@@ -302,8 +301,8 @@
   },
   "plans": {
     "title": "Plans",
-    "description": "{name} Premium and Premium Pro, with prices and what each one includes. {days} days free with everything in Premium.",
-    "lead": "Start with {days} days free with everything in Premium, no card needed. Then subscribe here on the site",
+    "description": "{name} Premium and Premium Pro, with prices and what each one includes.",
+    "lead": "Start with everything in Premium, no card needed. Then subscribe here on the site",
     "compareTitle": "What each plan includes",
     "seeFeatures": "See each feature with an example",
     "featureColumn": "Feature",
@@ -317,7 +316,7 @@
   },
   "features": {
     "title": "Features",
-    "description": "Everything {name} does on WhatsApp, with a sample chat for each feature. {days} days free with everything in Premium.",
+    "description": "Everything {name} does on WhatsApp, with a sample chat for each feature.",
     "lead": "Everything you can do in the chat, with real examples",
     "groups": "Feature groups",
     "premium": "On Premium, Premium Pro and the trial",

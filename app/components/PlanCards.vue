@@ -137,7 +137,6 @@ const maxInstallments = computed(() =>
   ),
 )
 const promises = computed(() => [
-  t('pricing.promises.trial', { days: props.catalog.trialDays }),
   t('pricing.promises.noCard'),
   t('pricing.promises.guarantee'),
   t('pricing.promises.pay'),
