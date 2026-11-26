@@ -170,12 +170,12 @@ test('one Premium card switches between the monthly and the yearly', async ({ pa
 
   await premium.getByRole('button', { name: 'Anual' }).click()
   await expect(page).toHaveURL(/\?plano=premium-anual$/)
-  await expect(premium.getByText('R$ 269,90').first()).toBeVisible()
-  await expect(premium.getByText('ou R$ 249,90 no Pix à vista')).toBeVisible()
+  await expect(premium.getByText('R$ 238,80').first()).toBeVisible()
+  await expect(premium.getByText('ou R$ 219,90 no Pix à vista')).toBeVisible()
   await expect(
-    premium.getByRole('radio', { name: /^Cartão, em até 12x R\$\s269,90 por 12 meses/ }),
+    premium.getByRole('radio', { name: /^Cartão, em até 12x R\$\s238,80 por 12 meses/ }),
   ).toBeVisible()
-  const pix = premium.getByRole('radio', { name: /^Pix à vista R\$\s249,90 por 12 meses/ })
+  const pix = premium.getByRole('radio', { name: /^Pix à vista R\$\s219,90 por 12 meses/ })
   await pix.check()
   await expect(premium.getByText(/Não renova sozinho/)).toBeVisible()
 

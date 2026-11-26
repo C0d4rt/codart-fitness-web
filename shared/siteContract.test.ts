@@ -37,10 +37,10 @@ describe('the site contract with codart-messaging (PRP-065)', () => {
     expect(read.plans.map((each) => [each.plan, each.cycle, each.methods.length])).toEqual(
       SITE_ANSWERS.plans.plans.map((each) => [each.plan, each.cycle, each.methods.length]),
     )
-    expect(read.plans[1]!.methods[0]!.installmentCents).toBe(2249)
+    expect(read.plans[1]!.methods[0]!.installmentCents).toBe(1990)
     expect(read.plans.map((each) => each.methods.map((pay) => pay.priceCents))).toEqual([
       [2990, 2990],
-      [26990, 24990],
+      [23880, 21990],
       [59880, 54990],
     ])
   })

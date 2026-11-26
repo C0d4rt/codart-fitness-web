@@ -4,12 +4,8 @@ const props = withDefaults(
   { text: undefined, quiet: false, label: undefined },
 )
 
-const trialDays = useTrialDays()
 const { t } = useI18n()
-const text = computed(
-  () =>
-    props.label ?? (trialDays.value ? t('cta.tryDays', { days: trialDays.value }) : t('cta.try')),
-)
+const text = computed(() => props.label ?? t('cta.try'))
 const href = useWhatsAppLink(() => props.text)
 const { $analytics } = useNuxtApp()
 </script>

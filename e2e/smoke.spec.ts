@@ -7,24 +7,24 @@ test.use({ colorScheme: 'light' })
 test('the home page says what this is and opens the conversation', async ({ page }) => {
   await page.goto('/?utm_source=partner&utm_campaign=bf&fbclid=IwAR2')
   await expect(page.locator('h1')).toHaveText('Seu assistente fitness. No WhatsApp.')
-  const cta = page.getByRole('link', { name: 'Testar 3 dias grátis' }).first()
+  const cta = page.getByRole('link', { name: 'Testar grátis' }).first()
   await expect(cta).toHaveAttribute(
     'href',
     /^https:\/\/api\.fitness\.codart\.dev\/fitness\/go\?utm_source=partner&utm_campaign=bf&landing=%2F&consent=0&lang=pt$/,
   )
-  await expect(page.getByText('R$ 22,49').filter({ visible: true }).first()).toBeVisible()
+  await expect(page.getByText('R$ 19,90').filter({ visible: true }).first()).toBeVisible()
 })
 
 test('the plans page has an anchor for each plan, with the Pix prices', async ({ page }) => {
   await page.goto('/planos')
   const premium = page.locator('#premium')
   await expect(premium).toHaveCount(1)
-  await expect(premium.getByText('R$ 22,49').first()).toBeVisible()
-  await expect(premium.getByText('sem juros, no cartão · total R$ 269,90')).toBeVisible()
+  await expect(premium.getByText('R$ 19,90').first()).toBeVisible()
+  await expect(premium.getByText('sem juros, no cartão · total R$ 238,80')).toBeVisible()
   await expect(premium.locator('s')).toHaveText('R$ 358,80')
   await expect(premium.getByText('no mensal')).toBeVisible()
-  await expect(premium.getByText('24% menos')).toBeVisible()
-  await expect(premium.getByText('ou R$ 249,90 no Pix à vista')).toBeVisible()
+  await expect(premium.getByText('33% menos')).toBeVisible()
+  await expect(premium.getByText('ou R$ 219,90 no Pix à vista')).toBeVisible()
 
   const coaching = page.locator('#coaching')
   await expect(coaching.locator('h3')).toHaveText('Premium Pro')
@@ -34,7 +34,7 @@ test('the plans page has an anchor for each plan, with the Pix prices', async ({
   await expect(coaching.getByRole('link')).toHaveAttribute('href', '/assinar?plano=pro')
 
   await premium.getByRole('button', { name: 'Mensal' }).click()
-  await expect(premium.getByText('ou R$ 269,90 por ano, 24% a menos')).toBeVisible()
+  await expect(premium.getByText('ou R$ 238,80 por ano, 33% a menos')).toBeVisible()
   await expect(premium.locator('s')).toHaveCount(0)
   await expect(premium.getByText(/no Pix à vista/)).toHaveCount(0)
 })
@@ -117,9 +117,9 @@ test('the English home page speaks English and opens the chat in English', async
   await page.goto('/en')
   await expect(page.locator('html')).toHaveAttribute('lang', 'en-US')
   await expect(page.locator('h1')).toHaveText('Your fitness assistant. On WhatsApp.')
-  const cta = page.getByRole('link', { name: 'Try 3 days free' }).first()
+  const cta = page.getByRole('link', { name: 'Try it free' }).first()
   await expect(cta).toHaveAttribute('href', /\/fitness\/go\?landing=%2Fen&consent=0&lang=en$/)
-  await expect(page.getByText('R$22.49').filter({ visible: true }).first()).toBeVisible()
+  await expect(page.getByText('R$19.90').filter({ visible: true }).first()).toBeVisible()
   await page.getByRole('button', { name: /How much is left/ }).click()
   await expect(page.locator('#a-normal-day').getByText(/560 kcal left/)).toBeVisible()
 })
@@ -128,7 +128,7 @@ test('the English plans page has the plans in English, with prices in reais', as
   await page.goto('/en/plans')
   await expect(page.locator('#premium')).toHaveCount(1)
   await expect(page.locator('#coaching h3')).toHaveText('Premium Pro')
-  await expect(page.getByText('R$22.49').filter({ visible: true }).first()).toBeVisible()
+  await expect(page.getByText('R$19.90').filter({ visible: true }).first()).toBeVisible()
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
     'https://fitness.codart.dev/en/plans',

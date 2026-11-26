@@ -8,9 +8,9 @@
       "id": "premium",
       "name": "Premium",
       "monthlyCents": 2990,
-      "yearlyCents": 26990,
+      "yearlyCents": 23880,
       "yearlyInstallments": 12,
-      "yearlyPixCents": 24990
+      "yearlyPixCents": 21990
     },
     {
       "id": "coaching",

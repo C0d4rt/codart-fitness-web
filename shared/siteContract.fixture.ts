@@ -43,16 +43,16 @@ export const SITE_ANSWERS = {
         plan: 'premium',
         cycle: 'yearly',
         title: 'Premium anual',
-        priceCents: 26990,
+        priceCents: 23880,
         methods: [
           {
             method: 'card',
-            priceCents: 26990,
+            priceCents: 23880,
             renews: false,
             installments: 12,
-            installmentCents: 2249,
+            installmentCents: 1990,
           },
-          { method: 'pix', priceCents: 24990, renews: false },
+          { method: 'pix', priceCents: 21990, renews: false },
         ],
       },
       {

@@ -91,7 +91,7 @@ describe('buildCatalog', () => {
 
   it('takes the Pix prices of the yearly and of Premium Pro from version 3', () => {
     const { premium, coaching } = buildCatalog(fixture)
-    expect(premium.yearlyPixCents).toBe(24990)
+    expect(premium.yearlyPixCents).toBe(21990)
     expect(coaching.available && coaching.packages[0]!.pixCents).toBe(54990)
   })
 
@@ -117,7 +117,7 @@ describe('buildCatalog', () => {
 
   it('still reads version 2, which the API serves until codart-messaging deploys version 3', () => {
     const catalog = buildCatalog(versionTwo)
-    expect(catalog.premium.yearlyCents).toBe(26990)
+    expect(catalog.premium.yearlyCents).toBe(23880)
     expect(catalog.premium.yearlyInstallments).toBeUndefined()
     expect(catalog.coaching.available).toBe(false)
   })
@@ -259,7 +259,7 @@ describe('the Premium Pro packages', () => {
 describe('yearlySaving', () => {
   it('rounds down, so the page never promises more than the price gives', () => {
     expect(yearlySaving({ monthlyCents: 2990, yearlyCents: 19990 })).toBe(44)
-    expect(yearlySaving({ monthlyCents: 2990, yearlyCents: 26990 })).toBe(24)
+    expect(yearlySaving({ monthlyCents: 2990, yearlyCents: 23880 })).toBe(33)
     expect(yearlySaving({ monthlyCents: 1990, yearlyCents: 11900 })).toBe(50)
   })
 

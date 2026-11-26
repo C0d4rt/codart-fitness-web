@@ -56,7 +56,7 @@ describe('the prices of the build', () => {
     expect(offer.buyer).toBe('anonymous')
     expect(offer.plans.map((each) => [each.title, each.priceCents])).toEqual([
       ['Premium mensal', 2990],
-      ['Premium anual', 26990],
+      ['Premium anual', 23880],
       ['Premium Pro', 59880],
     ])
     expect(offer.plans[0]!.methods).toEqual([
@@ -64,8 +64,8 @@ describe('the prices of the build', () => {
       { method: 'pix', priceCents: 2990, renews: false },
     ])
     expect(offer.plans[1]!.methods).toEqual([
-      { method: 'card', priceCents: 26990, renews: false, installments: 12 },
-      { method: 'pix', priceCents: 24990, renews: false },
+      { method: 'card', priceCents: 23880, renews: false, installments: 12 },
+      { method: 'pix', priceCents: 21990, renews: false },
     ])
     expect(offer.plans[2]).toMatchObject({
       installmentCents: 4990,
@@ -95,7 +95,7 @@ describe('the prices of the build', () => {
   it('shows the Pix price only where it costs less than the card', () => {
     const [monthly, yearly, pro] = offerFromCatalog(buildCatalog(fixture, 'pt'), TITLES).plans
     expect(cheaperPixOf(monthly!)).toBeUndefined()
-    expect(cheaperPixOf(yearly!)).toBe(24990)
+    expect(cheaperPixOf(yearly!)).toBe(21990)
     expect(cheaperPixOf(pro!)).toBe(54990)
   })
 
