@@ -88,7 +88,7 @@ test('from 1/12 the purchase page shows the full prices until the API answers', 
   await page.route('https://api.fitness.codart.dev/fitness/site/**', (route) =>
     route.abort('connectionrefused'),
   )
-  await page.goto('/assinar')
+  await page.goto('/assinar?plano=premium-mensal')
   await expect(page.getByRole('alert')).toBeVisible()
   await expect(page.getByText('R$ 39,90').first()).toBeVisible()
   await expect(page.getByText('R$ 59,90').first()).toBeVisible()

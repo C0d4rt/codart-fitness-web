@@ -28,7 +28,6 @@ const { t } = useI18n()
 const locale = useSiteLocale()
 const blackFriday = useBlackFriday()
 const prices = usePrices(() => props.catalog)
-const { inInstallments } = useInstallmentWords()
 
 const premium = computed(() => prices.value.premium)
 const coaching = computed(() => prices.value.coaching)
@@ -155,33 +154,6 @@ const coachingPix = computed(() =>
     ? undefined
     : t('pricing.orPix', { price: money(chosen.value.pixCents, locale.value) }),
 )
-const offerLines = computed(() => {
-  const lines = [
-    t(
-      premium.value.yearlyPixCents === undefined
-        ? 'pricing.blackFriday.yearlyCard'
-        : 'pricing.blackFriday.yearly',
-      {
-        installments: inInstallments(
-          yearlyInstallments.value,
-          yearlyShown(premium.value.yearlyCents),
-        ),
-        pix: money(premium.value.yearlyPixCents ?? 0, locale.value),
-      },
-    ),
-  ]
-  const pack = chosen.value
-  if (pack?.pixCents !== undefined) {
-    lines.push(
-      t('pricing.blackFriday.coaching', {
-        plan: coaching.value.name,
-        installments: inInstallments(pack.installments, packageInstallmentCents(pack)),
-        pix: money(pack.pixCents, locale.value),
-      }),
-    )
-  }
-  return lines
-})
 const coachingItems = computed(() => [
   t('pricing.allOfPremium'),
   ...coaching.value.features
@@ -205,16 +177,7 @@ const promises = computed(() => [
 
 <template>
   <section class="pricing" :class="{ bare }" aria-labelledby="pricing-title">
-    <div v-if="blackFriday" class="offer" role="note">
-      <div class="offer-words">
-        <p class="offer-title">{{ t('pricing.blackFriday.title') }}</p>
-        <p v-for="line in offerLines" :key="line" class="offer-line">{{ line }}</p>
-      </div>
-      <div class="offer-clock">
-        <p class="offer-ends">{{ t('promo.endsIn') }}</p>
-        <CountdownClock boxes />
-      </div>
-    </div>
+    <OfferPanel :catalog="catalog" class="offer" />
     <div class="head" data-reveal>
       <h2 id="pricing-title" :class="bare ? 'visually-hidden' : 'title'">
         <TextLines :text="t('pricing.title')" />
@@ -461,43 +424,7 @@ const promises = computed(() => [
 
 .offer {
   grid-column: 1 / -1;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem 2rem;
-  padding: clamp(1.5rem, 1rem + 1.5vw, 2.25rem) clamp(1.5rem, 1rem + 2vw, 2.75rem);
   margin-bottom: clamp(1rem, 0.5rem + 1.5vw, 2rem);
-  border-radius: var(--radius-panel);
-  background: var(--black);
-  color: #ffffff;
-}
-
-.offer-words {
-  display: grid;
-  gap: 0.25rem;
-}
-
-.offer-clock {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.offer-ends {
-  color: rgb(255 255 255 / 0.65);
-  font-size: var(--step-small);
-}
-
-.offer-title {
-  margin-bottom: 0.25rem;
-  color: #3fd27f;
-  font-size: var(--step-title);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.offer-line {
-  font-size: var(--step-body);
 }
 
 .name-row .name {

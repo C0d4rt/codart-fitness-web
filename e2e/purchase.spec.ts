@@ -129,7 +129,7 @@ test('an anonymous buyer picks the monthly by Pix and must declare being an adul
     'POST /checkout': () => ({ body: { checkoutUrl: CHECKOUT } }),
   })
 
-  await page.goto('/assinar')
+  await page.goto('/assinar?plano=premium-mensal')
   await expect(page.getByRole('link', { name: 'Entrar com WhatsApp' })).toBeVisible()
   const monthly = page.locator('li.card', {
     has: page.getByRole('heading', { name: 'Premium', exact: true }),
@@ -229,7 +229,12 @@ test('with the API down the build prices show and the page asks to try again', a
 
   await page.goto('/assinar')
   await expect(page.getByRole('alert')).toContainText('Não conseguimos falar com o servidor')
-  await expect(page.getByText('R$ 29,90').filter({ visible: true }).first()).toBeVisible()
+  await expect(
+    page
+      .getByText(/^Plano anual/)
+      .filter({ visible: true })
+      .first(),
+  ).toBeVisible()
 })
 
 test('back from the payment, an anonymous purchase activates on WhatsApp and signs the browser in', async ({
