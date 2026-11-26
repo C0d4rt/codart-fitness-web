@@ -5,22 +5,18 @@ const { t } = useI18n()
 const locale = useSiteLocale()
 const prices = usePrices(await usePlans())
 const blackFriday = useBlackFriday()
-const { withLater } = useInstallmentWords()
+const { inInstallments } = useInstallmentWords()
 
 const installments = computed(() => prices.value.premium.yearlyInstallments ?? 1)
 const yearlyInstallment = (totalCents: number) =>
   installmentCents({ totalCents, installments: installments.value })
 const offer = computed(() => {
-  const { premium, next } = prices.value
+  const { premium } = prices.value
   const now = yearlyInstallment(premium.yearlyCents)
   return premium.yearlyPixCents === undefined
     ? t('promo.offerShort', { installment: money(now, locale.value) })
     : t('promo.offer', {
-        installments: withLater(
-          installments.value,
-          now,
-          next && { from: next.from, cents: yearlyInstallment(next.premium.yearlyCents) },
-        ),
+        installments: inInstallments(installments.value, now),
         pix: money(premium.yearlyPixCents, locale.value),
       })
 })

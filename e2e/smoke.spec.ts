@@ -31,7 +31,7 @@ test('the plans page has an anchor for each plan, with the Pix prices', async ({
   await expect(coaching.getByRole('link')).toHaveAttribute('href', '/assinar?plano=pro')
 
   await premium.getByRole('button', { name: 'Mensal' }).click()
-  await expect(premium.getByText('ou R$ 238,80 por ano, 33% a menos')).toBeVisible()
+  await expect(premium.getByText(/por ano/)).toHaveCount(0)
   await expect(premium.getByText(/no Pix à vista/)).toHaveCount(0)
 })
 

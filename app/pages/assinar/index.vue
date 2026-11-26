@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { brand } from '~/brand'
 import { takeFragment } from '#shared/fragment'
-import { money as moneyText, moneyParts, yearlyPerMonth, yearlySaving } from '#shared/plans'
+import { money as moneyText, moneyParts, yearlyPerMonth } from '#shared/plans'
 import {
   cheaperPixOf,
   choiceOfSlug,
@@ -115,15 +115,6 @@ const pickCycle = (cycle: PlanOffer['cycle']) => {
   methods.premium = defaultMethod(next)
   focusPlan(next)
 }
-
-const orYearly = computed(() => {
-  const monthlyCents = premiumOffer('monthly')?.priceCents ?? 0
-  const yearlyCents = premiumOffer('yearly')?.priceCents ?? 0
-  return t('pricing.orYearly', {
-    price: money(yearlyCents, locale.value),
-    percent: monthlyCents > 0 ? yearlySaving({ monthlyCents, yearlyCents }) : 0,
-  })
-})
 
 watch(
   cards,
@@ -419,9 +410,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                   each.cycle === 'monthly' ? t('pricing.perMonth') : t('pricing.perYear')
                 }}</span>
               </p>
-              <p class="equiv">
-                {{ each.cycle === 'monthly' ? orYearly : yearlyNote(each) }}
-              </p>
+              <p v-if="each.cycle !== 'monthly'" class="equiv">{{ yearlyNote(each) }}</p>
               <p v-if="orPix(each)" class="pix">{{ orPix(each) }}</p>
             </template>
 

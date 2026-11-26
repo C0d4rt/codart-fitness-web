@@ -221,7 +221,6 @@
     "yearly": "Yearly",
     "perMonth": "per month",
     "perYear": "per year",
-    "orYearly": "{percent, plural, =0 {or {price} per year} other {or {price} per year, {percent}% less}}",
     "yearlyPerMonth": "same as {price} per month",
     "yearlyInstallments": "In up to {installments} interest-free installments of {price}, by card",
     "saving": "{percent}% less",
@@ -245,10 +244,8 @@
     "subscribeNow": "Subscribe now",
     "yearlyLead": "Yearly plan · {installments} ×",
     "orPix": "or {price} by Pix upfront",
-    "nextPrice": "from {date}",
     "nextSpoken": "Price from {date}: {price}",
     "inInstallments": "{count} payments of {price}",
-    "priceLater": "{now} (from {date}: {later})",
     "blackFriday": {
       "title": "Black Friday",
       "yearly": "Yearly Premium in {installments} or {pix} upfront by Pix",
