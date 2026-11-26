@@ -221,7 +221,6 @@
     "yearly": "Anual",
     "perMonth": "por mês",
     "perYear": "por ano",
-    "orYearly": "{percent, plural, =0 {ou {price} por ano} other {ou {price} por ano, {percent}% a menos}}",
     "yearlyPerMonth": "equivale a {price} por mês",
     "yearlyInstallments": "Em até {installments}x de {price} sem juros, no cartão",
     "saving": "{percent}% a menos",
@@ -245,10 +244,8 @@
     "subscribeNow": "Assinar agora",
     "yearlyLead": "Plano anual · {installments}x de",
     "orPix": "ou {price} no Pix à vista",
-    "nextPrice": "a partir de {date}",
     "nextSpoken": "Preço a partir de {date}: {price}",
     "inInstallments": "{count}x de {price}",
-    "priceLater": "{now} (a partir de {date}: {later})",
     "blackFriday": {
       "title": "Black Friday",
       "yearly": "Premium anual em {installments} ou {pix} no Pix à vista",

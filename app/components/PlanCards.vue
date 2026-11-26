@@ -28,7 +28,7 @@ const { t } = useI18n()
 const locale = useSiteLocale()
 const blackFriday = useBlackFriday()
 const prices = usePrices(() => props.catalog)
-const { withLater } = useInstallmentWords()
+const { inInstallments } = useInstallmentWords()
 
 const premium = computed(() => prices.value.premium)
 const coaching = computed(() => prices.value.coaching)
@@ -70,12 +70,7 @@ const premiumPrice = computed(() =>
 )
 const saving = computed(() => yearlySaving(premium.value))
 const premiumNote = computed(() => {
-  if (period.value === 'month') {
-    return t('pricing.orYearly', {
-      price: money(premium.value.yearlyCents, locale.value),
-      percent: saving.value,
-    })
-  }
+  if (period.value === 'month') return undefined
   return byInstallments.value
     ? t('pricing.installmentTotal', { total: money(premium.value.yearlyCents, locale.value) })
     : t('pricing.yearlyPerMonth', { price: yearlyPerMonth(premium.value, locale.value) })
@@ -161,34 +156,26 @@ const coachingPix = computed(() =>
     : t('pricing.orPix', { price: money(chosen.value.pixCents, locale.value) }),
 )
 const offerLines = computed(() => {
-  const from = next.value?.from
-  const yearlyNext = next.value?.premium.yearlyCents
   const lines = [
     t(
       premium.value.yearlyPixCents === undefined
         ? 'pricing.blackFriday.yearlyCard'
         : 'pricing.blackFriday.yearly',
       {
-        installments: withLater(
+        installments: inInstallments(
           yearlyInstallments.value,
           yearlyShown(premium.value.yearlyCents),
-          from && yearlyNext ? { from, cents: yearlyShown(yearlyNext) } : undefined,
         ),
         pix: money(premium.value.yearlyPixCents ?? 0, locale.value),
       },
     ),
   ]
   const pack = chosen.value
-  const upcoming = nextPack.value
   if (pack?.pixCents !== undefined) {
     lines.push(
       t('pricing.blackFriday.coaching', {
         plan: coaching.value.name,
-        installments: withLater(
-          pack.installments,
-          packageInstallmentCents(pack),
-          from && upcoming ? { from, cents: packageInstallmentCents(upcoming) } : undefined,
-        ),
+        installments: inInstallments(pack.installments, packageInstallmentCents(pack)),
         pix: money(pack.pixCents, locale.value),
       }),
     )
@@ -268,10 +255,10 @@ const promises = computed(() => [
         </p>
         <p v-if="premiumLater" class="later">
           <span aria-hidden="true"
-            ><s>{{ premiumLater.shown }}</s> {{ t('pricing.nextPrice', { date: nextDay }) }}</span
+            ><s>{{ premiumLater.shown }}</s></span
           ><span class="visually-hidden">{{ premiumLater.spoken }}</span>
         </p>
-        <p class="equiv">{{ premiumNote }}</p>
+        <p v-if="premiumNote" class="equiv">{{ premiumNote }}</p>
         <p v-if="yearlyPix" class="pix">{{ yearlyPix }}</p>
         <ul class="items">
           <li v-for="item in premiumItems" :key="item">{{ item }}</li>
@@ -328,8 +315,7 @@ const promises = computed(() => [
           </p>
           <p v-if="coachingLater" class="later">
             <span aria-hidden="true"
-              ><s>{{ coachingLater.shown }}</s>
-              {{ t('pricing.nextPrice', { date: nextDay }) }}</span
+              ><s>{{ coachingLater.shown }}</s></span
             ><span class="visually-hidden">{{ coachingLater.spoken }}</span>
           </p>
           <p v-if="chosen.installments > 1" class="equiv">
