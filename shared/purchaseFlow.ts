@@ -32,6 +32,9 @@ const ORDER = ['premium-mensal', 'premium-anual', 'pro']
 export const orderedPlans = (plans: readonly PlanOffer[]): PlanOffer[] =>
   [...plans].sort((a, b) => ORDER.indexOf(slugOf(a)) - ORDER.indexOf(slugOf(b)))
 
+const pixAt = (priceCents: number | undefined): PayMethod[] =>
+  priceCents === undefined ? [] : [{ method: 'pix', priceCents, renews: false }]
+
 /**
  * The prices of the build, shown until `GET /plans` answers (decision 16), with the methods each plan
  * takes today (decision 4). Nothing here can be bought: the page waits for the API to pay.
@@ -53,8 +56,8 @@ export const offerFromCatalog = (
         title: titles.monthly,
         priceCents: catalog.premium.monthlyCents,
         methods: [
-          { method: 'card', renews: true },
-          { method: 'pix', renews: false },
+          { method: 'card', priceCents: catalog.premium.monthlyCents, renews: true },
+          { method: 'pix', priceCents: catalog.premium.monthlyCents, renews: false },
         ],
       },
       {
@@ -65,9 +68,11 @@ export const offerFromCatalog = (
         methods: [
           {
             method: 'card',
+            priceCents: catalog.premium.yearlyCents,
             renews: false,
             ...(yearlyInstallments > 1 ? { installments: yearlyInstallments } : {}),
           },
+          ...pixAt(catalog.premium.yearlyPixCents),
         ],
       },
       pack
@@ -82,7 +87,15 @@ export const offerFromCatalog = (
             installmentCents: packageInstallmentCents(pack),
             credits: [],
             signInToDiscount: true,
-            methods: [{ method: 'card', renews: false, installments: pack.installments }],
+            methods: [
+              {
+                method: 'card',
+                priceCents: pack.totalCents,
+                renews: false,
+                installments: pack.installments,
+              },
+              ...pixAt(pack.pixCents),
+            ],
           }
         : {
             plan: 'coaching',
@@ -112,6 +125,16 @@ export const installmentOf = (offer: PlanOffer): { count: number; cents: number 
     (offer.installmentCents ||
       installmentCents({ totalCents: offer.priceCents, installments: count }))
   return { count, cents }
+}
+
+/** An API from before PRP-067 gives no price per method, so each method charges the offer's. */
+export const methodPriceOf = (offer: PlanOffer, pay: PayMethod): number =>
+  pay.priceCents ?? offer.priceCents
+
+export const cheaperPixOf = (offer: PlanOffer): number | undefined => {
+  const pix = offer.methods.find((each) => each.method === 'pix' && !each.blocked)
+  const cents = pix && methodPriceOf(offer, pix)
+  return cents !== undefined && cents < offer.priceCents ? cents : undefined
 }
 
 /** The most installments any plan on sale takes, for the payment badges. */

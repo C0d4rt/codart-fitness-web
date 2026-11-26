@@ -1,20 +1,30 @@
 {
   "version": 3,
   "currency": "BRL",
-  "trialDays": 7,
+  "trialDays": 3,
   "trialPlan": "premium",
   "plans": [
     {
       "id": "premium",
       "name": "Premium",
       "monthlyCents": 2990,
-      "yearlyCents": 19990,
-      "yearlyInstallments": 12
+      "yearlyCents": 26990,
+      "yearlyInstallments": 12,
+      "yearlyPixCents": 24990
     },
     {
       "id": "coaching",
       "name": "Premium Pro",
-      "available": false
+      "available": true,
+      "packages": [
+        {
+          "months": 12,
+          "totalCents": 59880,
+          "installments": 12,
+          "perMonthCents": 4990,
+          "pixCents": 54990
+        }
+      ]
     }
   ],
   "groups": [
@@ -255,10 +265,10 @@
       "name": "Dúvidas respondidas pela nossa equipe em até 24 h"
     },
     {
-      "id": "unlimitedReplies",
+      "id": "moreReplies",
       "plan": "coaching",
       "group": "coaching",
-      "name": "Sem limite de respostas"
+      "name": "Mais respostas por dia"
     }
   ]
 }
