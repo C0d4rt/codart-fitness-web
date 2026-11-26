@@ -12,8 +12,7 @@ test('the home page says what this is and opens the conversation', async ({ page
     'href',
     /^https:\/\/api\.fitness\.codart\.dev\/fitness\/go\?utm_source=partner&utm_campaign=bf&landing=%2F&consent=0&lang=pt$/,
   )
-  await expect(page.getByText('R$ 22,49').first()).toBeVisible()
-  await expect(page.getByText(/Black Friday/)).toHaveCount(0)
+  await expect(page.getByText('R$ 22,49').filter({ visible: true }).first()).toBeVisible()
 })
 
 test('the plans page has an anchor for each plan, with the Pix prices', async ({ page }) => {
@@ -33,7 +32,6 @@ test('the plans page has an anchor for each plan, with the Pix prices', async ({
   await expect(coaching.getByText('ou R$ 549,90 no Pix à vista')).toBeVisible()
   await expect(coaching.locator('s')).toHaveCount(0)
   await expect(coaching.getByRole('link')).toHaveAttribute('href', '/assinar?plano=pro')
-  await expect(page.getByText(/Black Friday/)).toHaveCount(0)
 
   await premium.getByRole('button', { name: 'Mensal' }).click()
   await expect(premium.getByText('ou R$ 269,90 por ano, 24% a menos')).toBeVisible()
@@ -121,7 +119,7 @@ test('the English home page speaks English and opens the chat in English', async
   await expect(page.locator('h1')).toHaveText('Your fitness assistant. On WhatsApp.')
   const cta = page.getByRole('link', { name: 'Try 3 days free' }).first()
   await expect(cta).toHaveAttribute('href', /\/fitness\/go\?landing=%2Fen&consent=0&lang=en$/)
-  await expect(page.getByText('R$22.49').first()).toBeVisible()
+  await expect(page.getByText('R$22.49').filter({ visible: true }).first()).toBeVisible()
   await page.getByRole('button', { name: /How much is left/ }).click()
   await expect(page.locator('#a-normal-day').getByText(/560 kcal left/)).toBeVisible()
 })
@@ -130,7 +128,7 @@ test('the English plans page has the plans in English, with prices in reais', as
   await page.goto('/en/plans')
   await expect(page.locator('#premium')).toHaveCount(1)
   await expect(page.locator('#coaching h3')).toHaveText('Premium Pro')
-  await expect(page.getByText('R$22.49').first()).toBeVisible()
+  await expect(page.getByText('R$22.49').filter({ visible: true }).first()).toBeVisible()
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
     'https://fitness.codart.dev/en/plans',

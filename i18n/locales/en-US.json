@@ -247,7 +247,13 @@
     "subscribeNow": "Subscribe now",
     "yearlyLead": "Yearly plan · {installments} ×",
     "orPix": "or {price} by Pix upfront",
-    "inMonthly": "paying monthly"
+    "inMonthly": "paying monthly",
+    "blackFriday": {
+      "title": "Black Friday",
+      "yearly": "Yearly Premium in 12 payments of {installment}, {percent}% less than monthly, or {pix} upfront by Pix",
+      "yearlyCard": "Yearly Premium in 12 payments of {installment}, {percent}% less than monthly",
+      "coaching": "{plan} in 12 payments of {installment} or {pix} upfront by Pix"
+    }
   },
   "faq": {
     "title": "Frequently asked questions",
@@ -530,5 +536,11 @@
       "bad_response": "We got an answer we don't understand. Refresh the page and try again.",
       "unknown": "Something went wrong. Try again in a moment."
     }
+  },
+  "promo": {
+    "label": "Black Friday",
+    "offer": "Yearly Premium in 12 payments of {installment} or {pix} by Pix",
+    "offerShort": "Yearly in 12 payments of {installment}",
+    "see": "See plans"
   }
 }
