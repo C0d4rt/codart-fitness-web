@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { brand } from '~/brand'
 import { takeFragment } from '#shared/fragment'
-import { money as moneyText, moneyParts, yearlyPerMonth, yearlySaving } from '#shared/plans'
+import { money as moneyText, moneyParts, yearlyPerMonth } from '#shared/plans'
 import {
+  cheaperPixOf,
   choiceOfSlug,
   defaultMethod,
   installmentOf,
+  methodPriceOf,
   mostInstallments,
   offerFromCatalog,
   orderedPlans,
@@ -20,6 +22,8 @@ import type { SiteErrorCode } from '#shared/siteErrors'
 definePageMeta({ account: true })
 
 const catalog = await usePlans()
+const prices = usePrices(catalog)
+const blackFriday = useBlackFriday()
 const { t } = useI18n()
 const locale = useSiteLocale()
 const apiLocale = useApiLocale()
@@ -46,7 +50,7 @@ const live = ref<PlansResponse>()
 const loading = ref(true)
 const offline = ref(false)
 const notice = ref<SiteErrorCode>()
-const offer = computed(() => live.value ?? offerFromCatalog(catalog, titles.value))
+const offer = computed(() => live.value ?? offerFromCatalog(prices.value, titles.value))
 const plans = computed(() => orderedPlans(offer.value.plans))
 const blocked = computed(() => offer.value.blocked === 'guardian_required')
 const known = computed(() => offer.value.buyer !== 'anonymous')
@@ -61,7 +65,7 @@ watch(
   },
   { immediate: true },
 )
-const premiumCycle = ref<PlanOffer['cycle']>('monthly')
+const premiumCycle = ref<PlanOffer['cycle']>('yearly')
 watch(
   chosen,
   (now) => {
@@ -94,21 +98,9 @@ const money = (cents: number, at: typeof locale.value) =>
   moneyText(cents, at).replace(/\s/g, '\u00a0')
 const buyable = (each: PlanOffer) => !each.blocked && !blocked.value && each.methods.length > 0
 
-const blackFriday = useBlackFriday()
-const struckOf = (each: PlanOffer): { text: string; label: string } | undefined => {
-  if (each.plan === 'coaching') {
-    const from = blackFriday.coachingFrom(each.fullCents ?? each.priceCents)
-    if (!from) return undefined
-    const count = installmentOf(each).count
-    return {
-      text: `${money(Math.round(from / count), locale.value)}${t('pricing.perMonthShort')}`,
-      label: t('pricing.blackFriday.struck', { price: money(from, locale.value) }),
-    }
-  }
-  const from = each.cycle === 'yearly' ? blackFriday.yearlyFrom(each.priceCents) : undefined
-  if (!from) return undefined
-  const price = money(from, locale.value)
-  return { text: price, label: t('pricing.blackFriday.struck', { price }) }
+const orPix = (each: PlanOffer) => {
+  const cents = cheaperPixOf(each)
+  return cents === undefined ? undefined : t('pricing.orPix', { price: money(cents, locale.value) })
 }
 
 const focusPlan = (each: PlanOffer) => {
@@ -126,15 +118,6 @@ const pickCycle = (cycle: PlanOffer['cycle']) => {
   focusPlan(next)
 }
 
-const orYearly = computed(() => {
-  const monthlyCents = premiumOffer('monthly')?.priceCents ?? 0
-  const yearlyCents = premiumOffer('yearly')?.priceCents ?? 0
-  return t('pricing.orYearly', {
-    price: money(yearlyCents, locale.value),
-    percent: monthlyCents > 0 ? yearlySaving({ monthlyCents, yearlyCents }) : 0,
-  })
-})
-
 watch(
   cards,
   (now) => {
@@ -146,8 +129,10 @@ watch(
   { immediate: true },
 )
 
-const methodLabel = (pay: PayMethod) => {
-  if (pay.method === 'pix') return t('subscribe.methods.pix')
+const methodLabel = (each: PlanOffer, pay: PayMethod) => {
+  if (pay.method === 'pix') {
+    return each.cycle === 'yearly' ? t('subscribe.methods.pixUpfront') : t('subscribe.methods.pix')
+  }
   return pay.installments && pay.installments > 1
     ? t('subscribe.methods.cardInstallments', { installments: pay.installments })
     : t('subscribe.methods.card')
@@ -155,7 +140,7 @@ const methodLabel = (pay: PayMethod) => {
 
 const methodNote = (each: PlanOffer, pay: PayMethod) => {
   if (pay.blocked === 'already_subscribed') return t('subscribe.methodNotes.alreadySubscribed')
-  const price = money(each.priceCents, locale.value)
+  const price = money(methodPriceOf(each, pay), locale.value)
   if (each.plan === 'coaching') {
     return t('subscribe.methodNotes.coaching', { price, months: each.months ?? 12 })
   }
@@ -329,6 +314,8 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
         <p v-else-if="loading" class="loading">{{ t('subscribe.loading') }}</p>
       </div>
 
+      <OfferPanel :catalog="catalog" />
+
       <ul class="cards" :aria-label="t('subscribe.cardsLabel')">
         <li
           v-for="each in cards"
@@ -341,6 +328,9 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
             <h2 class="name">
               {{ each.plan === 'premium' ? t('subscribe.titles.premium') : each.title }}
             </h2>
+            <p v-if="blackFriday && !each.blocked" class="chip chip--deal">
+              {{ t('promo.label') }}
+            </p>
             <p v-if="each.plan === 'coaching' && !each.blocked" class="chip">
               {{ t('pricing.recommended') }}
             </p>
@@ -375,9 +365,6 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                     installments: installmentOf(each).count,
                   })
                 }}</span>
-                <s v-if="struckOf(each)" class="was" :aria-label="struckOf(each)?.label">{{
-                  struckOf(each)?.text
-                }}</s>
                 <span class="amount"
                   ><span class="unit currency">{{
                     moneyParts(installmentOf(each).cents, locale).currency
@@ -389,6 +376,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
               <p class="equiv">
                 {{ t('pricing.installmentTotal', { total: money(each.priceCents, locale) }) }}
               </p>
+              <p v-if="orPix(each)" class="pix">{{ orPix(each) }}</p>
               <div v-if="each.discountCents && each.fullCents" class="credit">
                 <p>
                   {{
@@ -417,11 +405,26 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                 >{{ t('subscribe.signInToDiscount') }}</NuxtLinkLocale
               >
             </template>
+            <template v-else-if="each.cycle === 'yearly' && installmentOf(each).count > 1">
+              <p class="price">
+                <span class="lead-line">{{
+                  t('pricing.yearlyLead', { installments: installmentOf(each).count })
+                }}</span>
+                <span class="amount"
+                  ><span class="unit currency">{{
+                    moneyParts(installmentOf(each).cents, locale).currency
+                  }}</span
+                  >{{ moneyParts(installmentOf(each).cents, locale).amount
+                  }}<span class="unit">{{ t('pricing.perMonthShort') }}</span></span
+                >
+              </p>
+              <p class="equiv">
+                {{ t('pricing.installmentTotal', { total: money(each.priceCents, locale) }) }}
+              </p>
+              <p v-if="orPix(each)" class="pix">{{ orPix(each) }}</p>
+            </template>
             <template v-else>
               <p class="price">
-                <s v-if="struckOf(each)" class="was" :aria-label="struckOf(each)?.label">{{
-                  struckOf(each)?.text
-                }}</s>
                 <span class="amount"
                   ><span class="unit currency">{{
                     moneyParts(each.priceCents, locale).currency
@@ -432,9 +435,8 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                   each.cycle === 'monthly' ? t('pricing.perMonth') : t('pricing.perYear')
                 }}</span>
               </p>
-              <p class="equiv">
-                {{ each.cycle === 'monthly' ? orYearly : yearlyNote(each) }}
-              </p>
+              <p v-if="each.cycle !== 'monthly'" class="equiv">{{ yearlyNote(each) }}</p>
+              <p v-if="orPix(each)" class="pix">{{ orPix(each) }}</p>
             </template>
 
             <p v-if="each.blocked === 'guardian_required'" class="equiv blocked">
@@ -458,8 +460,15 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                     :disabled="Boolean(option.blocked)"
                     @change="focusPlan(each)"
                   />
+                  <span class="method-icon">
+                    <PixMark v-if="option.method === 'pix'" class="pix-mark" />
+                    <svg v-else viewBox="0 0 24 24" aria-hidden="true">
+                      <rect x="3" y="5.5" width="18" height="13" rx="2.5" />
+                      <path d="M3 10h18M6.5 14.5h4" />
+                    </svg>
+                  </span>
                   <span class="method-text">
-                    <span class="method-name">{{ methodLabel(option) }}</span>
+                    <span class="method-name">{{ methodLabel(each, option) }}</span>
                     <span class="method-note">{{ methodNote(each, option) }}</span>
                   </span>
                 </label>
@@ -471,6 +480,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                   <li>{{ t('subscribe.proPoints.cancelsMonthly') }}</li>
                 </template>
                 <li v-else-if="each.cycle === 'monthly'">{{ t('subscribe.cancelAnytime') }}</li>
+                <li v-if="methods[each.plan] === 'pix'">{{ t('subscribe.pixPrepaid') }}</li>
                 <li>{{ t('subscribe.guarantee') }}</li>
                 <li v-if="!known">
                   {{
@@ -508,7 +518,13 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                 >
                   {{ paying === each.plan ? t('subscribe.paying') : t('subscribe.pay') }}
                 </button>
-                <p class="secure">{{ t('subscribe.secure') }}</p>
+                <p class="secure">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="4.5" y="10.5" width="15" height="10" rx="2.5" />
+                    <path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" />
+                  </svg>
+                  {{ t('subscribe.secure') }}
+                </p>
               </div>
             </form>
           </template>
@@ -620,15 +636,21 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
-  padding: 2rem 1.75rem 1.75rem;
-  border-radius: var(--radius);
+  padding: 2.25rem 2rem 2rem;
+  border-radius: var(--radius-panel);
   background: var(--card);
-  box-shadow: inset 0 0 0 2px transparent; /* taste-skill-ignore: the ring that marks the chosen plan, not a shadow */
+  box-shadow:
+    inset 0 0 0 2px transparent,
+    var(
+      --shadow-card
+    ); /* taste-skill-ignore: the ring that marks the chosen plan, over the card shadow */
   transition: box-shadow 200ms var(--ease-out);
 }
 
 .card.picked {
-  box-shadow: inset 0 0 0 2px var(--green); /* taste-skill-ignore: the ring that marks the chosen plan */
+  box-shadow:
+    inset 0 0 0 2px var(--green),
+    var(--shadow-card); /* taste-skill-ignore: the ring that marks the chosen plan */
 }
 
 .name-row {
@@ -641,6 +663,7 @@ main {
 }
 
 .name {
+  margin-right: auto;
   font-size: var(--step-lead);
 }
 
@@ -653,6 +676,11 @@ main {
   font-weight: 700;
   line-height: 1.3;
   white-space: nowrap;
+}
+
+.chip--deal {
+  background: var(--black);
+  color: #ffffff;
 }
 
 .plan-who {
@@ -669,31 +697,28 @@ main {
 }
 
 .amount {
-  font-size: var(--step-figure);
+  font-size: var(--step-price);
   font-weight: 500;
-  letter-spacing: -0.045em;
-  line-height: 1.1;
+  letter-spacing: -0.055em;
+  line-height: 1;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .unit {
-  font-size: 0.4em;
+  color: var(--muted);
+  font-size: 0.3em;
+  font-weight: 500;
   letter-spacing: 0;
 }
 
 .currency {
-  margin-right: 0.125rem;
-}
-
-.was {
-  flex-basis: 100%;
-  color: var(--muted);
-  font-size: var(--step-small);
-  font-weight: 500;
+  margin-right: 0.25rem;
 }
 
 .soon .amount {
   color: var(--muted);
+  font-size: var(--step-figure);
 }
 
 .per {
@@ -711,6 +736,11 @@ main {
 .equiv {
   color: var(--muted);
   font-size: var(--step-small);
+}
+
+.pix {
+  font-size: var(--step-small);
+  font-weight: 600;
 }
 
 .blocked {
@@ -779,13 +809,47 @@ legend {
 
 .method {
   display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 0.875rem 1rem;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1rem 1.125rem;
   border-radius: var(--radius-small);
   background: var(--ground);
   cursor: pointer;
-  transition: box-shadow 160ms var(--ease-out);
+  transition:
+    box-shadow 160ms var(--ease-out),
+    background-color 160ms ease;
+}
+
+.method:has(input:checked) {
+  background: var(--card);
+}
+
+.method-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--mint);
+  color: var(--green);
+}
+
+.method-icon svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.method-icon .pix-mark {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+  stroke: none;
 }
 
 .method:has(input:checked) {
@@ -865,9 +929,24 @@ legend {
 }
 
 .secure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
   color: var(--muted);
   font-size: var(--step-small);
   text-align: center;
+}
+
+.secure svg {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .badges {

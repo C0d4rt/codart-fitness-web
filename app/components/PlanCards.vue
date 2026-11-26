@@ -10,6 +10,7 @@ import {
   yearlyPerMonth,
   yearlySaving,
 } from '#shared/plans'
+import { changeDay } from '#shared/siteDates'
 
 const props = defineProps<{ catalog: Catalog; bare?: boolean }>()
 
@@ -26,9 +27,28 @@ const PREMIUM_HIGHLIGHTS = [
 const { t } = useI18n()
 const locale = useSiteLocale()
 const blackFriday = useBlackFriday()
+const prices = usePrices(() => props.catalog)
 
-const premium = computed(() => props.catalog.premium)
-const coaching = computed(() => props.catalog.coaching)
+const premium = computed(() => prices.value.premium)
+const coaching = computed(() => prices.value.coaching)
+const next = computed(() => prices.value.next)
+const nextDay = computed(() => next.value && changeDay(next.value.from, locale.value))
+
+type Later = { shown: string; spoken: string }
+const later = (
+  laterCents: number,
+  nowCents: number,
+  shown: (price: string) => string,
+  said: (price: string) => string,
+): Later | undefined => {
+  if (nextDay.value === undefined || laterCents <= nowCents) return undefined
+  const price = money(laterCents, locale.value)
+  return {
+    shown: shown(price),
+    spoken: t('pricing.nextSpoken', { date: nextDay.value, price: said(price) }),
+  }
+}
+const perMonthShort = (price: string) => `${price}${t('pricing.perMonthShort')}`
 
 const period = ref<'month' | 'year'>('year')
 const periods = computed(() => [
@@ -49,15 +69,36 @@ const premiumPrice = computed(() =>
 )
 const saving = computed(() => yearlySaving(premium.value))
 const premiumNote = computed(() => {
-  if (period.value === 'month') {
-    return t('pricing.orYearly', {
-      price: money(premium.value.yearlyCents, locale.value),
-      percent: saving.value,
-    })
-  }
+  if (period.value === 'month') return undefined
   return byInstallments.value
     ? t('pricing.installmentTotal', { total: money(premium.value.yearlyCents, locale.value) })
     : t('pricing.yearlyPerMonth', { price: yearlyPerMonth(premium.value, locale.value) })
+})
+const premiumLater = computed(() => {
+  const plan = next.value?.premium
+  if (!plan) return undefined
+  if (period.value === 'month') {
+    return later(
+      plan.monthlyCents,
+      premium.value.monthlyCents,
+      (price) => price,
+      (price) => `${price} ${t('pricing.perMonth')}`,
+    )
+  }
+  if (byInstallments.value) {
+    return later(
+      yearlyShown(plan.yearlyCents),
+      yearlyShown(premium.value.yearlyCents),
+      perMonthShort,
+      (price) => t('pricing.inInstallments', { count: yearlyInstallments.value, price }),
+    )
+  }
+  return later(
+    plan.yearlyCents,
+    premium.value.yearlyCents,
+    (price) => price,
+    (price) => `${price} ${t('pricing.perYear')}`,
+  )
 })
 const premiumItems = computed(() =>
   PREMIUM_HIGHLIGHTS.flatMap((id) =>
@@ -82,45 +123,37 @@ const chosen = computed(
 const installment = computed(() =>
   moneyParts(chosen.value ? packageInstallmentCents(chosen.value) : 0, locale.value),
 )
-
-const yearlyStruck = computed(() => {
-  const from = period.value === 'year' && blackFriday.yearlyFrom(premium.value.yearlyCents)
-  if (!from) return undefined
-  const shown = money(yearlyShown(from), locale.value)
-  return {
-    text: byInstallments.value ? `${shown}${t('pricing.perMonthShort')}` : shown,
-    label: t('pricing.blackFriday.struck', { price: money(from, locale.value) }),
-  }
-})
-const coachingStruck = computed(() => {
+const nextPack = computed(() =>
+  next.value?.coaching?.months === chosen.value?.months ? next.value?.coaching : undefined,
+)
+const coachingLater = computed(() => {
   const pack = chosen.value
-  const from = pack && blackFriday.coachingFrom(pack.totalCents)
-  return pack && from
-    ? {
-        total: from,
-        installment: installmentCents({ totalCents: from, installments: pack.installments }),
-      }
-    : undefined
+  const upcoming = nextPack.value
+  if (!pack || !upcoming) return undefined
+  return pack.installments > 1
+    ? later(
+        packageInstallmentCents(upcoming),
+        packageInstallmentCents(pack),
+        perMonthShort,
+        (price) => t('pricing.inInstallments', { count: pack.installments, price }),
+      )
+    : later(
+        upcoming.totalCents,
+        pack.totalCents,
+        (price) => price,
+        (price) => `${price} ${t('pricing.forMonths', { months: pack.months })}`,
+      )
 })
-const offerLines = computed(() => {
-  const yearly = blackFriday.yearlyFrom(premium.value.yearlyCents)
-  const pack = chosen.value
-  const pro = pack && blackFriday.coachingFrom(pack.totalCents)
-  return [
-    yearly &&
-      t('pricing.blackFriday.yearly', {
-        from: money(yearly, locale.value),
-        price: money(premium.value.yearlyCents, locale.value),
-      }),
-    pack &&
-      pro &&
-      t('pricing.blackFriday.coaching', {
-        plan: coaching.value.name,
-        from: money(pro, locale.value),
-        price: money(pack.totalCents, locale.value),
-      }),
-  ].filter((line): line is string => Boolean(line))
-})
+const yearlyPix = computed(() =>
+  period.value === 'year' && premium.value.yearlyPixCents !== undefined
+    ? t('pricing.orPix', { price: money(premium.value.yearlyPixCents, locale.value) })
+    : undefined,
+)
+const coachingPix = computed(() =>
+  chosen.value?.pixCents === undefined
+    ? undefined
+    : t('pricing.orPix', { price: money(chosen.value.pixCents, locale.value) }),
+)
 const coachingItems = computed(() => [
   t('pricing.allOfPremium'),
   ...coaching.value.features
@@ -135,7 +168,6 @@ const maxInstallments = computed(() =>
   ),
 )
 const promises = computed(() => [
-  t('pricing.promises.trial', { days: props.catalog.trialDays }),
   t('pricing.promises.noCard'),
   t('pricing.promises.guarantee'),
   t('pricing.promises.pay'),
@@ -145,17 +177,7 @@ const promises = computed(() => [
 
 <template>
   <section class="pricing" :class="{ bare }" aria-labelledby="pricing-title">
-    <div v-if="offerLines.length" class="offer" role="note">
-      <div class="offer-words">
-        <p class="offer-title">{{ t('pricing.blackFriday.title') }}</p>
-        <p v-for="line in offerLines" :key="line" class="offer-line">{{ line }}</p>
-        <p class="offer-after">{{ t('pricing.blackFriday.after') }}</p>
-      </div>
-      <div class="offer-clock">
-        <p class="offer-ends">{{ t('promo.endsIn') }}</p>
-        <CountdownClock boxes />
-      </div>
-    </div>
+    <OfferPanel :catalog="catalog" class="offer" />
     <div class="head" data-reveal>
       <h2 id="pricing-title" :class="bare ? 'visually-hidden' : 'title'">
         <TextLines :text="t('pricing.title')" />
@@ -172,9 +194,7 @@ const promises = computed(() => [
       <article id="premium" class="card">
         <div class="name-row">
           <h3 class="name">{{ premium.name }}</h3>
-          <p v-if="blackFriday.yearlyFrom(premium.yearlyCents)" class="chip chip--deal">
-            {{ t('promo.label') }}
-          </p>
+          <p v-if="blackFriday" class="chip chip--deal">{{ t('promo.label') }}</p>
           <Transition name="chip">
             <p v-if="period === 'year' && saving > 0" class="chip">
               {{ t('pricing.saving', { percent: saving }) }}
@@ -187,9 +207,6 @@ const promises = computed(() => [
           <span v-if="byInstallments" class="lead">{{
             t('pricing.yearlyLead', { installments: yearlyInstallments })
           }}</span>
-          <s v-if="yearlyStruck" class="was" :aria-label="yearlyStruck.label">{{
-            yearlyStruck.text
-          }}</s>
           <span class="amount"
             ><span class="unit currency">{{ premiumPrice.currency }}</span
             >{{ premiumPrice.amount
@@ -199,16 +216,18 @@ const promises = computed(() => [
             period === 'month' ? t('pricing.perMonth') : t('pricing.perYear')
           }}</span>
         </p>
-        <p class="equiv">{{ premiumNote }}</p>
+        <p v-if="premiumLater" class="later">
+          <span aria-hidden="true"
+            ><s>{{ premiumLater.shown }}</s></span
+          ><span class="visually-hidden">{{ premiumLater.spoken }}</span>
+        </p>
+        <p v-if="premiumNote" class="equiv">{{ premiumNote }}</p>
+        <p v-if="yearlyPix" class="pix">{{ yearlyPix }}</p>
         <ul class="items">
           <li v-for="item in premiumItems" :key="item">{{ item }}</li>
         </ul>
         <div class="action action--pair" data-cta>
-          <WhatsAppButton
-            location="plans-premium"
-            :label="t('cta.tryDays', { days: catalog.trialDays })"
-            quiet
-          />
+          <WhatsAppButton location="plans-premium" :label="t('cta.try')" quiet />
           <NuxtLinkLocale
             :to="{
               path: '/assinar',
@@ -223,7 +242,7 @@ const promises = computed(() => [
       <article id="coaching" class="card">
         <div class="name-row">
           <h3 class="name">{{ coaching.name }}</h3>
-          <p v-if="coachingStruck" class="chip chip--deal">{{ t('promo.label') }}</p>
+          <p v-if="blackFriday && chosen" class="chip chip--deal">{{ t('promo.label') }}</p>
           <p v-if="chosen" class="chip">{{ t('pricing.recommended') }}</p>
           <Transition name="chip">
             <p v-if="chosen && chosen === best && packages.length > 1" class="chip">
@@ -247,14 +266,6 @@ const promises = computed(() => [
                 installments: chosen.installments,
               })
             }}</span>
-            <s
-              v-if="coachingStruck"
-              class="was"
-              :aria-label="
-                t('pricing.blackFriday.struck', { price: money(coachingStruck.total, locale) })
-              "
-              >{{ money(coachingStruck.installment, locale) }}{{ t('pricing.perMonthShort') }}</s
-            >
             <span class="amount"
               ><span class="unit currency">{{ installment.currency }}</span
               >{{ installment.amount
@@ -265,13 +276,16 @@ const promises = computed(() => [
             <span class="amount">{{ money(chosen.totalCents, locale) }}</span>
             <span class="per">{{ t('pricing.forMonths', { months: chosen.months }) }}</span>
           </p>
-          <p class="equiv">
-            {{
-              chosen.installments > 1
-                ? t('pricing.installmentTotal', { total: money(chosen.totalCents, locale) })
-                : t('pricing.byCard')
-            }}
+          <p v-if="coachingLater" class="later">
+            <span aria-hidden="true"
+              ><s>{{ coachingLater.shown }}</s></span
+            ><span class="visually-hidden">{{ coachingLater.spoken }}</span>
           </p>
+          <p v-if="chosen.installments > 1" class="equiv">
+            {{ t('pricing.installmentTotal', { total: money(chosen.totalCents, locale) }) }}
+          </p>
+          <p v-else-if="!coachingPix" class="equiv">{{ t('pricing.byCard') }}</p>
+          <p v-if="coachingPix" class="pix">{{ coachingPix }}</p>
         </template>
         <template v-else>
           <p class="price soon">
@@ -408,6 +422,11 @@ const promises = computed(() => [
   color: #ffffff;
 }
 
+.offer {
+  grid-column: 1 / -1;
+  margin-bottom: clamp(1rem, 0.5rem + 1.5vw, 2rem);
+}
+
 .name-row .name {
   margin-right: auto;
 }
@@ -483,61 +502,20 @@ const promises = computed(() => [
   font-size: var(--step-figure);
 }
 
-.was {
-  flex-basis: 100%;
+.later {
+  margin-top: -0.375rem;
   color: var(--muted);
   font-size: var(--step-small);
-  font-weight: 500;
 }
 
-.offer {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem 2rem;
-  padding: clamp(1.5rem, 1rem + 1.5vw, 2.25rem) clamp(1.5rem, 1rem + 2vw, 2.75rem);
-  border-radius: var(--radius-panel);
-  background: var(--black);
-  color: #ffffff;
+.later s {
+  text-decoration-thickness: 1px;
 }
 
-.offer-words {
-  display: grid;
-  gap: 0.25rem;
-}
-
-.offer-title {
-  margin-bottom: 0.25rem;
-  color: #3fd27f;
-  font-size: var(--step-title);
+.pix {
+  margin-top: -0.375rem;
+  font-size: var(--step-small);
   font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.offer-line {
-  font-size: var(--step-body);
-}
-
-.offer-after {
-  margin-top: 0.25rem;
-  color: rgb(255 255 255 / 0.65);
-  font-size: var(--step-small);
-}
-
-.offer-clock {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.offer-ends {
-  color: rgb(255 255 255 / 0.65);
-  font-size: var(--step-small);
-}
-
-.bare .offer {
-  margin-bottom: 1.25rem;
 }
 
 .per {

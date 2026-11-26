@@ -6,10 +6,10 @@ type Site = { name: string; url: string; tagline: string }
 export const llmsText = (site: Site, catalog: Catalog, builtOn: string): string => {
   const { premium, coaching } = catalog
   const coachingLine = coaching.available
-    ? `- ${coaching.name}: programa pago uma vez só, no cartão, sem renovação, com 7 dias de garantia e reembolso integral, e sem teste grátis. ${coaching.packages
+    ? `- ${coaching.name}: programa pago uma vez só, no cartão ou no Pix à vista, sem renovação, com 7 dias de garantia e reembolso integral, e sem teste grátis. ${coaching.packages
         .map(
           (pack) =>
-            `${pack.months} meses por ${money(pack.totalCents, 'pt')}, ou ${pack.installments}x de ${money(packageInstallmentCents(pack), 'pt')} sem juros`,
+            `${pack.months} meses por ${money(pack.totalCents, 'pt')}, ou ${pack.installments}x de ${money(packageInstallmentCents(pack), 'pt')} sem juros${pack.pixCents === undefined ? '' : `, ou ${money(pack.pixCents, 'pt')} no Pix à vista`}`,
         )
         .join('; ')}.`
     : `- ${coaching.name}: em breve, ainda sem venda.`
@@ -18,6 +18,10 @@ export const llmsText = (site: Site, catalog: Catalog, builtOn: string): string 
     yearlyInstallments > 1
       ? `em até ${yearlyInstallments}x de ${money(installmentCents({ totalCents: premium.yearlyCents, installments: yearlyInstallments }), 'pt')} sem juros`
       : 'em até 12x sem juros'
+  const yearlyPayment =
+    premium.yearlyPixCents === undefined
+      ? `o anual é só no cartão, ${yearlyTerms}. O Pix vale só para o mensal.`
+      : `o anual é no cartão, ${yearlyTerms}, ou no Pix à vista, por ${money(premium.yearlyPixCents, 'pt')}, sem renovação automática.`
   const group = (g: Catalog['groups'][number]) =>
     [
       `### ${g.name}`,
@@ -40,8 +44,8 @@ export const llmsText = (site: Site, catalog: Catalog, builtOn: string): string 
     '',
     `Preços em reais, válidos em ${builtOn}.`,
     '',
-    `- Teste grátis: ${catalog.trialDays} dias com tudo do ${premium.name}, contados da primeira mensagem, sem cartão.`,
-    `- ${premium.name}: ${money(premium.monthlyCents, 'pt')} por mês ou ${money(premium.yearlyCents, 'pt')} por ano. O mensal é no Pix ou no cartão, e no cartão renova sozinho até o cancelamento; o anual é só no cartão, ${yearlyTerms}. O Pix vale só para o mensal. Pagamento pela página Assinar do site (${site.url}/assinar) e cancelamento a qualquer hora, na conversa.`,
+    `- Teste grátis com tudo do ${premium.name}, sem cartão.`,
+    `- ${premium.name}: ${money(premium.monthlyCents, 'pt')} por mês ou ${money(premium.yearlyCents, 'pt')} por ano. O mensal é no Pix ou no cartão, e no cartão renova sozinho até o cancelamento; ${yearlyPayment} Pagamento pela página Assinar do site (${site.url}/assinar) e cancelamento a qualquer hora, na conversa.`,
     `${coachingLine} Tudo do ${premium.name}, mais dieta e treino montados para a pessoa a partir da avaliação, check-ins, reavaliação mensal e dúvidas respondidas pela equipe em até 24 horas. Comprar o ${coaching.name} cancela a assinatura mensal no cartão, e os dias já pagos do ${premium.name} são descontados do preço.`,
     '',
     '## Recursos',

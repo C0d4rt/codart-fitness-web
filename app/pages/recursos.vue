@@ -10,7 +10,7 @@ const route = useRoute()
 
 useSeoMeta({
   title: t('features.title'),
-  description: t('features.description', { name: brand.name, days: catalog.trialDays }),
+  description: t('features.description', { name: brand.name }),
 })
 
 const planLine = (plan: PlanId) => t(`features.${plan}`)

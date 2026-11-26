@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { BLACK_FRIDAY } from '#shared/promo'
+import { BLACK_FRIDAY_ENDS_AT } from '#shared/promo'
 
 defineProps<{ boxes?: boolean }>()
 
 const { t } = useI18n()
-const left = useCountdown(BLACK_FRIDAY.endsAt)
+const left = useCountdown(BLACK_FRIDAY_ENDS_AT)
 const two = (value: number) => String(value).padStart(2, '0')
 
 const parts = computed(() =>

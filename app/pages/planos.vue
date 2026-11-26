@@ -14,7 +14,7 @@ const offer = (cents: number, name: string) => ({
   url: brand.siteUrl + localePath('/planos'),
 })
 
-const { premium, coaching } = catalog
+const { premium, coaching } = usePrices(catalog).value
 
 useSchemaOrg([
   defineProduct({
@@ -25,13 +25,24 @@ useSchemaOrg([
     offers: [
       offer(premium.monthlyCents, t('plans.offerMonthly', { plan: premium.name })),
       offer(premium.yearlyCents, t('plans.offerYearly', { plan: premium.name })),
+      ...(premium.yearlyPixCents === undefined
+        ? []
+        : [offer(premium.yearlyPixCents, t('plans.offerYearlyPix', { plan: premium.name }))]),
       ...(coaching.available
-        ? coaching.packages.map((pack) =>
+        ? coaching.packages.flatMap((pack) => [
             offer(
               pack.totalCents,
               t('plans.offerPackage', { plan: coaching.name, months: pack.months }),
             ),
-          )
+            ...(pack.pixCents === undefined
+              ? []
+              : [
+                  offer(
+                    pack.pixCents,
+                    t('plans.offerPackagePix', { plan: coaching.name, months: pack.months }),
+                  ),
+                ]),
+          ])
         : []),
     ],
   }),
@@ -39,7 +50,7 @@ useSchemaOrg([
 
 useSeoMeta({
   title: t('plans.title'),
-  description: t('plans.description', { name: brand.name, days: catalog.trialDays }),
+  description: t('plans.description', { name: brand.name }),
 })
 </script>
 
@@ -49,7 +60,7 @@ useSeoMeta({
     <main id="conteudo">
       <header class="intro">
         <h1 class="title">{{ t('plans.title') }}</h1>
-        <p class="lead">{{ t('plans.lead', { days: catalog.trialDays }) }}</p>
+        <p class="lead">{{ t('plans.lead') }}</p>
       </header>
 
       <PlanCards :catalog="catalog" bare />

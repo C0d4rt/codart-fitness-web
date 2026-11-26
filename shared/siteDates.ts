@@ -22,3 +22,20 @@ export const clockTime = (iso: string, locale: Locale, timeZone?: string): strin
     minute: '2-digit',
     timeZone,
   }).format(new Date(iso))
+
+/** "1º/12", "15/1" or "Dec 1": the day a price takes effect, in Brasília. */
+export const changeDay = (iso: string, locale: Locale): string => {
+  const date = new Date(iso)
+  const timeZone = 'America/Sao_Paulo'
+  if (locale === 'en') {
+    return new Intl.DateTimeFormat(LANGUAGE.en, {
+      month: 'short',
+      day: 'numeric',
+      timeZone,
+    }).format(date)
+  }
+  const part = (type: 'day' | 'month') =>
+    Number(new Intl.DateTimeFormat(LANGUAGE.pt, { [type]: 'numeric', timeZone }).format(date))
+  const day = part('day')
+  return `${day === 1 ? '1º' : day}/${part('month')}`
+}

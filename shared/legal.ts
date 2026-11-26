@@ -5,8 +5,8 @@ export type LegalSection = { title: string; paragraphs?: string[]; items?: strin
 export type LegalDoc = { intro: string; sections: LegalSection[] }
 
 /** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
-export const LEGAL_VERSION = '13'
-export const LEGAL_EFFECTIVE = '2026-11-23'
+export const LEGAL_VERSION = '14'
+export const LEGAL_EFFECTIVE = '2026-11-25'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
@@ -45,7 +45,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'Quem compra no site sem entrar ativa a compra depois, mandando pelo WhatsApp a mensagem com o código de ativação mostrado quando o pagamento é confirmado. A assinatura fica com o número que mandar o código primeiro, e o período pago conta da ativação. Até lá, a compra não é de nenhum número, e a compra nunca ativada é devolvida a pedido, pelo e-mail de suporte, sem prazo.',
           'Premium mensal no cartão: renova sozinho todo mês, pelo mesmo preço contratado, até você cancelar. Se a cobrança de um mês for recusada, a assinatura é encerrada na hora e avisamos você pelo WhatsApp; para continuar, é só pagar de novo, com outro cartão ou no Pix. Seus registros continuam guardados.',
           'Premium mensal no Pix e Premium anual: são pagos de uma vez por período, sem renovação automática. Pagamentos antecipados somam períodos.',
-          'O Pix vale só para o Premium mensal. O Premium anual e o Premium Pro são pagos só no cartão, à vista ou em até 12x sem juros.',
+          'O Premium anual e o Premium Pro são pagos no cartão, à vista ou em até 12x sem juros, ou no Pix à vista, pelo preço do Pix mostrado na página Planos. O pagamento no Pix é antecipado e não renova sozinho: a partir de 3 dias antes do fim do período pago, a conversa traz a oferta para renovar, com o link.',
           'Mudança de preço não vale para o período já pago. Avisamos na conversa antes que um preço novo valha para você.',
           'Trocar o Premium mensal pelo anual vale no fim do período pago.',
         ],
@@ -58,7 +58,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'Para quem tem de 13 a 17 anos, o Premium Pro depende de a autorização do responsável cobri-lo. A avaliação não pede fotos do físico, e o prazo de 24 horas conta do fim da avaliação.',
           'Nos check-ins e na reavaliação mensal, a nossa equipe vê a sua evolução e responde em até 24 horas com o que muda no plano e por quê, ou que ele segue igual. O assistente ajusta sozinho a progressão de carga do treino, as trocas equivalentes de exercício ou de alimento e a meta de calorias quando o peso para. Se você registrar uso de hormônio, a liberação e os ajustes do plano passam pela nossa equipe.',
           'As dúvidas do seu caso vão para a nossa equipe, e a resposta chega na própria conversa em até 24 horas corridas, todos os dias da semana.',
-          'O programa é pago uma vez só, no cartão, à vista ou em até 12x sem juros. Não tem teste grátis nem renovação automática: o programa termina no fim dos 12 meses.',
+          'O programa é pago uma vez só: no cartão, à vista ou em até 12x sem juros, ou no Pix à vista, pelo preço do Pix. Não tem teste grátis nem renovação automática: o programa termina no fim dos 12 meses.',
           'Os 12 meses contam a partir da confirmação do pagamento, ou da ativação na compra feita no site sem entrar, e não da entrega do plano: o tempo até o plano chegar faz parte do programa.',
           'Garantia de 7 dias: em até 7 dias da confirmação do pagamento, ou da ativação na compra feita no site sem entrar, você pode desistir pela conversa e receber de volta o valor integral pago. Depois disso, o programa não é reembolsado, salvo nos casos previstos em lei, e o acesso vai até o fim dos 12 meses.',
           'Comprar o Premium Pro cancela a assinatura do Premium mensal no cartão, se você tiver uma, quando o pagamento é confirmado: o programa já tem tudo do Premium. Os dias já pagos do Premium que ainda faltam, no mensal ou no anual, são descontados do preço do programa.',
@@ -132,7 +132,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'De quem autoriza um adolescente: o nome, o parentesco, o número de WhatsApp de onde veio a autorização, quando ela foi dada e o que cobre, e a data de nascimento do adolescente.',
           'De pagamento: o plano, as cobranças e a situação da assinatura. Nome, documento e cartão de quem paga ficam com a Pagar.me, não conosco.',
           'Do site: quando você entra, a sessão guarda a qual número ela pertence, quando começou e quando termina, sem endereço de internet nem navegador. Da compra feita no site sem entrar: o plano, o código de ativação e o e-mail que a Pagar.me pediu a quem pagou.',
-          'De origem: quando você chega por um anúncio da Meta, o identificador do anúncio.',
+          'De origem: quando você chega por um anúncio da Meta, o identificador do anúncio e o do clique; quando chega pelo site, as etiquetas da campanha (UTMs) do link e, só com o seu consentimento, os identificadores de clique dos anúncios.',
         ],
       },
       {
@@ -151,9 +151,18 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
         ],
       },
       {
+        title: 'Medição de anúncios',
+        paragraphs: [
+          'Quando você chega por um anúncio da Meta que abre o WhatsApp, contamos à Meta, com o identificador do clique no anúncio, o que você fez depois (começou o teste, usou, abriu o pagamento, pagou, pediu reembolso), para ela medir e melhorar os anúncios. Nunca mandamos o seu número, o seu e-mail nem dado de saúde.',
+          'Quando você chega pelo site, o link para a conversa guarda as etiquetas da campanha (UTMs), que não identificam ninguém, e, só se você aceitar no aviso de cookies, os identificadores de clique dos anúncios.',
+          'A base é o legítimo interesse (art. 7º, IX) no anúncio que abre o WhatsApp, e o seu consentimento (art. 7º, I) para os identificadores de clique do site. Você pode se opor a qualquer momento, pedindo na conversa.',
+        ],
+      },
+      {
         title: 'Com quem compartilhamos',
         items: [
           'Meta (WhatsApp): leva as mensagens entre você e o diário.',
+          'Meta (anúncios): recebe o identificador do clique e o que você fez depois, quando você chega por um anúncio, como explica a seção Medição de anúncios.',
           'OpenAI e Anthropic, pela Portkey: leem as mensagens para entender o pedido e guardar o que importa. A OpenAI também transcreve os áudios e interpreta as fotos de refeições e rótulos. Pela política da OpenAI para a sua API, o que enviamos não é usado para treinar modelos.',
           'A nossa equipe: vê, num painel de acesso restrito, os dados de quem está no Premium Pro, para responder às dúvidas e acompanhar o programa. Cada abertura das fotos do físico fica registrada.',
           'Amazon Web Services (AWS): hospeda o servidor, os bancos de dados e os arquivos, e envia os e-mails de lembrete da ativação.',
@@ -260,7 +269,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'Whoever buys on the website without signing in activates the purchase afterwards, by sending on WhatsApp the message with the activation code shown when the payment is confirmed. The subscription goes to the number that sends the code first, and the paid period counts from the activation. Until then, the purchase belongs to no number, and a purchase never activated is refunded on request, through the support e-mail, with no time limit.',
           "Premium monthly by card: renews automatically every month, at the price you subscribed to, until you cancel. If a month's charge is declined, the subscription ends at once and we let you know on WhatsApp; to continue, just pay again, with another card or by Pix. Your records stay saved.",
           'Premium monthly by Pix and Premium yearly: paid once per period, with no automatic renewal. Paying ahead adds up periods.',
-          'Pix is accepted only for Premium monthly. Premium yearly and Premium Pro are paid by card only, upfront or in up to 12 interest-free installments.',
+          'Premium yearly and Premium Pro are paid by card, upfront or in up to 12 interest-free installments, or by Pix upfront, at the Pix price shown on the Plans page. A Pix payment is prepaid and does not renew on its own: from 3 days before the end of the paid period, the chat brings the offer to renew, with the link.',
           'A price change does not apply to a period already paid. We tell you in the chat before a new price applies to you.',
           'Moving from Premium monthly to yearly takes effect at the end of the paid period.',
         ],
@@ -273,7 +282,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'For anyone aged 13 to 17, Premium Pro depends on the parent or guardian’s authorization covering it. The assessment asks for no physique photos, and the 24 hours count from the end of the assessment.',
           'In the check-ins and the monthly reassessment, our team looks at your progress and answers within 24 hours with what changes in the plan and why, or that it stays the same. The assistant adjusts on its own the load progression of your training, equivalent swaps of exercises or foods and the calorie goal when your weight stalls. If you record hormone use, the release and the adjustments of the plan go through our team.',
           'Questions about your case go to our team, and the answer arrives in the chat within 24 hours, every day of the week.',
-          'The program is paid once, by card, upfront or in up to 12 interest-free installments. There is no free trial and no automatic renewal: the program ends when the 12 months end.',
+          'The program is paid once: by card, upfront or in up to 12 interest-free installments, or by Pix upfront, at the Pix price. There is no free trial and no automatic renewal: the program ends when the 12 months end.',
           'The 12 months count from the payment confirmation, or from the activation for a purchase made on the website without signing in, not from the delivery of the plan: the time until the plan arrives is part of the program.',
           '7-day guarantee: within 7 days of the payment confirmation, or of the activation for a purchase made on the website without signing in, you can withdraw in the chat and get the full amount paid back. After that, the program is not refunded, except where the law requires, and access continues until the end of the 12 months.',
           'Buying Premium Pro cancels your Premium monthly card subscription, if you have one, when the payment is confirmed: the program already has everything in Premium. The Premium days you already paid for and have left, monthly or yearly, are discounted from the price of the program.',
@@ -347,7 +356,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'Whoever authorizes a teenager: their name, their relation, the WhatsApp number the authorization came from, when it was given and what it covers, and the teenager’s date of birth.',
           'Payment: the plan, the charges and the subscription status. The payer’s name, ID document and card stay with Pagar.me, not with us.',
           'Website: when you sign in, the session keeps which number it belongs to, when it started and when it ends, with no internet address or browser. For a purchase made on the website without signing in: the plan, the activation code and the e-mail Pagar.me asked the payer for.',
-          'Origin: when you arrive from a Meta ad, the ad identifier.',
+          'Origin: when you arrive from a Meta ad, the ad identifier and the click identifier; when you arrive from the website, the campaign tags (UTMs) of the link and, only with your consent, the ad click identifiers.',
         ],
       },
       {
@@ -366,9 +375,18 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
         ],
       },
       {
+        title: 'Ad measurement',
+        paragraphs: [
+          'When you arrive from a Meta ad that opens WhatsApp, we tell Meta, with the ad click identifier, what you did afterwards (started the trial, used it, opened the checkout, paid, asked for a refund), so it can measure and improve the ads. We never send your number, your e-mail or any health data.',
+          'When you arrive from the website, the link to the chat records the campaign tags (UTMs), which identify no one, and, only if you accept in the cookie notice, the ad click identifiers.',
+          'The legal basis is legitimate interest (art. 7, IX) for the ad that opens WhatsApp, and your consent (art. 7, I) for the website click identifiers. You can object at any time by asking in the chat.',
+        ],
+      },
+      {
         title: 'Who we share it with',
         items: [
           'Meta (WhatsApp): carries the messages between you and the diary.',
+          'Meta (ads): receives the click identifier and what you did afterwards, when you arrive from an ad, as the Ad measurement section explains.',
           'OpenAI and Anthropic, through Portkey: read the messages to understand the request and keep what matters. OpenAI also transcribes voice notes and interprets photos of meals and labels. Under OpenAI’s policy for its API, what we send is not used to train models.',
           'Our team: sees, in a restricted-access panel, the data of the people on Premium Pro, to answer their questions and follow the program. Every opening of the physique photos is logged.',
           'Amazon Web Services (AWS): hosts the server, the databases and the files, and sends the activation reminder e-mails.',

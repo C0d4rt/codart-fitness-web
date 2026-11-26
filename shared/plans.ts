@@ -13,13 +13,32 @@ const premiumPlan = z.object({
   yearlyCents: z.int().positive(),
 })
 
-const premiumPlanV3 = premiumPlan.extend({ yearlyInstallments: z.int().positive() })
+/** The Pix prices are optional fields of version 3 (PRP-067 of codart-messaging, decision 10). */
+const premiumPlanV3 = premiumPlan.extend({
+  yearlyInstallments: z.int().positive(),
+  yearlyPixCents: z.int().positive().optional(),
+})
 
 const coachingPackage = z.object({
   months: z.int().positive(),
   totalCents: z.int().positive(),
   installments: z.int().positive(),
   perMonthCents: z.int().positive(),
+  pixCents: z.int().positive().optional(),
+})
+
+/**
+ * The prices that replace the catalog's at `from`, sent only while the change is ahead. A page
+ * built before it switches to them in the browser (`pricesAt`), with no rebuild.
+ */
+const nextPrices = z.object({
+  from: z.iso.datetime({ offset: true }),
+  premium: z.object({
+    monthlyCents: z.int().positive(),
+    yearlyCents: z.int().positive(),
+    yearlyPixCents: z.int().positive().optional(),
+  }),
+  coaching: coachingPackage.optional(),
 })
 
 /** Without prices while the sale is off: the site then says "soon" instead of a number. */
@@ -65,16 +84,19 @@ export const plansSchema = z.discriminatedUnion('version', [
     version: z.literal(3),
     ...catalogFacts,
     plans: z.tuple([premiumPlanV3, coachingPlan]),
+    next: nextPrices.optional(),
   }),
 ])
 
 export type PlansFacts = z.infer<typeof plansSchema>
 export type PlanId = z.infer<typeof planId>
 export type CoachingPackage = z.infer<typeof coachingPackage>
+export type NextPrices = z.infer<typeof nextPrices>
 
 export type Feature = PlansFacts['features'][number] & FeatureCopy
 export type PremiumPlan = z.infer<typeof premiumPlan> & {
   yearlyInstallments?: number
+  yearlyPixCents?: number
   features: Feature[]
 }
 export type CoachingPlan = z.infer<typeof coachingPlan> & { features: Feature[] }
@@ -84,6 +106,7 @@ export type Catalog = {
   premium: PremiumPlan
   coaching: CoachingPlan
   groups: { id: string; name: string; features: Feature[] }[]
+  next?: NextPrices
 }
 
 export class CatalogMismatch extends Error {
@@ -154,6 +177,31 @@ export const buildCatalog = (
       name: names?.groups[group.id] ?? group.name,
       features: features.filter((feature) => feature.group === group.id),
     })),
+    ...(facts.version === 3 && facts.next ? { next: facts.next } : {}),
+  }
+}
+
+/** The catalog as charged at `now`: from `next.from` on, the next prices are the prices. */
+export const pricesAt = (catalog: Catalog, now: Date): Catalog => {
+  const { next, ...current } = catalog
+  if (next === undefined || now.getTime() < Date.parse(next.from)) return catalog
+  const { coaching } = current
+  const pack = next.coaching
+  return {
+    ...current,
+    premium: {
+      ...current.premium,
+      monthlyCents: next.premium.monthlyCents,
+      yearlyCents: next.premium.yearlyCents,
+      yearlyPixCents: next.premium.yearlyPixCents,
+    },
+    coaching:
+      coaching.available && pack
+        ? {
+            ...coaching,
+            packages: coaching.packages.map((each) => (each.months === pack.months ? pack : each)),
+          }
+        : coaching,
   }
 }
 

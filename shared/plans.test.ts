@@ -11,6 +11,7 @@ import {
   installmentCents,
   money,
   moneyParts,
+  pricesAt,
   wholeMoney,
   yearlyPerMonth,
   yearlySaving,
@@ -23,22 +24,20 @@ const packages = [
   { months: 6, totalCents: 49990, installments: 6, perMonthCents: 8332 },
 ]
 
-const program = { months: 12, totalCents: 47880, installments: 12, perMonthCents: 3990 }
+const program = fixture.plans[1]!.packages![0]!
 
-const onSale = {
+const offSale = {
   ...fixture,
-  plans: [
-    fixture.plans[0],
-    { id: 'coaching', name: 'Premium Pro', available: true, packages: [program] },
-  ],
+  plans: [fixture.plans[0], { id: 'coaching', name: 'Premium Pro', available: false }],
 }
 
-const { yearlyInstallments: _, ...premiumV2 } = fixture.plans[0]!
+const { yearlyInstallments: _, yearlyPixCents: __, ...premiumV2 } = fixture.plans[0]!
+const { next: ___, ...withoutNext } = fixture
 
 const versionTwo = {
   ...fixture,
   version: 2,
-  plans: [premiumV2, fixture.plans[1]],
+  plans: [premiumV2, offSale.plans[1]],
 }
 
 const versionTwoOnSale = {
@@ -81,15 +80,45 @@ describe('buildCatalog', () => {
   })
 
   it('has Premium Pro without prices while its sale is off', () => {
-    const { coaching } = buildCatalog(fixture)
+    const { coaching } = buildCatalog(offSale)
     expect(coaching.available).toBe(false)
     expect('packages' in coaching).toBe(false)
   })
 
   it('has Premium Pro as one 12-month program once its sale is on', () => {
-    const { coaching } = buildCatalog(onSale)
+    const { coaching } = buildCatalog(fixture)
     expect(coaching.available).toBe(true)
     expect(coaching.available && coaching.packages).toEqual([program])
+  })
+
+  it('takes the Pix prices of the yearly and of Premium Pro from version 3', () => {
+    const { premium, coaching } = buildCatalog(fixture)
+    expect(premium.yearlyPixCents).toBe(21990)
+    expect(coaching.available && coaching.packages[0]!.pixCents).toBe(54990)
+  })
+
+  it('still reads version 3 without the Pix prices, sold then by card alone', () => {
+    const { yearlyPixCents: _, ...premium } = fixture.plans[0]!
+    const { pixCents: __, ...pack } = program
+    const catalog = buildCatalog({
+      ...fixture,
+      plans: [premium, { ...fixture.plans[1], packages: [pack] }],
+    })
+    expect(catalog.premium.yearlyPixCents).toBeUndefined()
+    expect(catalog.coaching.available && catalog.coaching.packages[0]!.pixCents).toBeUndefined()
+  })
+
+  it('takes the prices that replace these at 1/12 from version 3', () => {
+    expect(buildCatalog(fixture).next).toEqual(fixture.next)
+  })
+
+  it('still reads version 3 without the next prices, once the change is past', () => {
+    expect(buildCatalog(withoutNext).next).toBeUndefined()
+  })
+
+  it('refuses next prices without the date they take effect', () => {
+    const { from: _, ...next } = fixture.next
+    expect(() => buildCatalog({ ...fixture, next })).toThrow()
   })
 
   it('takes the yearly installments from version 3', () => {
@@ -103,7 +132,7 @@ describe('buildCatalog', () => {
 
   it('still reads version 2, which the API serves until codart-messaging deploys version 3', () => {
     const catalog = buildCatalog(versionTwo)
-    expect(catalog.premium.yearlyCents).toBe(19990)
+    expect(catalog.premium.yearlyCents).toBe(23880)
     expect(catalog.premium.yearlyInstallments).toBeUndefined()
     expect(catalog.coaching.available).toBe(false)
   })
@@ -231,7 +260,7 @@ describe('the Premium Pro packages', () => {
   it('rounds each installment to the nearest cent, as codart-messaging charges it', () => {
     expect(installmentCents({ totalCents: 29990, installments: 3 })).toBe(9997)
     expect(installmentCents({ totalCents: 49990, installments: 6 })).toBe(8332)
-    expect(installmentCents(program)).toBe(3990)
+    expect(installmentCents(program)).toBe(4990)
     expect(installmentCents({ totalCents: 19990, installments: 12 })).toBe(1666)
     expect(installmentCents({ totalCents: 10001, installments: 12 })).toBe(833)
   })
@@ -245,11 +274,73 @@ describe('the Premium Pro packages', () => {
 describe('yearlySaving', () => {
   it('rounds down, so the page never promises more than the price gives', () => {
     expect(yearlySaving({ monthlyCents: 2990, yearlyCents: 19990 })).toBe(44)
+    expect(yearlySaving({ monthlyCents: 2990, yearlyCents: 23880 })).toBe(33)
     expect(yearlySaving({ monthlyCents: 1990, yearlyCents: 11900 })).toBe(50)
   })
 
   it('is zero when a year costs as much as twelve months or more', () => {
     expect(yearlySaving({ monthlyCents: 1000, yearlyCents: 12000 })).toBe(0)
     expect(yearlySaving({ monthlyCents: 1000, yearlyCents: 13000 })).toBe(0)
+  })
+})
+
+describe('pricesAt', () => {
+  const catalog = buildCatalog(fixture)
+  const pro = (at: Date) => {
+    const { coaching } = pricesAt(catalog, at)
+    return coaching.available ? coaching.packages[0] : undefined
+  }
+
+  it('keeps the prices of today, and the next ones, until the last second of 30/11', () => {
+    const before = pricesAt(catalog, new Date('2026-11-30T23:59:59-03:00'))
+    expect(before).toBe(catalog)
+    expect(before.premium).toMatchObject({
+      monthlyCents: 2990,
+      yearlyCents: 23880,
+      yearlyPixCents: 21990,
+    })
+    expect(before.next?.premium.monthlyCents).toBe(3990)
+    expect(pro(new Date('2026-11-30T23:59:59-03:00'))?.perMonthCents).toBe(4990)
+  })
+
+  it('charges the next prices from 1/12 at midnight in Brasília, with nothing next', () => {
+    const at = new Date('2026-12-01T00:00:00-03:00')
+    const after = pricesAt(catalog, at)
+    expect(after.next).toBeUndefined()
+    expect(after.premium).toMatchObject({
+      monthlyCents: 3990,
+      yearlyCents: 35880,
+      yearlyInstallments: 12,
+      yearlyPixCents: 32990,
+    })
+    expect(after.premium.features).toBe(catalog.premium.features)
+    expect(pro(at)).toEqual({
+      months: 12,
+      totalCents: 71880,
+      installments: 12,
+      perMonthCents: 5990,
+      pixCents: 64990,
+    })
+    expect(installmentCents({ totalCents: after.premium.yearlyCents, installments: 12 })).toBe(2990)
+    expect(yearlySaving(after.premium)).toBe(25)
+  })
+
+  it('drops a Pix price the next prices leave out', () => {
+    const { yearlyPixCents: _, ...premium } = fixture.next.premium
+    const after = pricesAt(
+      buildCatalog({ ...fixture, next: { ...fixture.next, premium } }),
+      new Date('2026-12-02'),
+    )
+    expect(after.premium.yearlyPixCents).toBeUndefined()
+  })
+
+  it('leaves Premium Pro off sale when the next prices have one for it', () => {
+    const after = pricesAt(buildCatalog({ ...offSale, next: fixture.next }), new Date('2026-12-02'))
+    expect(after.coaching.available).toBe(false)
+  })
+
+  it('leaves a catalog without next prices as it is', () => {
+    const plain = buildCatalog(withoutNext)
+    expect(pricesAt(plain, new Date('2027-01-01'))).toBe(plain)
   })
 })

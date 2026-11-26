@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const { t } = useI18n()
-const trialDays = useTrialDays()
 const consent = useConsent()
 const nuxtApp = useNuxtApp()
 const route = useRoute()
@@ -55,7 +54,7 @@ onBeforeUnmount(() => {
       class="sticky-cta tone-dark"
       :aria-label="t('stickyCta.label')"
     >
-      <p v-if="trialDays" class="text">{{ t('stickyCta.text', { days: trialDays }) }}</p>
+      <p class="text">{{ t('stickyCta.text') }}</p>
       <WhatsAppButton location="sticky" :label="t('cta.try')" class="action" />
     </aside>
   </Transition>

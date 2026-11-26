@@ -1,16 +1,15 @@
 {
   "cta": {
     "try": "Try it free",
-    "tryDays": "Try {days} days free",
     "tryThenPick": "Try it free, then pick {plan}"
   },
   "closing": {
     "title": "Start today. On WhatsApp.",
-    "lead": "{days} days free with everything in Premium, no card needed."
+    "lead": "With everything in Premium, no card needed."
   },
   "stickyCta": {
     "label": "Try it free on WhatsApp",
-    "text": "{days} days free, no card"
+    "text": "No card"
   },
   "nav": {
     "label": "Main",
@@ -58,12 +57,12 @@
     "ofGoal": "of {goal} kcal"
   },
   "home": {
-    "description": "Your fitness assistant on WhatsApp: it logs meals and workouts, suggests what to eat, compares products and answers with your numbers. {days} days free, no card.",
-    "ogDescription": "Diet, workouts and much more in one chat. {days} days free.",
+    "description": "Your fitness assistant on WhatsApp: it logs meals and workouts, suggests what to eat, compares products and answers with your numbers. No card needed.",
+    "ogDescription": "Diet, workouts and much more in one chat.",
     "headline": "Your fitness assistant. On WhatsApp.",
     "lead": "It logs what you eat and train, suggests what to eat from what you have at home, compares products at the store and gives you today's workout. By text, voice or photo.",
     "seeHow": "See how it works",
-    "terms": "{days} days free with everything in Premium, no card needed."
+    "terms": "With everything in Premium, no card needed."
   },
   "assistant": {
     "title": "It knows you. And knows its sources.",
@@ -205,9 +204,8 @@
   "pricing": {
     "title": "Simple plans. Try it free.",
     "promises": {
-      "trial": "{days} days free with everything in Premium",
       "noCard": "No card needed to try",
-      "pay": "Monthly by Pix or card, yearly in up to 12 installments",
+      "pay": "Monthly by Pix or card, yearly in up to 12 installments or by Pix upfront",
       "cancel": "Cancel whenever you like",
       "guarantee": "7-day guarantee: not for you, we refund it in the chat"
     },
@@ -223,10 +221,9 @@
     "yearly": "Yearly",
     "perMonth": "per month",
     "perYear": "per year",
-    "orYearly": "{percent, plural, =0 {or {price} per year} other {or {price} per year, {percent}% less}}",
     "yearlyPerMonth": "same as {price} per month",
     "yearlyInstallments": "In up to {installments} interest-free installments of {price}, by card",
-    "saving": "Save {percent}%",
+    "saving": "{percent}% less",
     "premiumWho": "The assistant: logging by photo and voice, goals, meal suggestions and workouts by level",
     "coachingWho": "The assistant that builds your diet and training from your assessment and adjusts it all to your progress, with questions answered by our team",
     "levelWorkouts": "Guided workout programs, with science-based options for people who train natural",
@@ -245,14 +242,16 @@
     "notifyMe": "Tell me when it opens",
     "wantPlan": "I want {plan}",
     "subscribeNow": "Subscribe now",
+    "yearlyLead": "Yearly plan · {installments} ×",
+    "orPix": "or {price} by Pix upfront",
+    "nextSpoken": "Price from {date}: {price}",
+    "inInstallments": "{count} payments of {price}",
     "blackFriday": {
       "title": "Black Friday",
-      "yearly": "Yearly from {from} down to {price}",
-      "coaching": "{plan} from {from} down to {price}",
-      "after": "On December 1, these become the prices.",
-      "struck": "Price from December 1: {price}"
-    },
-    "yearlyLead": "Yearly plan · {installments} ×"
+      "yearly": "Yearly Premium in {installments} or {pix} upfront by Pix",
+      "yearlyCard": "Yearly Premium in {installments}",
+      "coaching": "{plan} in {installments} or {pix} upfront by Pix"
+    }
   },
   "faq": {
     "title": "Frequently asked questions",
@@ -260,11 +259,11 @@
     "items": [
       {
         "q": "How do I start?",
-        "a": "Tap \"Try {days} days free\" and say hi on WhatsApp. It works on your phone or your computer."
+        "a": "Tap \"Try it free\" and say hi on WhatsApp. It works on your phone or your computer."
       },
       {
         "q": "How does the free trial work?",
-        "a": "You get {days} days with everything in Premium, counted from your first message, no card needed. Premium Pro has no trial: it has a 7 day guarantee."
+        "a": "With everything in Premium, no card needed. Premium Pro has no trial: it has a 7 day guarantee."
       },
       {
         "q": "What happens when the trial ends?",
@@ -272,7 +271,7 @@
       },
       {
         "q": "How do I pay and cancel?",
-        "a": "On the Subscribe page, here on the site, or by replying \"subscribe\" in the chat, which sends you the link. Monthly is by Pix or card, and by card it renews on its own every month until you cancel. Yearly is by card, in up to 12 interest-free installments. Cancel whenever you like; your access lasts until the end of the period you paid for. Pix is for monthly only. Premium Pro is a 12-month program, by card only, upfront or in up to 12 interest-free installments, with no renewal. Buying Premium Pro cancels your monthly card subscription, and the Premium days you already paid for are discounted from the price."
+        "a": "On the Subscribe page, here on the site, or by replying \"subscribe\" in the chat, which sends you the link. Monthly is by Pix or card, and by card it renews on its own every month until you cancel. Yearly is by card, in up to 12 interest-free installments, or by Pix upfront, for less. Cancel whenever you like; your access lasts until the end of the period you paid for. Premium Pro is a 12-month program, by card in up to 12 interest-free installments or by Pix upfront, with no renewal. What you pay by Pix does not renew on its own: near the end, the chat sends you the link to renew. Buying Premium Pro cancels your monthly card subscription, and the Premium days you already paid for are discounted from the price."
       },
       {
         "q": "What if I change my mind?",
@@ -302,8 +301,8 @@
   },
   "plans": {
     "title": "Plans",
-    "description": "{name} Premium and Premium Pro, with prices and what each one includes. {days} days free with everything in Premium.",
-    "lead": "Start with {days} days free with everything in Premium, no card needed. Then subscribe here on the site",
+    "description": "{name} Premium and Premium Pro, with prices and what each one includes.",
+    "lead": "Start with everything in Premium, no card needed. Then subscribe here on the site",
     "compareTitle": "What each plan includes",
     "seeFeatures": "See each feature with an example",
     "featureColumn": "Feature",
@@ -311,11 +310,13 @@
     "offerMonthly": "{plan} monthly",
     "offerYearly": "{plan} yearly",
     "coachingOnly": "Premium Pro only",
-    "offerPackage": "{plan} for {months} months"
+    "offerPackage": "{plan} for {months} months",
+    "offerYearlyPix": "{plan} yearly by Pix upfront",
+    "offerPackagePix": "{plan} for {months} months by Pix upfront"
   },
   "features": {
     "title": "Features",
-    "description": "Everything {name} does on WhatsApp, with a sample chat for each feature. {days} days free with everything in Premium.",
+    "description": "Everything {name} does on WhatsApp, with a sample chat for each feature.",
     "lead": "Everything you can do in the chat, with real examples",
     "groups": "Feature groups",
     "premium": "On Premium, Premium Pro and the trial",
@@ -371,7 +372,7 @@
     "title": "Subscribe",
     "description": "Pick your {name} plan and pay by Pix or card.",
     "heading": "Pick your plan.",
-    "lead": "Pick the plan and how to pay. Payment happens on the secure Pagar.me page.",
+    "lead": "Pix or card, on the secure Pagar.me page.",
     "buyingFor": "Buying for {who}",
     "signedInAs": "Signed in as {who}",
     "notYou": "Not you?",
@@ -391,7 +392,8 @@
     "methods": {
       "pix": "Pix",
       "cardInstallments": "Card, in up to {installments} installments",
-      "card": "Card"
+      "card": "Card",
+      "pixUpfront": "Pix, upfront"
     },
     "methodNotes": {
       "cardRenews": "{price} every month, until you cancel",
@@ -420,7 +422,8 @@
       "premiumMonthly": "Premium monthly",
       "premiumYearly": "Premium yearly",
       "coaching": "Premium Pro"
-    }
+    },
+    "pixPrepaid": "Paid once. It does not renew on its own: near the end, the chat sends you the link to renew."
   },
   "subscribeDone": {
     "title": "Payment",
@@ -438,7 +441,7 @@
     "signedIn": "This browser is signed in to the site with the number {who}.",
     "signInLater": "To sign in to the site later, use Sign in with WhatsApp.",
     "refusedHeading": "The card was declined.",
-    "refusedText": "Nothing was charged. Try again with another card or, for monthly, by Pix.",
+    "refusedText": "Nothing was charged. Try again with another card or by Pix.",
     "expiredHeading": "The payment expired.",
     "expiredText": "Nothing was charged. Pick the plan again to start a new payment.",
     "refundedHeading": "Payment refunded.",
@@ -534,10 +537,10 @@
   },
   "promo": {
     "label": "Black Friday",
-    "offer": "Premium yearly for {yearly} and {plan} for {pro}",
-    "offerShort": "Yearly for {yearly}",
-    "endsIn": "Ends in",
+    "offer": "Yearly Premium for {price}",
+    "offerShort": "Yearly for {price}",
     "see": "See plans",
+    "endsIn": "Ends in",
     "days": "{n, plural, one {day} other {days}}",
     "hours": "hours",
     "minutes": "min",

@@ -1,5 +1,7 @@
 import { expect, type Page, test } from '@playwright/test'
 
+import { SITE_ANSWERS } from '../shared/siteContract.fixture'
+
 test.use({ colorScheme: 'light' })
 
 const API = 'https://api.fitness.codart.dev/fitness/site'
@@ -35,45 +37,7 @@ const fakeApi = async (page: Page, handlers: Record<string, Handler>) => {
   return calls
 }
 
-const ANONYMOUS_PLANS = {
-  buyer: 'anonymous',
-  declaration: {
-    code: 'payer_adult',
-    text: 'Tenho 18 anos ou mais ou sou responsável pelo menor de idade.',
-  },
-  plans: [
-    {
-      plan: 'premium',
-      cycle: 'monthly',
-      title: 'Premium mensal',
-      priceCents: 2990,
-      methods: [
-        { method: 'card', renews: true },
-        { method: 'pix', renews: false },
-      ],
-    },
-    {
-      plan: 'premium',
-      cycle: 'yearly',
-      title: 'Premium anual',
-      priceCents: 19990,
-      methods: [{ method: 'card', renews: false, installments: 12 }],
-    },
-    {
-      plan: 'coaching',
-      cycle: 'yearly',
-      title: 'Premium Pro',
-      months: 12,
-      priceCents: 47880,
-      fullCents: 47880,
-      discountCents: 0,
-      installmentCents: 3990,
-      credits: [],
-      signInToDiscount: true,
-      methods: [{ method: 'card', renews: false, installments: 12 }],
-    },
-  ],
-}
+const ANONYMOUS_PLANS = SITE_ANSWERS.plans
 
 const LINK_PLANS = {
   buyer: 'purchase',
@@ -82,9 +46,19 @@ const LINK_PLANS = {
     ANONYMOUS_PLANS.plans[1],
     {
       ...ANONYMOUS_PLANS.plans[2],
-      priceCents: 46890,
+      methods: [
+        {
+          method: 'card',
+          priceCents: 58890,
+          renews: false,
+          installments: 12,
+          installmentCents: 4908,
+        },
+        { method: 'pix', priceCents: 54000, renews: false },
+      ],
+      priceCents: 58890,
       discountCents: 990,
-      installmentCents: 3908,
+      installmentCents: 4908,
       signInToDiscount: false,
       credits: [
         {
@@ -129,10 +103,11 @@ test('the WhatsApp link takes the token off the address bar and buys Premium Pro
   expect(calls.every((call) => !call.path.includes('tok_'))).toBe(true)
 
   const pro = page.locator('li.card', { has: page.getByRole('heading', { name: 'Premium Pro' }) })
-  await expect(pro.getByText('De R$ 478,80 por R$ 468,90')).toBeVisible()
+  await expect(pro.getByText('De R$ 598,80 por R$ 588,90')).toBeVisible()
   await expect(pro.getByText(/Desconto do Premium já pago/)).toBeVisible()
-  await expect(pro.getByRole('radio', { name: /Cartão, em até 12x/ })).toBeChecked()
+  await expect(pro.getByText('ou R$ 540,00 no Pix à vista')).toBeVisible()
   await expect(pro.getByRole('checkbox')).toHaveCount(0)
+  await pro.getByRole('radio', { name: /Cartão, em até 12x/ }).check()
 
   await pro.getByRole('button', { name: 'Ir para o pagamento' }).click()
   await expect(page).toHaveURL(CHECKOUT)
@@ -154,7 +129,7 @@ test('an anonymous buyer picks the monthly by Pix and must declare being an adul
     'POST /checkout': () => ({ body: { checkoutUrl: CHECKOUT } }),
   })
 
-  await page.goto('/assinar')
+  await page.goto('/assinar?plano=premium-mensal')
   await expect(page.getByRole('link', { name: 'Entrar com WhatsApp' })).toBeVisible()
   const monthly = page.locator('li.card', {
     has: page.getByRole('heading', { name: 'Premium', exact: true }),
@@ -195,12 +170,18 @@ test('one Premium card switches between the monthly and the yearly', async ({ pa
 
   await premium.getByRole('button', { name: 'Anual' }).click()
   await expect(page).toHaveURL(/\?plano=premium-anual$/)
-  await expect(premium.getByText('R$ 199,90').first()).toBeVisible()
-  await expect(premium.getByRole('radio', { name: /^Pix/ })).toHaveCount(0)
-  await expect(premium.getByRole('radio', { name: /Cartão, em até 12x/ })).toBeChecked()
+  await expect(premium.getByText('R$ 238,80').first()).toBeVisible()
+  await expect(premium.getByText('ou R$ 219,90 no Pix à vista')).toBeVisible()
+  await expect(
+    premium.getByRole('radio', { name: /^Cartão, em até 12x R\$\s238,80 por 12 meses/ }),
+  ).toBeVisible()
+  const pix = premium.getByRole('radio', { name: /^Pix à vista R\$\s219,90 por 12 meses/ })
+  await pix.check()
+  await expect(premium.getByText(/Não renova sozinho/)).toBeVisible()
 
   await premium.getByRole('button', { name: 'Mensal' }).click()
   await expect(premium.getByRole('radio', { name: /^Cartão/ })).not.toBeChecked()
+  await expect(premium.getByText(/no Pix à vista/)).toHaveCount(0)
 })
 
 test('both plans stay open, and a link to Premium Pro lands on its card', async ({ page }) => {
@@ -213,7 +194,7 @@ test('both plans stay open, and a link to Premium Pro lands on its card', async 
   await expect(page.getByRole('button', { name: 'Ir para o pagamento' })).toHaveCount(2)
   await expect(page.getByRole('button', { name: 'Escolher' })).toHaveCount(0)
   const pro = page.locator('li.card', { has: page.getByRole('heading', { name: 'Premium Pro' }) })
-  await expect(pro.getByRole('radio', { name: /Cartão, em até 12x/ })).toBeChecked()
+  await expect(pro.getByText('ou R$ 549,90 no Pix à vista')).toBeVisible()
   await expect(pro.getByRole('heading', { name: 'Premium Pro' })).toBeInViewport()
 
   await pro.getByRole('checkbox').check()
@@ -237,6 +218,7 @@ test('a refused checkout says why in words', async ({ page }) => {
   const yearly = page.locator('li.card', {
     has: page.getByRole('heading', { name: 'Premium', exact: true }),
   })
+  await yearly.getByRole('radio', { name: /^Pix à vista/ }).check()
   await yearly.getByRole('checkbox').check()
   await yearly.getByRole('button', { name: 'Ir para o pagamento' }).click()
   await expect(yearly.getByRole('alert')).toHaveText('O Premium Pro não está à venda agora.')
@@ -247,7 +229,12 @@ test('with the API down the build prices show and the page asks to try again', a
 
   await page.goto('/assinar')
   await expect(page.getByRole('alert')).toContainText('Não conseguimos falar com o servidor')
-  await expect(page.getByText('R$ 29,90').first()).toBeVisible()
+  await expect(
+    page
+      .getByText(/^Plano anual/)
+      .filter({ visible: true })
+      .first(),
+  ).toBeVisible()
 })
 
 test('back from the payment, an anonymous purchase activates on WhatsApp and signs the browser in', async ({

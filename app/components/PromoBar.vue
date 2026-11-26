@@ -1,33 +1,26 @@
 <script setup lang="ts">
-import { bestPackage, money } from '#shared/plans'
+import { installmentCents, money } from '#shared/plans'
 
 const { t } = useI18n()
 const locale = useSiteLocale()
-const catalog = await usePlans()
+const prices = usePrices(await usePlans())
 const blackFriday = useBlackFriday()
-
-const yearly = computed(() => blackFriday.yearlyFrom(catalog.premium.yearlyCents))
-const pro = computed(() =>
-  catalog.coaching.available ? bestPackage(catalog.coaching.packages) : undefined,
-)
-const offer = computed(() => {
-  const yearlyPrice = money(catalog.premium.yearlyCents, locale.value)
-  const pack = pro.value
-  return pack && blackFriday.coachingFrom(pack.totalCents)
-    ? t('promo.offer', {
-        yearly: yearlyPrice,
-        plan: catalog.coaching.name,
-        pro: money(pack.totalCents, locale.value),
-      })
-    : t('promo.offerShort', { yearly: yearlyPrice })
+const perMonth = computed(() => {
+  const { premium } = prices.value
+  return money(
+    installmentCents({
+      totalCents: premium.yearlyCents,
+      installments: premium.yearlyInstallments ?? 1,
+    }),
+    locale.value,
+  )
 })
-const offerShort = computed(() =>
-  t('promo.offerShort', { yearly: money(catalog.premium.yearlyCents, locale.value) }),
-)
+const offer = computed(() => t('promo.offer', { price: perMonth.value }))
+const offerShort = computed(() => t('promo.offerShort', { price: perMonth.value }))
 </script>
 
 <template>
-  <NuxtLinkLocale v-if="blackFriday.on.value && yearly" to="/planos" class="promo-bar">
+  <NuxtLinkLocale v-if="blackFriday" to="/planos" class="promo-bar">
     <span class="label">{{ t('promo.label') }}</span>
     <span class="offer wide">{{ offer }}</span>
     <span class="offer narrow">{{ offerShort }}</span>
