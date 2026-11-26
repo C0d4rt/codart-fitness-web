@@ -21,7 +21,9 @@ import type { SiteErrorCode } from '#shared/siteErrors'
 
 definePageMeta({ account: true })
 
-const prices = usePrices(await usePlans())
+const catalog = await usePlans()
+const prices = usePrices(catalog)
+const blackFriday = useBlackFriday()
 const { t } = useI18n()
 const locale = useSiteLocale()
 const apiLocale = useApiLocale()
@@ -63,7 +65,7 @@ watch(
   },
   { immediate: true },
 )
-const premiumCycle = ref<PlanOffer['cycle']>('monthly')
+const premiumCycle = ref<PlanOffer['cycle']>('yearly')
 watch(
   chosen,
   (now) => {
@@ -312,6 +314,8 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
         <p v-else-if="loading" class="loading">{{ t('subscribe.loading') }}</p>
       </div>
 
+      <OfferPanel :catalog="catalog" />
+
       <ul class="cards" :aria-label="t('subscribe.cardsLabel')">
         <li
           v-for="each in cards"
@@ -324,6 +328,9 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
             <h2 class="name">
               {{ each.plan === 'premium' ? t('subscribe.titles.premium') : each.title }}
             </h2>
+            <p v-if="blackFriday && !each.blocked" class="chip chip--deal">
+              {{ t('promo.label') }}
+            </p>
             <p v-if="each.plan === 'coaching' && !each.blocked" class="chip">
               {{ t('pricing.recommended') }}
             </p>
@@ -398,6 +405,24 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                 >{{ t('subscribe.signInToDiscount') }}</NuxtLinkLocale
               >
             </template>
+            <template v-else-if="each.cycle === 'yearly' && installmentOf(each).count > 1">
+              <p class="price">
+                <span class="lead-line">{{
+                  t('pricing.yearlyLead', { installments: installmentOf(each).count })
+                }}</span>
+                <span class="amount"
+                  ><span class="unit currency">{{
+                    moneyParts(installmentOf(each).cents, locale).currency
+                  }}</span
+                  >{{ moneyParts(installmentOf(each).cents, locale).amount
+                  }}<span class="unit">{{ t('pricing.perMonthShort') }}</span></span
+                >
+              </p>
+              <p class="equiv">
+                {{ t('pricing.installmentTotal', { total: money(each.priceCents, locale) }) }}
+              </p>
+              <p v-if="orPix(each)" class="pix">{{ orPix(each) }}</p>
+            </template>
             <template v-else>
               <p class="price">
                 <span class="amount"
@@ -435,6 +460,13 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                     :disabled="Boolean(option.blocked)"
                     @change="focusPlan(each)"
                   />
+                  <span class="method-icon">
+                    <PixMark v-if="option.method === 'pix'" class="pix-mark" />
+                    <svg v-else viewBox="0 0 24 24" aria-hidden="true">
+                      <rect x="3" y="5.5" width="18" height="13" rx="2.5" />
+                      <path d="M3 10h18M6.5 14.5h4" />
+                    </svg>
+                  </span>
                   <span class="method-text">
                     <span class="method-name">{{ methodLabel(each, option) }}</span>
                     <span class="method-note">{{ methodNote(each, option) }}</span>
@@ -486,7 +518,13 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                 >
                   {{ paying === each.plan ? t('subscribe.paying') : t('subscribe.pay') }}
                 </button>
-                <p class="secure">{{ t('subscribe.secure') }}</p>
+                <p class="secure">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="4.5" y="10.5" width="15" height="10" rx="2.5" />
+                    <path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" />
+                  </svg>
+                  {{ t('subscribe.secure') }}
+                </p>
               </div>
             </form>
           </template>
@@ -598,15 +636,21 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
-  padding: 2rem 1.75rem 1.75rem;
-  border-radius: var(--radius);
+  padding: 2.25rem 2rem 2rem;
+  border-radius: var(--radius-panel);
   background: var(--card);
-  box-shadow: inset 0 0 0 2px transparent; /* taste-skill-ignore: the ring that marks the chosen plan, not a shadow */
+  box-shadow:
+    inset 0 0 0 2px transparent,
+    var(
+      --shadow-card
+    ); /* taste-skill-ignore: the ring that marks the chosen plan, over the card shadow */
   transition: box-shadow 200ms var(--ease-out);
 }
 
 .card.picked {
-  box-shadow: inset 0 0 0 2px var(--green); /* taste-skill-ignore: the ring that marks the chosen plan */
+  box-shadow:
+    inset 0 0 0 2px var(--green),
+    var(--shadow-card); /* taste-skill-ignore: the ring that marks the chosen plan */
 }
 
 .name-row {
@@ -619,6 +663,7 @@ main {
 }
 
 .name {
+  margin-right: auto;
   font-size: var(--step-lead);
 }
 
@@ -631,6 +676,11 @@ main {
   font-weight: 700;
   line-height: 1.3;
   white-space: nowrap;
+}
+
+.chip--deal {
+  background: var(--black);
+  color: #ffffff;
 }
 
 .plan-who {
@@ -647,24 +697,28 @@ main {
 }
 
 .amount {
-  font-size: var(--step-figure);
+  font-size: var(--step-price);
   font-weight: 500;
-  letter-spacing: -0.045em;
-  line-height: 1.1;
+  letter-spacing: -0.055em;
+  line-height: 1;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .unit {
-  font-size: 0.4em;
+  color: var(--muted);
+  font-size: 0.3em;
+  font-weight: 500;
   letter-spacing: 0;
 }
 
 .currency {
-  margin-right: 0.125rem;
+  margin-right: 0.25rem;
 }
 
 .soon .amount {
   color: var(--muted);
+  font-size: var(--step-figure);
 }
 
 .per {
@@ -755,13 +809,47 @@ legend {
 
 .method {
   display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 0.875rem 1rem;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1rem 1.125rem;
   border-radius: var(--radius-small);
   background: var(--ground);
   cursor: pointer;
-  transition: box-shadow 160ms var(--ease-out);
+  transition:
+    box-shadow 160ms var(--ease-out),
+    background-color 160ms ease;
+}
+
+.method:has(input:checked) {
+  background: var(--card);
+}
+
+.method-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--mint);
+  color: var(--green);
+}
+
+.method-icon svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.method-icon .pix-mark {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+  stroke: none;
 }
 
 .method:has(input:checked) {
@@ -841,9 +929,24 @@ legend {
 }
 
 .secure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
   color: var(--muted);
   font-size: var(--step-small);
   text-align: center;
+}
+
+.secure svg {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .badges {

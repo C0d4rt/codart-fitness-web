@@ -372,7 +372,7 @@
     "title": "Assinar",
     "description": "Escolha o plano do {name} e pague no Pix ou no cartão.",
     "heading": "Escolha seu plano.",
-    "lead": "Escolha o plano e a forma de pagar. O pagamento é feito na página segura da Pagar.me.",
+    "lead": "Pix ou cartão, na página segura da Pagar.me.",
     "buyingFor": "Comprando para {who}",
     "signedInAs": "Você entrou como {who}",
     "notYou": "Não é você?",
