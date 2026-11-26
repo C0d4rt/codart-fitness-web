@@ -148,8 +148,14 @@ const promises = computed(() => [
 <template>
   <section class="pricing" :class="{ bare }" aria-labelledby="pricing-title">
     <div v-if="blackFriday" class="offer" role="note">
-      <p class="offer-title">{{ t('pricing.blackFriday.title') }}</p>
-      <p v-for="line in offerLines" :key="line" class="offer-line">{{ line }}</p>
+      <div class="offer-words">
+        <p class="offer-title">{{ t('pricing.blackFriday.title') }}</p>
+        <p v-for="line in offerLines" :key="line" class="offer-line">{{ line }}</p>
+      </div>
+      <div class="offer-clock">
+        <p class="offer-ends">{{ t('promo.endsIn') }}</p>
+        <CountdownClock boxes />
+      </div>
     </div>
     <div class="head" data-reveal>
       <h2 id="pricing-title" :class="bare ? 'visually-hidden' : 'title'">
@@ -200,11 +206,7 @@ const promises = computed(() => [
           <li v-for="item in premiumItems" :key="item">{{ item }}</li>
         </ul>
         <div class="action action--pair" data-cta>
-          <WhatsAppButton
-            location="plans-premium"
-            :label="t('cta.tryDays', { days: catalog.trialDays })"
-            quiet
-          />
+          <WhatsAppButton location="plans-premium" :label="t('cta.try')" quiet />
           <NuxtLinkLocale
             :to="{
               path: '/assinar',
@@ -396,13 +398,31 @@ const promises = computed(() => [
 
 .offer {
   grid-column: 1 / -1;
-  display: grid;
-  gap: 0.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 2rem;
   padding: clamp(1.5rem, 1rem + 1.5vw, 2.25rem) clamp(1.5rem, 1rem + 2vw, 2.75rem);
   margin-bottom: clamp(1rem, 0.5rem + 1.5vw, 2rem);
   border-radius: var(--radius-panel);
   background: var(--black);
   color: #ffffff;
+}
+
+.offer-words {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.offer-clock {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.offer-ends {
+  color: rgb(255 255 255 / 0.65);
+  font-size: var(--step-small);
 }
 
 .offer-title {

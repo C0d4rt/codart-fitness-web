@@ -1,7 +1,6 @@
 {
   "cta": {
     "try": "Testar grátis",
-    "tryDays": "Testar {days} dias grátis",
     "tryThenPick": "Testar grátis e escolher o {plan} depois"
   },
   "closing": {
@@ -261,7 +260,7 @@
     "items": [
       {
         "q": "Como eu começo?",
-        "a": "Toque em \"Testar {days} dias grátis\" e mande o oi no WhatsApp. Funciona no celular ou no computador."
+        "a": "Toque em \"Testar grátis\" e mande o oi no WhatsApp. Funciona no celular ou no computador."
       },
       {
         "q": "Como funciona o teste grátis?",
@@ -541,6 +540,11 @@
     "label": "Black Friday",
     "offer": "Premium anual em 12x de {installment} ou {pix} no Pix",
     "offerShort": "Anual em 12x de {installment}",
-    "see": "Ver planos"
+    "see": "Ver planos",
+    "endsIn": "Termina em",
+    "days": "{n, plural, one {dia} other {dias}}",
+    "hours": "horas",
+    "minutes": "min",
+    "seconds": "seg"
   }
 }

@@ -1,7 +1,6 @@
 {
   "cta": {
     "try": "Try it free",
-    "tryDays": "Try {days} days free",
     "tryThenPick": "Try it free, then pick {plan}"
   },
   "closing": {
@@ -261,7 +260,7 @@
     "items": [
       {
         "q": "How do I start?",
-        "a": "Tap \"Try {days} days free\" and say hi on WhatsApp. It works on your phone or your computer."
+        "a": "Tap \"Try it free\" and say hi on WhatsApp. It works on your phone or your computer."
       },
       {
         "q": "How does the free trial work?",
@@ -541,6 +540,11 @@
     "label": "Black Friday",
     "offer": "Yearly Premium in 12 payments of {installment} or {pix} by Pix",
     "offerShort": "Yearly in 12 payments of {installment}",
-    "see": "See plans"
+    "see": "See plans",
+    "endsIn": "Ends in",
+    "days": "{n, plural, one {day} other {days}}",
+    "hours": "hours",
+    "minutes": "min",
+    "seconds": "sec"
   }
 }

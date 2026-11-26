@@ -31,6 +31,10 @@ const offerShort = computed(() => t('promo.offerShort', { installment: yearlyIns
     <span class="label">{{ t('promo.label') }}</span>
     <span class="offer wide">{{ offer }}</span>
     <span class="offer narrow">{{ offerShort }}</span>
+    <span class="ends">
+      <span class="ends-word">{{ t('promo.endsIn') }}</span>
+      <CountdownClock />
+    </span>
     <span class="see" aria-hidden="true">{{ t('promo.see') }} →</span>
   </NuxtLinkLocale>
 </template>
@@ -72,6 +76,16 @@ const offerShort = computed(() => t('promo.offerShort', { installment: yearlyIns
   display: none;
 }
 
+.ends {
+  color: rgb(255 255 255 / 0.7);
+}
+
+.ends :deep(.clock) {
+  margin-left: 0.25rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
 .see {
   color: #3fd27f;
   font-weight: 600;
@@ -85,7 +99,8 @@ const offerShort = computed(() => t('promo.offerShort', { installment: yearlyIns
 
 @media (max-width: 47.99rem) {
   .wide,
-  .see {
+  .see,
+  .ends-word {
     display: none;
   }
   .narrow {
