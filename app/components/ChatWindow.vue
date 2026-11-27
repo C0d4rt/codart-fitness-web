@@ -149,7 +149,7 @@ onBeforeUnmount(() => {
               <path class="line" d="M9.5 2.5 2 10l7.5 7.5" />
             </svg>
           </span>
-          <span class="avatar">{{ brand.name.charAt(0) }}</span>
+          <img class="avatar" src="/images/myfitally-avatar.png" alt="" width="160" height="160" />
           <span class="who">
             <span class="name">{{ brand.name }}</span>
             <span class="presence">{{ $t('chat.online') }}</span>
@@ -405,7 +405,6 @@ onBeforeUnmount(() => {
 .flat .avatar {
   width: 2.75rem;
   height: 2.75rem;
-  font-size: 1.375rem;
 }
 
 .flat .name {
@@ -568,17 +567,10 @@ onBeforeUnmount(() => {
 }
 
 .avatar {
-  display: grid;
-  place-items: center;
   width: 2.25rem;
   height: 2.25rem;
   flex: none;
   border-radius: 50%;
-  background: var(--mint);
-  color: var(--green);
-  font-family: var(--font-display);
-  font-size: 1.125rem;
-  font-weight: 700;
 }
 
 .who {
