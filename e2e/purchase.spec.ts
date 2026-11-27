@@ -120,7 +120,7 @@ test('the WhatsApp link takes the token off the address bar and buys Premium Pro
   })
 })
 
-test('an anonymous buyer picks the monthly by Pix and must declare being an adult', async ({
+test('an anonymous buyer picks the monthly by Pix and declares being an adult by buying', async ({
   page,
 }) => {
   const calls = await fakeApi(page, {
@@ -138,13 +138,8 @@ test('an anonymous buyer picks the monthly by Pix and must declare being an adul
   await monthly.getByRole('radio', { name: /^Pix/ }).check()
   await expect(page).toHaveURL(/\?plano=premium-mensal$/)
 
-  const pay = monthly.getByRole('button', { name: 'Ir para o pagamento' })
-  await pay.click()
-  await expect(monthly.getByRole('alert')).toHaveText('Marque a declaração para continuar.')
-  expect(calls.some((call) => call.path.endsWith('/checkout'))).toBe(false)
-
-  await monthly.getByRole('checkbox').check()
-  await pay.click()
+  await expect(monthly.getByRole('checkbox')).toHaveCount(0)
+  await monthly.getByRole('button', { name: 'Ir para o pagamento' }).click()
   await expect(page).toHaveURL(CHECKOUT)
   expect(calls.filter((call) => call.path.endsWith('/checkout'))).toHaveLength(1)
   expect(calls.find((call) => call.path.endsWith('/checkout'))?.body).toMatchObject({
@@ -197,11 +192,7 @@ test('both plans stay open, and a link to Premium Pro lands on its card', async 
   await expect(pro.getByText('ou R$ 549,90 no Pix à vista')).toBeVisible()
   await expect(pro.getByRole('heading', { name: 'Premium Pro' })).toBeInViewport()
 
-  await pro.getByRole('checkbox').check()
-  const premium = page.locator('li.card', {
-    has: page.getByRole('heading', { name: 'Premium', exact: true }),
-  })
-  await expect(premium.getByRole('checkbox')).not.toBeChecked()
+  await expect(page.locator('li.card').getByRole('checkbox')).toHaveCount(0)
 })
 
 test('a refused checkout says why in words', async ({ page }) => {
@@ -219,7 +210,6 @@ test('a refused checkout says why in words', async ({ page }) => {
     has: page.getByRole('heading', { name: 'Premium', exact: true }),
   })
   await yearly.getByRole('radio', { name: /^Pix à vista/ }).check()
-  await yearly.getByRole('checkbox').check()
   await yearly.getByRole('button', { name: 'Ir para o pagamento' }).click()
   await expect(yearly.getByRole('alert')).toHaveText('O Premium Pro não está à venda agora.')
 })

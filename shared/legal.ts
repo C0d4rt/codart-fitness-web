@@ -5,8 +5,8 @@ export type LegalSection = { title: string; paragraphs?: string[]; items?: strin
 export type LegalDoc = { intro: string; sections: LegalSection[] }
 
 /** Matches FITNESS_TERMS_VERSION in codart-messaging, recorded with the next health data each person sends. */
-export const LEGAL_VERSION = '14'
-export const LEGAL_EFFECTIVE = '2026-11-25'
+export const LEGAL_VERSION = '15'
+export const LEGAL_EFFECTIVE = '2026-11-27'
 
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
@@ -32,7 +32,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
           'Sem a autorização, quem informar idade menor de 18 anos não tem refeições, peso, metas nem treinos registrados no diário e recebe a opção de apagar a conta. A conversa e notas gerais sobre rotina e preferências ficam guardadas até o pedido de exclusão; áudios e fotos, por até 90 dias.',
           'O responsável pode retirar a autorização a qualquer momento, pela conversa: o diário do adolescente para na hora, a renovação no cartão é cancelada e o que já foi guardado continua guardado, até uma nova autorização ou um pedido de exclusão. Ele também pode pedir, pela conversa, a exclusão dos dados do adolescente. A autorização vale até o adolescente fazer 18 anos; a partir daí, a conta é só dele e ele aceita estes termos por si.',
           'Para quem tem de 13 a 17 anos, o ritmo de perda de peso vai até 0,5 kg por semana, a meta de calorias não fica abaixo do gasto de repouso estimado para a idade, o jejum intermitente não fica disponível no Premium, e não registramos uso de hormônios, fotos do físico nem exames no acompanhamento.',
-          'Quem paga o plano de uma conta de adolescente, ou compra no site sem entrar, precisa ser maior de idade e declara isso antes do pagamento. Não precisa ser a mesma pessoa que autorizou.',
+          'Quem paga o plano de uma conta de adolescente, ou compra no site sem entrar, precisa ser maior de idade e, ao concluir a compra, declara que é. Não precisa ser a mesma pessoa que autorizou.',
           'A conta é o seu número de WhatsApp, também no site: para entrar no site, você manda pelo WhatsApp uma mensagem com um código, sem senha. Você responde pelo uso feito a partir dele.',
         ],
       },
@@ -256,7 +256,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
           'Without the authorization, anyone who gives an age under 18 has no meals, weight, goals or workouts logged in the diary and is offered to delete the account. The conversation and general notes about routine and preferences are kept until a deletion request; voice notes and photos, for up to 90 days.',
           'The parent or guardian can take the authorization back at any time, in the chat: the teenager’s diary stops at once, the card renewal is cancelled and what was already stored stays stored, until a new authorization or a deletion request. They can also ask, in the chat, for the teenager’s data to be deleted. The authorization lasts until the teenager turns 18; from then on the account is theirs alone and they accept these terms for themselves.',
           'For anyone aged 13 to 17, the pace of weight loss goes up to 0.5 kg a week, the calorie goal never goes under the resting expenditure estimated for their age, intermittent fasting is not available on Premium, and we do not record hormone use, physique photos or lab tests in the follow-up.',
-          'Whoever pays for a teenager’s plan, or buys on the website without signing in, must be an adult and declares it before paying. It does not have to be the person who gave the authorization.',
+          'Whoever pays for a teenager’s plan, or buys on the website without signing in, must be an adult and, by completing the purchase, declares that they are. It does not have to be the person who gave the authorization.',
           'Your account is your WhatsApp number, on the website too: to sign in to the website, you send a message with a code on WhatsApp, with no password. You are responsible for its use.',
         ],
       },
