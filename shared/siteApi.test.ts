@@ -204,6 +204,7 @@ describe('the site API client (PRP-065)', () => {
     'https://evil.example/pl_1',
     'https://payment-link.pagar.me.evil.example/pl_1',
     'https://user@payment-link.pagar.me/pl_1',
+    'https://payment-link-v3.stone.com.br.evil.example/pl_1',
     'not a url',
   ])('refuses the checkout link %s', async (checkoutUrl) => {
     const { api } = apiAnswering(json(200, { checkoutUrl }))
@@ -219,19 +220,22 @@ describe('the site API client (PRP-065)', () => {
     ).toMatchObject({ ok: false, code: 'bad_response' })
   })
 
-  it('follows a Pagar.me payment link', async () => {
-    const { api } = apiAnswering(json(200, { checkoutUrl: 'https://payment-link.pagar.me/pl_1' }))
+  it.each(['https://payment-link.pagar.me/pl_1', 'https://payment-link-v3.stone.com.br/pl_1'])(
+    'follows the payment link %s',
+    async (checkoutUrl) => {
+      const { api } = apiAnswering(json(200, { checkoutUrl }))
 
-    expect(
-      await api.checkout({
-        plan: 'premium',
-        cycle: 'yearly',
-        method: 'card',
-        declared: true,
-        locale: 'pt-BR',
-      }),
-    ).toEqual({ ok: true, data: { checkoutUrl: 'https://payment-link.pagar.me/pl_1' } })
-  })
+      expect(
+        await api.checkout({
+          plan: 'premium',
+          cycle: 'yearly',
+          method: 'card',
+          declared: true,
+          locale: 'pt-BR',
+        }),
+      ).toEqual({ ok: true, data: { checkoutUrl } })
+    },
+  )
 
   it('accepts only a wa.me link to open WhatsApp', async () => {
     const good = apiAnswering(
