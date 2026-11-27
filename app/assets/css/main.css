@@ -1,20 +1,25 @@
 :root {
-  --ground: #f4f5f7;
+  --ground: #f4f7f5;
   --card: #ffffff;
-  --tone: #e9ebee;
-  --line: #d8dbdf;
-  --ink: #10241a;
-  --muted: #4b5550;
-  --green: #187a4e;
+  --tone: #e6ece8;
+  --line: #d3dcd7;
+  --ink: #001724;
+  --muted: #64736b;
+  --green: #056e39;
   --green-ink: #ffffff;
-  --green-hover: #12663f;
-  --mint: #def2e6;
-  --black: #0c0e0d;
+  --green-hover: #045a2f;
+  --mint: #dbf3e4;
+  --black: #001724;
+  --promo-black: #0c0e0d;
+  --action: #04db60;
+  --action-ink: #001724;
+  --action-hover: #03c556;
+  --green-mark: #04a650;
   --sky: #dde9f5;
   --peach: #f6e1e5;
   --sand: #e9f2d4;
 
-  --protein: #187a4e;
+  --protein: var(--green-mark);
   --carbs: #d9912a;
   --fat: #3f7fc4;
 
@@ -43,7 +48,7 @@
   --chat-bar: #0f5c3c;
   --chat-bar-ink: #ffffff;
 
-  --font: 'Satoshi', system-ui, sans-serif;
+  --font: 'Manrope', system-ui, sans-serif;
   --font-text: var(--font);
   --font-display: var(--font);
 
@@ -65,9 +70,9 @@
   --radius: 1.75rem;
   --radius-small: 0.875rem;
 
-  --shadow-card: 0 1px 2px rgb(16 36 26 / 0.04), 0 12px 32px -16px rgb(16 36 26 / 0.14);
-  --shadow-chip: 0 1px 2px rgb(16 36 26 / 0.05), 0 4px 12px -6px rgb(16 36 26 / 0.12);
-  --shadow-lift: 0 2px 4px rgb(16 36 26 / 0.05), 0 16px 36px -14px rgb(16 36 26 / 0.2);
+  --shadow-card: 0 1px 2px rgb(0 23 36 / 0.04), 0 12px 32px -16px rgb(0 23 36 / 0.14);
+  --shadow-chip: 0 1px 2px rgb(0 23 36 / 0.05), 0 4px 12px -6px rgb(0 23 36 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(0 23 36 / 0.05), 0 16px 36px -14px rgb(0 23 36 / 0.2);
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -78,21 +83,22 @@
 /* A black section: the same roles in the dark palette, chats in WhatsApp's own dark mode. */
 .tone-dark {
   --ground: var(--black);
-  --card: #171a18;
-  --tone: #222623;
-  --line: #2e3330;
-  --ink: #eef1ec;
-  --muted: #a6ada8;
-  --green: #3fd27f;
-  --green-ink: #07130c;
-  --green-hover: #6adf9c;
-  --mint: #173a26;
+  --card: #03202b;
+  --tone: #0a2c38;
+  --line: #163c49;
+  --ink: #eef4f1;
+  --muted: #a3b3ab;
+  --green: #04db60;
+  --green-ink: #001724;
+  --green-hover: #3be583;
+  --mint: #0b3a2c;
+  --green-mark: #04db60;
 
   --shadow-card: none;
   --shadow-chip: none;
   --shadow-lift: none;
 
-  --protein: #3fd27f;
+  --protein: #04db60;
   --carbs: #e9a23b;
   --fat: #5b9be0;
 
@@ -228,11 +234,11 @@ img {
   padding: 0 1.75rem;
   border: 0;
   border-radius: 999px;
-  background: var(--green);
-  color: var(--green-ink);
+  background: var(--action);
+  color: var(--action-ink);
   font-family: var(--font);
   font-size: var(--step-body);
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
   cursor: pointer;
   user-select: none;
@@ -253,7 +259,7 @@ img {
 
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
-    background: var(--green-hover);
+    background: var(--action-hover);
   }
   .button--quiet:hover {
     background: color-mix(in oklab, var(--tone) 88%, var(--ink));

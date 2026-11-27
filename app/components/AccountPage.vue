@@ -68,7 +68,7 @@ main {
   width: 0.625rem;
   height: 0.625rem;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--green-mark);
   animation: pulse 1.6s var(--ease-in-out) infinite;
 }
 

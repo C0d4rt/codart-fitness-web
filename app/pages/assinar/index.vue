@@ -585,7 +585,7 @@ main {
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--green-mark);
 }
 
 .text-link {
@@ -679,7 +679,7 @@ main {
 }
 
 .chip--deal {
-  background: var(--black);
+  background: var(--promo-black);
   color: #ffffff;
 }
 
@@ -906,7 +906,7 @@ legend {
   width: 0.4375rem;
   height: 0.4375rem;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--green-mark);
 }
 
 .declare {

@@ -13,7 +13,14 @@ const locale = useSiteLocale()
     <div class="top">
       <div class="brand">
         <NuxtLinkLocale to="/" class="wordmark" @click="backToTop">
-          <span class="mark" aria-hidden="true" />{{ brand.name }}
+          <img src="/brand/mark.png" alt="" width="174" height="96" class="symbol" />
+          <img
+            src="/brand/wordmark-dark.png"
+            :alt="brand.name"
+            width="395"
+            height="96"
+            class="logo"
+          />
         </NuxtLinkLocale>
         <p class="tagline">{{ brand.tagline[locale] }}</p>
       </div>
@@ -94,19 +101,17 @@ const locale = useSiteLocale()
 .wordmark {
   display: inline-flex;
   align-items: center;
-  gap: 0.625rem;
-  font-size: var(--step-title);
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  text-decoration: none;
+  gap: 0.75rem;
 }
 
-.mark {
-  width: 0.8em;
-  height: 0.8em;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: inset 0 0 0 0.22em var(--mint); /* taste-skill-ignore: a ring drawn as the logo mark, not a shadow */
+.symbol {
+  width: auto;
+  height: 2.5rem;
+}
+
+.logo {
+  width: auto;
+  height: 2.25rem;
 }
 
 .tagline {

@@ -126,8 +126,8 @@ const current = computed(
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 50%;
-  background: var(--green);
-  color: var(--green-ink);
+  background: var(--action);
+  color: var(--action-ink);
 }
 
 .send svg {

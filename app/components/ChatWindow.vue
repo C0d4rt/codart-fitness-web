@@ -311,8 +311,8 @@ onBeforeUnmount(() => {
   letter-spacing: 0;
   box-shadow:
     inset 0 0 0 1px rgb(255 255 255 / 0.08),
-    0 2px 4px rgb(16 36 26 / 0.08),
-    0 28px 60px -24px rgb(16 36 26 / 0.45); /* taste-skill-ignore: the phone has to sit on the page like an object (data-ui) */
+    0 2px 4px rgb(0 23 36 / 0.08),
+    0 28px 60px -24px rgb(0 23 36 / 0.45); /* taste-skill-ignore: the phone has to sit on the page like an object (data-ui) */
 }
 
 .chat.handset {
