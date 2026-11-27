@@ -75,8 +75,11 @@ export const plansResponseSchema = z.object({
   plans: knownOnly(planOfferSchema),
 })
 
-/** Where codart-messaging's Pagar.me gateway sends the buyer: its payment links. */
-export const CHECKOUT_HOSTS: readonly string[] = ['payment-link.pagar.me']
+/** Where codart-messaging's Pagar.me gateway sends the buyer: its payment links, now served by Stone. */
+export const CHECKOUT_HOSTS: readonly string[] = [
+  'payment-link.pagar.me',
+  'payment-link-v3.stone.com.br',
+]
 
 const isCheckoutUrl = (value: string): boolean => {
   try {
