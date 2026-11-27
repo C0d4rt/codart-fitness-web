@@ -75,7 +75,6 @@ watch(
 )
 type PlanId = PlanOffer['plan']
 const methods = reactive<Partial<Record<PlanId, PayMethod['method']>>>({})
-const declared = reactive<Partial<Record<PlanId, boolean>>>({})
 const payErrors = reactive<Partial<Record<PlanId, SiteErrorCode | 'pickMethod'>>>({})
 const paying = ref<PlanId>()
 
@@ -190,17 +189,14 @@ const pay = async (each: PlanOffer) => {
     payErrors[each.plan] = 'pickMethod'
     return
   }
-  if (live.value.declaration && !declared[each.plan]) {
-    payErrors[each.plan] = 'declaration_required'
-    return
-  }
   payErrors[each.plan] = undefined
   paying.value = each.plan
   const result = await api.checkout({
     plan: each.plan,
     cycle: each.cycle,
     method,
-    declared: Boolean(live.value.declaration) && Boolean(declared[each.plan]),
+    // Buying is the declaration the terms ask of whoever pays (terms 15): there is no box to tick.
+    declared: Boolean(live.value.declaration),
     locale: apiLocale.value,
   })
   if (result.ok) {
@@ -497,11 +493,6 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
               </ul>
 
               <div class="pay-end">
-                <label v-if="live?.declaration" class="declare">
-                  <input v-model="declared[each.plan]" type="checkbox" />
-                  <span>{{ live.declaration.text }}</span>
-                </label>
-
                 <p v-if="payErrors[each.plan]" class="error" role="alert">
                   {{
                     payErrors[each.plan] === 'pickMethod'
@@ -861,8 +852,7 @@ legend {
   opacity: 0.7;
 }
 
-.method input,
-.declare input {
+.method input {
   flex: none;
   width: 1.25rem;
   height: 1.25rem;
@@ -907,14 +897,6 @@ legend {
   height: 0.4375rem;
   border-radius: 50%;
   background: var(--green-mark);
-}
-
-.declare {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  font-size: var(--step-small);
-  cursor: pointer;
 }
 
 .error {
