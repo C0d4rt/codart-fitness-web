@@ -12,11 +12,15 @@ const locale = useSiteLocale()
   <footer class="footer" data-cta>
     <div class="top">
       <div class="brand">
-        <NuxtLinkLocale to="/" class="wordmark" :aria-label="brand.name" @click="backToTop">
+        <NuxtLinkLocale to="/" class="wordmark" @click="backToTop">
           <img src="/brand/mark.png" alt="" width="174" height="96" class="symbol" />
-          <span class="logo" aria-hidden="true"
-            >{{ brand.nameParts[0] }}<span class="ally">{{ brand.nameParts[1] }}</span></span
-          >
+          <img
+            src="/brand/wordmark-dark.png"
+            :alt="brand.name"
+            width="395"
+            height="96"
+            class="logo"
+          />
         </NuxtLinkLocale>
         <p class="tagline">{{ brand.tagline[locale] }}</p>
       </div>
@@ -98,7 +102,6 @@ const locale = useSiteLocale()
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  text-decoration: none;
 }
 
 .symbol {
@@ -107,15 +110,8 @@ const locale = useSiteLocale()
 }
 
 .logo {
-  color: #ffffff;
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1;
-}
-
-.ally {
-  color: #04db60;
+  width: auto;
+  height: 2.25rem;
 }
 
 .tagline {

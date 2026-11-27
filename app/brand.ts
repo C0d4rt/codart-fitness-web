@@ -5,8 +5,6 @@ const name = 'MyFitAlly'
 
 export const brand = {
   name,
-  /** The wordmark sets the second part in green. */
-  nameParts: ['MyFit', 'Ally'] as const,
   siteUrl: 'https://myfitally.com',
   tagline: {
     pt: 'Seu assistente fitness no WhatsApp',
