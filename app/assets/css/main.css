@@ -10,11 +10,15 @@
   --green-hover: #045a2f;
   --mint: #dbf3e4;
   --black: #001724;
+  --action: #04db60;
+  --action-ink: #001724;
+  --action-hover: #03c556;
+  --green-mark: #04a650;
   --sky: #dde9f5;
   --peach: #f6e1e5;
   --sand: #e9f2d4;
 
-  --protein: #056e39;
+  --protein: var(--green-mark);
   --carbs: #d9912a;
   --fat: #3f7fc4;
 
@@ -87,6 +91,7 @@
   --green-ink: #001724;
   --green-hover: #3be583;
   --mint: #0b3a2c;
+  --green-mark: #04db60;
 
   --shadow-card: none;
   --shadow-chip: none;
@@ -228,11 +233,11 @@ img {
   padding: 0 1.75rem;
   border: 0;
   border-radius: 999px;
-  background: var(--green);
-  color: var(--green-ink);
+  background: var(--action);
+  color: var(--action-ink);
   font-family: var(--font);
   font-size: var(--step-body);
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
   cursor: pointer;
   user-select: none;
@@ -253,7 +258,7 @@ img {
 
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
-    background: var(--green-hover);
+    background: var(--action-hover);
   }
   .button--quiet:hover {
     background: color-mix(in oklab, var(--tone) 88%, var(--ink));

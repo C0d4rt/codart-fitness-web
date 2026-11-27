@@ -547,7 +547,7 @@ const promises = computed(() => [
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--green-mark);
 }
 
 .action {

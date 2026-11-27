@@ -219,7 +219,7 @@ const anchors = useAnchors()
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--green);
+  background: var(--green-mark);
   transform: scaleX(0);
   transform-origin: left;
 }

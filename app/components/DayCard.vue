@@ -153,7 +153,7 @@ const view = computed(() => {
   flex: none;
   width: calc(var(--share) * 100%);
   border-radius: 999px;
-  background: var(--green);
+  background: var(--green-mark);
   transform-origin: left;
   animation: grow 700ms var(--ease-out) both;
   animation-delay: calc(120ms + var(--n) * 90ms);
