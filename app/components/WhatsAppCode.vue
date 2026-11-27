@@ -117,12 +117,5 @@ code {
   .scan {
     display: grid;
   }
-  .open {
-    background: var(--tone);
-    color: var(--ink);
-  }
-  .open:hover {
-    background: color-mix(in oklab, var(--tone) 88%, var(--ink));
-  }
 }
 </style>
