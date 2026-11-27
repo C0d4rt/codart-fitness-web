@@ -85,7 +85,7 @@ test('from 1/12 the purchase page shows the full prices until the API answers', 
   page,
 }) => {
   await page.clock.setFixedTime(AFTER)
-  await page.route('https://api.fitness.codart.dev/fitness/site/**', (route) =>
+  await page.route('https://api.myfitally.com/fitness/site/**', (route) =>
     route.abort('connectionrefused'),
   )
   await page.goto('/assinar?plano=premium-mensal')

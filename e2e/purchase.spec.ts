@@ -4,7 +4,7 @@ import { SITE_ANSWERS } from '../shared/siteContract.fixture'
 
 test.use({ colorScheme: 'light' })
 
-const API = 'https://api.fitness.codart.dev/fitness/site'
+const API = 'https://api.myfitally.com/fitness/site'
 const CHECKOUT = 'https://payment-link.pagar.me/pl_123'
 
 type Answer = { status?: number; body?: unknown }

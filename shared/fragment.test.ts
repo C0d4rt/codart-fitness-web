@@ -31,7 +31,7 @@ const runAt = (url: string) => {
 describe('the head script for the fragment', () => {
   it('takes the WhatsApp token off /assinar and keeps it only in memory', () => {
     const { scope, replaced, address } = runAt(
-      'https://fitness.codart.dev/assinar?plano=pro#c=abc_DEF-123',
+      'https://myfitally.com/assinar?plano=pro#c=abc_DEF-123',
     )
 
     expect(replaced).toEqual(['/assinar?plano=pro'])
@@ -40,18 +40,16 @@ describe('the head script for the fragment', () => {
   })
 
   it('takes the activation code off /en/subscribe/activate', () => {
-    const { scope, replaced } = runAt(
-      'https://fitness.codart.dev/en/subscribe/activate#a=ATV-7KQ2MXPD',
-    )
+    const { scope, replaced } = runAt('https://myfitally.com/en/subscribe/activate#a=ATV-7KQ2MXPD')
 
     expect(replaced).toEqual(['/en/subscribe/activate'])
     expect(scope[FRAGMENT_GLOBAL]).toEqual({ key: 'a', value: 'ATV-7KQ2MXPD' })
   })
 
   it('leaves the anchors of the other pages alone', () => {
-    expect(runAt('https://fitness.codart.dev/recursos#photos').replaced).toEqual([])
-    expect(runAt('https://fitness.codart.dev/#c=x').replaced).toEqual([])
-    expect(runAt('https://fitness.codart.dev/assinar#premium').replaced).toEqual([])
+    expect(runAt('https://myfitally.com/recursos#photos').replaced).toEqual([])
+    expect(runAt('https://myfitally.com/#c=x').replaced).toEqual([])
+    expect(runAt('https://myfitally.com/assinar#premium').replaced).toEqual([])
   })
 
   it('hands the value to the page once', () => {

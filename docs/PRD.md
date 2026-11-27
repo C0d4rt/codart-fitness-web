@@ -7,7 +7,7 @@ produto em si vive no [`codart-messaging`](https://github.com/C0d4rt/codart-mess
 ## 1. Resumo
 
 - **O que é:** uma landing page, a página dos planos com o guia de cada função
-  e as páginas legais provisórias, em `fitness.codart.dev`.
+  e as páginas legais provisórias, em `myfitally.com`.
 - **Para quem:** quem chega por anúncio, busca ou indicação e ainda não
   conversou com o diário; e quem já conversa e tocou em **Saber mais** na
   mensagem dos planos.

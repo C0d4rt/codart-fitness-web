@@ -62,7 +62,7 @@ export default defineNuxtConfig({
       whatsappNumber: '',
       gaId: '',
       metaPixelId: '',
-      apiUrl: 'https://api.fitness.codart.dev',
+      apiUrl: 'https://api.myfitally.com',
     },
   },
   nitro: {
