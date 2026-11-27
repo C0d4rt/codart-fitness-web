@@ -51,8 +51,8 @@ const offer = computed(() => t('promo.offer', { price: perMonth.value }))
 .label {
   padding: 0.125rem 0.625rem;
   border-radius: 999px;
-  background: #3fd27f;
-  color: #07130c;
+  background: #04db60;
+  color: #001724;
   font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -74,7 +74,7 @@ const offer = computed(() => t('promo.offer', { price: perMonth.value }))
 }
 
 .see {
-  color: #3fd27f;
+  color: #04db60;
   font-weight: 600;
 }
 

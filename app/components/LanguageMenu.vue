@@ -126,7 +126,7 @@ const close = () => menu.value?.hidePopover()
   border-radius: 1rem;
   background: var(--card);
   color: var(--ink);
-  box-shadow: 0 12px 32px rgb(16 36 26 / 0.12); /* taste-skill-ignore: a menu over the page needs to lift off it */
+  box-shadow: 0 12px 32px rgb(0 23 36 / 0.12); /* taste-skill-ignore: a menu over the page needs to lift off it */
   opacity: 0;
   transform: scale(0.96);
   transform-origin: top right;

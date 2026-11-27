@@ -31,7 +31,7 @@ onBeforeUnmount(() => {
     <a class="skip" href="#conteudo">{{ t('nav.skip') }}</a>
     <nav class="nav" :aria-label="t('nav.label')">
       <NuxtLinkLocale to="/" class="wordmark" @click="backToTop">
-        <span class="mark" aria-hidden="true" />{{ brand.name }}
+        <img src="/brand/wordmark.png" :alt="brand.name" width="395" height="96" class="logo" />
       </NuxtLinkLocale>
       <ul class="links">
         <li>
@@ -141,27 +141,19 @@ onBeforeUnmount(() => {
 
 .scrolled .nav {
   box-shadow: /* taste-skill-ignore: the owner's floating header, lifted only while content passes under it */
-    0 1px 2px rgb(16 36 26 / 0.06),
-    0 10px 30px -12px rgb(16 36 26 / 0.18);
+    0 1px 2px rgb(0 23 36 / 0.06),
+    0 10px 30px -12px rgb(0 23 36 / 0.18);
 }
 
 .wordmark {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
   justify-self: start;
-  font-size: var(--step-body);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  text-decoration: none;
 }
 
-.mark {
-  width: 1.125rem;
-  height: 1.125rem;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: inset 0 0 0 0.3rem var(--mint); /* taste-skill-ignore: a ring drawn as the logo mark, not a shadow */
+.logo {
+  width: auto;
+  height: 1.625rem;
 }
 
 .links {

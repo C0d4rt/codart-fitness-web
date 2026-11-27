@@ -6,7 +6,7 @@ const props = defineProps<{ value: string; label: string }>()
 const src = computed(
   () =>
     `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
-      renderSVG(props.value, { ecc: 'M', border: 2, blackColor: '#10241a', whiteColor: '#ffffff' }),
+      renderSVG(props.value, { ecc: 'M', border: 2, blackColor: '#001724', whiteColor: '#ffffff' }),
     )}`,
 )
 </script>

@@ -81,7 +81,7 @@ const lines = computed(() => {
 
 .offer-title {
   margin-bottom: 0.25rem;
-  color: #3fd27f;
+  color: #04db60;
   font-size: var(--step-title);
   font-weight: 600;
   letter-spacing: -0.02em;

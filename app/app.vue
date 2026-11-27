@@ -10,10 +10,13 @@ useHead({
   titleTemplate: (title) =>
     title && title !== brand.name ? `${title} · ${brand.name}` : brand.name,
   meta: [
-    { name: 'theme-color', media: '(prefers-color-scheme: light)', content: '#f4f5f7' },
-    { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#042a30' },
+    { name: 'theme-color', media: '(prefers-color-scheme: light)', content: '#f4f7f5' },
+    { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#001724' },
   ],
-  link: [{ rel: 'icon', type: 'image/svg+xml', href: '/icon.svg' }],
+  link: [
+    { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon.png' },
+    { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+  ],
   // Before first paint, so content meant to rise in is hidden from the start instead of flashing.
   script: [
     { innerHTML: "document.documentElement.classList.add('js')", tagPosition: 'head' },
