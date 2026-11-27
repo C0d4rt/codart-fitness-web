@@ -13,7 +13,7 @@ const locale = useSiteLocale()
     <div class="top">
       <div class="brand">
         <NuxtLinkLocale to="/" class="wordmark" @click="backToTop">
-          <span class="mark" aria-hidden="true" />{{ brand.name.toLowerCase() }}
+          <span class="mark" aria-hidden="true" />{{ brand.name }}
         </NuxtLinkLocale>
         <p class="tagline">{{ brand.tagline[locale] }}</p>
       </div>

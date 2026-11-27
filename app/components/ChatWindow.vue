@@ -149,7 +149,7 @@ onBeforeUnmount(() => {
               <path class="line" d="M9.5 2.5 2 10l7.5 7.5" />
             </svg>
           </span>
-          <span class="avatar">{{ brand.name.charAt(0).toLowerCase() }}</span>
+          <span class="avatar">{{ brand.name.charAt(0) }}</span>
           <span class="who">
             <span class="name">{{ brand.name }}</span>
             <span class="presence">{{ $t('chat.online') }}</span>

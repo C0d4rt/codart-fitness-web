@@ -31,7 +31,7 @@ onBeforeUnmount(() => {
     <a class="skip" href="#conteudo">{{ t('nav.skip') }}</a>
     <nav class="nav" :aria-label="t('nav.label')">
       <NuxtLinkLocale to="/" class="wordmark" @click="backToTop">
-        <span class="mark" aria-hidden="true" />{{ brand.name.toLowerCase() }}
+        <span class="mark" aria-hidden="true" />{{ brand.name }}
       </NuxtLinkLocale>
       <ul class="links">
         <li>
