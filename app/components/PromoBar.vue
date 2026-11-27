@@ -16,14 +16,12 @@ const perMonth = computed(() => {
   )
 })
 const offer = computed(() => t('promo.offer', { price: perMonth.value }))
-const offerShort = computed(() => t('promo.offerShort', { price: perMonth.value }))
 </script>
 
 <template>
   <NuxtLinkLocale v-if="blackFriday" to="/planos" class="promo-bar">
     <span class="label">{{ t('promo.label') }}</span>
-    <span class="offer wide">{{ offer }}</span>
-    <span class="offer narrow">{{ offerShort }}</span>
+    <span class="offer">{{ offer }}</span>
     <span class="ends">
       <span class="ends-word">{{ t('promo.endsIn') }}</span>
       <CountdownClock />
@@ -65,10 +63,6 @@ const offerShort = computed(() => t('promo.offerShort', { price: perMonth.value 
   font-weight: 500;
 }
 
-.narrow {
-  display: none;
-}
-
 .ends {
   color: rgb(255 255 255 / 0.7);
 }
@@ -91,13 +85,9 @@ const offerShort = computed(() => t('promo.offerShort', { price: perMonth.value 
 }
 
 @media (max-width: 47.99rem) {
-  .wide,
   .see,
   .ends-word {
     display: none;
-  }
-  .narrow {
-    display: inline;
   }
 }
 </style>
