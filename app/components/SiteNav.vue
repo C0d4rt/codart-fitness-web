@@ -32,7 +32,9 @@ onBeforeUnmount(() => {
     <nav class="nav" :aria-label="t('nav.label')">
       <NuxtLinkLocale to="/" class="wordmark" :aria-label="brand.name" @click="backToTop">
         <img src="/brand/mark.png" alt="" width="174" height="96" class="symbol" />
-        <img src="/brand/wordmark.png" alt="" width="395" height="96" class="logo" />
+        <span class="logo" aria-hidden="true"
+          >{{ brand.nameParts[0] }}<span class="ally">{{ brand.nameParts[1] }}</span></span
+        >
       </NuxtLinkLocale>
       <ul class="links">
         <li>
@@ -151,6 +153,8 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 0.5rem;
   justify-self: start;
+  color: var(--ink);
+  text-decoration: none;
 }
 
 .symbol {
@@ -159,8 +163,14 @@ onBeforeUnmount(() => {
 }
 
 .logo {
-  width: auto;
-  height: 1.625rem;
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.ally {
+  color: #04a650;
 }
 
 .links {
