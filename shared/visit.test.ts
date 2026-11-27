@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { siteEntryLink, visitOf } from './visit'
 
-const API = 'https://api.fitness.codart.dev'
+const API = 'https://api.myfitally.com'
 
 describe('visitOf', () => {
   it('keeps the UTMs and click ids of the landing page, and nothing else', () => {

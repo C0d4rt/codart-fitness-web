@@ -10,7 +10,7 @@ test('the home page says what this is and opens the conversation', async ({ page
   const cta = page.getByRole('link', { name: 'Testar grátis' }).first()
   await expect(cta).toHaveAttribute(
     'href',
-    /^https:\/\/api\.fitness\.codart\.dev\/fitness\/go\?utm_source=partner&utm_campaign=bf&landing=%2F&consent=0&lang=pt$/,
+    /^https:\/\/api\.myfitally\.com\/fitness\/go\?utm_source=partner&utm_campaign=bf&landing=%2F&consent=0&lang=pt$/,
   )
   await expect(page.getByText('R$ 19,90').filter({ visible: true }).first()).toBeVisible()
 })
@@ -127,7 +127,7 @@ test('the English plans page has the plans in English, with prices in reais', as
   await expect(page.getByText('R$19.90').filter({ visible: true }).first()).toBeVisible()
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    'https://fitness.codart.dev/en/plans',
+    'https://myfitally.com/en/plans',
   )
 })
 

@@ -5,7 +5,7 @@ const name = 'MyFitAlly'
 
 export const brand = {
   name,
-  siteUrl: 'https://fitness.codart.dev',
+  siteUrl: 'https://myfitally.com',
   tagline: {
     pt: 'Seu assistente fitness no WhatsApp',
     en: 'Your fitness assistant on WhatsApp',
