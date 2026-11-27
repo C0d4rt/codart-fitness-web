@@ -11,7 +11,7 @@ export const LEGAL_EFFECTIVE = '2026-11-25'
 const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
     intro:
-      'Estes termos valem para o Fitness, o assistente de alimentação e treino no WhatsApp da Codart Tecnologia LTDA (CNPJ 65.840.318/0001-26, São Paulo, SP). A primeira mensagem da conversa traz o link destes termos, e ao usar o diário você concorda com eles e com a Política de Privacidade.',
+      'Estes termos valem para o MyFitAlly, o assistente de alimentação e treino no WhatsApp da Codart Tecnologia LTDA (CNPJ 65.840.318/0001-26, São Paulo, SP). A primeira mensagem da conversa traz o link destes termos, e ao usar o diário você concorda com eles e com a Política de Privacidade.',
     sections: [
       {
         title: 'O que o serviço faz',
@@ -117,7 +117,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
   },
   privacy: {
     intro:
-      'Esta política explica que dados o Fitness guarda, para quê, com quem são compartilhados e como você os controla. A controladora é a Codart Tecnologia LTDA (CNPJ 65.840.318/0001-26, São Paulo, SP). Encarregado pelos dados: Codart Tecnologia LTDA, pelo privacidade@codart.dev.',
+      'Esta política explica que dados o MyFitAlly guarda, para quê, com quem são compartilhados e como você os controla. A controladora é a Codart Tecnologia LTDA (CNPJ 65.840.318/0001-26, São Paulo, SP). Encarregado pelos dados: Codart Tecnologia LTDA, pelo privacidade@codart.dev.',
     sections: [
       {
         title: 'Dados que guardamos',
@@ -235,7 +235,7 @@ const pt: { terms: LegalDoc; privacy: LegalDoc } = {
 const en: { terms: LegalDoc; privacy: LegalDoc } = {
   terms: {
     intro:
-      'These terms apply to Fitness, the food and workout assistant on WhatsApp by Codart Tecnologia LTDA (Brazilian company number CNPJ 65.840.318/0001-26, São Paulo, Brazil). The first message in the chat links these terms, and by using the diary you agree to them and to the Privacy Policy.',
+      'These terms apply to MyFitAlly, the food and workout assistant on WhatsApp by Codart Tecnologia LTDA (Brazilian company number CNPJ 65.840.318/0001-26, São Paulo, Brazil). The first message in the chat links these terms, and by using the diary you agree to them and to the Privacy Policy.',
     sections: [
       {
         title: 'What the service does',
@@ -341,7 +341,7 @@ const en: { terms: LegalDoc; privacy: LegalDoc } = {
   },
   privacy: {
     intro:
-      'This policy explains what data Fitness keeps, what for, who it is shared with and how you control it. The controller is Codart Tecnologia LTDA (CNPJ 65.840.318/0001-26, São Paulo, Brazil). Data protection contact: Codart Tecnologia LTDA, at privacy@codart.dev.',
+      'This policy explains what data MyFitAlly keeps, what for, who it is shared with and how you control it. The controller is Codart Tecnologia LTDA (CNPJ 65.840.318/0001-26, São Paulo, Brazil). Data protection contact: Codart Tecnologia LTDA, at privacy@codart.dev.',
     sections: [
       {
         title: 'Data we keep',

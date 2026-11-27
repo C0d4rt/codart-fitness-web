@@ -1,7 +1,7 @@
 import type { Locale } from '../shared/locale'
 
 /** The one place the provisional brand lives: moving to the own domain is changing this file. */
-const name = 'Fitness'
+const name = 'MyFitAlly'
 
 export const brand = {
   name,
