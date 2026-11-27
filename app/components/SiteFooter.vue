@@ -13,6 +13,7 @@ const locale = useSiteLocale()
     <div class="top">
       <div class="brand">
         <NuxtLinkLocale to="/" class="wordmark" @click="backToTop">
+          <img src="/brand/mark.png" alt="" width="174" height="96" class="symbol" />
           <img
             src="/brand/wordmark-dark.png"
             :alt="brand.name"
@@ -99,6 +100,13 @@ const locale = useSiteLocale()
 
 .wordmark {
   display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.symbol {
+  width: auto;
+  height: 2.5rem;
 }
 
 .logo {

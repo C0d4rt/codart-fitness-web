@@ -30,8 +30,9 @@ onBeforeUnmount(() => {
   <header class="site-header" :class="{ scrolled }">
     <a class="skip" href="#conteudo">{{ t('nav.skip') }}</a>
     <nav class="nav" :aria-label="t('nav.label')">
-      <NuxtLinkLocale to="/" class="wordmark" @click="backToTop">
-        <img src="/brand/wordmark.png" :alt="brand.name" width="395" height="96" class="logo" />
+      <NuxtLinkLocale to="/" class="wordmark" :aria-label="brand.name" @click="backToTop">
+        <img src="/brand/mark.png" alt="" width="174" height="96" class="symbol" />
+        <img src="/brand/wordmark.png" alt="" width="395" height="96" class="logo" />
       </NuxtLinkLocale>
       <ul class="links">
         <li>
@@ -148,7 +149,13 @@ onBeforeUnmount(() => {
 .wordmark {
   display: inline-flex;
   align-items: center;
+  gap: 0.5rem;
   justify-self: start;
+}
+
+.symbol {
+  width: auto;
+  height: 1.625rem;
 }
 
 .logo {
@@ -188,6 +195,7 @@ onBeforeUnmount(() => {
   min-height: 2.75rem;
   padding: 0 1.25rem;
   font-size: var(--step-small);
+  white-space: nowrap;
 }
 
 .phone-menu {
@@ -221,7 +229,7 @@ onBeforeUnmount(() => {
   background: var(--green);
 }
 
-@media (max-width: 63.99rem) {
+@media (max-width: 71.99rem) {
   .nav {
     grid-template-columns: 1fr auto;
   }
@@ -231,6 +239,16 @@ onBeforeUnmount(() => {
   }
   .phone-menu {
     display: block;
+  }
+}
+
+/* On a phone the mark stands alone: the name would run under the menu buttons. */
+@media (max-width: 30rem) {
+  .logo {
+    display: none;
+  }
+  .symbol {
+    height: 1.875rem;
   }
 }
 
