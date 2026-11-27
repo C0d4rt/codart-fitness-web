@@ -25,7 +25,7 @@ test('before 1/12 each card strikes the price from 1/12 next to the Black Friday
   ).toBeVisible()
 
   const bar = page.locator('.promo-bar')
-  await expect(bar.getByText('Premium a partir de R$ 19,90', { exact: true })).toBeVisible()
+  await expect(bar.getByText('Premium por R$ 19,90', { exact: true })).toBeVisible()
 
   const premium = page.locator('#premium')
   await expect(premium.getByText('Black Friday', { exact: true })).toBeVisible()
