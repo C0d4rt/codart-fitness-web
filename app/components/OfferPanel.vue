@@ -70,7 +70,7 @@ const lines = computed(() => {
   gap: 1.5rem 2rem;
   padding: clamp(1.5rem, 1rem + 1.5vw, 2.25rem) clamp(1.5rem, 1rem + 2vw, 2.75rem);
   border-radius: var(--radius-panel);
-  background: var(--black);
+  background: var(--promo-black);
   color: #ffffff;
 }
 

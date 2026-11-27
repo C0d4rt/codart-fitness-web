@@ -40,7 +40,7 @@ const offer = computed(() => t('promo.offer', { price: perMonth.value }))
   justify-content: center;
   gap: 0.375rem 1rem;
   padding: 0.625rem var(--margin);
-  background: var(--black);
+  background: var(--promo-black);
   color: #ffffff;
   font-size: var(--step-small);
   line-height: 1.35;

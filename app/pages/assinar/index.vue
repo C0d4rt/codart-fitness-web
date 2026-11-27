@@ -679,7 +679,7 @@ main {
 }
 
 .chip--deal {
-  background: var(--black);
+  background: var(--promo-black);
   color: #ffffff;
 }
 
