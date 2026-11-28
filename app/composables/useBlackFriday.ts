@@ -1,7 +1,8 @@
-import { blackFridayOn } from '#shared/promo'
+import type { Catalog } from '#shared/plans'
+import { blackFridayEndsAt } from '#shared/promo'
 
-/** Judged at build time and again in the browser, so a page built before 30/11 drops the label on 1/12. */
-export const useBlackFriday = () => {
+/** When Black Friday ends while it is on, judged at build time and again in the browser. */
+export const useBlackFriday = (catalog: MaybeRefOrGetter<Catalog>) => {
   const now = useNow()
-  return computed(() => blackFridayOn(now.value))
+  return computed(() => blackFridayEndsAt(toValue(catalog), now.value))
 }

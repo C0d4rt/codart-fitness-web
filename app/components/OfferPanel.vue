@@ -11,7 +11,7 @@ const props = defineProps<{ catalog: Catalog }>()
 
 const { t } = useI18n()
 const locale = useSiteLocale()
-const blackFriday = useBlackFriday()
+const endsAt = useBlackFriday(() => props.catalog)
 const prices = usePrices(() => props.catalog)
 const { inInstallments } = useInstallmentWords()
 
@@ -49,14 +49,14 @@ const lines = computed(() => {
 </script>
 
 <template>
-  <div v-if="blackFriday" class="offer" role="note">
+  <div v-if="endsAt" class="offer" role="note">
     <div class="offer-words">
       <p class="offer-title">{{ t('pricing.blackFriday.title') }}</p>
       <p v-for="line in lines" :key="line" class="offer-line">{{ line }}</p>
     </div>
     <div class="offer-clock">
       <p class="offer-ends">{{ t('promo.endsIn') }}</p>
-      <CountdownClock boxes />
+      <CountdownClock :ends-at="endsAt" boxes />
     </div>
   </div>
 </template>

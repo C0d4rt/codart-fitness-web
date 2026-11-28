@@ -26,7 +26,7 @@ const PREMIUM_HIGHLIGHTS = [
 
 const { t } = useI18n()
 const locale = useSiteLocale()
-const blackFriday = useBlackFriday()
+const blackFriday = useBlackFriday(() => props.catalog)
 const prices = usePrices(() => props.catalog)
 
 const premium = computed(() => prices.value.premium)

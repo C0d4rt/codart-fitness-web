@@ -3,8 +3,9 @@ import { installmentCents, money } from '#shared/plans'
 
 const { t } = useI18n()
 const locale = useSiteLocale()
-const prices = usePrices(await usePlans())
-const blackFriday = useBlackFriday()
+const catalog = await usePlans()
+const prices = usePrices(catalog)
+const endsAt = useBlackFriday(catalog)
 const perMonth = computed(() => {
   const { premium } = prices.value
   return money(
@@ -19,12 +20,12 @@ const offer = computed(() => t('promo.offer', { price: perMonth.value }))
 </script>
 
 <template>
-  <NuxtLinkLocale v-if="blackFriday" to="/planos" class="promo-bar">
+  <NuxtLinkLocale v-if="endsAt" to="/planos" class="promo-bar">
     <span class="label">{{ t('promo.label') }}</span>
     <span class="offer">{{ offer }}</span>
     <span class="ends">
       <span class="ends-word">{{ t('promo.endsIn') }}</span>
-      <CountdownClock />
+      <CountdownClock :ends-at="endsAt" />
     </span>
     <span class="see" aria-hidden="true">{{ t('promo.see') }} →</span>
   </NuxtLinkLocale>

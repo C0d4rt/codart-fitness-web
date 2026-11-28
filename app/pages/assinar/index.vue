@@ -23,7 +23,7 @@ definePageMeta({ account: true })
 
 const catalog = await usePlans()
 const prices = usePrices(catalog)
-const blackFriday = useBlackFriday()
+const blackFriday = useBlackFriday(catalog)
 const { t } = useI18n()
 const locale = useSiteLocale()
 const apiLocale = useApiLocale()
