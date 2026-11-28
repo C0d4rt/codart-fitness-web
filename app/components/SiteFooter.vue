@@ -13,7 +13,7 @@ const locale = useSiteLocale()
     <div class="top">
       <div class="brand">
         <NuxtLinkLocale to="/" class="wordmark" :aria-label="brand.name" @click="backToTop">
-          <img src="/brand/mark.png" alt="" width="138" height="96" class="symbol" />
+          <img src="/brand/mark.png" alt="" width="171" height="96" class="symbol" />
           <span class="logo" aria-hidden="true"
             >{{ brand.nameParts[0] }}<span class="ally">{{ brand.nameParts[1] }}</span></span
           >

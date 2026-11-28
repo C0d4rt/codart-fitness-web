@@ -31,7 +31,7 @@ onBeforeUnmount(() => {
     <a class="skip" href="#conteudo">{{ t('nav.skip') }}</a>
     <nav class="nav" :aria-label="t('nav.label')">
       <NuxtLinkLocale to="/" class="wordmark" :aria-label="brand.name" @click="backToTop">
-        <img src="/brand/mark.png" alt="" width="138" height="96" class="symbol" />
+        <img src="/brand/mark.png" alt="" width="171" height="96" class="symbol" />
         <span class="logo" aria-hidden="true"
           >{{ brand.nameParts[0] }}<span class="ally">{{ brand.nameParts[1] }}</span></span
         >
@@ -159,7 +159,7 @@ onBeforeUnmount(() => {
 
 .symbol {
   width: auto;
-  height: 1.75rem;
+  height: 1.5rem;
 }
 
 .logo {
