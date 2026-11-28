@@ -181,6 +181,10 @@ export const buildCatalog = (
   }
 }
 
+/** The moments the prices change: the page reads the clock again at each. */
+export const priceChanges = (catalog: Pick<Catalog, 'next'>): string[] =>
+  catalog.next ? [catalog.next.from] : []
+
 /** The catalog as charged at `now`: from `next.from` on, the next prices are the prices. */
 export const pricesAt = (catalog: Catalog, now: Date): Catalog => {
   const { next, ...current } = catalog

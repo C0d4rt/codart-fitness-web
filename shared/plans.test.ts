@@ -11,6 +11,7 @@ import {
   installmentCents,
   money,
   moneyParts,
+  priceChanges,
   pricesAt,
   wholeMoney,
   yearlyPerMonth,
@@ -342,5 +343,10 @@ describe('pricesAt', () => {
   it('leaves a catalog without next prices as it is', () => {
     const plain = buildCatalog(withoutNext)
     expect(pricesAt(plain, new Date('2027-01-01'))).toBe(plain)
+  })
+
+  it('changes the prices only at the start of the next ones', () => {
+    expect(priceChanges(catalog)).toEqual(['2026-12-01T00:00:00-03:00'])
+    expect(priceChanges(buildCatalog(withoutNext))).toEqual([])
   })
 })
