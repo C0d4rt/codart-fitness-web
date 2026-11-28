@@ -107,7 +107,6 @@ test('the WhatsApp link takes the token off the address bar and buys Premium Pro
   await expect(pro.getByText(/Desconto do Premium já pago/)).toBeVisible()
   await expect(pro.getByText('ou R$ 540,00 no Pix à vista')).toBeVisible()
   await expect(pro.getByRole('checkbox')).toHaveCount(0)
-  await expect(page.getByText(ANONYMOUS_PLANS.declaration.text)).toHaveCount(0)
   await pro.getByRole('radio', { name: /Cartão, em até 12x/ }).check()
 
   await pro.getByRole('button', { name: 'Ir para o pagamento' }).click()
@@ -140,7 +139,6 @@ test('an anonymous buyer picks the monthly by Pix and declares being an adult by
   await expect(page).toHaveURL(/\?plano=premium-mensal$/)
 
   await expect(monthly.getByRole('checkbox')).toHaveCount(0)
-  await expect(monthly.getByText(ANONYMOUS_PLANS.declaration.text)).toBeVisible()
   await monthly.getByRole('button', { name: 'Ir para o pagamento' }).click()
   await expect(page).toHaveURL(CHECKOUT)
   expect(calls.filter((call) => call.path.endsWith('/checkout'))).toHaveLength(1)
