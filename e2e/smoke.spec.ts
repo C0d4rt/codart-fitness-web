@@ -45,6 +45,25 @@ test('the features page has an anchor for each feature', async ({ page }) => {
   await expect(page.locator('article[id]')).toHaveCount(fixture.features.length)
 })
 
+test('the features page plays one conversation per group, and each item says it opens', async ({
+  page,
+}) => {
+  await page.goto('/recursos')
+  await expect(page.locator('main figure.chat')).toHaveCount(fixture.groups.length)
+  await expect(page.locator('main figure.chat').first()).toBeVisible()
+
+  const group = page.locator(`#group-${fixture.groups[0]!.id}`)
+  const items = group.getByRole('button')
+  await expect(items.first()).toHaveAttribute('aria-expanded', 'true')
+  await expect(items.nth(1)).toHaveAttribute('aria-expanded', 'false')
+  const controlled = await items.nth(1).getAttribute('aria-controls')
+  await expect(page.locator(`#${controlled}`)).toHaveCount(1)
+  await items.nth(1).click()
+  await expect(items.nth(1)).toHaveAttribute('aria-expanded', 'true')
+  await expect(items.first()).toHaveAttribute('aria-expanded', 'false')
+  await expect(page.locator('main figure.chat')).toHaveCount(fixture.groups.length)
+})
+
 test('the features page index takes you to each group, clear of the sticky bars', async ({
   page,
 }) => {

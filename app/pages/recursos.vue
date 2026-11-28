@@ -45,6 +45,20 @@ const pickFromHash = async (hash: string) => {
 onMounted(() => pickFromHash(route.hash))
 watch(() => route.hash, pickFromHash)
 
+/*
+ * The prerendered page holds the conversation in both places and CSS shows the one that fits;
+ * once the width is known, only that one stays mounted, so one conversation plays per group.
+ */
+const narrow = ref<boolean>()
+let narrowQuery: MediaQueryList | undefined
+const measure = () => (narrow.value = narrowQuery?.matches)
+onMounted(() => {
+  narrowQuery = window.matchMedia('(max-width: 63.99rem)')
+  measure()
+  narrowQuery.addEventListener('change', measure)
+})
+onBeforeUnmount(() => narrowQuery?.removeEventListener('change', measure))
+
 const screenOf = (groupId: string): ChatScreen => {
   const group = catalog.groups.find((each) => each.id === groupId)!
   const feature = group.features.find((each) => each.id === picked.value[groupId])!
@@ -91,19 +105,23 @@ const screenOf = (groupId: string): ChatScreen => {
                   <button
                     type="button"
                     class="pick"
-                    :aria-pressed="picked[group.id] === feature.id"
+                    :aria-expanded="picked[group.id] === feature.id"
+                    :aria-controls="`${feature.id}-more`"
                     @click="pick(group.id, feature.id)"
                   >
                     <span class="headline">{{ feature.headline }}</span>
                   </button>
                 </h3>
-                <div class="more">
+                <div :id="`${feature.id}-more`" class="more">
                   <div class="more-inner">
                     <p class="plan" :class="feature.plan">
                       {{ feature.name }} · {{ planLine(feature.plan) }}
                     </p>
                     <p class="how-to">{{ feature.howTo }}</p>
-                    <div v-if="picked[group.id] === feature.id" class="inline-chat">
+                    <div
+                      v-if="picked[group.id] === feature.id && narrow !== false"
+                      class="inline-chat"
+                    >
                       <ChatWindow :screen="screenOf(group.id)" flat typing />
                     </div>
                   </div>
@@ -111,7 +129,13 @@ const screenOf = (groupId: string): ChatScreen => {
               </article>
             </div>
             <div class="answer">
-              <ChatWindow :screen="screenOf(group.id)" flat typing class="chat" />
+              <ChatWindow
+                v-if="narrow !== true"
+                :screen="screenOf(group.id)"
+                flat
+                typing
+                class="chat"
+              />
             </div>
           </div>
         </section>
