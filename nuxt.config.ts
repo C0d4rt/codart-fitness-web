@@ -1,4 +1,5 @@
 import { brand } from './app/brand'
+import { requireReleaseConfig } from './build/releaseConfig'
 
 export default defineNuxtConfig({
   compatibilityDate: '2026-10-01',
@@ -12,6 +13,7 @@ export default defineNuxtConfig({
     '@nuxtjs/robots',
     '@nuxtjs/sitemap',
     'nuxt-schema-org',
+    requireReleaseConfig,
   ],
   typescript: { strict: true },
   css: ['~/assets/css/main.css'],
