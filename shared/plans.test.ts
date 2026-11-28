@@ -13,6 +13,7 @@ import {
   moneyParts,
   priceChanges,
   pricesAt,
+  priceValidUntil,
   wholeMoney,
   yearlyPerMonth,
   yearlySaving,
@@ -343,6 +344,13 @@ describe('pricesAt', () => {
   it('leaves a catalog without next prices as it is', () => {
     const plain = buildCatalog(withoutNext)
     expect(pricesAt(plain, new Date('2027-01-01'))).toBe(plain)
+  })
+
+  it('dates the prices of today until the day before the next ones, in Brasília', () => {
+    expect(priceValidUntil(catalog)).toBe('2026-11-30')
+    expect(priceValidUntil(pricesAt(catalog, new Date('2026-12-01T00:00:00-03:00')))).toBe(
+      undefined,
+    )
   })
 
   it('changes the prices only at the start of the next ones', () => {

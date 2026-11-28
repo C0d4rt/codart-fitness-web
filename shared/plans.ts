@@ -209,6 +209,16 @@ export const pricesAt = (catalog: Catalog, now: Date): Catalog => {
   }
 }
 
+/**
+ * The last day, in Brasília, the prices hold while next prices are announced: schema.org's
+ * `priceValidUntil`, a date the offer does not outlive.
+ */
+export const priceValidUntil = (catalog: Pick<Catalog, 'next'>): string | undefined =>
+  catalog.next &&
+  new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(
+    Date.parse(catalog.next.from) - 1,
+  )
+
 /** Always reais, written the reader's way ("R$ 29,90", "R$29.90"), and never split across lines. */
 export const money = (cents: number, locale: Locale): string =>
   new Intl.NumberFormat(LANGUAGE[locale], { style: 'currency', currency: 'BRL' })
