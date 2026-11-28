@@ -259,6 +259,14 @@ export const wholeMoney = (cents: number, locale: Locale): string =>
 export const installmentCents = (charge: { totalCents: number; installments: number }) =>
   Math.round(charge.totalCents / charge.installments)
 
+/** How the card charges the yearly plan: in `count` installments of `cents`, or once (count 1). */
+export const yearlyInstallment = (
+  plan: Pick<PremiumPlan, 'yearlyCents' | 'yearlyInstallments'>,
+): { count: number; cents: number } => {
+  const count = plan.yearlyInstallments ?? 1
+  return { count, cents: installmentCents({ totalCents: plan.yearlyCents, installments: count }) }
+}
+
 /** With one installment a month, the package's `perMonthCents` is the installment messaging charges. */
 export const packageInstallmentCents = (pack: CoachingPackage) =>
   pack.installments === pack.months ? pack.perMonthCents : installmentCents(pack)

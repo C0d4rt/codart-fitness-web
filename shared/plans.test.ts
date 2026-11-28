@@ -15,6 +15,7 @@ import {
   pricesAt,
   priceValidUntil,
   wholeMoney,
+  yearlyInstallment,
   yearlyPerMonth,
   yearlySaving,
 } from './plans'
@@ -356,5 +357,26 @@ describe('pricesAt', () => {
   it('changes the prices only at the start of the next ones', () => {
     expect(priceChanges(catalog)).toEqual(['2026-12-01T00:00:00-03:00'])
     expect(priceChanges(buildCatalog(withoutNext))).toEqual([])
+  })
+})
+
+describe('yearlyInstallment', () => {
+  it('splits the year into the installments of the catalog', () => {
+    expect(yearlyInstallment({ yearlyCents: 23880, yearlyInstallments: 12 })).toEqual({
+      count: 12,
+      cents: 1990,
+    })
+    expect(yearlyInstallment({ yearlyCents: 19990, yearlyInstallments: 12 })).toEqual({
+      count: 12,
+      cents: 1666,
+    })
+  })
+
+  it('charges the whole year at once without installments', () => {
+    expect(yearlyInstallment({ yearlyCents: 23880 })).toEqual({ count: 1, cents: 23880 })
+    expect(yearlyInstallment({ yearlyCents: 23880, yearlyInstallments: 1 })).toEqual({
+      count: 1,
+      cents: 23880,
+    })
   })
 })

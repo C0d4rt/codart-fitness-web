@@ -53,6 +53,16 @@ describe('llmsText', () => {
     expect(llmsText(site, offSale, BLACK_FRIDAY)).toContain('- Premium Pro: em breve')
   })
 
+  it('says the yearly is charged at once when the catalog gives no installments', () => {
+    const once = llmsText(
+      site,
+      { ...catalog, premium: { ...catalog.premium, yearlyInstallments: 1 } },
+      BLACK_FRIDAY,
+    )
+    expect(once).toContain('o anual é no cartão, de uma vez, ou no Pix à vista')
+    expect(once).not.toMatch(/em até 12x(?! de)/)
+  })
+
   it('lists every feature once', () => {
     for (const feature of catalog.coaching.features) {
       expect(text.split(`- ${feature.name} (`)).toHaveLength(2)

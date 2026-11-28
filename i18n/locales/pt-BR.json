@@ -248,8 +248,8 @@
     "inInstallments": "{count}x de {price}",
     "blackFriday": {
       "title": "Black Friday",
-      "yearly": "Premium anual em {installments} ou {pix} no Pix à vista",
-      "yearlyCard": "Premium anual em {installments}",
+      "yearly": "Premium anual {count, plural, =1 {por {price}} other {em {count}x de {price}}} ou {pix} no Pix à vista",
+      "yearlyCard": "Premium anual {count, plural, =1 {por {price}} other {em {count}x de {price}}}",
       "coaching": "{plan} em {installments} ou {pix} no Pix à vista"
     }
   },
@@ -538,6 +538,7 @@
   "promo": {
     "label": "Black Friday",
     "offer": "Premium por {price}",
+    "offerYearly": "Premium anual por {price}",
     "see": "Ver planos",
     "endsIn": "Termina em",
     "days": "{n, plural, one {dia} other {dias}}",

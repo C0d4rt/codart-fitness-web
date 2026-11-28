@@ -1,22 +1,15 @@
 <script setup lang="ts">
-import { installmentCents, money } from '#shared/plans'
+import { money, yearlyInstallment } from '#shared/plans'
 
 const { t } = useI18n()
 const locale = useSiteLocale()
 const catalog = await usePlans()
 const prices = usePrices(catalog)
 const endsAt = useBlackFriday(catalog)
-const perMonth = computed(() => {
-  const { premium } = prices.value
-  return money(
-    installmentCents({
-      totalCents: premium.yearlyCents,
-      installments: premium.yearlyInstallments ?? 1,
-    }),
-    locale.value,
-  )
+const offer = computed(() => {
+  const { count, cents } = yearlyInstallment(prices.value.premium)
+  return t(count > 1 ? 'promo.offer' : 'promo.offerYearly', { price: money(cents, locale.value) })
 })
-const offer = computed(() => t('promo.offer', { price: perMonth.value }))
 </script>
 
 <template>

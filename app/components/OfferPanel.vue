@@ -2,9 +2,9 @@
 import {
   bestPackage,
   type Catalog,
-  installmentCents,
   money,
   packageInstallmentCents,
+  yearlyInstallment,
 } from '#shared/plans'
 
 const props = defineProps<{ catalog: Catalog }>()
@@ -17,18 +17,15 @@ const { inInstallments } = useInstallmentWords()
 
 const lines = computed(() => {
   const premium = prices.value.premium
-  const installments = premium.yearlyInstallments ?? 1
-  const yearly =
-    installments > 1
-      ? installmentCents({ totalCents: premium.yearlyCents, installments })
-      : premium.yearlyCents
+  const { count, cents } = yearlyInstallment(premium)
   const result = [
     t(
       premium.yearlyPixCents === undefined
         ? 'pricing.blackFriday.yearlyCard'
         : 'pricing.blackFriday.yearly',
       {
-        installments: inInstallments(installments, yearly),
+        count,
+        price: money(cents, locale.value),
         pix: money(premium.yearlyPixCents ?? 0, locale.value),
       },
     ),

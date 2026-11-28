@@ -1,11 +1,11 @@
 import {
   type Catalog,
   type CoachingPlan,
-  installmentCents,
   money,
   packageInstallmentCents,
   type PremiumPlan,
   pricesAt,
+  yearlyInstallment,
 } from './plans'
 import { fullDate } from './siteDates'
 
@@ -22,10 +22,8 @@ const packagePrices = (coaching: CoachingPlan & { available: true }) =>
     .join('; ')
 
 const yearlyTerms = (premium: PremiumPlan) => {
-  const yearlyInstallments = premium.yearlyInstallments ?? 1
-  return yearlyInstallments > 1
-    ? `em até ${yearlyInstallments}x de ${money(installmentCents({ totalCents: premium.yearlyCents, installments: yearlyInstallments }), 'pt')} sem juros`
-    : 'em até 12x sem juros'
+  const { count, cents } = yearlyInstallment(premium)
+  return count > 1 ? `em até ${count}x de ${money(cents, 'pt')} sem juros` : 'de uma vez'
 }
 
 /** The prices from `next.from`, said with their date, while that date is ahead of `now`. */

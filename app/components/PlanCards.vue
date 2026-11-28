@@ -2,11 +2,11 @@
 import {
   bestPackage,
   type Catalog,
-  installmentCents,
   money,
   moneyParts,
   packageInstallmentCents,
   wholeMoney,
+  yearlyInstallment,
   yearlyPerMonth,
   yearlySaving,
 } from '#shared/plans'
@@ -55,12 +55,10 @@ const periods = computed(() => [
   { value: 'month' as const, label: t('pricing.monthly') },
   { value: 'year' as const, label: t('pricing.yearly') },
 ])
-const yearlyInstallments = computed(() => premium.value.yearlyInstallments ?? 1)
+const yearlyInstallments = computed(() => yearlyInstallment(premium.value).count)
 const byInstallments = computed(() => period.value === 'year' && yearlyInstallments.value > 1)
-const yearlyShown = (totalCents: number) =>
-  yearlyInstallments.value > 1
-    ? installmentCents({ totalCents, installments: yearlyInstallments.value })
-    : totalCents
+const yearlyShown = (yearlyCents: number) =>
+  yearlyInstallment({ yearlyCents, yearlyInstallments: yearlyInstallments.value }).cents
 const premiumPrice = computed(() =>
   moneyParts(
     period.value === 'month' ? premium.value.monthlyCents : yearlyShown(premium.value.yearlyCents),
@@ -162,10 +160,7 @@ const coachingItems = computed(() => [
 ])
 const wantCoaching = computed(() => t('pricing.wantPlan', { plan: coaching.value.name }))
 const maxInstallments = computed(() =>
-  Math.max(
-    premium.value.yearlyInstallments ?? 1,
-    ...packages.value.map((each) => each.installments),
-  ),
+  Math.max(yearlyInstallments.value, ...packages.value.map((each) => each.installments)),
 )
 const promises = computed(() => [
   t('pricing.promises.noCard'),
