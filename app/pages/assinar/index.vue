@@ -195,7 +195,7 @@ const pay = async (each: PlanOffer) => {
     plan: each.plan,
     cycle: each.cycle,
     method,
-    // Buying is the declaration the terms ask of whoever pays (terms 15): there is no box to tick.
+    // Buying is the declaration the terms ask of whoever pays (terms 15), shown above the button.
     declared: Boolean(live.value.declaration),
     locale: apiLocale.value,
   })
@@ -216,6 +216,7 @@ const pay = async (each: PlanOffer) => {
       'method_unavailable',
       'pro_unavailable',
       'guardian_required',
+      'declaration_required',
     ].includes(result.code)
   ) {
     await loadPlans()
@@ -508,11 +509,19 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                   }}
                 </p>
 
+                <p
+                  v-if="live?.declaration"
+                  :id="`declaration-${each.plan}`"
+                  class="equiv declaration"
+                >
+                  {{ live.declaration.text }}
+                </p>
                 <button
                   type="submit"
                   class="button pay-button"
                   :disabled="Boolean(paying) || loading || !live || offline"
                   :aria-busy="paying === each.plan"
+                  :aria-describedby="live?.declaration ? `declaration-${each.plan}` : undefined"
                 >
                   {{ paying === each.plan ? t('subscribe.paying') : t('subscribe.pay') }}
                 </button>
@@ -911,6 +920,10 @@ legend {
   border-radius: var(--radius-small);
   background: var(--peach);
   font-size: var(--step-small);
+}
+
+.declaration {
+  text-align: center;
 }
 
 .pay-button {

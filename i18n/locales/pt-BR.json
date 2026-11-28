@@ -515,7 +515,7 @@
       "login_unknown": "Não achamos o pedido de entrada deste navegador. Gere outro código.",
       "link_unknown": "Não reconhecemos o link do WhatsApp. Você ainda pode assinar por aqui.",
       "link_expired": "O link do WhatsApp venceu. Você ainda pode assinar por aqui, ou responder assinar na conversa para receber outro.",
-      "declaration_required": "Marque a declaração para continuar.",
+      "declaration_required": "Confira a declaração logo acima do botão e tente de novo.",
       "method_unavailable": "Essa forma de pagamento não vale para este plano. Escolha outra.",
       "pro_unavailable": "O Premium Pro não está à venda agora.",
       "already_subscribed": "Seu mensal no cartão já renova sozinho. Se pagar no Pix ou no anual agora, ele continua renovando. Para trocar, responda \"cancelar\" na conversa e depois volte aqui.",

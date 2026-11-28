@@ -515,7 +515,7 @@
       "login_unknown": "We couldn't find this browser's sign-in request. Create another code.",
       "link_unknown": "We don't recognize the WhatsApp link. You can still subscribe here.",
       "link_expired": "The WhatsApp link expired. You can still subscribe here, or reply subscribe in the chat to get another one.",
-      "declaration_required": "Tick the declaration to continue.",
+      "declaration_required": "Check the statement just above the button and try again.",
       "method_unavailable": "That payment method isn't available for this plan. Pick another one.",
       "pro_unavailable": "Premium Pro is not on sale right now.",
       "already_subscribed": "Your monthly card plan already renews on its own. If you pay by Pix or yearly now, it keeps renewing. To switch, reply \"cancelar\" in the chat and then come back here.",
