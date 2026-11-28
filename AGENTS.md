@@ -70,4 +70,6 @@ código não consegue dizer.
 ## Git
 
 Conventional Commits (o `commitlint` confere). Um PR por vez, contra a `main`,
-com o porquê da mudança na descrição. Merge na `main` publica o site.
+com o porquê da mudança na descrição. Merge na `main` publica o site pelo
+workflow `Deploy`, mas desde 21/11/2026 o Actions recusa os jobs (cobrança): o
+merge não publica nada, e o deploy é o `scripts/deploy.sh <sha>` (README, Deploy).
