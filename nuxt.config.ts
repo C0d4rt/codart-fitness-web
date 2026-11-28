@@ -21,7 +21,7 @@ export default defineNuxtConfig({
       styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
     },
-    families: [{ name: 'Manrope', provider: 'google', weights: [400, 500, 600, 700] }],
+    families: [{ name: 'Manrope', provider: 'google', weights: [400, 500, 600, 700, 800] }],
   },
   i18n: {
     strategy: 'prefix_except_default',
