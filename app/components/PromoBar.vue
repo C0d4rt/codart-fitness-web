@@ -6,10 +6,9 @@ const locale = useSiteLocale()
 const catalog = await usePlans()
 const prices = usePrices(catalog)
 const endsAt = useBlackFriday(catalog)
-const offer = computed(() => {
-  const { count, cents } = yearlyInstallment(prices.value.premium)
-  return t(count > 1 ? 'promo.offer' : 'promo.offerYearly', { price: money(cents, locale.value) })
-})
+const offer = computed(() =>
+  t('promo.offer', { price: money(yearlyInstallment(prices.value.premium).cents, locale.value) }),
+)
 </script>
 
 <template>
