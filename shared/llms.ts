@@ -1,27 +1,59 @@
-import { installmentCents, money, packageInstallmentCents, type Catalog } from './plans'
+import {
+  type Catalog,
+  type CoachingPlan,
+  money,
+  packageInstallmentCents,
+  type PremiumPlan,
+  pricesAt,
+  yearlyInstallment,
+} from './plans'
+import { fullDate } from './siteDates'
 
 type Site = { name: string; url: string; tagline: string }
 
+const BRASILIA = 'America/Sao_Paulo'
+
+const packagePrices = (coaching: CoachingPlan & { available: true }) =>
+  coaching.packages
+    .map(
+      (pack) =>
+        `${pack.months} meses por ${money(pack.totalCents, 'pt')}, ou ${pack.installments}x de ${money(packageInstallmentCents(pack), 'pt')} sem juros${pack.pixCents === undefined ? '' : `, ou ${money(pack.pixCents, 'pt')} no Pix à vista`}`,
+    )
+    .join('; ')
+
+const yearlyTerms = (premium: PremiumPlan) => {
+  const { count, cents } = yearlyInstallment(premium)
+  return count > 1 ? `em até ${count}x de ${money(cents, 'pt')} sem juros` : 'de uma vez'
+}
+
+/** The prices from `next.from`, said with their date, while that date is ahead of `now`. */
+const nextPrices = (catalog: Catalog, now: Date): string[] => {
+  const { next } = catalog
+  if (next === undefined || now.getTime() >= Date.parse(next.from)) return []
+  const { premium, coaching } = pricesAt(catalog, new Date(next.from))
+  const yearlyPix =
+    premium.yearlyPixCents === undefined
+      ? ''
+      : `, ou ${money(premium.yearlyPixCents, 'pt')} no Pix à vista`
+  return [
+    `A partir de ${fullDate(next.from, 'pt', BRASILIA)}, à 0h de Brasília, os preços passam a ser:`,
+    '',
+    `- ${premium.name}: ${money(premium.monthlyCents, 'pt')} por mês ou ${money(premium.yearlyCents, 'pt')} por ano, ${yearlyTerms(premium)}${yearlyPix}.`,
+    ...(coaching.available ? [`- ${coaching.name}: ${packagePrices(coaching)}.`] : []),
+    '',
+  ]
+}
+
 /** The site as plain text for AI assistants, rebuilt from the plans contract on every generate. */
-export const llmsText = (site: Site, catalog: Catalog, builtOn: string): string => {
-  const { premium, coaching } = catalog
+export const llmsText = (site: Site, catalog: Catalog, now: Date): string => {
+  const { premium, coaching } = pricesAt(catalog, now)
   const coachingLine = coaching.available
-    ? `- ${coaching.name}: programa pago uma vez só, no cartão ou no Pix à vista, sem renovação, com 7 dias de garantia e reembolso integral, e sem teste grátis. ${coaching.packages
-        .map(
-          (pack) =>
-            `${pack.months} meses por ${money(pack.totalCents, 'pt')}, ou ${pack.installments}x de ${money(packageInstallmentCents(pack), 'pt')} sem juros${pack.pixCents === undefined ? '' : `, ou ${money(pack.pixCents, 'pt')} no Pix à vista`}`,
-        )
-        .join('; ')}.`
+    ? `- ${coaching.name}: programa pago uma vez só, no cartão ou no Pix à vista, sem renovação, com 7 dias de garantia e reembolso integral, e sem teste grátis. ${packagePrices(coaching)}.`
     : `- ${coaching.name}: em breve, ainda sem venda.`
-  const yearlyInstallments = premium.yearlyInstallments ?? 1
-  const yearlyTerms =
-    yearlyInstallments > 1
-      ? `em até ${yearlyInstallments}x de ${money(installmentCents({ totalCents: premium.yearlyCents, installments: yearlyInstallments }), 'pt')} sem juros`
-      : 'em até 12x sem juros'
   const yearlyPayment =
     premium.yearlyPixCents === undefined
-      ? `o anual é só no cartão, ${yearlyTerms}. O Pix vale só para o mensal.`
-      : `o anual é no cartão, ${yearlyTerms}, ou no Pix à vista, por ${money(premium.yearlyPixCents, 'pt')}, sem renovação automática.`
+      ? `o anual é só no cartão, ${yearlyTerms(premium)}. O Pix vale só para o mensal.`
+      : `o anual é no cartão, ${yearlyTerms(premium)}, ou no Pix à vista, por ${money(premium.yearlyPixCents, 'pt')}, sem renovação automática.`
   const group = (g: Catalog['groups'][number]) =>
     [
       `### ${g.name}`,
@@ -42,12 +74,13 @@ export const llmsText = (site: Site, catalog: Catalog, builtOn: string): string 
     '',
     '## Planos',
     '',
-    `Preços em reais, válidos em ${builtOn}.`,
+    `Preços em reais, válidos em ${fullDate(now.toISOString(), 'pt', BRASILIA)}.`,
     '',
     `- Teste grátis com tudo do ${premium.name}, sem cartão.`,
     `- ${premium.name}: ${money(premium.monthlyCents, 'pt')} por mês ou ${money(premium.yearlyCents, 'pt')} por ano. O mensal é no Pix ou no cartão, e no cartão renova sozinho até o cancelamento; ${yearlyPayment} Pagamento pela página Assinar do site (${site.url}/assinar) e cancelamento a qualquer hora, na conversa.`,
     `${coachingLine} Tudo do ${premium.name}, mais dieta e treino montados para a pessoa a partir da avaliação, check-ins, reavaliação mensal e dúvidas respondidas pela equipe em até 24 horas. Comprar o ${coaching.name} cancela a assinatura mensal no cartão, e os dias já pagos do ${premium.name} são descontados do preço.`,
     '',
+    ...nextPrices(catalog, now),
     '## Recursos',
     '',
     ...catalog.groups.flatMap((g) => [group(g), '']),

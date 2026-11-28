@@ -1,8 +1,8 @@
-import { type Catalog, money, pricesAt } from '#shared/plans'
+import { type Catalog, money, priceChanges, pricesAt } from '#shared/plans'
 
 /** Judged at build time and again in the browser, so a page built before `next.from` charges the next prices after it. */
 export const usePrices = (catalog: MaybeRefOrGetter<Catalog>) => {
-  const now = useNow()
+  const now = useNow(() => priceChanges(toValue(catalog)))
   return computed(() => pricesAt(toValue(catalog), now.value))
 }
 

@@ -181,6 +181,10 @@ export const buildCatalog = (
   }
 }
 
+/** The moments the prices change: the page reads the clock again at each. */
+export const priceChanges = (catalog: Pick<Catalog, 'next'>): string[] =>
+  catalog.next ? [catalog.next.from] : []
+
 /** The catalog as charged at `now`: from `next.from` on, the next prices are the prices. */
 export const pricesAt = (catalog: Catalog, now: Date): Catalog => {
   const { next, ...current } = catalog
@@ -204,6 +208,16 @@ export const pricesAt = (catalog: Catalog, now: Date): Catalog => {
         : coaching,
   }
 }
+
+/**
+ * The last day, in Brasília, the prices hold while next prices are announced: schema.org's
+ * `priceValidUntil`, a date the offer does not outlive.
+ */
+export const priceValidUntil = (catalog: Pick<Catalog, 'next'>): string | undefined =>
+  catalog.next &&
+  new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(
+    Date.parse(catalog.next.from) - 1,
+  )
 
 /** Always reais, written the reader's way ("R$ 29,90", "R$29.90"), and never split across lines. */
 export const money = (cents: number, locale: Locale): string =>
@@ -244,6 +258,14 @@ export const wholeMoney = (cents: number, locale: Locale): string =>
  */
 export const installmentCents = (charge: { totalCents: number; installments: number }) =>
   Math.round(charge.totalCents / charge.installments)
+
+/** How the card charges the yearly plan: in `count` installments of `cents`, or once (count 1). */
+export const yearlyInstallment = (
+  plan: Pick<PremiumPlan, 'yearlyCents' | 'yearlyInstallments'>,
+): { count: number; cents: number } => {
+  const count = plan.yearlyInstallments ?? 1
+  return { count, cents: installmentCents({ totalCents: plan.yearlyCents, installments: count }) }
+}
 
 /** With one installment a month, the package's `perMonthCents` is the installment messaging charges. */
 export const packageInstallmentCents = (pack: CoachingPackage) =>

@@ -23,7 +23,7 @@ definePageMeta({ account: true })
 
 const catalog = await usePlans()
 const prices = usePrices(catalog)
-const blackFriday = useBlackFriday()
+const blackFriday = useBlackFriday(catalog)
 const { t } = useI18n()
 const locale = useSiteLocale()
 const apiLocale = useApiLocale()
@@ -183,7 +183,7 @@ const signOut = async () => {
 }
 
 const pay = async (each: PlanOffer) => {
-  if (paying.value || !live.value) return
+  if (paying.value || loading.value || !live.value) return
   const method = methods[each.plan]
   if (!method) {
     payErrors[each.plan] = 'pickMethod'
@@ -222,9 +222,16 @@ const pay = async (each: PlanOffer) => {
   }
 }
 
-// A pay button left pressed by the browser's back cache would block a second try.
+// The offer the API gave before the prices switched is the old one.
+watch(blackFriday, (on, was) => {
+  if (was && !on && !loading.value) void loadPlans()
+})
+
+// A page from the browser's back cache may hold an old offer and a pay button left pressed.
 const onShow = (event: PageTransitionEvent) => {
-  if (event.persisted) paying.value = undefined
+  if (!event.persisted) return
+  paying.value = undefined
+  if (!loading.value) void loadPlans()
 }
 
 onMounted(async () => {
@@ -504,7 +511,7 @@ onBeforeUnmount(() => window.removeEventListener('pageshow', onShow))
                 <button
                   type="submit"
                   class="button pay-button"
-                  :disabled="Boolean(paying) || !live || offline"
+                  :disabled="Boolean(paying) || loading || !live || offline"
                   :aria-busy="paying === each.plan"
                 >
                   {{ paying === each.plan ? t('subscribe.paying') : t('subscribe.pay') }}

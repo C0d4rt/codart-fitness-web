@@ -1,9 +1,15 @@
 <script setup lang="ts">
+import { priceValidUntil } from '#shared/plans'
+
 import { brand } from '~/brand'
 
 const catalog = await usePlans()
 const { t } = useI18n()
 const localePath = useLocalePath()
+
+const prices = usePrices(catalog).value
+const { premium, coaching } = prices
+const validUntil = priceValidUntil(prices)
 
 const offer = (cents: number, name: string) => ({
   '@type': 'Offer',
@@ -12,9 +18,8 @@ const offer = (cents: number, name: string) => ({
   priceCurrency: 'BRL',
   availability: 'https://schema.org/InStock',
   url: brand.siteUrl + localePath('/planos'),
+  ...(validUntil === undefined ? {} : { priceValidUntil: validUntil }),
 })
-
-const { premium, coaching } = usePrices(catalog).value
 
 useSchemaOrg([
   defineProduct({

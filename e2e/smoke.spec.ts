@@ -4,7 +4,10 @@ import fixture from '../shared/plans.fixture.json' with { type: 'json' }
 
 test.use({ colorScheme: 'light' })
 
+const BLACK_FRIDAY = new Date('2026-11-27T12:00:00-03:00')
+
 test('the home page says what this is and opens the conversation', async ({ page }) => {
+  await page.clock.setFixedTime(BLACK_FRIDAY)
   await page.goto('/?utm_source=partner&utm_campaign=bf&fbclid=IwAR2')
   await expect(page.locator('h1')).toHaveText('Seu assistente fitness. No WhatsApp.')
   const cta = page.getByRole('link', { name: 'Testar grátis' }).first()
@@ -16,6 +19,7 @@ test('the home page says what this is and opens the conversation', async ({ page
 })
 
 test('the plans page has an anchor for each plan, with the Pix prices', async ({ page }) => {
+  await page.clock.setFixedTime(BLACK_FRIDAY)
   await page.goto('/planos')
   const premium = page.locator('#premium')
   await expect(premium).toHaveCount(1)
@@ -39,6 +43,25 @@ test('the features page has an anchor for each feature', async ({ page }) => {
   await page.goto('/recursos#photos')
   await expect(page.locator('#photos')).toBeInViewport()
   await expect(page.locator('article[id]')).toHaveCount(fixture.features.length)
+})
+
+test('the features page plays one conversation per group, and each item says it opens', async ({
+  page,
+}) => {
+  await page.goto('/recursos')
+  await expect(page.locator('main figure.chat')).toHaveCount(fixture.groups.length)
+  await expect(page.locator('main figure.chat').first()).toBeVisible()
+
+  const group = page.locator(`#group-${fixture.groups[0]!.id}`)
+  const items = group.getByRole('button')
+  await expect(items.first()).toHaveAttribute('aria-expanded', 'true')
+  await expect(items.nth(1)).toHaveAttribute('aria-expanded', 'false')
+  const controlled = await items.nth(1).getAttribute('aria-controls')
+  await expect(page.locator(`#${controlled}`)).toHaveCount(1)
+  await items.nth(1).click()
+  await expect(items.nth(1)).toHaveAttribute('aria-expanded', 'true')
+  await expect(items.first()).toHaveAttribute('aria-expanded', 'false')
+  await expect(page.locator('main figure.chat')).toHaveCount(fixture.groups.length)
 })
 
 test('the features page index takes you to each group, clear of the sticky bars', async ({
@@ -110,6 +133,7 @@ test('a moment of the day swaps the conversation the visitor picks', async ({ pa
 })
 
 test('the English home page speaks English and opens the chat in English', async ({ page }) => {
+  await page.clock.setFixedTime(BLACK_FRIDAY)
   await page.goto('/en')
   await expect(page.locator('html')).toHaveAttribute('lang', 'en-US')
   await expect(page.locator('h1')).toHaveText('Your fitness assistant. On WhatsApp.')
@@ -121,6 +145,7 @@ test('the English home page speaks English and opens the chat in English', async
 })
 
 test('the English plans page has the plans in English, with prices in reais', async ({ page }) => {
+  await page.clock.setFixedTime(BLACK_FRIDAY)
   await page.goto('/en/plans')
   await expect(page.locator('#premium')).toHaveCount(1)
   await expect(page.locator('#coaching h3')).toHaveText('Premium Pro')
