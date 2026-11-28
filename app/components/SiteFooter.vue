@@ -98,7 +98,6 @@ const locale = useSiteLocale()
     </div>
     <p class="legal">
       <span>© 2026 {{ brand.company.name }}</span>
-      <span>{{ t('footer.cnpj', { cnpj: brand.company.cnpj }) }}</span>
       <span>{{ brand.company.city[locale] }}</span>
     </p>
   </footer>
@@ -257,7 +256,10 @@ const locale = useSiteLocale()
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem 1rem;
-  color: #c3cfc9;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgb(255 255 255 / 0.1);
+  color: #8fa198;
+  font-size: 0.75rem;
 }
 
 @media (max-width: 47.99rem) {
