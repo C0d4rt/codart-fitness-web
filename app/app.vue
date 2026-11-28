@@ -48,6 +48,7 @@ useSchemaOrg([
     taxID: brand.company.cnpj,
     email: () => brand.email[locale.value].support,
     url: 'https://codart.dev',
+    sameAs: [brand.social.instagram.pt, brand.social.facebook],
   }),
 ])
 </script>

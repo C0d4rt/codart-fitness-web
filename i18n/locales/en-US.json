@@ -31,7 +31,10 @@
     "privacy": "Privacy",
     "credits": "Credits",
     "contact": "Contact",
-    "cookies": "Cookies"
+    "cookies": "Cookies",
+    "subscribe": "Subscribe",
+    "instagram": "{name} on Instagram (opens in a new tab)",
+    "facebook": "{name} on Facebook (opens in a new tab)"
   },
   "consent": {
     "title": "Cookies",

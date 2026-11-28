@@ -17,6 +17,14 @@ export const brand = {
     pt: { support: 'contato@codart.dev', privacy: 'privacidade@codart.dev' },
     en: { support: 'support@codart.dev', privacy: 'privacy@codart.dev' },
   } satisfies Record<Locale, { support: string; privacy: string }>,
+  /** @myfitally is taken: until an English account exists, both languages open the Brazilian one. */
+  social: {
+    instagram: {
+      pt: 'https://www.instagram.com/myfitallybr/',
+      en: 'https://www.instagram.com/myfitallybr/',
+    } satisfies Record<Locale, string>,
+    facebook: 'https://www.facebook.com/61597174193604',
+  },
   company: {
     name: 'Codart Tecnologia LTDA',
     cnpj: '65.840.318/0001-26',
